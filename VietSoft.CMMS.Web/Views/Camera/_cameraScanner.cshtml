@@ -1,0 +1,35 @@
+﻿<div class="modal-header">
+    <button type="button" class="btn-close" onclick="closeScanner()" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <div class="barcodeReader--content">
+        <div class="barcodeReader--videoContainer">
+            <div id="reader">
+            </div>
+        </div>
+    </div>
+    <input type="file" id="qr-input-file" accept="image/*">
+</div>
+
+
+<script src="~/lib/jquery/dist/html5-qrcode.min.js" asp-append-version="true"></script>
+<script src="~/js/html5-qrcode-custom.js" asp-append-version="true"></script>
+<script>
+    function StartScanner() {
+        ScannerModule.GetCamera().then(function (cameraId) {
+            console.log(cameraId)
+            ScannerModule.StartCamera(cameraId);
+
+        })
+    }
+    $(document).ready(function () {
+        ScannerModule.StartCamera();
+        ScannerModule.init();
+    })
+    function closeScanner() {
+        ScannerModule.StopCamera();
+        $('#modalCameraScanner').modal('hide');
+        $('.form-control').removeClass('scanner-input-active');
+    }
+
+</script>

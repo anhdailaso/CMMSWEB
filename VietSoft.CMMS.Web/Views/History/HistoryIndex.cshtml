@@ -1,0 +1,167 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@using VietSoft.CMMS.Web.Helpers
+@{
+    ViewBag.Title = ViewText.TXT_LICH_SU_BAO_TRI_THIET_BI;
+    ViewBag.BackUrl = @Url.Action("Index", "Home", new { });
+}
+<style>
+    .check_affter {
+        position: relative;
+    }
+
+        .check_affter:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+        }
+
+        .check_affter:after {
+            width: 200px;
+        }
+
+    .dropdownstyle {
+        position: relative;
+    }
+
+</style>
+<div class="row">
+    <div class="col-md-6 offset-md-3 col-xs-12">
+        <div class="accordion break-line" id="accordionPanelsStayOpenExample">
+            <div class="accordion-item border-0">
+                <p style="align-items:center; justify-content:center; text-align:center" class="accordion" id="panelsStayOpen-headingOne">
+                    <button style="padding-right:50%" class="accordion-button collapsed w-100" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                    </button>
+                </p>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show break-line" aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="accordion-body">
+                        <form id="formSubmitRequest">
+                            <div class="form-floating break-line">
+                                <select id="cboMaThietBi" name="cboMaThietBi" asp-items="@ViewBag.ListMAY" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+                                </select>
+                                <label for="cboMaThietBi">@ViewText.TXT_MA_THIET_BI</label>
+                                <div id="cboMaThietBi-error"></div>
+                                <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
+                                    <img src="~/images/barcode.png" alt="image" class="icon-barcode">
+                                </a>
+
+                            </div>
+                            <div class="d-flex justify-content-between gap-2">
+                                <div class="form-floating input-group break-line date" id="toDateContainer">
+                                    <input type="text" class="form-control" id="fromDate" name="fromDate" autocomplete="off" />
+                                    <span class="input-group-append d-flex align-items-center">
+                                        <i class="bi bi-calendar4-week date-icon "></i>
+                                    </span>
+                                    <label for="from">@ViewText.TXT_TUNGAY</label>
+                                    <div id="from-error"></div>
+                                </div>
+
+                                <div class="form-floating input-group break-line date" id="toDateContainer">
+                                    <input type="text" class="form-control" id="toDate" name="toDate" autocomplete="off" />
+                                    <span class="input-group-append d-flex align-items-center">
+                                        <i class="bi bi-calendar4-week date-icon"></i>
+                                    </span>
+                                    <label for="toDate">@ViewText.TXT_DENNGAY</label>
+                                    <div id="toDate-error"></div>
+
+                                </div>
+                            </div>
+                            <div class="form-check text-nowrap break-line">
+                                <input class="form-check-input check_affter" type="checkbox" value="" checked id="chkThayThePT">
+                                <label class="form-check-label" for="chkAll">
+                                    @ViewText.TXT_TT_PHU_TUNG
+                                </label>
+                            </div>
+
+                            <div class="form-floating break-line">
+                                <select id="cboMaBoPhan" name="cboMaBoPhan" asp-items="@ViewBag.ListBoPhan" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+                                </select>
+                                <label for="cboMaBoPhan">@ViewText.TXT_MA_BO_PHAN</label>
+                                <div id="cboMaBoPhan-error"></div>
+                                <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
+                                    <img src="~/images/barcode.png" alt="image" class="icon-barcode">
+                                </a>
+                            </div>
+
+                            <div class="form-floating break-line">
+                                <select id="cboMaPhuTung" name="cboMaPhuTung" asp-items="@ViewBag.ListPhuTung" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+                                </select>
+                                <label for="cboMaPhuTung">@ViewText.TXT_MA_PHU_TUNG</label>
+                                <div id="cboMaPhuTung-error"></div>
+                                <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
+                                    <img src="~/images/barcode.png" alt="image" class="icon-barcode">
+                                </a>
+                            </div>
+                            <div style="border-bottom:1px solid gray" class="break-line"></div>
+                        </form>
+                    </div>
+
+                </div>
+
+                @*<div>
+                <button style="width:100%;height:100px" data-bs-toggle="modal" data-bs-target="#myModal" >
+                <img src="~/images/barcode.png" alt="image" class="icon-barcode">
+                </button>
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                ...
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+                </div>
+                </div>
+                </div>
+                </div>*@
+            </div>
+        </div>
+        <div>
+            <div class="position-relative">
+                @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder=@ViewText.TXT_SEARCH})
+                <i class="bi bi-search icon-obsolute"></i>
+            </div>
+            <div class="col-md-12 offset-md-12 col-xs-12  px-0">
+                <div id="GetHistory">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    @*<script>
+    function closeScanner() {
+    //ScannerModule.StopCamera();
+    $('#modalCameraScanner').modal('hide');
+    $('.form-control').removeClass('scanner-input-active');
+    }
+    </script>*@
+    <script src="~/lib/jquery.twbsPagination/jquery.twbsPagination.min.js"></script>
+
+    <script>
+        var config = {
+            GET_LIST_HISTORY: '@Url.Action("GetListHistory", "History")',
+            PAGE_SIZE: 10
+        }
+    </script>
+
+    <script src="~/js/pages/history.js" asp-append-version="true"></script>
+
+    <script>
+        $(document).ready(function () {
+            HistoryModule.init();
+        });
+    </script>
+    }

@@ -1,0 +1,214 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@using VietSoft.CMMS.Web.Helpers
+@{
+    ViewBag.Title = "GIÁM SÁT TÌNH TRẠNG MÁY";
+    ViewBag.BackUrl = @Url.Action("Index", "Home", new { });
+}
+
+<style>
+    .navbar-button {
+        padding-left: 100px;
+        padding-top: unset;
+        padding-right: 100px;
+        /* overflow: hidden; */
+        position: absolute;
+        line-height: 42px;
+        bottom: 23px;
+        left: 0;
+        width: 100%;
+        background: #fff0 !important;
+    }
+
+    .accordion-button::after {
+        /*https://astronautweb.co/snippet/font-awesome/*/
+        content: "\f083";
+        font-family: FontAwesome;
+        background-image: none;
+    }
+
+    .accordion-button:not(.collapsed)::after {
+        background-image: none;
+        transform: none;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-6 offset-md-3 col-xs-12">
+        <div class="row detail-page-emp-info">
+            <div class="col-12 d-flex justify-content-left gap-2 ">
+                <span class="emp-name">@ViewBag.MS_MAY</span>
+                <span class="emp-code">@ViewBag.TEN_MAY</span>
+                @*         <span class="emp-name">A05534</span>
+                <span class="emp-code">máy đóng bao</span>*@
+            </div>
+        </div>
+        @*<div class="border text-secondary m-auto mt-4 w-90 break-line"></div>*@
+        <div class="border-top my-3"></div>
+
+        <div class="form-floating">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                <label class="form-check-label" for="flexRadioDefault1">
+                    Những thông số đến hạn
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" >
+                <label class="form-check-label" for="flexRadioDefault2">
+                    Tất cả
+                </label>
+            </div>
+        </div>
+
+        <div class="form-check text-nowrap">
+            <input class="form-check-input" type="checkbox" value="" checked id="chkanct">
+            <label class="form-check-label" for="chkanct">
+                Ẩn chi tiết
+            </label>
+        </div>
+
+
+        <div class="border-top my-3"></div>
+        <br />
+        <div class="accordion border-0 break-line" id="accordionFlushExample">
+            <div class="accordion-item border-0 break-line">
+                <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne"  title="Bạc đạn">
+                        + 01.02.03 kiểm tra tình trạng ổ bi
+
+                    </button>
+                </h2>
+
+                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+
+                    <div class="table-responsive">
+                        <table class="table table-responsive table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td style="line-height:2.3rem">Tốt</td>
+                                    <td><input class="form-check-input" style="margin-top:0.8rem" type="checkbox"></td>
+                                    <td> <input class="form-control" style="font-size:0.8rem;" type="text" placeholder="ghi chú" aria-label="default input example" /></td>
+                                </tr>
+
+
+                                <tr>
+                                    <td style="line-height:2.3rem">Kêu</td>
+                                    <td><input class="form-check-input" style="margin-top:0.8rem" type="checkbox"></td>
+                                    <td> <input class="form-control" style="font-size:0.8rem;" type="text" placeholder="ghi chú" aria-label="default input example" /></td>
+                                </tr>
+
+                                <tr>
+                                    <td style="line-height:2.3rem">Nóng</td>
+                                    <td><input class="form-check-input" style="margin-top:0.8rem" type="checkbox"></td>
+                                    <td> <input class="form-control" style="font-size:0.8rem;" type="text" placeholder="ghi chú" aria-label="default input example" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="accordion-item border-0 break-line">
+                <h2 class="accordion-header" id="flush-headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo" title="Động cơ">
+                        + 01.02.07 kiểm tra tình động cơ
+                    </button>
+                </h2>
+                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                    <div class="table-responsive">
+                        <table class="table table-responsive table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td style="line-height:2.5rem">Tốt</td>
+                                    <td><input class="form-check-input" style="margin-top:0.8rem" type="checkbox"></td>
+                                    <td> <input class="form-control" style="font-size:0.8rem;" type="text" placeholder="ghi chú" aria-label="default input example" /></td>
+                                </tr>
+
+
+                                <tr>
+                                    <td style="line-height:2.5rem">Kêu</td>
+                                    <td><input class="form-check-input" style="margin-top:0.8rem" type="checkbox"></td>
+                                    <td> <input class="form-control" style="font-size:0.8rem;" type="text" placeholder="ghi chú" aria-label="default input example" /></td>
+                                </tr>
+
+                                <tr>
+                                    <td style="line-height:2.5rem">Nóng</td>
+                                    <td><input class="form-check-input" style="margin-top:0.8rem" type="checkbox"></td>
+                                    <td> <input class="form-control" style="font-size:0.8rem;" type="text" placeholder="ghi chú" aria-label="default input example" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item border-0 break-line">
+                <h2 class="accordion-header" id="flush-headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree" title="Quạt hút / Ventilating fans">
+                        + 01.02.08 Kiểm tra nhiệt độ dầu
+                    </button>
+                </h2>
+                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                    <div class="table-responsive">
+                        <table class="table table-responsive table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td style="line-height:2.1rem">Tốt</td>
+                                    <td><input class="form-check-input" style="margin-top:0.8rem" type="checkbox"></td>
+                                    <td> <input class="form-control" style="font-size:0.8rem;" type="text" placeholder="ghi chú" aria-label="default input example" /></td>
+                                </tr>
+
+
+                                <tr>
+                                    <td style="line-height:2.1rem">Kêu</td>
+                                    <td><input class="form-check-input" style="margin-top:0.8rem" type="checkbox"></td>
+                                    <td> <input class="form-control" style="font-size:0.8rem;" type="text" placeholder="ghi chú" aria-label="default input example" /></td>
+                                </tr>
+
+                                <tr>
+                                    <td style="line-height:2.1rem">Nóng</td>
+                                    <td><input class="form-check-input" style="margin-top:0.8rem" type="checkbox"></td>
+                                    <td> <input class="form-control" style="font-size:0.8rem;" type="text" placeholder="ghi chú" aria-label="default input example" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav class="fixed-bottom">
+    <div class="navbar-button  text-center text-white">
+        <div id="button-container" class="btn-group">
+            <a class="btn btn-outline-dark m-1" href="#!" role="button">
+                <i class="fa fa-home fs-7" aria-hidden="true"></i>
+            </a>
+
+            <!-- Twitter -->
+            <a class="btn btn-outline-primary m-1" href="#!" role="button">
+                <i class="fa fa-floppy-o fs-7"></i>
+            </a>
+
+            <!-- Google -->
+            <a class="btn btn-outline-warning m-1" href="#!" role="button">
+                <i class="fa fa-times fs-7"></i>
+            </a>
+        </div>
+    </div>
+</nav>
+@section scripts {
+    <script src="~/js/pages/jquery.imagesloader-1.0.1.js"></script>
+    <script>
+        var config = {
+            PAGE_SIZE: 10
+        }
+    </script>
+    <script src="~/js/pages/moningtoring.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            MoningToringModule.init();
+        });
+    </script>
+}

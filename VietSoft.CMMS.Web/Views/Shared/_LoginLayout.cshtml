@@ -1,0 +1,62 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@using VietSoft.CMMS.Web.Helpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @ViewText.TITLE_CONGTY</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="d-flex flex-column">
+
+    <div class="container flex-grow-1">
+        @RenderBody()
+    </div>
+
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 border-top">
+        <div class="col-12 text-center d-flex justify-content-center gap-1">
+            @*<img src="/images/logo.jpg" class="logo-footer" alt="logo">*@
+            <span class="text-primary fw-600">@ViewText.TITLE_CONGTY</span>
+        </div>
+    </footer>
+
+    @***************************TOAST************************************@
+    <div class="toast start-50 translate-middle-x align-items-center toast-success" id="toastSuccess" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+            </div>
+            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <div class="toast start-50 translate-middle-x align-items-center toast-warning" id="toastWarning" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+            </div>
+            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/message.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    
+    <script type="text/javascript">
+        var msg = @Html.Raw(Json.Serialize(@SessionManager.Message));
+        $(function () {
+            showRelevantPopUp(msg);
+
+            // clear all message in session
+            $.post("/Base/ClearMessage", function (data) {});
+        });
+    </script>
+</body>
+</html>

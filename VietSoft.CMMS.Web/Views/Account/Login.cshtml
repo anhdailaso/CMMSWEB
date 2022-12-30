@@ -1,0 +1,53 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@using VietSoft.CMMS.Web.Helpers
+@inject IHttpContextAccessor HttpContextAccessor
+@model VietSoft.CMMS.Web.Models.LoginViewModel
+@{
+    ViewBag.Title = @ViewText.TITLE_LOGIN;
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+<div class="form-login">
+    <div class="col-md-6 offset-md-3 col-xs-12 login-frame">
+        <div class="justify-content-center mb-4 text-uppercase">
+            <a href="javascript:void(0)">
+                <img src="/images/logo.jpg" class="login-logo mt-3" />
+            </a>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginForm", name = "loginForm", autocomplete = "off" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group mb-4">
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", maxlength = 50, autofocus = "true", placeholder = @ViewText.TXT_MASO_NHANVIEN, autocomplete = "off" })
+                            @Html.ValidationMessageFor(m => m.UserName)
+                        </div>
+                        <div class="form-group mb-4">
+                            @Html.TextBoxFor(m => m.Password, new { @class = "form-control", maxlength = 50, @type = "password", placeholder = @ViewText.TXT_MATKHAU, autocomplete = "off" })
+                            @Html.ValidationMessageFor(m => m.Password)
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div class="form-check">
+                                @Html.CheckBoxFor(x => x.RememberMe, new { @class = "form-check-input", autocomplete = "off"})
+                                <label class="form-check-label" for="RememberMe">
+                                    @ViewText.LABEL_LUU_DULIEU_DANGNHAP
+                                </label>
+                            </div>
+                            <a href="/Account/ForgotPassword" class="text-black">Quên mật khẩu?</a>
+                        </div>
+                        <br />
+                        <div class="border-top my-3"></div>
+                        <div class="form-group text-center">
+                            <button class="btn btn-grad btn-primary-login" type="submit" id="login">@ViewText.BTN_DANGNHAP</button>
+                            <br />
+                            <a class="btn btn-primary-exit">@ViewText.lLBL_HUY</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

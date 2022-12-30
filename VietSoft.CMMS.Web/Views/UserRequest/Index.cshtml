@@ -1,0 +1,197 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@using VietSoft.CMMS.Web.Helpers
+@{
+    ViewBag.Title = "YÊU CẦU BẢO TRÌ";
+    ViewBag.BackUrl = @Url.Action("Index", "Home", new { });
+}
+
+<div class="col-md-6 offset-md-3 col-xs-12">
+    <div class="row detail-page-emp-info">
+        <div class="col-12 d-flex justify-content-left gap-2 ">
+            <span class="emp-name">@ViewBag.MS_MAY</span>
+            <span class="emp-code">@ViewBag.TEN_MAY</span>
+            @*         <span class="emp-name">A05534</span>
+            <span class="emp-code">máy đóng bao</span>*@
+        </div>
+    </div>
+    @*<div class="border text-secondary m-auto mt-4 w-90 break-line"></div>*@
+    <div class="border-top my-3"></div>
+
+    <div class="form-floating  break-line">
+        @Html.TextArea("Mota", null, new { @class = "form-control", maxlength = 250, autocomplete = "off" , placeholder="Mô tả tình trạng" })
+        <label for="SizeReal">Mô tả tình trạng</label>
+    </div>
+
+    <div class="form-floating break-line">
+        @Html.TextArea("NoiDung", null, new { @class = "form-control", maxlength = 250, autocomplete = "off" , placeholder="Nội dung yêu cầu" })
+        <label for="SizeReal">Nội dung yêu cầu</label>
+    </div>
+
+    <div class="form-floating break-line">
+        <select id="cboMucdo" name="cboMucdo" asp-items="@ViewBag.UuTien" class="form-select form-select-sm">
+        </select>
+        <label for="cboMucdo">Mức độ khẩn cấp</label>
+    </div>
+
+    <div class="form-floating break-line">
+        <select id="cboNguyennhan" name="cboNguyennhan" asp-items="@ViewBag.NguyenNhan" class="form-select form-select-sm">
+        </select>
+        <label for="cboNguyennhan">Nguyên nhân</label>
+    </div>
+
+    <div class="form-check text-nowrap break-line">
+        <input class="form-check-input" type="checkbox" value="" checked id="chkHong">
+        <label class="form-check-label" for="chkHong">
+            Máy hỏng
+        </label>
+    </div>
+    <div class="form-floating input-group break-line date">
+        <input type="text" class="form-control" id="toDate" name="toDate" autocomplete="off" />
+        <span class="input-group-append d-flex align-items-center">
+            <i class="bi bi-calendar4-week date-icon"></i>
+        </span>
+        <label for="toDate">Thời gian hỏng</label>
+    </div>
+
+    @*    <div class="d-flex overflow-auto">
+    <div class="p-2 m-2">
+    <img src="~/images/logo.jpg" class="hover-shadow btn-close">
+    <div class="tooltip-action">
+    </div>
+    </div>
+    <div class="p-2 m-2">
+    <img src="~/images/logo.jpg" class="hover-shadow">
+    </div>
+    <div class="p-2 m-2">
+    <img src="~/images/logo.jpg" class="hover-shadow">
+    </div>
+    </div>
+    *@
+
+
+</div>
+
+
+
+<form id="frm" method="post" class="needs-validation" novalidate="">
+    <!--Image container -->
+    <div id="imagesloader" class="row"
+         data-type="imagesloader"
+         data-errorformat="Accepted file formats"
+         data-errorsize="Maximum size accepted"
+         data-errorduplicate="File already loaded"
+         data-errormaxfiles="Maximum number of images you can upload"
+         data-errorminfiles="Minimum number of images to upload"
+         data-modifyimagetext="Modify immage">
+
+        <!-- Progress bar -->
+        <div class="col-12 order-1 mt-2">
+            <div data-type="progress" class="progress" style="height: 25px; display:none;">
+                <div data-type="progressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width: 100%;">Load in progress...</div>
+            </div>
+        </div>
+        <!-- Model -->
+        <div data-type="image-model" class="col-4 pl-2 pr-2 pt-2" style="max-width:200px; display:none;">
+            <div class="ratio-box text-center" data-type="image-ratio-box">
+                <img data-type="noimage" class="btn btn-light ratio-img img-fluid p-2 image border dashed rounded" src="~/images/photo-camera-gray.svg" style="cursor:pointer;">
+                <div data-type="loading" class="img-loading" style="color:#fd7e14; display:none;">
+                    <span class="fa fa-2x fa-spin fa-spinner"></span>
+                </div>
+                <img data-type="preview" class="btn btn-light ratio-img img-fluid p-2 image border dashed rounded" src="" style="display: none; cursor: default;">
+                <span class="badge badge-pill badge-warning p-2 w-50 main-tag" style="display:none;">Main</span>
+            </div>
+
+            <!-- Buttons -->
+            <div data-type="image-buttons" class="row justify-content-center mt-2">
+                <button data-type="add" class="btn btn-outline-warning" type="button"><span class="fa fa-camera mr-2"></span>Add</button>
+                <button data-type="btn-modify" type="button" class="btn btn-outline-warning m-0" data-toggle="popover" data-placement="right" style="display:none;">
+                    <span class="fa fa-pencil-alt mr-2"></span>Modify
+                </button>
+            </div>
+        </div>
+
+        <!-- Popover operations -->
+        <div data-type="popover-model" style="display:none">
+            <div data-type="popover" class="ml-3 mr-3" style="min-width:150px;">
+                <div class="row">
+                    <div class="col p-0">
+                        <button data-operation="main" class="btn btn-block btn-warning btn-sm rounded-pill" type="button"><span class="fa fa-angle-double-up mr-2"></span>Main</button>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-6 p-0 pr-1">
+                        <button data-operation="left" class="btn btn-block btn-outline-warning btn-sm rounded-pill" type="button"><span class="fa fa-angle-left mr-2"></span>Left</button>
+                    </div>
+                    <div class="col-6 p-0 pl-1">
+                        <button data-operation="right" class="btn btn-block btn-outline-warning btn-sm rounded-pill" type="button">Right<span class="fa fa-angle-right ml-2"></span></button>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-6 p-0 pr-1">
+                        <button data-operation="rotateanticlockwise" class="btn btn-block btn-outline-warning btn-sm rounded-pill" type="button"><span class="fas fa-undo-alt mr-2"></span>Rotate</button>
+                    </div>
+                    <div class="col-6 p-0 pl-1">
+                        <button data-operation="rotateclockwise" class="btn btn-block btn-outline-warning btn-sm rounded-pill" type="button">Rotate<span class="fas fa-redo-alt ml-2"></span></button>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <button data-operation="remove" class="btn btn-outline-danger btn-sm btn-block" type="button"><span class="fa fa-times mr-2"></span>Remove</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-group row">
+        <div class="input-group">
+            <!--Hidden file input for images-->
+            <input id="files" type="file" name="files[]" data-button="" multiple="" accept="image/jpeg, image/png, image/gif," style="display:none;">
+        </div>
+    </div>
+     
+</form>
+
+<br />
+<br />
+<nav class="fixed-bottom">
+    <div class="navbar-button  text-center text-white">
+        <div id="button-container" class="btn-group">
+            <a class="btn btn-outline-dark m-1" href="#!" role="button">
+                <i class="fa fa-home fs-7" aria-hidden="true"></i>
+            </a>
+
+            <!-- Twitter -->
+            <a class="btn btn-outline-primary m-1" href="#!" role="button">
+                <i class="fa fa-floppy-o fs-7"></i>
+            </a>
+
+            <!-- Google -->
+            <a class="btn btn-outline-warning m-1" href="#!" role="button">
+                <i class="fa fa-times fs-7"></i>
+            </a>
+        </div>
+    </div>
+</nav>
+
+@*    <div class="row mt-2">
+      <div class="col-md-4 offset-md-8 text-center mb-4">
+        <button id="btnContinue" type="submit" form="frm" class="btn btn-block btn-outline-warning float-right" data-toggle="tooltip" data-trigger="manual" data-placement="top" data-title="Continue">
+          Continue<span id="btnContinueIcon" class="fa fa-chevron-circle-right ml-2"></span><span id="btnContinueLoading" class="fa fa-spin fa-spinner ml-2" style="display:none"></span>
+        </button>
+      </div>
+    </div>*@
+
+@section scripts {
+    <script src="~/js/pages/jquery.imagesloader-1.0.1.js"></script>
+    <script>
+        var config = {
+            PAGE_SIZE: 10
+        }
+    </script>
+    <script src="~/js/pages/userequest.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            UserRequestModule.init();
+        });
+    </script>
+}

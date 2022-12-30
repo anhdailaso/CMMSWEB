@@ -1,0 +1,89 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@using VietSoft.CMMS.Web.Helpers
+@{
+    ViewBag.Title = @ViewText.TITLE_MY_ECOMAIN;
+    ViewBag.BackUrl = @Url.Action("Index", "Home", new { });
+    ViewData["RemoveTitle"] = false;
+}
+@Html.Hidden("RequestId", ViewBag.RequestId, null)
+<div class="row">
+    <div class="col-md-6 offset-md-3 col-xs-12">
+        <div class="accordion" id="accordionPanelsStayOpenExample">
+            <div class="accordion-item border-0">
+                <p class="accordion" id="panelsStayOpen-headingOne">
+                    <button class="accordion-button collapsed w-50" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                    </button>
+                </p>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="accordion-body">
+                        <form id="formSubmitRequest">
+                            <div class="form-floating break-line">
+                                <select id="cboDiaDiem" name="cboDiaDiem" asp-items="@ViewBag.ListNhaXuong" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+                                </select>
+                                <label for="cboDiaDiem">@ViewText.TXT_DIA_DIEM</label>
+                                <div id="cboDiaDiem-error"></div>
+                                <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
+                                    <img src="~/images/barcode.png" alt="image" class="icon-barcode">
+                                </a>
+                            </div>
+                            <div class="form-floating break-line">
+                                <select id="cboMay" name="cboMay" asp-items="@ViewBag.ListMAY" class="form-select form-select-sm">
+                                </select>
+                                <label for="cboMay">@ViewText.TXT_THIET_BI</label>
+                                <div id="cboMay-error"></div>
+                                <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
+                                    <img src="~/images/barcode.png" alt="image" class="icon-barcode">
+                                </a>
+                            </div>
+                            <div class="form-floating input-group break-line date" id="toDateContainer">
+                                <input type="text" class="form-control" id="toDate" name="toDate" autocomplete="off" />
+                                <span class="input-group-append d-flex align-items-center">
+                                    <i class="bi bi-calendar4-week date-icon"></i>
+                                </span>
+                                <label for="toDate">@ViewText.TXT_DENNGAY</label>
+                                <div id="toDate-error"></div>
+                            </div>
+                            <div class="form-check text-nowrap">
+                                <input class="form-check-input" type="checkbox" value="" checked id="chkxuly">
+                                <label class="form-check-label" for="chkAll">
+                                    Những máy cần xử lý
+                                </label>
+                            </div>
+
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="position-relative">
+                @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder=@ViewText.TXT_SEARCH})
+                <i class="bi bi-search icon-obsolute"></i>
+            </div>
+            <div class="col-md-12 offset-md-12 col-xs-12  px-0">
+                <div id="GetMyEcomain">
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+@section scripts {
+    <script src="~/lib/jquery.twbsPagination/jquery.twbsPagination.min.js"></script>
+    <script>
+        var config = {
+            GET_MYECOMAIN_LIST: '@Url.Action("GetMyEcomain", "Home")',
+            GET_MAY: '@Url.Action("getDevices", "Home")',
+            PAGE_SIZE: 15
+        }
+    </script>
+    <script src="~/js/pages/home.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            MyEcomaintModule.init();
+        });
+    </script>
+}
