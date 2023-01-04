@@ -1,0 +1,64 @@
+﻿@using VietSoft.CMMS.Web.Resources;
+@using VietSoft.CMMS.Web.Helpers;
+@using VietSoft.CMMS.Web.Extensions;
+@model List<VietSoft.CMMS.Web.Models.MonitoringViewModel>
+
+<div class="accordion border-0 break-line" id="accordionFlushExample">
+
+    @foreach (var item in Model.OrderBy(x=>x.ComponentID))
+    {
+        <div class="accordion-item border-0 break-line">
+            <h2 class="accordion-header" id="heading-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID">
+                <button class="accordion-button collapsed parentCell" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" aria-expanded="false" aria-controls="collapse-@item.ComponentID@item.MonitoringParamsID">
+                    <div class="d-flex justify-content-between w-100">
+
+                        <span>+ @item.ComponentID  @item.MonitoringParamsName</span>
+                        <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("LoadImage", "Camera")">
+                            <i class="fa fa-camera-retro"></i>
+                        </a>
+
+                    </div>
+                    <div class="tooltip-action" style="margin-top:-3.5rem">
+                        <a>
+                            <span>@item.ComponentName</span>
+                        </a>
+                    </div>
+                </button>
+            </h2>
+
+            <div id="collapse-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" class="accordion-collapse collapse" aria-labelledby="heading-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" data-bs-parent="#accordionFlushExample">
+                <div class="table-responsive">
+                    <table class="table table-responsive table-borderless cuscess" data-root="@item.ComponentID.Replace('.','_')!@item.MonitoringParamsID">
+                        <tbody>
+
+                            @foreach (var item1 in @item.MonitoringParameters.OrderByDescending(x=>x.Pass))
+                            {
+                                if (item1.TypeOfParam == true)
+                                {
+                                    <tr>
+                                        <td style="line-height:2.3rem">@item1.ValueParamName</td>
+                                        <td><input class="form-check-input" style="margin-top:0.8rem" type="checkbox" value="@item1.Measurement"></td>
+                                        <td> <input class="form-control" style="font-size:0.8rem;" type="text" placeholder="ghi chú" aria-label="default input example" value="@item1.Note" /></td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr class="parentCell odd">
+                                        <td><input class="form-control" style="font-size:0.8rem;" type="text" placeholder="Kết quả" aria-label="default input example" value="@item1.Measurement" />
+                                            <div class="tooltip-action">
+                                                <a>
+                                                    <span>@Html.Raw(@item1.ValueParamName.Split('!')[0])</span>
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td>@item1.MeasurementUnitName</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>

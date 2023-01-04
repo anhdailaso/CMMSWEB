@@ -13,6 +13,8 @@ using System.Runtime.Intrinsics.X86;
 using System.Data;
 using System.Reflection;
 using Microsoft.SqlServer.Server;
+using System.ComponentModel;
+using Microsoft.AspNetCore.Components;
 
 namespace VietSoft.HRM.Web.Controllers
 {
@@ -40,15 +42,16 @@ namespace VietSoft.HRM.Web.Controllers
         public IActionResult Index()
         {
             GetListMenu(0);
-            ViewBag.ListNhaXuong = _combobox.GetCbbDiaDiem(SessionManager.CurrentUser.UserName,0,1);
-            ViewBag.ListMAY = _combobox.GetCbbMay("-1",-1, SessionManager.CurrentUser.UserName, 0,1);
+            ViewBag.ListNhaXuong = _combobox.GetCbbDiaDiem(SessionManager.CurrentUser.UserName, 0, 1);
+            ViewBag.ListMAY = _combobox.GetCbbMay("-1", -1, SessionManager.CurrentUser.UserName, 0, 1);
             return View();
         }
 
-        public IActionResult Moningtoring(string msmay,string tenmay)
+        public IActionResult Moningtoring(string msmay, string tenmay)
         {
             ViewBag.MS_MAY = msmay;
             ViewBag.TEN_MAY = tenmay;
+            //List<MonitoringParametersByDevice> model = _homeService.GetMonitoringParametersByDevice(SessionManager.CurrentUser.UserName,0,msmay,1,-1);
             return View("~/Views/Moningtoring/Index.cshtml");
         }
         public IActionResult UserRequest(string msmay, string tenmay)
@@ -146,34 +149,70 @@ namespace VietSoft.HRM.Web.Controllers
                         MenuIcon = "daskbord.png",
                         MenuUrl = "/Payslips/PayslipProducts",
                     };
-               
+
                 default:
                     return new MenuViewModel();
-            }    
+            }
         }
         public static List<MyEcomaintViewModel>? res;
-        public IActionResult GetMyEcomain(string keyword, int pageIndex, int pageSize, string msnx, string msmay,string denngay,bool xuly)
+        public IActionResult GetMyEcomain(string keyword, int pageIndex, int pageSize, string msnx, string msmay, string denngay, bool xuly)
         {
             PagedList<MyEcomaintViewModel>? result = null;
             if (pageIndex == 1 && keyword == null)
             {
                 var user = SessionManager.CurrentUser.UserName;
                 DateTime? endDate = ExtendedDateTime.ToDateTimeOrDefault(denngay);
-                res = _homeService.GetMyEcomain(user, 0, endDate, msnx, msmay,xuly, pageIndex, pageSize);
-               result = new PagedList<MyEcomaintViewModel>(res, res.Count, pageIndex, pageSize);
+                res = _homeService.GetMyEcomain(user, 0, endDate, msnx, msmay, xuly, pageIndex, pageSize);
+                result = new PagedList<MyEcomaintViewModel>(res, res.Count, pageIndex, pageSize);
             }
             else
             {
                 if (keyword != null)
                 {
-                    result = new PagedList<MyEcomaintViewModel>(res.Where( x => x.MS_MAY.Contains(keyword)).ToList(), res.Count(x => x.MS_MAY.Contains(keyword)), pageIndex, pageSize);
+                    result = new PagedList<MyEcomaintViewModel>(res.Where(x => x.MS_MAY.Contains(keyword)).ToList(), res.Count(x => x.MS_MAY.Contains(keyword)), pageIndex, pageSize);
                 }
                 else
                 {
                     result = new PagedList<MyEcomaintViewModel>(res, res.Count, pageIndex, pageSize);
-                }    
-            }    
+                }
+            }
             return PartialView("_homedetail", result);
+        }
+
+        public IActionResult GetMonitoringParametersByDevice(string msmay,int isDue)
+        {
+            List<MonitoringParametersByDevice> model = _homeService.GetMonitoringParametersByDevice(SessionManager.CurrentUser.UserName, 0, msmay, isDue, -1);
+            List<MonitoringViewModel> resulst = new List<MonitoringViewModel>();
+            try
+            {
+
+
+                foreach (var modelItem in model)
+                {
+                    //kiểm tra có trong resulst không
+                    if (resulst.Count(x => x.ComponentID.Equals(modelItem.ComponentID) && x.MonitoringParamsID.Equals(modelItem.MonitoringParamsID)) == 0)
+                    {
+                        MonitoringViewModel item = new MonitoringViewModel();
+                        item.DeviceID = modelItem.DeviceID;
+                        item.MonitoringParamsName = modelItem.MonitoringParamsName;
+                        item.MonitoringParamsID = modelItem.MonitoringParamsID;
+                        item.ComponentID = modelItem.ComponentID;
+                        item.ComponentName = modelItem.ComponentName;
+                        item.MeasurementUnitName = modelItem.MeasurementUnitName;
+                        item.TypeOfParam = modelItem.TypeOfParam;
+                        item.ImageGS = modelItem.ImageGS;
+                        item.MonitoringParameters = model.Where(x1 => x1.ComponentID.Equals(modelItem.ComponentID) && x1.MonitoringParamsID.Equals(modelItem.MonitoringParamsID)).ToList();
+                        resulst.Add(item);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                model = null;
+            }
+
+            return PartialView("~/Views/Moningtoring/_moningtoringdetail.cshtml", resulst);
+
         }
     }
 }

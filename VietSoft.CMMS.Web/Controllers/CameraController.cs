@@ -8,5 +8,9 @@ namespace VietSoft.CMMS.Web.Controllers
         {
             return PartialView("_cameraScanner");
         }
+        public IActionResult LoadImage()
+        {
+            return PartialView("_loadimage");
+        }
     }
 }

@@ -25,10 +25,10 @@ namespace VietSoft.CMMS.Web.Services
             {
                 var p = new DynamicParameters();
                 p.Add("@sDanhMuc", "GET_MYECOMAINT");
-                p.Add("@DNgay", "12/12/2022");
+                p.Add("@DNgay", dngay.ToStringDate("MM/dd/yyyy"));
                 p.Add("@UserName", username);
                 p.Add("@MsNXuong", ms_nx);
-                p.Add("@MsMay", may == "" ? "-1" : may);
+                p.Add("@deviceID", may == "" ? "-1" : may);
                 p.Add("@NNgu", languages);
                 p.Add("@bcot1", xuly);
                 //int TotalRows = p.Get<int>("@TotalRows");
@@ -56,6 +56,25 @@ namespace VietSoft.CMMS.Web.Services
             //{
             //}
             //return list;
+        }
+        public List<MonitoringParametersByDevice> GetMonitoringParametersByDevice(string username, int languages, string may, int isDue, int stt)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "MORNINGTORING");
+                p.Add("@UserName", username);
+                p.Add("@NNgu", languages);
+                p.Add("@deviceID", may == "" ? "-1" : may);
+                p.Add("@isDue", isDue);
+                p.Add("@stt", stt);
+                List<MonitoringParametersByDevice>? res = _dapper.GetAll<MonitoringParametersByDevice>("spCMMSWEB", p, CommandType.StoredProcedure);
+                return res;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
     }

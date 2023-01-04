@@ -7,5 +7,7 @@ namespace VietSoft.CMMS.Web.IServices
     public interface IHomeService
     {
         List<MyEcomaintViewModel> GetMyEcomain(string username, int languages, DateTime? dngay, string ms_nx, string may,bool xuly, int pageIndex, int pageSize);
+        List<MonitoringParametersByDevice> GetMonitoringParametersByDevice(string username, int languages,string may,int isDue,int stt);
+
     }
 }

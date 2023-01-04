@@ -315,7 +315,7 @@ function drawRotated(img, degree) {
         //To obtaine a File reference
         var files = evt.target.files;
 
-        //Obtain num of images selected
+        //Obtain num of images selected 
         var filesLength = self.AttachmentArray.length + evt.target.files.length;
 
         self.$progress.hide();

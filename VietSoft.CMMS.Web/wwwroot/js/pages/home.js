@@ -16,6 +16,7 @@
             }, 1000)
         })
 
+
         $('#cboDiaDiem').on('change', function () {
             LoadMay();
         })
