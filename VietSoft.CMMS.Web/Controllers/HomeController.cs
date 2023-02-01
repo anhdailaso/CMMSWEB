@@ -5,16 +5,10 @@ using VietSoft.CMMS.Web.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using VietSoft.CMMS.Web.Resources;
-using Newtonsoft.Json;
 using VietSoft.CMMS.Web.Controllers;
 using VietSoft.CMMS.Web.IServices;
-using System.Globalization;
-using System.Runtime.Intrinsics.X86;
 using System.Data;
-using System.Reflection;
-using Microsoft.SqlServer.Server;
-using System.ComponentModel;
-using Microsoft.AspNetCore.Components;
+using VietSoft.CMMS.Core.Models;
 
 namespace VietSoft.HRM.Web.Controllers
 {
@@ -42,30 +36,41 @@ namespace VietSoft.HRM.Web.Controllers
         public IActionResult Index()
         {
             GetListMenu(0);
+            SessionManager.ThongTinChung = _accountService.GetThongTinChung(SessionManager.CurrentUser.UserName);
             ViewBag.ListNhaXuong = _combobox.GetCbbDiaDiem(SessionManager.CurrentUser.UserName, 0, 1);
             ViewBag.ListMAY = _combobox.GetCbbMay("-1", -1, SessionManager.CurrentUser.UserName, 0, 1);
             return View();
         }
 
-        public IActionResult Moningtoring(string msmay, string tenmay)
+        public IActionResult Moningtoring(string msmay, string tenmay, int flag)
         {
             ViewBag.MS_MAY = msmay;
             ViewBag.TEN_MAY = tenmay;
+            ViewBag.FLAG = flag;
             //List<MonitoringParametersByDevice> model = _homeService.GetMonitoringParametersByDevice(SessionManager.CurrentUser.UserName,0,msmay,1,-1);
             return View("~/Views/Moningtoring/Index.cshtml");
         }
-        public IActionResult UserRequest(string msmay, string tenmay)
+        public IActionResult UserRequest(string msmay, string tenmay, int flag)
         {
             ViewBag.MS_MAY = msmay;
             ViewBag.TEN_MAY = tenmay;
+            ViewBag.FLAG = flag;
+            UserRequestViewModel userequest = new UserRequestViewModel();
+            if (flag == 1)
+            {
+                userequest = _homeService.GetUserRequest(msmay);
+            }
             ViewBag.NguyenNhan = _combobox.DanhSachNguyenNhan();
             ViewBag.UuTien = _combobox.LoadListUuTien(0);
-            return View("~/Views/UserRequest/Index.cshtml");
+            return View("~/Views/UserRequest/Index.cshtml", userequest);
         }
-        public IActionResult WorkOrder(string msmay, string tenmay)
+        public IActionResult WorkOrder(string msmay, string tenmay, int flag)
         {
             ViewBag.MS_MAY = msmay;
             ViewBag.TEN_MAY = tenmay;
+            ViewBag.FLAG = flag;
+            //nếu flag = 1 thì lấy
+
             ViewBag.LoaiBaoTri = _combobox.DanhSachLoaiBT();
             ViewBag.UuTien = _combobox.LoadListUuTien(0);
             return View("~/Views/WorkOrder/Index.cshtml");
@@ -105,7 +110,7 @@ namespace VietSoft.HRM.Web.Controllers
                         MenuId = (int)Menu.DiChuyenTB,
                         MenuName = "Di chuyển thiết bị",
                         MenuIcon = "dichuyen.png",
-                        MenuUrl = "/Home/Index",
+                        MenuUrl = "/MoveDevice/Index",
                     };
                 case Menu.NghiemThuPBT:
                     return new MenuViewModel
@@ -113,7 +118,7 @@ namespace VietSoft.HRM.Web.Controllers
                         MenuId = (int)Menu.NghiemThuPBT,
                         MenuName = "Nghiệm thu phiếu bảo trì",
                         MenuIcon = "nghiemthu.png",
-                        MenuUrl = "/Home/Index",
+                        MenuUrl = "/AcceptMaintenance/Index",
                     };
                 case Menu.KiemKeTB:
                     return new MenuViewModel
@@ -121,7 +126,7 @@ namespace VietSoft.HRM.Web.Controllers
                         MenuId = (int)Menu.KiemKeTB,
                         MenuName = "Kiểm kê thiết bị",
                         MenuIcon = "kiemke.png",
-                        MenuUrl = "/Home/Index",
+                        MenuUrl = "/InventoryDevice/Index",
                     };
                 case Menu.History:
                     return new MenuViewModel
@@ -147,7 +152,7 @@ namespace VietSoft.HRM.Web.Controllers
                         MenuId = (int)Menu.Dashboard,
                         MenuName = "Dashboard",
                         MenuIcon = "daskbord.png",
-                        MenuUrl = "/Payslips/PayslipProducts",
+                        MenuUrl = "/Dashboard/Index",
                     };
 
                 default:
@@ -179,7 +184,7 @@ namespace VietSoft.HRM.Web.Controllers
             return PartialView("_homedetail", result);
         }
 
-        public IActionResult GetMonitoringParametersByDevice(string msmay,int isDue)
+        public IActionResult GetMonitoringParametersByDevice(string msmay, int isDue)
         {
             List<MonitoringParametersByDevice> model = _homeService.GetMonitoringParametersByDevice(SessionManager.CurrentUser.UserName, 0, msmay, isDue, -1);
             List<MonitoringViewModel> resulst = new List<MonitoringViewModel>();
@@ -212,6 +217,36 @@ namespace VietSoft.HRM.Web.Controllers
             }
 
             return PartialView("~/Views/Moningtoring/_moningtoringdetail.cshtml", resulst);
+
+        }
+        [HttpPost]
+        public ActionResult SaveMonitoring(string jsonData)
+        {
+            //List<MonitoringParametersByDevice> lstParameter = Newtonsoft.Json.JsonConvert.DeserializeObject<List<MonitoringParametersByDevice>>(data);
+            BaseResponseModel? res = _homeService.SaveMonitoring(SessionManager.CurrentUser.UserName, jsonData);
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SaveUserRequest(UserRequestViewModel model)
+        {
+            model.NGUOI_YEU_CAU = SessionManager.CurrentUser.FullName;
+            BaseResponseModel? res = _homeService.SaveUserRequest(SessionManager.CurrentUser.UserName, model);
+            if  (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+            }
 
         }
     }

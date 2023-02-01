@@ -126,6 +126,7 @@
                 </div>*@
             </div>
         </div>
+      
         <div>
             <div class="position-relative">
                 @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder=@ViewText.TXT_SEARCH})
@@ -141,13 +142,6 @@
 
 
 @section scripts {
-    @*<script>
-    function closeScanner() {
-    //ScannerModule.StopCamera();
-    $('#modalCameraScanner').modal('hide');
-    $('.form-control').removeClass('scanner-input-active');
-    }
-    </script>*@
     <script src="~/lib/jquery.twbsPagination/jquery.twbsPagination.min.js"></script>
 
     <script>

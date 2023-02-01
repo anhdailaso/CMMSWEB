@@ -6,6 +6,7 @@ namespace VietSoft.CMMS.Web.IServices
     public interface IAccountService
     {
         public int Login(string userName, string passWord);
-        UserModel GetProfile(string emplyeeCode, string token);
+        UserModel GetProfile(string userName);
+        ThongTinChungViewModel GetThongTinChung(string userName);
     }
 }

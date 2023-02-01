@@ -1091,7 +1091,7 @@ p {
     }
 
     .home-emp-info .emp-code, .detail-page-emp-info .emp-code {
-        font-size: 0.9rem;
+        /*font-size: 0.9rem;*/
         font-weight: 500;
         width: fit-content;
     }

@@ -7,13 +7,14 @@
     var mainMenus = menus.Where(x => x.ParentId == null);
     var subMenus = menus.Where(x => x.ParentId != null);
     var user = SessionManager.CurrentUser;
+    var TTC = SessionManager.ThongTinChung;
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - @ViewText.TITLE_CONGTY</title>
+    <title>@ViewData["Title"] </title>
 
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -22,6 +23,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-icons.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/select2-bootstrap-5-theme.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-datetimepicker.css" />
+    <link href="~/css/highcharts.css" rel="stylesheet" />
     <link href="~/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <style>
         a {
@@ -82,8 +84,8 @@
                                     <img class="avatar" src="~/images/nhan-vien-van-phong.jpg" alt="avatar">
                                 </a>
                                 <div class="d-flex flex-column w-100">
-                                    <span class="text-white">TRương Công Hướng</span>
-                                    <span class="text-white">@*@ViewText.LABEL_MASO: @user.EmployeeCodeFull*@Admin</span>
+                                    <span class="text-white">@user.FullName</span>
+                                    <span class="text-white">@user.UserName</span>
                                 </div>
                                 @*<div class="d-flex flex-column text-center align-items-center">
                                 <a href="/Account/LogOut">
@@ -94,9 +96,9 @@
 
                             </div>
                             <div class="ms-3 mt-2 d-flex flex-column">
-                                <span class="text-secondary">Đơn vị: <span class="text-primaryll">Đơn vị 1</span> </span>
-                                <span class="text-secondary">Xí nghiệp: <span class="text-primaryll">Xí nghiệp 1</span> </span>
-                                <span class="text-secondary">Phòng ban: <span class="text-primaryll">Tổ bảo trì</span> </span>
+                                <span class="text-secondary">Đơn vị: <span class="text-primaryll">@TTC.TEN_DV</span> </span>
+                                @*<span class="text-secondary">Xí nghiệp: <span class="text-primaryll">Xí nghiệp 1</span> </span>*@
+                                <span class="text-secondary">Phòng ban: <span class="text-primaryll">@TTC.TEN_TO</span> </span>
                             </div>
                         </div>
                     </div>
@@ -154,7 +156,7 @@
 
     <footer class="d-flex flex-wrap justify-content-between align-items-center border-top fixed-bottom">
         <div class="col-12 text-center d-flex justify-content-center gap-1">
-            <span class="text-primary">@ViewText.TITLE_CONGTY</span>
+            <span class="text-primary">@TTC.TEN_NGAN</span>
         </div>
     </footer>
 

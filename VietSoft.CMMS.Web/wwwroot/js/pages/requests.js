@@ -2,6 +2,9 @@
 
     function init() {
         setMonthYearPicker("#months");
+
+      
+
         GetRequestList(1, config.TAB_PENDING)
 
         $('.tab-pending-request').on('click', function () {

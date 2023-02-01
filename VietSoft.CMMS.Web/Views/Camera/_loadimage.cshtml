@@ -1,41 +1,32 @@
-﻿
-
-
-<div class="modal-dialog modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="btn-close" onclick="closeScanner()" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <img class="modal-content" id="img01">
-        </div>
-        <div class="modal-footer">
-            @*    <button type="button" id="btnChonHinh" class="btn btn-primary">Chọn hình</button>
-            <button type="button" id="btnXoaHinh" class="btn btn-primary">Xóa hình</button>
-            <button type="button" id="btnLuuHinh" data-dismiss="modal" class="btn btn-primary">Lưu hình</button>*@
-
-            <div class="d-flex flex-row-reverse">
-                <div>
-                    <a class="btn btn-outline-warning m-1" style="width:auto" href="#!" role="button">
-                        <i class="fa fa-floppy-o fs-7"></i>
-                    </a>
-                </div>
-                <div>
-                    <a class="btn btn-outline-primary m-1" style="width:auto" href="#!" role="button">
-                        <i class="fa fa-plus fs-7"></i>
-                    </a>
+﻿<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                @*<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>*@
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img class="modal-content" id="img01">
+            </div>
+            <div class="modal-footer">
+                <div class="d-flex flex-row-reverse">
+                    <div>
+                        <a class="btn btn-outline-primary m-1" id="btnLuuHinh" style="width:auto" href="#!" role="button">
+                            <i class="fa fa-floppy-o fs-7"></i>
+                        </a>
+                    </div>
+                    <div>
+                        <a class="btn btn-outline-danger m-1" id="btnXoaHinh" style="width:auto" href="#!" role="button">
+                            <i class="fa fa-trash-o fs-7"></i>
+                        </a>
+                    </div>
+                    <div>
+                        <a class="btn btn-outline-warning m-1" id="btnChonHinh" style="width:auto" href="#!" role="button">
+                            <i class="fa fa-plus fs-7"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-  </div>
-
-
-<script>
-    $(document).ready(function () {
-    })
-    function closeScanner() {
-        $('#modalCameraScanner').modal('hide');
-        $('.form-control').removeClass('scanner-input-active');
-    }
-</script>
+</div>

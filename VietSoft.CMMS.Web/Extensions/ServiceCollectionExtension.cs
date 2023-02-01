@@ -13,6 +13,8 @@ namespace VietSoft.CMMS.Web.Extensions
             services.TryAddScoped<IHistoryService, HistoryService>();
             services.TryAddScoped<IHistoryRequestService, HistoryRequestService>();
             services.TryAddScoped<IComboboxService, ComboboxService>();
+            services.TryAddScoped<IChartService, ChartService>();
+            services.TryAddScoped<IMaintenanceService, MaintenanceService>();
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using VietSoft.CMMS.Web.Helpers;
 using System.Reflection;
 using System.Data;
+using VietSoft.CMMS.Core.Models;
 
 namespace VietSoft.CMMS.Web.Services
 {
@@ -71,11 +72,71 @@ namespace VietSoft.CMMS.Web.Services
                 List<MonitoringParametersByDevice>? res = _dapper.GetAll<MonitoringParametersByDevice>("spCMMSWEB", p, CommandType.StoredProcedure);
                 return res;
             }
-            catch
+            catch(Exception ex)
             {
                 return null;
             }
         }
+
+        public UserRequestViewModel GetUserRequest(string msmay)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "GetUserRequest");
+                p.Add("@deviceID", msmay);
+                var res = _dapper.Execute<UserRequestViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return new UserRequestViewModel();
+            }
+        }
+
+        public BaseResponseModel SaveMonitoring(string username,string data)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "SAVE_MONINGTORING");
+                p.Add("@UserName", username);
+                p.Add("@json", data);
+                var res = _dapper.Execute<BaseResponseModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponseModel();
+            }
+        }
+
+        public BaseResponseModel SaveUserRequest(string username,UserRequestViewModel request)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "SAVE_USEREQUEST");
+                p.Add("@deviceID", request.MS_MAY);
+                p.Add("@icot1", request.DUYET);
+                p.Add("@icot2", request.MS_UU_TIEN);
+                p.Add("@icot3", request.STT_VAN_DE);
+                p.Add("@scot1", request.MO_TA_TINH_TRANG);
+                p.Add("@scot2", request.YEU_CAU);
+                p.Add("@scot3", request.NGUOI_YEU_CAU);
+                p.Add("@stt", request.STT);
+                p.Add("@dCot1", request.NGAY_XAY_RA.ToStringDate("MM/dd/yyyy"));
+                p.Add("@bCot1", request.HONG);
+                p.Add("@UserName", username);
+                var res = _dapper.Execute<BaseResponseModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponseModel();
+            }
+        }
+
 
     }
 }

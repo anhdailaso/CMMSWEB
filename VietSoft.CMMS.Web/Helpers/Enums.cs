@@ -142,6 +142,7 @@
 
     public enum CookieKey
     {
+        Typelanges,
         IsRememberMe,
         UserName,
         Module,

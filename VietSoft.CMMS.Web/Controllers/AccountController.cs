@@ -1,17 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Net;
-using System.Reflection;
-using System.Security.Claims;
 using VietSoft.CMMS.Web.Helpers;
 using VietSoft.CMMS.Web.Models;
 using VietSoft.CMMS.Web.IServices;
-using VietSoft.CMMS.Web.Models;
 using VietSoft.CMMS.Web.Resources;
-using VietSoft.CMMS.Web.Helpers;
 
 namespace VietSoft.CMMS.Web.Controllers
 {
@@ -38,7 +31,7 @@ namespace VietSoft.CMMS.Web.Controllers
                 string? userName = MaHoamd5.MaHoamd5.Decrypt(userNameEncrypt, true);
                 // init session
                 UserModel? user = new() { UserName = userName, RememberMe = true };
-                SessionManager.CurrentUser = user;
+                SessionManager.CurrentUser = _accountService.GetProfile(userName);
                 return RedirectToAction("Index", "Home");
             }
 

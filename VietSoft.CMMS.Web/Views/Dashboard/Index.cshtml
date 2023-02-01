@@ -1,0 +1,103 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@using VietSoft.CMMS.Web.Helpers
+@{
+    ViewBag.Title = "Dashboard";
+    ViewBag.BackUrl = @Url.Action("Index", "Home", new { });
+    ViewData["RemoveTitle"] = false;
+}
+<link href="~/css/dash-board.css" rel="stylesheet" />
+<link href="~/css/font-style.css" rel="stylesheet" />
+<div id="GetDashboard">
+@*<div class="row">
+    <div class="col-lg-12">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href='@Url.Action("Index", "Dashboard")'>Dashboard</a></li>
+        </ol>
+    </div>
+</div>
+*@
+<div class="row">
+    <!-- User PROFILE BLOCK -->
+    <div class="col-sm-4 col-lg-4">
+        <div class="dash-unit">
+            <dtitle data-lang="lblUserProfile">
+                Thông Tin Người Dùng
+            </dtitle>
+            <hr>
+            @*<div class="thumbnail ">
+            <img src="~/img/user-avatar.jpg" class="img-circle">
+            </div>*@
+            <!-- /thumbnail -->
+            <h1>@ViewBag.TenNguoiDung</h1>
+            <h3>@ViewBag.Username</h3>
+            <h4>@ViewBag.PhongBan</h4>
+            <br>
+            <input type="hidden" id="somay" value="@ViewBag.SoMay" />
+            <div class="info-user">
+                <span aria-hidden="false" class="li_user fs1"></span>
+                <span aria-hidden="false" class="li_settings fs1"></span>
+                <span aria-hidden="false" class="li_mail fs1"></span>
+                <span aria-hidden="false" class="li_key fs1"></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8 col-lg-8">
+        <div class="dash-unit">
+            <dtitle data-lang="lblTinhTrangPBT">Tình Trạng Phiếu Bảo Trì</dtitle>
+            <hr>
+            <div class="section-graph">
+                <div id="importantchart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6 col-lg-6">
+        <div class="dash-unit">
+            <dtitle data-lang="lblHienTrangSuDungMay">Hiện Trạng Sử Dụng Máy</dtitle>
+            <hr>
+            <div class="section-graph-all">
+                <div id="load"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-6">
+        <div class="dash-unit">
+            <dtitle data-lang="lblTinhTrangTB">Tình Trang Thiết Bị</dtitle>
+            <hr>
+            <div class="section-graph-all">
+                <div id="space"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-lg-12">
+        <div class="dash-unit">
+            <dtitle data-lang="lblTongQuanPBT">Tổng Quan Phiếu Bảo Trì</dtitle>
+            <hr>
+            <div class="section-graph-all">
+                <div id="linechart">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+@section scripts {
+    <script src="~/js/highcharts.js"></script>
+    <script>
+        var config = {
+            urlGetThongTinDevice: '@Url.Action("GetDeviceInfo", "Dashboard")',
+            urlGetTinhHinhDevice: '@Url.Action("GetDeviceStatus", "Dashboard")',
+            urlGetTinhHinhPBT: '@Url.Action("GetSituationWO", "Dashboard")',
+            urlGetTinhHinhPBTColumn: '@Url.Action("GetSituationWOColumn", "Dashboard")',
+        }
+    </script>
+    <script src="~/js/pages/chart.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            DashCharttModule.init();
+        });
+    </script>
+}

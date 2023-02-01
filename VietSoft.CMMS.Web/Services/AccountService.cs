@@ -31,19 +31,35 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public UserModel GetProfile(string emplyeeCode, string token)
+        public UserModel GetProfile(string userName)
         {
             try
             {
                 var p = new DynamicParameters();
-                p.Add("@NNgu", emplyeeCode);
-                p.Add("@UName", token);
-                var res = _dapper.Execute<UserModel>("spWThongTin", p, System.Data.CommandType.StoredProcedure);
+                p.Add("@sDanhMuc", "GETPROFILE");
+                p.Add("@UserName", userName);
+                var res = _dapper.Execute<UserModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 return res;
             }
             catch (Exception ex)
             {
                 return new UserModel();
+            }
+        }
+
+        public ThongTinChungViewModel GetThongTinChung(string userName)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "GENERAL");
+                p.Add("@UserName", userName);
+                var res = _dapper.Execute<ThongTinChungViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return new ThongTinChungViewModel();
             }
         }
 

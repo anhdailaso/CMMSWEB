@@ -1,0 +1,138 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@using VietSoft.CMMS.Web.Helpers;
+@using VietSoft.CMMS.Web.Extensions;
+@model PagedList<VietSoft.CMMS.Web.Models.AcceptMaintenanceViewModel>
+
+<br />
+<br />
+<div class="accordion-item border-0 break-line">
+    <h2 class="accordion-header" id="heading-100">
+        <button class="accordion-button collapsed parentCell" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-100" aria-expanded="false" aria-controls="collapse-100">
+            <div class="d-flex justify-content-between w-100">
+
+                <div class="col-12 d-flex justify-content-left gap-2 ">
+                    <span style="color:black">05.12.22</span>
+                    <span style="color:#ff870f">CAN-0003</span>
+                    <span style="color:#113186">Sữa chữa máy</span>
+                </div>
+
+
+            </div>
+            <div class="tooltip-action" style="margin-top:-5.2rem">
+                <a>
+                    <span>Mấy cán nhựa số 1</span>
+                </a>
+            </div>
+        </button>
+    </h2>
+
+    <div id="collapse-100" class="accordion-collapse collapse" aria-labelledby="heading-100" data-bs-parent="#accordionFlushExample">
+
+        <div class="card card-list">
+            <div class="card-header gap-2 parentCell">
+                <span class="">01.02.01 </span>
+                <span style="color:#ff870f">Thây thế bạc đạn</span>
+                <a style="width:auto" id='btnsave' role="button">
+                    <i class="fa fa-check-circle text-success"></i>
+                </a>
+
+                <div class="tooltip-action" style="margin-top:-5.2rem">
+                    <a>
+                        <span>mã số bộ phận</span>
+                    </a>
+                </div>
+
+                <div class="separate-line"></div>
+            </div>
+            <div>
+                @*   <div style="padding-bottom:0.3rem;justify-content:space-between" class="d-flex">
+                <div class="d-flex gap-2 ">
+                <span>Mã bộ phận:</span>
+                <span class="card-value">MA_BP</span>
+                </div>
+                <div class="d-flex gap-2">
+                <span>Mã PT:</span>
+                <span class="card-value">MA_PT</span>
+                </div>
+                </div>
+                <div class="d-flex gap-2">
+                <span>Số lượng thay thế:</span>
+                <span class="card-value">SL_THAY_THE</span>
+                </div>*@
+                <table class="table table-responsive table-borderless cuscess">
+                    <tbody>
+                        <tr>
+                            <td style="text-align:left !important;width:40%">PT-001</td>
+                            <td style="text-align:left !important;width:50%">Bạc đạn</td>
+                            <td style="width:10%"> 2</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left !important;width:40%">PT-001</td>
+                            <td style="text-align:left !important;width:50%">Bạc đạn</td>
+                            <td style="width:10%"> 2</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="card card-list">
+            <div class="card-header gap-2 parentCell">
+                <span class="">01.02.01 </span>
+                <span style="color:#ff870f">Thây thế bạc đạn</span>
+                <a style="width:auto" id='btnsave' role="button">
+                    <i class="fa fa-check-circle text-success"></i>
+                </a>
+
+                <div class="tooltip-action" style="margin-top:-5.2rem">
+                    <a>
+                        <span>mã số bộ phận</span>
+                    </a>
+                </div>
+
+                <div class="separate-line"></div>
+            </div>
+            <div>
+                @*   <div style="padding-bottom:0.3rem;justify-content:space-between" class="d-flex">
+                <div class="d-flex gap-2 ">
+                <span>Mã bộ phận:</span>
+                <span class="card-value">MA_BP</span>
+                </div>
+                <div class="d-flex gap-2">
+                <span>Mã PT:</span>
+                <span class="card-value">MA_PT</span>
+                </div>
+                </div>
+                <div class="d-flex gap-2">
+                <span>Số lượng thay thế:</span>
+                <span class="card-value">SL_THAY_THE</span>
+                </div>*@
+                <table class="table table-responsive table-borderless cuscess">
+                    <tbody>
+                        <tr>
+                            <td style="text-align:left !important;width:40%">PT-001</td>
+                            <td style="text-align:left !important;width:50%">Bạc đạn</td>
+                            <td style="width:10%"> 2</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left !important;width:40%">PT-001</td>
+                            <td style="text-align:left !important;width:50%">Bạc đạn</td>
+                            <td style="width:10%"> 2</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        
+
+
+    </div>
+</div>
+
+
+
+
+
+<input type="hidden" id="hfTotalPage" value="@Model.TotalPages" data-total-rows="@Model.TotalItems">
+<div id="paggingResult"></div>

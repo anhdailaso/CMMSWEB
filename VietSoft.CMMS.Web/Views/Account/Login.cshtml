@@ -19,7 +19,6 @@
                     @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginForm", name = "loginForm", autocomplete = "off" }))
                     {
                         @Html.AntiForgeryToken()
-
                         <div class="form-group mb-4">
                             @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", maxlength = 50, autofocus = "true", placeholder = @ViewText.TXT_MASO_NHANVIEN, autocomplete = "off" })
                             @Html.ValidationMessageFor(m => m.UserName)

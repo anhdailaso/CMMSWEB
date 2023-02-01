@@ -45,7 +45,9 @@ namespace VietSoft.CMMS.Web.Helpers
             set => _httpContextAccessor.HttpContext.Session.Set<ModuleType>("Module", value);
         }
 
-       
+        
+
+
 
         public static List<MenuViewModel> Menus
         {
@@ -71,6 +73,19 @@ namespace VietSoft.CMMS.Web.Helpers
                 return _httpContextAccessor.HttpContext.Session.Get<MessageViewModel>("Message");
             }
             set => _httpContextAccessor.HttpContext.Session.Set<MessageViewModel>("Message", value);
+        }
+
+        public static ThongTinChungViewModel? ThongTinChung
+        {
+            get
+            {
+                if (_httpContextAccessor.HttpContext.Session.Get<ThongTinChungViewModel>("DIA_CHI") == null)
+                {
+                    return null;
+                }
+                return _httpContextAccessor.HttpContext.Session.Get<ThongTinChungViewModel>("DIA_CHI");
+            }
+            set => _httpContextAccessor.HttpContext.Session.Set<ThongTinChungViewModel>("DIA_CHI", value);
         }
 
         public static string ConnectionString

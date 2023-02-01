@@ -40,13 +40,13 @@
                     <td>
                         @if (item.YC == 1)
                         {
-                            <a href="/Home/UserRequest?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY">
+                            <a href="/Home/UserRequest?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=1">
                                 <i class="fa fa-times" style="color:#ff870f"></i>
                             </a>
                         }
                         else
                         {
-                            <a href="/Home/UserRequest?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY">
+                            <a href="/Home/UserRequest?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=0">
                                 <i class="fa fa-times" style="color:#fff0"></i>
                             </a>
                         }
@@ -55,14 +55,14 @@
 
                         @if (item.PBT == 1)
                         {
-                            <a href="/Home/WorkOrder?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY">
+                            <a href="/Home/WorkOrder?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=1">
                                 <i class="fa fa-times" style="color:#ff870f"></i>
                             </a>
 
                         }
                         else
                         {
-                            <a href="/Home/WorkOrder?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY">
+                            <a href="/Home/WorkOrder?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=0">
                                 <i class="fa fa-times" style="color:#fff0"></i>
                             </a>                            
                         }
@@ -70,13 +70,13 @@
                     <td>
                         @if (item.GSTT == 1)
                         {
-                            <a href="/Home/Moningtoring?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY">
+                            <a href="/Home/Moningtoring?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=1">
                                 <i class="fa fa-times" style="color:#ff870f"></i>
                             </a>
                         }
                         else
                         {
-                              <a href="/Home/Moningtoring?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY">
+                            <a href="/Home/Moningtoring?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=0">
                                 <i class="fa fa-times" style="color:#fff0"></i>
                             </a>
                         }

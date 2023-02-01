@@ -1,0 +1,101 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@using VietSoft.CMMS.Web.Helpers
+@{
+    ViewBag.Title = "NGHIỆM THU PHIẾU BẢO TRÌ";
+    ViewBag.BackUrl = @Url.Action("Index", "Home", new { });
+}
+<div class="row">
+    <div class="col-md-6 offset-md-3 col-xs-12">
+        <div class="accordion " id="accordionPanelsStayOpenExample">
+            <div class="accordion-item border-0">
+                <p class="accordion" id="panelsStayOpen-headingOne">
+                    <button class="accordion-button collapsed w-50" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                    </button>
+                </p>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="accordion-body">
+                        <form id="formSubmitRequest">
+                            <div class="d-flex justify-content-between gap-2">
+                                <div class="form-floating input-group break-line date" id="toDateContainer">
+                                    <input type="text" class="form-control" id="fromDate" name="fromDate" autocomplete="off" />
+                                    <span class="input-group-append d-flex align-items-center">
+                                        <i class="bi bi-calendar4-week date-icon "></i>
+                                    </span>
+                                    <label for="from">@ViewText.TXT_TUNGAY</label>
+                                    <div id="from-error"></div>
+                                </div>
+
+                                <div class="form-floating input-group break-line date" id="toDateContainer">
+                                    <input type="text" class="form-control" id="toDate" name="toDate" autocomplete="off" />
+                                    <span class="input-group-append d-flex align-items-center">
+                                        <i class="bi bi-calendar4-week date-icon"></i>
+                                    </span>
+                                    <label for="toDate">@ViewText.TXT_DENNGAY</label>
+                                    <div id="toDate-error"></div>
+
+                                </div>
+                            </div>
+
+                            <div style="border-bottom:1px solid gray" class="break-line"></div>
+                        </form>
+                    </div>
+
+                </div>
+
+                @*<div>
+                <button style="width:100%;height:100px" data-bs-toggle="modal" data-bs-target="#myModal" >
+                <img src="~/images/barcode.png" alt="image" class="icon-barcode">
+                </button>
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                ...
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+                </div>
+                </div>
+                </div>
+                </div>*@
+            </div>
+        </div>
+
+        <div class="position-relative">
+            @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder=@ViewText.TXT_SEARCH})
+            <i class="bi bi-search icon-obsolute"></i>
+        </div>
+        <div class="col-md-12 offset-md-12 col-xs-12  px-0">
+            <div id="GetAcceptMaintenance">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts {
+<script src="~/lib/jquery.twbsPagination/jquery.twbsPagination.min.js"></script>
+<script>
+    var config = {
+        GET_LIST_AcceptMaintenance: '@Url.Action("GetListAcceptMaintenance", "AcceptMaintenance")',
+        PAGE_SIZE: 10
+    }
+</script>
+
+<script src="~/js/pages/acceptmaintenance.js" asp-append-version="true"></script>
+
+<script>
+    $(document).ready(function () {
+        AcceptMaintenanceModule.init();
+    });
+</script>
+}

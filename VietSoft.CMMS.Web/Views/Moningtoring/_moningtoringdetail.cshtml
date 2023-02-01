@@ -5,20 +5,19 @@
 
 <div class="accordion border-0 break-line" id="accordionFlushExample">
 
-    @foreach (var item in Model.OrderBy(x=>x.ComponentID))
+    @foreach (var item in Model.OrderBy(x => x.ComponentID))
     {
         <div class="accordion-item border-0 break-line">
             <h2 class="accordion-header" id="heading-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID">
                 <button class="accordion-button collapsed parentCell" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" aria-expanded="false" aria-controls="collapse-@item.ComponentID@item.MonitoringParamsID">
                     <div class="d-flex justify-content-between w-100">
-
-                        <span>+ @item.ComponentID  @item.MonitoringParamsName</span>
-                        <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("LoadImage", "Camera")">
+                        <span id="title-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID">+ @item.ComponentID  @item.MonitoringParamsName</span>
+                        <a data-bs-toggle="modal" data-bs-target="#exampleModal" data-mor="@item.MonitoringParamsID" data-com="@item.ComponentID" data-src="" onclick="loadhinh(this)">
                             <i class="fa fa-camera-retro"></i>
                         </a>
 
                     </div>
-                    <div class="tooltip-action" style="margin-top:-3.5rem">
+                    <div class="tooltip-action" style="margin-top:-5.2rem">
                         <a>
                             <span>@item.ComponentName</span>
                         </a>
@@ -31,27 +30,32 @@
                     <table class="table table-responsive table-borderless cuscess" data-root="@item.ComponentID.Replace('.','_')!@item.MonitoringParamsID">
                         <tbody>
 
-                            @foreach (var item1 in @item.MonitoringParameters.OrderByDescending(x=>x.Pass))
+                            @foreach (var item1 in @item.MonitoringParameters.OrderByDescending(x => x.Pass))
                             {
                                 if (item1.TypeOfParam == true)
                                 {
                                     <tr>
                                         <td style="line-height:2.3rem">@item1.ValueParamName</td>
-                                        <td><input class="form-check-input" style="margin-top:0.8rem" type="checkbox" value="@item1.Measurement"></td>
-                                        <td> <input class="form-control" style="font-size:0.8rem;" type="text" placeholder="ghi chú" aria-label="default input example" value="@item1.Note" /></td>
+                                        <td data-pass="@item1.Pass">
+                                            <input class="form-check-input" id="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" style="margin-top:0.8rem" data-id="@item1.ValueParamID" data-msbophan="@item1.ComponentID" data-msthongso="@item1.MonitoringParamsID" type="checkbox">
+                                        </td>
+                                        <td> <input class="form-control" style="font-size:0.8rem;" type="text" id="note" placeholder="ghi chú" aria-label="default input example" value="@item1.Note" /></td>
                                     </tr>
                                 }
                                 else
                                 {
                                     <tr class="parentCell odd">
-                                        <td><input class="form-control" style="font-size:0.8rem;" type="text" placeholder="Kết quả" aria-label="default input example" value="@item1.Measurement" />
+                                        <td>
+                                            <input onfocusout="myfunction(this)" class="form-control" data-range="@item1.ValueParamName.Split('!')[1]" data-msbophan="@item1.ComponentID" id="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" data-msthongso="@item1.MonitoringParamsID" style="font-size:0.8rem;" type="text" placeholder="Kết quả" aria-label="default input example" value="@item1.Measurement" name="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" />
                                             <div class="tooltip-action">
                                                 <a>
                                                     <span>@Html.Raw(@item1.ValueParamName.Split('!')[0])</span>
                                                 </a>
                                             </div>
                                         </td>
-                                        <td>@item1.MeasurementUnitName</td>
+                                        <td style="line-height:2.5rem!important">@item1.MeasurementUnitName</td>
+                                        <td> <input class="form-control" style="font-size:0.8rem;" type="text" id="note" placeholder="ghi chú" aria-label="default input example" value="@item1.Note" /></td>
+
                                     </tr>
                                 }
                             }
@@ -62,3 +66,123 @@
         </div>
     }
 </div>
+@Html.Partial("~/Views/Camera/_loadimage.cshtml")
+<input type="file" id="fileToUpload" style="display: none;" />
+<script>
+    function myfunction(e) {
+        if (!$.isNumeric($(e).val()) && $(e).val() !== '') {
+            if ($(e).val() == '') return false;
+            $(e).focus();
+            $(e).val('');
+            showWarning("Chỉ được nhập số!");
+            return false;
+        }
+        if ($(e).val() !== '') {
+            var data = JSON.parse($(e).attr('data-range'));
+            var flag = 0;
+            for (var i = 0; i < data.length; i++) {
+                if (parseFloat(data[i].GiaTriTren) >= parseFloat($(e).val()) && parseFloat($(e).val()) >= parseFloat(data[i].GiaTriDuoi)) {
+                    flag = flag + 1;
+                    continue;
+                }
+            }
+            if (flag == 0) {
+                $(e).focus();
+                showWarning("Giá trị nhập không phù hợp!");
+                return false;
+            }
+            else {
+                $(e).attr('value', $(e).val());
+            }
+        }
+    }
+
+    var modalImg = document.getElementById("img01");
+    var file;
+    var obj;
+    function loadhinh(e) {
+        file = null;
+        obj = e;
+        console.log($(e).attr('data-src'));
+        modalImg.src = '';
+        $('#exampleModal').modal('show');
+        modalImg.src = $(e).attr('data-src');
+        //$('#exampleModal').on('hidden.bs.modal', function (a) {
+        //    //$(e).attr('data-src', $('#img01').attr('src'));
+        //    console.log(e);
+        //})
+    };
+
+
+    var importfile = $('#fileToUpload');
+    $('#btnXoaHinh').click(function () {
+        file = null;
+        $('#img01').attr('src', '');
+    });
+    $('#btnLuuHinh').click(function () {
+        $('#exampleModal').modal('hide');
+        $(obj).attr('data-src', $('#img01').attr('src'));
+
+    });
+    $('#btnChonHinh').click(function () {
+        importfile.click();
+    });
+    function uploadImgDisplay(curFile) {
+        var fileURL = window.URL.createObjectURL(curFile);
+        $('#img01').attr('src', fileURL);
+    }
+
+    importfile.change(function () {
+        if (!this.files.length) {
+            return;
+        }
+        // is image
+        file = this.files[0];
+        this.value = '';
+        switch (file.type) {
+            case 'image/bmp':
+            case 'image/jpeg':
+            case 'image/jpg':
+            case 'image/png':
+            case 'image/gif':
+                break;
+            default:
+                {
+                    alert('The uploaded file is not supported.');
+                    return;
+                }
+        }
+        uploadImgDisplay(file);
+    });
+
+    $('.form-check-input').on('change', function () {
+        var idcheck = ($(this).attr('data-id'));
+        var id = ($(this).attr('id'));
+        console.log(idcheck);
+        if ($("input[id=" + id + "]").is(':checked')) {
+            $(this).closest('tbody').find("tr input[id=" + id + "]").prop("checked", false);
+            $('#title-' + id).css("color", "#ff870f");
+            $("input[data-id=" + idcheck + "]").prop("checked", true);
+            //anh đổi cái màu lại dùm em
+        }
+        else {
+            $('#title-' + id).css("color", "#113186");
+        }
+
+
+    });
+    $('.form-control').on('change', function () {
+        var id_input = ($(this).attr('name'));
+        var id = ($(this).attr('id'));
+        console.log(id_input)
+        var x = document.getElementById(id_input).value;
+
+        if (x != "") {
+            console.log('#title-' + id)
+            $('#title-' + id).css("color", "#ff870f");
+        }
+        else {
+            $('#title-' + id).css("color", "#113186");
+        }
+    });
+</script>
