@@ -1614,3 +1614,7 @@ mark {
         background-position: 100rem 0
     }
 }
+
+ul {
+    list-style-type: none !important;
+}

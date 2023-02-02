@@ -718,6 +718,15 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Phân tích hư hỏng.
+        /// </summary>
+        public static string TXT_PHANTICH_HUHONG {
+            get {
+                return ResourceManager.GetString("TXT_PHANTICH_HUHONG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Phiếu chưa duyệt.
         /// </summary>
         public static string TXT_PHIEU_CHUADUYET {

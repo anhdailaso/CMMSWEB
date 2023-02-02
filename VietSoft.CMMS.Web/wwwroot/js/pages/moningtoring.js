@@ -95,6 +95,21 @@
 
         bload = true;
         GetMoningToring();
+        $(document).on("keyup", '#search', function () {
+            clearTimeout(delayTimer)
+            delayTimer = setTimeout(function () {
+                GetCauseOfDamageList()
+            }, 1000)
+        })
+
+        $('#btnViewCauseOfDamage').on('click', function () {
+            GetViewCauseOfDamage();
+            
+        });
+
+        $(document).on("click", '.expand', function () {
+            $('ul', $(this).parent()).eq(0).toggle();
+        })
     }
 
     function GetMoningToring() {
@@ -112,6 +127,102 @@
             },
             complete: function () {
                 hideLoadingOverlay(contentDataList);
+            }
+        });
+    }
+
+    function GetCauseOfDamageList() {
+        showLoadingOverlay("#resultContent");
+        $.ajax({
+            type: "GET",
+            url: config.GET_CAUSE_OF_DAMAGE_LIST,
+            data: {
+                keyword: $('#search').val()
+            },
+            success: function (response) {
+                if (response.responseCode == 1) {
+                    $("#resultContent").html("");
+                    var parent = {
+                        itemName: 'Ket truc',
+                        itemCode: '01.03.05',
+                        amount: 5,
+                        childs:
+                            [
+                                {
+                                    itemName: 'Thieu boi tron',
+                                    childs: [
+                                        {
+                                            itemName: 'Tra dau',
+                                            amount: 5
+                                        },
+                                        {
+                                            itemName: 'Boi mo',
+                                            amount: 5,
+                                        }
+                                    ]
+                                },
+                                {
+                                    itemName: 'Ket di vat',
+                                    childs: [
+                                        {
+                                            itemName: 'Loai bo di vat',
+                                            amount: 5,
+                                        },
+                                        {
+                                            itemName: 'dieu chinh khe ngan',
+                                            amount: 5,
+                                        }
+                                    ]
+                                }
+                            ]
+                    }
+                    var troot = document.createElement("ul");
+                    treeMenu(parent, troot);
+                    $('#resultContent').append(troot)
+                }
+            },
+            complete: function () {
+                hideLoadingOverlay("#resultContent");
+            }
+        });
+    }
+
+    function insertAfter(newNode, referenceNode) {
+        referenceNode.insertBefore(newNode, referenceNode.nextSibling);
+    }
+
+    function treeMenu(parent, tparent) {
+        var childs = parent.childs;
+        var icon = childs ? "bi bi-plus-lg" : ""
+        var sib = document.createElement("li");
+        sib.innerHTML = `<div class="expand pt-1">
+            <i class="` + icon + `"></i>
+            <span>`+ (parent.itemCode ? parent.itemCode : '') + `</span>
+            <span>`+ parent.itemName + `</span>
+            <span> &emsp;&emsp;`+ (parent.amount ? parent.amount : '') +`</span>
+            </div>`;
+        tparent.appendChild(sib);
+
+        if (!childs) return;
+
+        var nextRoot = document.createElement("ul");
+        insertAfter(nextRoot, sib);
+        
+        for (var i = 0; i < childs.length; i++) {
+            treeMenu(childs[i], nextRoot);
+        }
+    }
+
+    function GetViewCauseOfDamage() {
+        $.ajax({
+            type: "GET",
+            url: config.GET_VIEW_CAUSE_OF_DAMAGE,
+            success: function (response) {
+                $('#modalLarge .modal-content').html(response);
+                $('#modalLarge').modal('show');
+            },
+            complete: function () {
+                hideLoadingOverlay("#resultContent");
             }
         });
     }

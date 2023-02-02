@@ -32,7 +32,7 @@
             </select>
             <label for="cboLoaiBaoTri">Loại bảo trì</label>
 
-            <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
+            <a id="btnViewCauseOfDamage">
                 <img src="~/images/phantich.png" alt="image" class="icon-barcode">
             </a>
         </div>
@@ -230,7 +230,9 @@
     <script src="~/js/pages/jquery.imagesloader-1.0.1.js"></script>
     <script>
         var config = {
-            PAGE_SIZE: 10
+            PAGE_SIZE: 10,
+            GET_CAUSE_OF_DAMAGE_LIST: '@Url.Action("GetCauseOfDamageList", "WorkOrder")',
+            GET_VIEW_CAUSE_OF_DAMAGE: '@Url.Action("ViewCauseOfDamage", "WorkOrder")'
         }
     </script>
     <script src="~/js/pages/moningtoring.js" asp-append-version="true"></script>
