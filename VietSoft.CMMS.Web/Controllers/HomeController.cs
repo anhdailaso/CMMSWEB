@@ -18,13 +18,16 @@ namespace VietSoft.HRM.Web.Controllers
         private readonly IAccountService _accountService;
         private readonly IComboboxService _combobox;
         private readonly IHomeService _homeService;
+        private readonly IMaintenanceService _maintenanceService;
 
-        public HomeController(ILogger<HomeController> logger, IAccountService accountService, IHomeService homeService, IComboboxService combobox)
+        public HomeController(ILogger<HomeController> logger, IAccountService accountService, IHomeService homeService, IComboboxService combobox,
+            IMaintenanceService maintenanceService)
         {
             _logger = logger;
             _accountService = accountService;
             _homeService = homeService;
             _combobox = combobox;
+            _maintenanceService = maintenanceService;
         }
 
         [AllowAnonymous]
@@ -71,9 +74,10 @@ namespace VietSoft.HRM.Web.Controllers
             ViewBag.FLAG = flag;
             //nếu flag = 1 thì lấy
 
+            var ticketMaintenance = _maintenanceService.GetTicketMaintenanceByDevice(SessionManager.CurrentUser.UserName, msmay);
             ViewBag.LoaiBaoTri = _combobox.DanhSachLoaiBT();
             ViewBag.UuTien = _combobox.LoadListUuTien(0);
-            return View("~/Views/WorkOrder/Index.cshtml");
+            return View("~/Views/WorkOrder/Index.cshtml", ticketMaintenance);
         }
         public ActionResult getDevices(string WorkSiteID)
         {

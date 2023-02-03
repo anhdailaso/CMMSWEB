@@ -52,12 +52,12 @@ namespace VietSoft.CMMS.Web.Services
 
                 var res =  _dapper.Execute<TicketMaintenanceViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
 
-                return res;
+                return res ?? new TicketMaintenanceViewModel();
 
             }
             catch (Exception ex)
             {
-                return null;
+                return new TicketMaintenanceViewModel();
             }
         }
 
@@ -154,14 +154,91 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public IEnumerable<CauseOfDamageViewModel> GetViewCauseOfDamageList(string ticketId)
+        public IEnumerable<CauseOfDamageListViewModel> GetViewCauseOfDamageList(string deviceId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", CategoryType.GET_LIST_FAILRULE_ANALYSIS.ToString());
+                p.Add("@deviceID", deviceId);
+
+                var res = _dapper.GetAll<CauseOfDamageModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                if (res != null)
+                {
+                    var lst = res.GroupBy(
+                        x => (x.CLASS_CODE, x.CLASS_ID, x.CLASS_NAME),
+                        (key, data) => new CauseOfDamageListViewModel
+                        { 
+                            CLASS_CODE = key.CLASS_CODE, 
+                            CLASS_ID = key.CLASS_ID, 
+                            CLASS_NAME = key.CLASS_NAME,
+                            CauseOfDamageViewModels = data.GroupBy(c => (c.CAUSE_ID, c.CAUSE_NAME, c.CAUSE_CODE), (key, data) => new CauseOfDamageViewModel
+                            {
+                                CAUSE_ID = key.CAUSE_ID,
+                                CAUSE_CODE = key.CAUSE_CODE,
+                                CAUSE_NAME = key.CAUSE_NAME,
+                                RemedialViewModels = data.Select(r => new RemedialViewModel
+                                {
+                                    REMEDY_CODE = r.REMEDY_CODE,
+                                    REMEDY_ID = r.REMEDY_ID,
+                                    REMEDY_NAME = r.REMEDY_NAME
+                                })
+                            }).ToList()
+                        }).ToList();
+
+                    return lst;
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
-        public IEnumerable<CauseOfDamageViewModel> GetInputCauseOfDamageList(string ticketId)
+        public IEnumerable<CauseOfDamageListViewModel> GetInputCauseOfDamageList(string ticketId, string deviceId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", CategoryType.GET_LISTWO_FAILRULE_ANALYSIS.ToString());
+                p.Add("@sCot1", ticketId);
+                p.Add("@deviceID", deviceId);
+
+                var res = _dapper.GetAll<CauseOfDamageModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                if (res != null)
+                {
+                    var lst = res.GroupBy(
+                        x => (x.CLASS_CODE, x.CLASS_ID, x.CLASS_NAME),
+                        (key, data) => new CauseOfDamageListViewModel
+                        {
+                            CLASS_CODE = key.CLASS_CODE,
+                            CLASS_ID = key.CLASS_ID,
+                            CLASS_NAME = key.CLASS_NAME,
+                            CauseOfDamageViewModels = data.GroupBy(c => (c.CAUSE_ID, c.CAUSE_NAME, c.CAUSE_CODE), (key, data) => new CauseOfDamageViewModel
+                            {
+                                CAUSE_ID = key.CAUSE_ID,
+                                CAUSE_CODE = key.CAUSE_CODE,
+                                CAUSE_NAME = key.CAUSE_NAME,
+                                RemedialViewModels = data.Select(r => new RemedialViewModel
+                                {
+                                    REMEDY_CODE = r.REMEDY_CODE,
+                                    REMEDY_ID = r.REMEDY_ID,
+                                    REMEDY_NAME = r.REMEDY_NAME
+                                })
+                            }).ToList()
+                        }).ToList();
+
+                    return lst;
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿@using VietSoft.CMMS.Web.Resources
 @using VietSoft.CMMS.Web.Helpers
+@model VietSoft.CMMS.Web.Models.Maintenance.TicketMaintenanceViewModel
 @{
     ViewBag.Title = "PHIẾU BẢO TRÌ";
     ViewBag.BackUrl = @Url.Action("Index", "Home", new { });
@@ -23,12 +24,12 @@
         <div class="border-top my-3"></div>
 
         <div class="d-flex justify-content-between mb-3">
-            <div><span>WO-202209-0005</span></div>
-            <div><span>15/09/2022</span></div>
+            <div><span>@Model.MS_PHIEU_BAO_TRI</span></div>
+            <div><span>@Model.NGAY_KT_KH</span></div>
         </div>
 
         <div class="form-floating break-line">
-            <select id="cboLoaiBaoTri" name="cboLoaiBaoTri" asp-items="@ViewBag.LoaiBaoTri" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+            <select id="cboLoaiBaoTri" name="cboLoaiBaoTri" asp-for="@Model.MS_LOAI_BT" asp-items="@ViewBag.LoaiBaoTri" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
             </select>
             <label for="cboLoaiBaoTri">Loại bảo trì</label>
 
@@ -38,7 +39,7 @@
         </div>
 
         <div class="form-floating break-line">
-            <select id="cboUuTien" name="cboMay" asp-items="@ViewBag.UuTien" class="form-select form-select-sm">
+            <select id="cboUuTien" name="cboMay" asp-for="@Model.MS_UU_TIEN" asp-items="@ViewBag.UuTien"  class="form-select form-select-sm">
             </select>
             <label for="cboUuTien">Mức ưu tiên</label>
         </div>
