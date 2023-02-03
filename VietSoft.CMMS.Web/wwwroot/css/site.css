@@ -15,6 +15,7 @@
     --dark-color: #212529;
     --border-radius-control: 5px;
     --scanner-color: #dd1e31;
+    --orange-color: #fd7e14;
 }
 
 html {
@@ -1617,4 +1618,12 @@ mark {
 
 ul {
     list-style-type: none !important;
+}
+
+.root{
+    color: var(--orange-color)
+}
+
+.sub-item {
+    color: var(--primary-color)
 }

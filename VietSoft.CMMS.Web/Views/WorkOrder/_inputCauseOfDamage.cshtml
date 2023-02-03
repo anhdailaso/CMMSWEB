@@ -1,5 +1,18 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using VietSoft.CMMS.Web.Resources
+<div class="modal-header">
+    <h5>@ViewText.TXT_PHANTICH_HUHONG</h5>
+    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body modal-confirm">
+   <div class="row mb-2">
+    <div class="col-12" id="inputCauseOfDamageContent">
+      
+    </div>
+</div>
+ 
+</div>
+
+<div class="modal-footer justify-content-between gap-1 flex-nowrap">
+    <button type="button" class="btn btn-outline-danger w-50" id="btnReject">@ViewText.BTN_DONG</button>
+    <button type="button" class="btn btn-primary w-50" id="btnApprove" >@ViewText.BTN_LUU</button>
+</div>

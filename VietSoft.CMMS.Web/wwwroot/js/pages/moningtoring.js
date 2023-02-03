@@ -95,21 +95,8 @@
 
         bload = true;
         GetMoningToring();
-        $(document).on("keyup", '#search', function () {
-            clearTimeout(delayTimer)
-            delayTimer = setTimeout(function () {
-                GetCauseOfDamageList()
-            }, 1000)
-        })
 
-        $('#btnViewCauseOfDamage').on('click', function () {
-            GetViewCauseOfDamage();
-            
-        });
-
-        $(document).on("click", '.expand', function () {
-            $('ul', $(this).parent()).eq(0).toggle();
-        })
+        initEvent();
     }
 
     function GetMoningToring() {
@@ -127,6 +114,111 @@
             },
             complete: function () {
                 hideLoadingOverlay(contentDataList);
+            }
+        });
+    }
+
+
+    //---------------------Nhan start-----------------------
+
+    function initEvent() {
+
+        $(document).on("keyup", '#search', function () {
+            clearTimeout(delayTimer)
+            delayTimer = setTimeout(function () {
+                GetCauseOfDamageList()
+            }, 1000)
+        })
+
+        $('#btnViewCauseOfDamage').on('click', function () {
+            GetViewCauseOfDamage();
+        });
+
+        $(document).on("click", '#btnCompletePBT', function () {
+            GetInputCauseOfDamage();
+        });
+
+        $(document).on("click", '.expand', function () {
+            $('ul', $(this).parent()).eq(0).toggle();
+        })
+
+        $(document).on("click", '.form-check-input', function () {
+            var isChecked = false
+            if ($(this).is(":checked")) {
+                isChecked = true
+            }
+            $(this).closest('li').find('ul input:checkbox').prop('checked', isChecked)
+        })
+
+        $('#logWork').on('click', function () {
+            LogWork();
+        });
+    }
+
+    function GetInputCauseOfDamage() {
+        showLoadingOverlay("#inputCauseOfDamageContent");
+        $.ajax({
+            type: "GET",
+            url: config.GET_INPUT_CAUSE_OF_DAMAGE,
+            success: function (response) {
+                $('#modalLarge .modal-content').html(response);
+                $('#modalLarge').modal('show');
+                GetInputCauseOfDamageList()
+            },
+            complete: function () {
+                hideLoadingOverlay("#inputCauseOfDamageContent");
+            }
+        });
+    }
+
+    function GetInputCauseOfDamageList() {
+        $.ajax({
+            type: "GET",
+            url: config.GET_INPUT_CAUSE_OF_DAMAGE_LIST,
+            success: function (response) {
+                if (response.responseCode == 1) {
+                    $("#inputCauseOfDamageContent").html("");
+                    var parent = {
+                        itemName: 'Ket truc',
+                        itemCode: '01.03.05',
+                        amount: 5,
+                        childs:
+                            [
+                                {
+                                    itemName: 'Thieu boi tron',
+                                    childs: [
+                                        {
+                                            itemName: 'Tra dau',
+                                            amount: 5
+                                        },
+                                        {
+                                            itemName: 'Boi mo',
+                                            amount: 5,
+                                        }
+                                    ]
+                                },
+                                {
+                                    itemName: 'Ket di vat',
+                                    childs: [
+                                        {
+                                            itemName: 'Loai bo di vat',
+                                            amount: 5,
+                                        },
+                                        {
+                                            itemName: 'dieu chinh khe ngan',
+                                            amount: 5,
+                                        }
+                                    ]
+                                }
+                            ]
+                    }
+                    var troot = document.createElement("ul");
+                    treeMenuForInput(parent, troot, 0);
+                    $('#inputCauseOfDamageContent').append(troot)
+                }
+            },
+            complete: function () {
+                hideLoadingOverlay("#inputCauseOfDamageContent");
             }
         });
     }
@@ -177,7 +269,7 @@
                             ]
                     }
                     var troot = document.createElement("ul");
-                    treeMenu(parent, troot);
+                    treeMenu(parent, troot, 0);
                     $('#resultContent').append(troot)
                 }
             },
@@ -191,25 +283,50 @@
         referenceNode.insertBefore(newNode, referenceNode.nextSibling);
     }
 
-    function treeMenu(parent, tparent) {
+    function treeMenu(parent, tparent, level) {
         var childs = parent.childs;
         var icon = childs ? "bi bi-plus-lg" : ""
         var sib = document.createElement("li");
-        sib.innerHTML = `<div class="expand pt-1">
+        var color = level == 0 ? "root" : ((childs && level != 0) ? "sub-item" : "")
+        sib.innerHTML = `<div class="expand pt-1" ` + (childs ? 'style="cursor: pointer"' : '') + `>
             <i class="` + icon + `"></i>
             <span>`+ (parent.itemCode ? parent.itemCode : '') + `</span>
-            <span>`+ parent.itemName + `</span>
+            <span class=`+ color +`>`+ parent.itemName + `</span>
             <span> &emsp;&emsp;`+ (parent.amount ? parent.amount : '') +`</span>
             </div>`;
         tparent.appendChild(sib);
-
         if (!childs) return;
 
         var nextRoot = document.createElement("ul");
         insertAfter(nextRoot, sib);
         
         for (var i = 0; i < childs.length; i++) {
-            treeMenu(childs[i], nextRoot);
+            treeMenu(childs[i], nextRoot, level + 1);
+        }
+    }
+
+    function treeMenuForInput(parent, tparent, level) {
+        var childs = parent.childs;
+        var icon = childs ? "bi bi-plus-lg" : ""
+        var sib = document.createElement("li");
+        var color = level == 0 ? "root" : ((childs && level != 0) ? "sub-item" : "")
+        sib.innerHTML = `
+               <div class="d-flex parent">
+            <div class="expand pt-1" ` + (childs ? 'style="cursor: pointer"' : '') + `>
+            <i class="` + icon + `"></i>
+            <span>`+ (parent.itemCode ? parent.itemCode : '') + `</span>
+            <span class=`+ color + `>` + parent.itemName + `</span>
+            </div>
+                <div class="mx-3 my-1"><input class="form-check-input" type="checkbox" ></div>
+            </div>`;
+        tparent.appendChild(sib);
+        if (!childs) return;
+
+        var nextRoot = document.createElement("ul");
+        insertAfter(nextRoot, sib);
+
+        for (var i = 0; i < childs.length; i++) {
+            treeMenuForInput(childs[i], nextRoot, level + 1);
         }
     }
 
@@ -220,12 +337,29 @@
             success: function (response) {
                 $('#modalLarge .modal-content').html(response);
                 $('#modalLarge').modal('show');
+                GetCauseOfDamageList()
             },
             complete: function () {
                 hideLoadingOverlay("#resultContent");
             }
         });
     }
+
+    function LogWork() {
+        $.ajax({
+            type: "GET",
+            url: config.LOG_WORK,
+            success: function (response) {
+                $('#modalLarge .modal-content').html(response);
+                $('#modalLarge').modal('show');
+            },
+            complete: function () {
+                hideLoadingOverlay("#resultContent");
+            }
+        });
+    }
+
+    //---------------------Nhan end-----------------------
 
     return {
         init: init

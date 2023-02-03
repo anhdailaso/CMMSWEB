@@ -207,7 +207,7 @@
             <a class="btn btn-outline-primary m-1" href="#!" role="button">
                 <i class="fa fa-plus fs-7" aria-hidden="true"></i>
             </a>
-            <a class="btn btn-outline-dark m-1" href="#!" role="button">
+            <a id="logWork" class="btn btn-outline-dark m-1">
                 <i class="fa fa-clock-o fs-7"></i>
             </a>
             <!-- Twitter -->
@@ -216,7 +216,7 @@
             </a>
 
             <!-- Google -->
-            <a class="btn btn-outline-success m-1" href="#!" role="button">
+            <a id="btnCompletePBT" class="btn btn-outline-success m-1">
                 <i class="fa fa-check-circle fs-7"></i>
             </a>
 
@@ -232,7 +232,11 @@
         var config = {
             PAGE_SIZE: 10,
             GET_CAUSE_OF_DAMAGE_LIST: '@Url.Action("GetCauseOfDamageList", "WorkOrder")',
-            GET_VIEW_CAUSE_OF_DAMAGE: '@Url.Action("ViewCauseOfDamage", "WorkOrder")'
+            GET_VIEW_CAUSE_OF_DAMAGE: '@Url.Action("ViewCauseOfDamage", "WorkOrder")',
+            GET_INPUT_CAUSE_OF_DAMAGE: '@Url.Action("InputCauseOfDamage", "WorkOrder")',
+            GET_INPUT_CAUSE_OF_DAMAGE_LIST: '@Url.Action("GetInputCauseOfDamageList", "WorkOrder")',
+            LOG_WORK: '@Url.Action("LogWork","WorkOrder")'
+            
         }
     </script>
     <script src="~/js/pages/moningtoring.js" asp-append-version="true"></script>

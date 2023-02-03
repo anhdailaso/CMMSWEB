@@ -1,9 +1,18 @@
 ﻿using VietSoft.CMMS.Web.Models;
+using VietSoft.CMMS.Web.Models.Maintenance;
 
 namespace VietSoft.CMMS.Web.IServices
 {
     public interface IMaintenanceService
     {
         List<AcceptMaintenanceViewModel> GetListAcceptMaintenance(string username, int languages, DateTime? tngay, DateTime? dngay);
+        TicketMaintenanceViewModel GetTicketMaintenanceByDevice(string userName, string deviceId);
+        IEnumerable<WorkOrdersViewModel> GetWorkOrderList(string userName, string deviceId, string ticketId);
+        IEnumerable<WorkOrderDetailViewModel> GetJobList(string userName, string deviceId);
+        IEnumerable<SuppliesViewModel> GetSuppliesList(string userName, string deviceId, string deptId);
+        IEnumerable<LogWorkViewModel> GetLogWorkList(string ticketId);
+        IEnumerable<CauseOfDamageViewModel> GetViewCauseOfDamageList(string ticketId);
+        IEnumerable<CauseOfDamageViewModel> GetInputCauseOfDamageList(string ticketId);
+
     }
 }

@@ -520,6 +520,15 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ghi nhận thời gian làm việc.
+        /// </summary>
+        public static string TXT_GHINHAN_THOIGIAN_LAMVIEC {
+            get {
+                return ResourceManager.GetString("TXT_GHINHAN_THOIGIAN_LAMVIEC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to giờ.
         /// </summary>
         public static string TXT_GIO {

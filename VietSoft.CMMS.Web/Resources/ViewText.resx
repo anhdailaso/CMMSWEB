@@ -483,4 +483,7 @@
   <data name="TXT_PHANTICH_HUHONG" xml:space="preserve">
     <value>Phân tích hư hỏng</value>
   </data>
+  <data name="TXT_GHINHAN_THOIGIAN_LAMVIEC" xml:space="preserve">
+    <value>Ghi nhận thời gian làm việc</value>
+  </data>
 </root>
