@@ -952,6 +952,24 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Thêm công việc bảo trì.
+        /// </summary>
+        public static string TXT_THEM_CONGVIEC_BAOTRI {
+            get {
+                return ResourceManager.GetString("TXT_THEM_CONGVIEC_BAOTRI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thêm phụ tùng.
+        /// </summary>
+        public static string TXT_THEM_PHUTUNG {
+            get {
+                return ResourceManager.GetString("TXT_THEM_PHUTUNG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thiết bị.
         /// </summary>
         public static string TXT_THIET_BI {

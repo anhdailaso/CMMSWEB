@@ -130,6 +130,7 @@ a {
     transform: none;
 }*/
 
+
 .btn-primary {
     border: 1px solid transparent;
     color: #fff;
@@ -1626,4 +1627,23 @@ ul {
 
 .sub-item {
     color: var(--primary-color)
+}
+
+.tr-supplies-active{
+    background-color: var(--orange-color);
+    color: white
+}
+.text-orange{
+    color: var(--orange-color);
+}
+.form-control-bottom {
+    outline: 0;
+    border-width: 0 0 1px;
+    border-color: #C7CEDB;
+}
+#btnAddRowLogWork{
+    color: var(--orange-color);
+    height:25px;
+    width: 50px;
+    cursor: pointer;
 }

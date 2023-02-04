@@ -1,5 +1,30 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using VietSoft.CMMS.Web.Resources
+@model IEnumerable<VietSoft.CMMS.Web.Models.Maintenance.SuppliesViewModel>
+<div class="modal-header">
+    <h5>@ViewText.TXT_THEM_PHUTUNG</h5>
+    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body modal-confirm">
+    <div class="row mb-2">
+        <div class="col-12" style="height: 300px">
+            <table class="table">
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="tr-supplies">
+                            <td class="w-30" style="line-height:2.3rem">@item.MS_PT</td>
+                            <td class="w-50 " style="line-height:2.3rem">@item.TEN_PT</td>
+                            <td class="w-20"> @item.SL_KH</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-footer justify-content-between gap-1 flex-nowrap">
+    <button type="button" class="btn btn-outline-danger w-50" id="btnReject">@ViewText.BTN_DONG</button>
+    <button type="button" class="btn btn-primary w-50" id="btnApprove">@ViewText.BTN_LUU</button>
+</div>

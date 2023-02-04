@@ -1,5 +1,29 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using VietSoft.CMMS.Web.Resources
+@model IEnumerable<VietSoft.CMMS.Web.Models.Maintenance.WorkOrderDetailViewModel>
+<div class="modal-header">
+    <h5>@ViewText.TXT_THEM_CONGVIEC_BAOTRI</h5>
+    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body modal-confirm">
+    <div class="row mb-2" style="height:300px">
+        <table class="table table-responsive table-borderless cuscess">
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="w-30">+ @item.MS_BO_PHAN</td>
+                        <td class="w-50 " style="text-align:left !important">@item.MO_TA_CV</td>
+                        <td class="w-20"><div class="mx-3 my-1"><input class="form-check-input" type="checkbox"></div></td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<div class="modal-footer justify-content-between gap-1 flex-nowrap">
+    <button type="button" class="btn btn-outline-danger w-50" id="btnReject">@ViewText.BTN_DONG</button>
+    <button type="button" class="btn btn-primary w-50" id="btnApprove">@ViewText.BTN_LUU</button>
+</div>

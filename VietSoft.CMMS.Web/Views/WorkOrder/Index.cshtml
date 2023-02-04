@@ -14,6 +14,7 @@
     <div class="col-md-6 offset-md-3 col-xs-12">
         <div class="row detail-page-emp-info">
             <div class="col-12 d-flex justify-content-left gap-2 ">
+                @Html.Hidden("MS_MAY", @ViewBag.MS_MAY, null)
                 <span class="emp-name">@ViewBag.MS_MAY</span>
                 <span class="emp-code">@ViewBag.TEN_MAY</span>
                 @*         <span class="emp-name">A05534</span>
@@ -24,6 +25,7 @@
         <div class="border-top my-3"></div>
 
         <div class="d-flex justify-content-between mb-3">
+            @Html.Hidden("MS_PHIEU_BAO_TRI", @Model.MS_PHIEU_BAO_TRI, null)
             <div><span>@Model.MS_PHIEU_BAO_TRI</span></div>
             <div><span>@Model.NGAY_KT_KH</span></div>
         </div>
@@ -47,157 +49,8 @@
 
         <div class="border-top my-3"></div>
         <br />
-        <div class="accordion border-0 break-line" id="accordionFlushExample">
-            <div class="accordion-item border-0 break-line">
-                <h2 class="accordion-header" id="flush-headingOne">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne" title="Bạc đạn">
-                        + 01.03.05 Thay nhớt
-                    </button>
-                </h2>
-
-                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                    <div class="table-responsive">
-                        <table class="table table-responsive table-borderless">
-                            <tbody>
-                                <tr>
-                                    <td class="w-50" style="line-height:2.3rem">BEA-02-005</td>
-                                    <td class="w-25" style="line-height:2.3rem">All</td>
-                                    <td class="w-25"> <input class="form-control" style="font-size:0.8rem;" type="text" value="2" placeholder="số lượng" /></td>
-                                </tr>
-
-
-                                <tr>
-                                    <td class="w-50" style="line-height:2.3rem">BEA-01-005</td>
-                                    <td class="w-25" style="line-height:2.3rem">T</td>
-                                    <td class="w-25"> <input class="form-control" style="font-size:0.8rem;" type="text" value="1" placeholder="số lượng" /></td>
-                                </tr>
-
-                                <tr>
-                                    <td class="w-50" style="line-height:2.3rem">BEA-05-009</td>
-                                    <td class="w-25" style="line-height:2.3rem">P</td>
-                                    <td class="w-25"> <input class="form-control" style="font-size:0.8rem;" type="text" value="3" placeholder="số lượng" /></td>
-                                </tr>
-
-
-                            </tbody>
-                        </table>
-
-                      
-
-                        <div class="d-flex flex-row-reverse">
-                            <div>
-                                <a class="btn btn-outline-warning m-1" style="width:auto" href="#!" role="button">
-                                    <i class="fa fa-floppy-o fs-7"></i>
-                                </a>
-                            </div>
-                            <div>
-                                <a class="btn btn-outline-primary m-1" style="width:auto" href="#!" role="button">
-                                    <i class="fa fa-plus fs-7"></i>
-                                </a>
-                            </div>
-                        </div>
-
-
-                    </div>
-
-
-                </div>
-            </div>
-            <div class="accordion-item border-0 break-line">
-                <h2 class="accordion-header" id="flush-headingTwo">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo" title="Động cơ">
-                        + 01.02.07 kiểm tra tình động cơ
-                    </button>
-                </h2>
-                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                    <div class="table-responsive">
-                        <table class="table table-responsive table-borderless">
-                            <tbody>
-                                <tr>
-                                    <td class="w-50" style="line-height:2.3rem">BEA-02-005</td>
-                                    <td class="w-25" style="line-height:2.3rem">All</td>
-                                    <td class="w-25"> <input class="form-control" style="font-size:0.8rem;" type="text" value="2" placeholder="số lượng" /></td>
-                                </tr>
-
-
-                                <tr>
-                                    <td class="w-50" style="line-height:2.3rem">BEA-01-005</td>
-                                    <td class="w-25" style="line-height:2.3rem">T</td>
-                                    <td class="w-25"> <input class="form-control" style="font-size:0.8rem;" type="text" value="1" placeholder="số lượng" /></td>
-                                </tr>
-
-                                <tr>
-                                    <td class="w-50" style="line-height:2.3rem">BEA-05-009</td>
-                                    <td class="w-25" style="line-height:2.3rem">P</td>
-                                    <td class="w-25"> <input class="form-control" style="font-size:0.8rem;" type="text" value="3" placeholder="số lượng" /></td>
-                                </tr>
-
-
-                            </tbody>
-                        </table>
-                        <div class="d-flex flex-row-reverse">
-                            <div>
-                                <a class="btn btn-outline-warning m-1" style="width:auto" href="#!" role="button">
-                                    <i class="fa fa-floppy-o fs-7"></i>
-                                </a>
-                            </div>
-                            <div>
-                                <a class="btn btn-outline-primary m-1" style="width:auto" href="#!" role="button">
-                                    <i class="fa fa-plus fs-7"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item border-0 break-line">
-                <h2 class="accordion-header" id="flush-headingThree">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree" title="Quạt hút / Ventilating fans">
-                        + 01.02.08 Kiểm tra nhiệt độ dầu
-                    </button>
-                </h2>
-                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                    <div class="table-responsive">
-                        <table class="table table-responsive table-borderless">
-                            <tbody>
-                                <tr>
-                                    <td class="w-50" style="line-height:2.3rem">BEA-02-005</td>
-                                    <td class="w-25" style="line-height:2.3rem">All</td>
-                                    <td class="w-25"> <input class="form-control" style="font-size:0.8rem;" type="text" value="2" placeholder="số lượng" /></td>
-                                </tr>
-
-
-                                <tr>
-                                    <td class="w-50" style="line-height:2.3rem">BEA-01-005</td>
-                                    <td class="w-25" style="line-height:2.3rem">T</td>
-                                    <td class="w-25"> <input class="form-control" style="font-size:0.8rem;" type="text" value="1" placeholder="số lượng" /></td>
-                                </tr>
-
-                                <tr>
-                                    <td class="w-50" style="line-height:2.3rem">BEA-05-009</td>
-                                    <td class="w-25" style="line-height:2.3rem">P</td>
-                                    <td class="w-25"> <input class="form-control" style="font-size:0.8rem;" type="text" value="3" placeholder="số lượng" /></td>
-                                </tr>
-
-
-                            </tbody>
-                        </table>
-                        <div class="d-flex flex-row-reverse">
-                            <div>
-                                <a class="btn btn-outline-warning m-1" style="width:auto" href="#!" role="button">
-                                    <i class="fa fa-floppy-o fs-7"></i>
-                                </a>
-                            </div>
-                            <div>
-                                <a class="btn btn-outline-primary m-1" style="width:auto" href="#!" role="button">
-                                    <i class="fa fa-plus fs-7"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div id="workListContent"></div>
+       
     </div>
 </div>
 <br />
@@ -205,7 +58,7 @@
 <nav class="fixed-bottom">
     <div class="navbar-button  text-center text-white">
         <div id="button-container" class="btn-group">
-            <a class="btn btn-outline-primary m-1" href="#!" role="button">
+            <a id="btnAddMaintenanceWork" class="btn btn-outline-primary m-1">
                 <i class="fa fa-plus fs-7" aria-hidden="true"></i>
             </a>
             <a id="logWork" class="btn btn-outline-dark m-1">
@@ -236,8 +89,10 @@
             GET_VIEW_CAUSE_OF_DAMAGE: '@Url.Action("ViewCauseOfDamage", "WorkOrder")',
             GET_INPUT_CAUSE_OF_DAMAGE: '@Url.Action("InputCauseOfDamage", "WorkOrder")',
             GET_INPUT_CAUSE_OF_DAMAGE_LIST: '@Url.Action("GetInputCauseOfDamageList", "WorkOrder")',
-            LOG_WORK: '@Url.Action("LogWork","WorkOrder")'
-            
+            LOG_WORK: '@Url.Action("LogWork","WorkOrder")',
+            GET_WORK_LIST:  '@Url.Action("GetWorkList","WorkOrder")',
+            ADD_SUPPLIES:  '@Url.Action("AddSupplies","WorkOrder")',
+            ADD_MAINTENANCE_WORK:  '@Url.Action("AddMaintenanceWork","WorkOrder")'
         }
     </script>
     <script src="~/js/pages/moningtoring.js" asp-append-version="true"></script>

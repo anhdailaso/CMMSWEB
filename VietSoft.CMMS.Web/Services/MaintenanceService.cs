@@ -67,19 +67,36 @@ namespace VietSoft.CMMS.Web.Services
             {
                 var p = new DynamicParameters();
                 p.Add("@sDanhMuc", CategoryType.GET_WORDORDER_DETAILS.ToString());
+                p.Add("@sCot1", ticketId);
                 p.Add("@deviceID", deviceId);
                 p.Add("@UserName", userName);
 
                 var res = _dapper.GetAll<WorkOrderDetailViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                res = new List<WorkOrderDetailViewModel>()
+                {
+                    new WorkOrderDetailViewModel{ MS_BO_PHAN = "04.02.01", MO_TA_CV = "Thay nhơt", MS_CV = 1, MS_PT = "BEA-02-005", MS_VI_TRI_PT = "All", SL_TT = 2 },
+                    new WorkOrderDetailViewModel{ MS_BO_PHAN = "04.02.01", MO_TA_CV = "Thay nhơt", MS_CV = 1, MS_PT = "BEA-02-006", MS_VI_TRI_PT = "All", SL_TT = 2 },
+                    new WorkOrderDetailViewModel{ MS_BO_PHAN = "04.02.01", MO_TA_CV = "Thay nhơt", MS_CV = 1, MS_PT = "BEA-02-007", MS_VI_TRI_PT = "All", SL_TT = 2 },
+
+                    new WorkOrderDetailViewModel{ MS_BO_PHAN = "04.02.01", MO_TA_CV = "Bôi trơn vòng bi", MS_CV = 2, MS_PT = "BEA-02-005", MS_VI_TRI_PT = "All", SL_TT = 2 },
+                    new WorkOrderDetailViewModel{ MS_BO_PHAN = "04.02.01", MO_TA_CV = "Bôi trơn vòng bi", MS_CV = 2, MS_PT = "BEA-02-005", MS_VI_TRI_PT = "All", SL_TT = 2 },
+                    new WorkOrderDetailViewModel{ MS_BO_PHAN = "04.02.01", MO_TA_CV = "Bôi trơn vòng bi", MS_CV = 2, MS_PT = "BEA-02-005", MS_VI_TRI_PT = "All", SL_TT = 2 },
+
+                    new WorkOrderDetailViewModel{ MS_BO_PHAN = "04.02.01", MO_TA_CV = "Thay bạt đạn", MS_CV = 3, MS_PT = "BEA-02-005", MS_VI_TRI_PT = "All", SL_TT = 2 },
+                    new WorkOrderDetailViewModel{ MS_BO_PHAN = "04.02.01", MO_TA_CV = "Thay bạt đạn", MS_CV = 3, MS_PT = "BEA-02-005", MS_VI_TRI_PT = "All", SL_TT = 2 },
+                    new WorkOrderDetailViewModel{ MS_BO_PHAN = "04.02.01", MO_TA_CV = "Thay bạt đạn", MS_CV = 3, MS_PT = "BEA-02-005", MS_VI_TRI_PT = "All", SL_TT = 2 }
+
+                };
                 if (res != null)
                 {
                     var lst = res.GroupBy(
-                        x => (x.MS_CV, x.MO_TA_CV),
-                        (key, data) => new { MS_CV = key.MS_CV, MO_TA_CV = key.MO_TA_CV, WorkOrderDetailViewModels = data }).ToList();
+                        x => (x.MS_CV, x.MO_TA_CV, x.MS_BO_PHAN),
+                        (key, data) => new { MS_CV = key.MS_CV, MO_TA_CV = key.MO_TA_CV, MS_BO_PHAN = key.MS_BO_PHAN, WorkOrderDetailViewModels = data }).ToList();
 
                     var workOrders = lst.Select(x =>
                     new WorkOrdersViewModel()
                     {
+                        MS_BO_PHAN = x.MS_BO_PHAN,
                         MS_CV = x.MS_CV,
                         MO_TA_CV = x.MO_TA_CV,
                         WorkOrderDetailViewModels = x.WorkOrderDetailViewModels.Select(x => new WorkOrderDetailViewModel()
@@ -87,6 +104,7 @@ namespace VietSoft.CMMS.Web.Services
                            MS_PT = x.MS_PT,
                            MS_VI_TRI_PT = x.MS_VI_TRI_PT,
                            TEN_PT = x.TEN_PT,
+                           SL_TT = x.SL_TT
                         })
                     }).AsEnumerable();
                     return workOrders;
@@ -146,6 +164,11 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@sCot1", ticketId);
 
                 var res = _dapper.GetAll<LogWorkViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                res = new List<LogWorkViewModel>()
+                {
+                    new LogWorkViewModel(){ NGAY = DateTime.Now, DEN_NGAY =DateTime.Now, SO_GIO = 4},
+                    new LogWorkViewModel(){ NGAY = DateTime.Now, DEN_NGAY =DateTime.Now, SO_GIO = 4}
+                };
                 return res;
             }
             catch (Exception ex)

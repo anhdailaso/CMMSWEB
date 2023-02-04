@@ -123,6 +123,7 @@
 
     function initEvent() {
 
+        WorkList();
         $(document).on("keyup", '#search', function () {
             clearTimeout(delayTimer)
             delayTimer = setTimeout(function () {
@@ -150,9 +151,56 @@
             $(this).closest('li').find('ul input:checkbox').prop('checked', isChecked)
         })
 
+        $(document).on("click", '.btnAddSupplies', function () {
+            let dept = $(this).data('dept')
+            let suppliesSelected = $(this).data('supplies')
+            AddSupplies(dept, suppliesSelected);
+        });
+
+        $(document).on("click", '.tr-supplies', function () {
+            $(this).closest('table').find('tr.tr-supplies.tr-supplies-active').removeClass('tr-supplies-active')
+            $(this).addClass('tr-supplies-active')
+        });
+        
         $('#logWork').on('click', function () {
             LogWork();
         });
+
+        $(document).on("click", '#btnAddMaintenanceWork', function () {
+            AddMaintenanceWork()
+        });
+        $(document).on("click", '.remove-row', function () {
+            $(this).closest("tr").remove();
+        });
+        
+        $(document).on("click", '#btnAddRowLogWork', function () {
+            let html = `<tr >
+                            <td style="width:45%">
+                                <div class="form-floating input-group date px-2">
+                                    <input style="border-radius: 0 !important" type="text" class="form-control-bottom form-control"  name="fromDate" autocomplete="off"/>
+                                    <span class="input-group-append d-flex align-items-center">
+                                        <i class="bi bi-calendar4-week date-icon"></i>
+                                    </span>
+                                </div>
+                            </td>
+                            <td style="width:45%">
+                                 <div class="form-floating input-group date px-2" >
+                                    <input type="text" style="border-radius: 0 !important" class="form-control form-control-bottom" name="toDate" autocomplete="off"/>
+                                    <span class="input-group-append d-flex align-items-center">
+                                        <i class="bi bi-calendar4-week date-icon"></i>
+                                    </span>
+                                </div>
+                            </td>
+                            <td style="width:5%">
+                              <p class="text-orange mt-3"> 0</p>
+                            </td>
+                             <td style="width:5%"> 
+                               <p class="mt-3"><a class="remove-row" ><i class="bi bi-trash icon-danger"></i></a></p>
+                            </td>
+                        </tr>`
+            $('#tblLogWork tbody').prepend(html)
+        });
+       
     }
 
     function GetInputCauseOfDamage() {
@@ -355,6 +403,55 @@
             },
             complete: function () {
                 hideLoadingOverlay("#resultContent");
+            }
+        });
+    }
+
+    function WorkList() {
+        showLoadingOverlay("#workListContent");
+        $.ajax({
+            type: "GET",
+            url: config.GET_WORK_LIST,
+            data: {
+                deviceId: $('#MS_MAY').val(),
+                ticketId: $('#MS_PHIEU_BAO_TRI').val()
+            },
+            success: function (response) {
+                $('#workListContent').html(response);
+            },
+            complete: function () {
+                hideLoadingOverlay("#workListContent");
+            }
+        });
+    }
+
+    function AddSupplies(dept, suppliesSelected) {
+        var json = JSON.stringify(suppliesSelected)
+        $.ajax({
+            type: "POST",
+            url: config.ADD_SUPPLIES,
+            data: {
+                suppliesSelectedJson: json,
+                deviceId: $('#MS_MAY').val(),
+                dept: dept
+            },
+            success: function (response) {
+                $('#modalLarge .modal-content').html(response);
+                $('#modalLarge').modal('show')
+            }
+        });
+    }
+
+    function AddMaintenanceWork() {
+        $.ajax({
+            type: "GET",
+            url: config.ADD_MAINTENANCE_WORK,
+            data: {
+                deviceId: $('#MS_MAY').val()
+            },
+            success: function (response) {
+                $('#modalLarge .modal-content').html(response);
+                $('#modalLarge').modal('show');
             }
         });
     }

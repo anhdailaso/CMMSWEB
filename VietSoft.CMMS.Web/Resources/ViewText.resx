@@ -486,4 +486,10 @@
   <data name="TXT_GHINHAN_THOIGIAN_LAMVIEC" xml:space="preserve">
     <value>Ghi nhận thời gian làm việc</value>
   </data>
+  <data name="TXT_THEM_CONGVIEC_BAOTRI" xml:space="preserve">
+    <value>Thêm công việc bảo trì</value>
+  </data>
+  <data name="TXT_THEM_PHUTUNG" xml:space="preserve">
+    <value>Thêm phụ tùng</value>
+  </data>
 </root>

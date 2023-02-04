@@ -322,6 +322,14 @@ function setDatePicker(idInput, options, minDate, maxDate) {
     $(idInput).datetimepicker(options);
 }
 
+function setDateTimePicker(idInput, options, minDate, maxDate) {
+    options = options || {};
+    options.locale = 'vi';
+    format: 'L';
+    inline: true;
+    $(idInput).datetimepicker(options);
+}
+
 function setTimePicker(idInput, options) {
 
     options = options || {};
