@@ -166,7 +166,7 @@ namespace VietSoft.CMMS.Web.Services
                 var res = _dapper.GetAll<LogWorkViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 res = new List<LogWorkViewModel>()
                 {
-                    new LogWorkViewModel(){ NGAY = DateTime.Now, DEN_NGAY =DateTime.Now, SO_GIO = 4},
+                    new LogWorkViewModel(){ NGAY = DateTime.Now.AddDays(1), DEN_NGAY =DateTime.Now.AddDays(2), SO_GIO = 4},
                     new LogWorkViewModel(){ NGAY = DateTime.Now, DEN_NGAY =DateTime.Now, SO_GIO = 4}
                 };
                 return res;

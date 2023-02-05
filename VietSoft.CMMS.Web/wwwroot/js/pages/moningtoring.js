@@ -259,10 +259,18 @@
                         </tr>`
            
             $('#tblLogWork tbody').prepend(html)
-            setDateTimePicker('.fromDate', new Date())
-            setDateTimePicker('.toDate', new Date())
+            setDateTimePicker('.fromDate', moment(new Date(), 'HH:mm DD/MM/YYYY').toDate())
+            setDateTimePicker('.toDate', moment(new Date(), 'HH:mm DD/MM/YYYY').toDate())
         });
-       
+
+        $(document).on("dp.change", '.fromDate, .toDate', function () {
+            let rowdata = $(this).closest('tr');
+            let fromDate = moment(rowdata.find("td").eq(0).find('input').val(), 'HH:mm DD/MM/YYYY').toDate() ;
+            let toDate = moment(rowdata.find("td").eq(1).find('input').val(), 'HH:mm DD/MM/YYYY').toDate();
+            let diffTime = getDiffTimes(fromDate, toDate) 
+            let text = diffTime > 0 ? diffTime : 0 
+            rowdata.find("td p").text(text)
+        });
     }
 
     function GetInputCauseOfDamage() {
