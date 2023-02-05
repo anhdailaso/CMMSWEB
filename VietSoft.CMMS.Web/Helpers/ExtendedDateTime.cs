@@ -111,7 +111,15 @@ namespace VietSoft.CMMS.Web.Helpers
         ///</summary>
         public static string ToTextDateTime(this DateTime target, string format = "dd-MM-yyyy hh:mm tt")
         {
-            return target.ToString(format);
+            try
+            {
+                return target.ToString(format);
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+          
         }
 
         ///<summary>

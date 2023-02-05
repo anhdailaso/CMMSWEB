@@ -325,8 +325,11 @@ function setDatePicker(idInput, options, minDate, maxDate) {
 function setDateTimePicker(idInput, options, minDate, maxDate) {
     options = options || {};
     options.locale = 'vi';
-    format: 'L';
-    inline: true;
+    console.log(options)
+    options.defaultDate = options === null ? moment(new Date(), 'HH:mm DD/MM/YYYY') : moment(options, 'HH:mm DD/MM/YYYY');
+    format = 'HH:mm DD/MM/YYYY';
+    useCurrent = false;
+
     $(idInput).datetimepicker(options);
 }
 

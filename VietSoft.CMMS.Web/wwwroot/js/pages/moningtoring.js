@@ -176,19 +176,13 @@
         $(document).on("click", '#btnAddRowLogWork', function () {
             let html = `<tr >
                             <td style="width:45%">
-                                <div class="form-floating input-group date px-2">
-                                    <input style="border-radius: 0 !important" type="text" class="form-control-bottom form-control"  name="fromDate" autocomplete="off"/>
-                                    <span class="input-group-append d-flex align-items-center">
-                                        <i class="bi bi-calendar4-week date-icon"></i>
-                                    </span>
+                                <div class="form-floating input-group date">
+                                    <input style="border-radius: 0 !important" type="text" class="form-control-bottom form-control fromDate" data-date-format="HH:mm DD/MM/YYYY" autocomplete="off"/>
                                 </div>
                             </td>
                             <td style="width:45%">
-                                 <div class="form-floating input-group date px-2" >
-                                    <input type="text" style="border-radius: 0 !important" class="form-control form-control-bottom" name="toDate" autocomplete="off"/>
-                                    <span class="input-group-append d-flex align-items-center">
-                                        <i class="bi bi-calendar4-week date-icon"></i>
-                                    </span>
+                                 <div class="form-floating input-group date" >
+                                    <input type="text" style="border-radius: 0 !important" class="form-control form-control-bottom toDate" data-date-format="HH:mm DD/MM/YYYY" autocomplete="off"/>
                                 </div>
                             </td>
                             <td style="width:5%">
@@ -198,7 +192,10 @@
                                <p class="mt-3"><a class="remove-row" ><i class="bi bi-trash icon-danger"></i></a></p>
                             </td>
                         </tr>`
+           
             $('#tblLogWork tbody').prepend(html)
+            setDateTimePicker('.fromDate', new Date())
+            setDateTimePicker('.toDate', new Date())
         });
        
     }
