@@ -16,9 +16,9 @@ namespace VietSoft.CMMS.Web.Controllers
             userName = SessionManager.CurrentUser.UserName;
         }
 
-        public IActionResult GetCauseOfDamageList(string keyword)
+        public IActionResult GetCauseOfDamageList(string keyword, string deviceId)
         {
-            var res = 1;
+            var res = _maintenanceService.GetViewCauseOfDamageList(deviceId);
 
             return Json(new JsonResponseViewModel { ResponseCode = 1, Data = res });
         }
@@ -33,9 +33,9 @@ namespace VietSoft.CMMS.Web.Controllers
             return PartialView("_inputCauseOfDamage");
         }
 
-        public IActionResult GetInputCauseOfDamageList(string keyword)
+        public IActionResult GetInputCauseOfDamageList(string deviceId, string ticketId)
         {
-            var res = 1;
+            var res = _maintenanceService.GetInputCauseOfDamageList(ticketId, deviceId);
 
             return Json(new JsonResponseViewModel { ResponseCode = 1, Data = res });
         }
@@ -52,12 +52,13 @@ namespace VietSoft.CMMS.Web.Controllers
             return PartialView("_workList", res);
         }
 
-        public IActionResult AddSupplies(string suppliesSelectedJson, string deviceId, string dept)
+        public IActionResult AddSupplies(string suppliesSelectedJson, string deviceId, string dept, int workId)
         {
             dept = "00";
-            var suppliesSelected = JsonSerializer.Deserialize<List<string>>(suppliesSelectedJson);
+            @ViewBag.MS_CV = workId;
+            var suppliesSelected = suppliesSelectedJson == null ? new List<string>() : JsonSerializer.Deserialize<List<string>>(suppliesSelectedJson);
             var res = _maintenanceService.GetSuppliesList(userName, deviceId, dept);
-            var lst = res.Where(x => !suppliesSelected.Contains(x.MS_PT)).ToList();
+            var lst = suppliesSelected == null ? res : res.Where(x => !suppliesSelected.Contains(x.MS_PT)).ToList();
             return PartialView("_addSupplies", lst);
         }
 

@@ -52,4 +52,14 @@
         public int GR_CAUSE { get; set; }
         public IEnumerable<RemedialViewModel> RemedialViewModels { get; set; }
     }
+
+    public class TreeViewModel
+    {
+        public string ItemCode { get; set; }
+        public string ItemName { get; set; }
+        public string Id { get; set; }
+        public double Amount { get; set; }
+        public IEnumerable<object> Childs { get; set; }
+
+    }
 }

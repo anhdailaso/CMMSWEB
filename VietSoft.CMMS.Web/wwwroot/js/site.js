@@ -363,3 +363,7 @@ function checkIsWeekend(date1, date2) {
     }
     return false;
 }
+
+function ClosePopup(element) {
+    $(element).parents('.modal').modal('hide')
+}

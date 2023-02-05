@@ -154,7 +154,72 @@
         $(document).on("click", '.btnAddSupplies', function () {
             let dept = $(this).data('dept')
             let suppliesSelected = $(this).data('supplies')
-            AddSupplies(dept, suppliesSelected);
+            let mscv = $(this).data('mscv')
+            AddSupplies(dept, suppliesSelected, mscv);
+        });
+
+        
+        $(document).on("click", '#btnAddSupplies', function () {
+            let rowdata = $(this).closest('.modal-content').find('.modal-body table tbody tr.tr-supplies.tr-supplies-active')
+            let mspt = rowdata.find("td").eq(0).text();
+            let msvt = rowdata.find("td").eq(1).text()
+            let sl = rowdata.find("td").eq(2).text()
+            let rowId = `#flush-collapse-` + $('#MS_CV').val()
+            $('#modalLarge').modal('hide');
+            let html = ` <tr>
+                                <td class="w-40" style="line-height:2.3rem">`+ mspt + `</td>
+                                <td class="w-25" style="line-height:2.3rem">`+ msvt +`</td>
+                                <td class="w-25"> <input class="form-control" style="font-size:0.8rem;" type="text" value="`+ sl +`" placeholder="số lượng" /></td>
+                                <td class="w-10"> 
+                                    <p class="mt-3"><a class="remove-row" ><i class="bi bi-trash icon-danger"></i></a></p>
+                                </td>
+                        </tr>`
+            $(rowId).find('table tbody').append(html)
+        })
+
+        $(document).on("click", '#btnAddWorkList', function () {
+            $('input:checkbox.input-add-work:checked').each(function () {
+                let mscv = $(this).data('ms-cviec')
+                let msbophan = $(this).data('ms-bophan')
+                let motacv = $(this).closest('tr').find("td").eq(1).text()
+                let html = `<div class="accordion border-0 break-line" id="accordionFlushExample-`+ mscv +`">
+                <div class="accordion-item border-0 break-line">
+                    <h2 class="accordion-header" id="flush-heading-`+ mscv +`">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-`+ mscv + `" aria-expanded="false" aria-controls="flush-collapse-` + mscv +`" title="Bạc đạn">
+                            + `+ msbophan + `&nbsp`+ motacv + `
+                        </button>
+                    </h2>
+                    <div id="flush-collapse-`+ mscv +`" class="accordion-collapse collapse" aria-labelledby="flush-heading-`+ mscv +`" data-bs-parent="#accordionFlushExample-`+ mscv +`">
+                        <div class="table-responsive">
+                            <table class="table table-responsive table-borderless">
+                                <tbody>
+                           
+                                </tbody>
+                            </table>
+
+                            <div class="d-flex flex-row-reverse">
+                                <div>
+                                    <a class="btn btn-outline-warning m-1 btnSaveSupplies" style="width:auto" href="#!" role="button">
+                                        <i class="fa fa-floppy-o fs-7"></i>
+                                    </a>
+                                </div>
+                                <div>
+                                    <a class="btn btn-outline-primary m-1  btnAddSupplies" data-dept=`+ msbophan + ` data-mscv=` + mscv +` style="width:auto" href="#!" role="button">
+                                        <i class="fa fa-plus fs-7"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+                </div>`
+                $('#workListContent').append(html);
+                $('#modalLarge').modal('hide');
+            });
         });
 
         $(document).on("click", '.tr-supplies', function () {
@@ -220,46 +285,22 @@
         $.ajax({
             type: "GET",
             url: config.GET_INPUT_CAUSE_OF_DAMAGE_LIST,
+            data: {
+                deviceId: $('#MS_MAY').val(),
+                ticketId: $('#MS_PHIEU_BAO_TRI').val()
+            },
             success: function (response) {
                 if (response.responseCode == 1) {
                     $("#inputCauseOfDamageContent").html("");
-                    var parent = {
-                        itemName: 'Ket truc',
-                        itemCode: '01.03.05',
-                        amount: 5,
-                        childs:
-                            [
-                                {
-                                    itemName: 'Thieu boi tron',
-                                    childs: [
-                                        {
-                                            itemName: 'Tra dau',
-                                            amount: 5
-                                        },
-                                        {
-                                            itemName: 'Boi mo',
-                                            amount: 5,
-                                        }
-                                    ]
-                                },
-                                {
-                                    itemName: 'Ket di vat',
-                                    childs: [
-                                        {
-                                            itemName: 'Loai bo di vat',
-                                            amount: 5,
-                                        },
-                                        {
-                                            itemName: 'dieu chinh khe ngan',
-                                            amount: 5,
-                                        }
-                                    ]
-                                }
-                            ]
+                    if (response.data[0]) {
+                        var troot = document.createElement("ul");
+                        treeMenuForInput(response.data[0], troot, 0);
+                        $('#inputCauseOfDamageContent').append(troot)
                     }
-                    var troot = document.createElement("ul");
-                    treeMenuForInput(parent, troot, 0);
-                    $('#inputCauseOfDamageContent').append(troot)
+                    else {
+                        let html = `<span>` + config.KHONGCO_DULIEU + `</span>`
+                        $('#inputCauseOfDamageContent').append(html)
+                    }
                 }
             },
             complete: function () {
@@ -274,48 +315,21 @@
             type: "GET",
             url: config.GET_CAUSE_OF_DAMAGE_LIST,
             data: {
-                keyword: $('#search').val()
+                keyword: $('#search').val(),
+                deviceId: $('#MS_MAY').val()
             },
             success: function (response) {
                 if (response.responseCode == 1) {
                     $("#resultContent").html("");
-                    var parent = {
-                        itemName: 'Ket truc',
-                        itemCode: '01.03.05',
-                        amount: 5,
-                        childs:
-                            [
-                                {
-                                    itemName: 'Thieu boi tron',
-                                    childs: [
-                                        {
-                                            itemName: 'Tra dau',
-                                            amount: 5
-                                        },
-                                        {
-                                            itemName: 'Boi mo',
-                                            amount: 5,
-                                        }
-                                    ]
-                                },
-                                {
-                                    itemName: 'Ket di vat',
-                                    childs: [
-                                        {
-                                            itemName: 'Loai bo di vat',
-                                            amount: 5,
-                                        },
-                                        {
-                                            itemName: 'dieu chinh khe ngan',
-                                            amount: 5,
-                                        }
-                                    ]
-                                }
-                            ]
+                    if (response.data[0]) {
+                        var troot = document.createElement("ul");
+                        treeMenu(response.data[0], troot, 0);
+                        $('#resultContent').append(troot)
                     }
-                    var troot = document.createElement("ul");
-                    treeMenu(parent, troot, 0);
-                    $('#resultContent').append(troot)
+                    else {
+                        let html = `<span>` + config.KHONGCO_DULIEU +`</span>`
+                        $('#resultContent').append(html)
+                    }
                 }
             },
             complete: function () {
@@ -333,7 +347,7 @@
         var icon = childs ? "bi bi-plus-lg" : ""
         var sib = document.createElement("li");
         var color = level == 0 ? "root" : ((childs && level != 0) ? "sub-item" : "")
-        sib.innerHTML = `<div class="expand pt-1" ` + (childs ? 'style="cursor: pointer"' : '') + `>
+        sib.innerHTML = `<div class="expand pt-2" ` + (childs ? 'style="cursor: pointer"' : '') + `>
             <i class="` + icon + `"></i>
             <span>`+ (parent.itemCode ? parent.itemCode : '') + `</span>
             <span class=`+ color +`>`+ parent.itemName + `</span>
@@ -357,7 +371,7 @@
         var color = level == 0 ? "root" : ((childs && level != 0) ? "sub-item" : "")
         sib.innerHTML = `
                <div class="d-flex parent">
-            <div class="expand pt-1" ` + (childs ? 'style="cursor: pointer"' : '') + `>
+            <div class="expand pt-2" ` + (childs ? 'style="cursor: pointer"' : '') + `>
             <i class="` + icon + `"></i>
             <span>`+ (parent.itemCode ? parent.itemCode : '') + `</span>
             <span class=`+ color + `>` + parent.itemName + `</span>
@@ -422,7 +436,7 @@
         });
     }
 
-    function AddSupplies(dept, suppliesSelected) {
+    function AddSupplies(dept, suppliesSelected, mscv) {
         var json = JSON.stringify(suppliesSelected)
         $.ajax({
             type: "POST",
@@ -430,7 +444,8 @@
             data: {
                 suppliesSelectedJson: json,
                 deviceId: $('#MS_MAY').val(),
-                dept: dept
+                dept: dept,
+                workId: mscv
             },
             success: function (response) {
                 $('#modalLarge .modal-content').html(response);

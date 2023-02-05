@@ -177,7 +177,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public IEnumerable<CauseOfDamageListViewModel> GetViewCauseOfDamageList(string deviceId)
+        public IEnumerable<TreeViewModel> GetViewCauseOfDamageList(string deviceId)
         {
             try
             {
@@ -190,25 +190,38 @@ namespace VietSoft.CMMS.Web.Services
                 {
                     var lst = res.GroupBy(
                         x => (x.CLASS_CODE, x.CLASS_ID, x.CLASS_NAME),
-                        (key, data) => new CauseOfDamageListViewModel
+                        (key, data) => new TreeViewModel
                         { 
-                            CLASS_CODE = key.CLASS_CODE, 
-                            CLASS_ID = key.CLASS_ID, 
-                            CLASS_NAME = key.CLASS_NAME,
-                            CauseOfDamageViewModels = data.GroupBy(c => (c.CAUSE_ID, c.CAUSE_NAME, c.CAUSE_CODE), (key, data) => new CauseOfDamageViewModel
+                            ItemCode = key.CLASS_CODE, 
+                            Id = key.CLASS_ID, 
+                            ItemName = key.CLASS_NAME,
+                            Childs = data.GroupBy(c => (c.CAUSE_ID, c.CAUSE_NAME, c.CAUSE_CODE), (key, data) => new
                             {
-                                CAUSE_ID = key.CAUSE_ID,
-                                CAUSE_CODE = key.CAUSE_CODE,
-                                CAUSE_NAME = key.CAUSE_NAME,
-                                RemedialViewModels = data.Select(r => new RemedialViewModel
+                                Id = key.CAUSE_ID,
+                                ItemCode = key.CAUSE_CODE,
+                                ItemName = key.CAUSE_NAME,
+                                Childs = data.Select(r => new
                                 {
-                                    REMEDY_CODE = r.REMEDY_CODE,
-                                    REMEDY_ID = r.REMEDY_ID,
-                                    REMEDY_NAME = r.REMEDY_NAME
+                                    ItemCode = r.REMEDY_CODE,
+                                    Id = r.REMEDY_ID,
+                                    ItemName = r.REMEDY_NAME
                                 })
                             }).ToList()
                         }).ToList();
+                    lst = new List<TreeViewModel>()
+                    {
+                        new TreeViewModel(){ ItemName = "Ket truc", ItemCode ="01.03.05", Amount = 5, Childs = new []
+                        { 
+                            new {ItemName = "Thieu boi tron", ItemCode ="01.03.05.01", Amount = 5, Childs = new []
+                                    { new {ItemName = "Tra dầu", ItemCode ="01.03.05.02", Amount = 5,  }, new {ItemName = "Boi mo", ItemCode ="01.03.05.03", Amount = 5} }
+                                },
+                            new {ItemName = "Ket di vat", ItemCode ="01.03.05.02", Amount = 5, Childs = new []
+                                    { new {ItemName = "Loai bo di vat", ItemCode ="01.03.05.02", Amount = 5,  }, new {ItemName = "dieu chinh khe ngan", ItemCode ="01.03.05.03", Amount = 5} }
+                                }
+                        } ,
 
+                        }
+                    };
                     return lst;
                 }
 
@@ -220,7 +233,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public IEnumerable<CauseOfDamageListViewModel> GetInputCauseOfDamageList(string ticketId, string deviceId)
+        public IEnumerable<TreeViewModel> GetInputCauseOfDamageList(string ticketId, string deviceId)
         {
             try
             {
@@ -234,25 +247,38 @@ namespace VietSoft.CMMS.Web.Services
                 {
                     var lst = res.GroupBy(
                         x => (x.CLASS_CODE, x.CLASS_ID, x.CLASS_NAME),
-                        (key, data) => new CauseOfDamageListViewModel
+                        (key, data) => new TreeViewModel
                         {
-                            CLASS_CODE = key.CLASS_CODE,
-                            CLASS_ID = key.CLASS_ID,
-                            CLASS_NAME = key.CLASS_NAME,
-                            CauseOfDamageViewModels = data.GroupBy(c => (c.CAUSE_ID, c.CAUSE_NAME, c.CAUSE_CODE), (key, data) => new CauseOfDamageViewModel
+                            ItemCode = key.CLASS_CODE,
+                            Id = key.CLASS_ID,
+                            ItemName = key.CLASS_NAME,
+                            Childs = data.GroupBy(c => (c.CAUSE_ID, c.CAUSE_NAME, c.CAUSE_CODE), (key, data) => new
                             {
-                                CAUSE_ID = key.CAUSE_ID,
-                                CAUSE_CODE = key.CAUSE_CODE,
-                                CAUSE_NAME = key.CAUSE_NAME,
-                                RemedialViewModels = data.Select(r => new RemedialViewModel
+                                Id = key.CAUSE_ID,
+                                ItemCode = key.CAUSE_CODE,
+                                ItemName = key.CAUSE_NAME,
+                                Childs = data.Select(r => new
                                 {
-                                    REMEDY_CODE = r.REMEDY_CODE,
-                                    REMEDY_ID = r.REMEDY_ID,
-                                    REMEDY_NAME = r.REMEDY_NAME
+                                    ItemCode = r.REMEDY_CODE,
+                                    Id = r.REMEDY_ID,
+                                    ItemName = r.REMEDY_NAME
                                 })
                             }).ToList()
                         }).ToList();
+                    lst = new List<TreeViewModel>()
+                    {
+                        new TreeViewModel(){ ItemName = "Ket truc", ItemCode ="01.03.05", Amount = 5, Childs = new []
+                        {
+                            new {ItemName = "Thieu boi tron", ItemCode ="01.03.05.01", Amount = 5, Childs = new []
+                                    { new {ItemName = "Tra dầu", ItemCode ="01.03.05.02", Amount = 5,  }, new {ItemName = "Boi mo", ItemCode ="01.03.05.03", Amount = 5} }
+                                },
+                            new {ItemName = "Ket di vat", ItemCode ="01.03.05.02", Amount = 5, Childs = new []
+                                    { new {ItemName = "Loai bo di vat", ItemCode ="01.03.05.02", Amount = 5,  }, new {ItemName = "dieu chinh khe ngan", ItemCode ="01.03.05.03", Amount = 5} }
+                                }
+                        } ,
 
+                        }
+                    };
                     return lst;
                 }
 

@@ -34,7 +34,7 @@
                             @{
                                 var supplies = JsonSerializer.Serialize(@item.WorkOrderDetailViewModels.Select(x => x.MS_PT).ToList());
                             }
-                            <a class="btn btn-outline-primary m-1  btnAddSupplies" data-supplies=@supplies data-dept=@item.MS_BO_PHAN style="width:auto" href="#!" role="button">
+                            <a class="btn btn-outline-primary m-1  btnAddSupplies" data-supplies=@supplies data-dept=@item.MS_BO_PHAN data-mscv=@item.MS_CV style="width:auto" href="#!" role="button">
                                 <i class="fa fa-plus fs-7"></i>
                             </a>
                         </div>
@@ -45,8 +45,6 @@
 
 
             </div>
-
-
         </div>
         </div>
     }

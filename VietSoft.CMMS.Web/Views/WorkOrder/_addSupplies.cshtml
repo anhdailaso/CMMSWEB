@@ -4,6 +4,7 @@
     <h5>@ViewText.TXT_THEM_PHUTUNG</h5>
     <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
 </div>
+@Html.Hidden("MS_CV", @ViewBag.MS_CV, null)
 <div class="modal-body modal-confirm">
     <div class="row mb-2">
         <div class="col-12" style="height: 300px">
@@ -25,6 +26,6 @@
 </div>
 
 <div class="modal-footer justify-content-between gap-1 flex-nowrap">
-    <button type="button" class="btn btn-outline-danger w-50" id="btnReject">@ViewText.BTN_DONG</button>
-    <button type="button" class="btn btn-primary w-50" id="btnApprove">@ViewText.BTN_LUU</button>
+    <button type="button" class="btn btn-outline-danger w-50" onclick="ClosePopup(this)" id="btnCancel">@ViewText.BTN_DONG</button>
+    <button type="button" class="btn btn-primary w-50" id="btnAddSupplies">@ViewText.BTN_LUU</button>
 </div>
