@@ -119,8 +119,6 @@
     }
 
 
-    //---------------------Nhan start-----------------------
-
     function initEvent() {
 
         WorkList();
@@ -259,17 +257,20 @@
                         </tr>`
            
             $('#tblLogWork tbody').prepend(html)
-            setDateTimePicker('.fromDate', moment(new Date(), 'HH:mm DD/MM/YYYY').toDate())
-            setDateTimePicker('.toDate', moment(new Date(), 'HH:mm DD/MM/YYYY').toDate())
+            setDateTimePicker('.fromDate', moment(new Date(), _formatDateTime).toDate())
+            setDateTimePicker('.toDate', moment(new Date(), _formatDateTime).toDate())
         });
 
         $(document).on("dp.change", '.fromDate, .toDate', function () {
-            let rowdata = $(this).closest('tr');
-            let fromDate = moment(rowdata.find("td").eq(0).find('input').val(), 'HH:mm DD/MM/YYYY').toDate() ;
-            let toDate = moment(rowdata.find("td").eq(1).find('input').val(), 'HH:mm DD/MM/YYYY').toDate();
-            let diffTime = getDiffTimes(fromDate, toDate) 
-            let text = diffTime > 0 ? diffTime : 0 
-            rowdata.find("td p").text(text)
+            let valFromDate = $(this).closest('tr').find('input.fromDate').val();
+            let valToDate = $(this).closest('tr').find('input.toDate').val();
+            
+            let fromDate = moment(valFromDate, _formatDateTime).toDate();
+            let toDate = moment(valToDate, _formatDateTime).toDate();
+
+            let diffTime = getDiffTimes(fromDate, toDate)
+            let text = diffTime > 0 ? diffTime : 0
+            $(this).closest('tr').find("td p").text(Math.round(text))
         });
     }
 
@@ -475,8 +476,6 @@
             }
         });
     }
-
-    //---------------------Nhan end-----------------------
 
     return {
         init: init

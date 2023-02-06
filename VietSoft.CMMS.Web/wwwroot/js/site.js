@@ -1,4 +1,5 @@
-﻿$(function () {
+﻿var _formatDateTime = 'DD/MM/YYYY HH:mm'
+$(function () {
 
     $.ajaxSetup({
         cache: false
@@ -326,8 +327,8 @@ function setDateTimePicker(idInput, options, minDate, maxDate) {
     options = options || {};
     options.locale = 'vi';
     options.useCurrent = false;
-    options.minDate = moment(new Date(), 'DD/MM/YYYY');
-    format = 'HH:mm DD/MM/YYYY';
+    //options.minDate = moment(new Date(), 'DD/MM/YYYY HH:mm');
+    format = _formatDateTime;
     $(idInput).datetimepicker(options);
 }
 
