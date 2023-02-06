@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using VietSoft.CMMS.Web.Helpers;
 using VietSoft.CMMS.Web.Models;
+using VietSoft.CMMS.Web.Models.Maintenance;
 
 namespace VietSoft.CMMS.Web.IServices
 {
@@ -26,5 +27,7 @@ namespace VietSoft.CMMS.Web.IServices
 
         //Đạt sửa 26122022
         SelectList GetCbbNYC(string Username, int NNgu, int CoAll);
+
+        IEnumerable<MaintenanceCategoryViewModel> GetMaintenanceCategoy();
     }
 }

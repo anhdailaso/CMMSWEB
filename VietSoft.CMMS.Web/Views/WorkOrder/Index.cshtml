@@ -1,9 +1,11 @@
 ﻿@using VietSoft.CMMS.Web.Resources
 @using VietSoft.CMMS.Web.Helpers
+@using VietSoft.CMMS.Web.Models.Maintenance;
 @model VietSoft.CMMS.Web.Models.Maintenance.TicketMaintenanceViewModel
 @{
     ViewBag.Title = "PHIẾU BẢO TRÌ";
     ViewBag.BackUrl = @Url.Action("Index", "Home", new { });
+    var maintenanceCategories = (IEnumerable<MaintenanceCategoryViewModel>)@ViewBag.LoaiBaoTri;
 }
 <style>
     .btn-group .d-flex .justify-content-end a i {
@@ -31,7 +33,11 @@
         </div>
 
         <div class="form-floating break-line">
-            <select id="cboLoaiBaoTri" name="cboLoaiBaoTri" asp-for="@Model.MS_LOAI_BT" asp-items="@ViewBag.LoaiBaoTri" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+            <select id="cboLoaiBaoTri" name="cboLoaiBaoTri" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+                @foreach(var item in maintenanceCategories)
+                {
+                    <option value="@item.MS_LOAI_BT" selected="@(Model.MS_LOAI_BT == item.MS_LOAI_BT ? "selected" : "")" data-huhong=@item.HU_HONG>@item.TEN_LOAI_BT</option>
+                }
             </select>
             <label for="cboLoaiBaoTri">Loại bảo trì</label>
 
