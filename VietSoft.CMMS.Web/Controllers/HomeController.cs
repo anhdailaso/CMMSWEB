@@ -75,7 +75,7 @@ namespace VietSoft.HRM.Web.Controllers
             //nếu flag = 1 thì lấy
 
             var ticketMaintenance = _maintenanceService.GetTicketMaintenanceByDevice(SessionManager.CurrentUser.UserName, msmay);
-            ViewBag.LoaiBaoTri = _combobox.DanhSachLoaiBT();
+            ViewBag.LoaiBaoTri = _combobox.GetMaintenanceCategoy();
             ViewBag.UuTien = _combobox.LoadListUuTien(0);
             return View("~/Views/WorkOrder/Index.cshtml", ticketMaintenance);
         }

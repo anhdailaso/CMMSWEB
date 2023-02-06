@@ -11,13 +11,13 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.ApplicationBlocks.Data;
+using VietSoft.CMMS.Web.Models.Maintenance;
 
 namespace VietSoft.CMMS.Web.Services
 {
     public class ComboboxService :  IComboboxService
     {
         private readonly IDapperService _dapper;
-        private readonly ILogger<ComboboxService> _logger;
         public ComboboxService(IDapperService dapper)
         {
             _dapper = dapper;
@@ -46,6 +46,21 @@ namespace VietSoft.CMMS.Web.Services
                       Value = x.Field<int>("Value").ToString()
                   });
             return new SelectList(listItem, "Value", "Text", null);
+        }
+
+        public IEnumerable<MaintenanceCategoryViewModel> GetMaintenanceCategoy()
+        {
+            try
+            {
+                string sql = "SELECT MS_LOAI_BT, TEN_LOAI_BT, HU_HONG FROM LOAI_BAO_TRI ORDER BY TEN_LOAI_BT";
+                var res = _dapper.GetAll<MaintenanceCategoryViewModel>(sql, null, System.Data.CommandType.Text);
+               
+                return res ?? new List<MaintenanceCategoryViewModel>();
+            }
+            catch (Exception ex)
+            {
+                return new List<MaintenanceCategoryViewModel>();
+            }
         }
 
         public SelectList GetCbbDiaDiem(string Username, int NNgu, int CoAll)

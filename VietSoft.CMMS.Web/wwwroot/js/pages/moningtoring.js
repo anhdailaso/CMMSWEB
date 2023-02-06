@@ -124,11 +124,30 @@
     function initEvent() {
 
         WorkList();
+        if ($("#cboLoaiBaoTri :selected").data('huhong') == 1) {
+            $('#btnViewCauseOfDamage').show();
+        }
+        else {
+            $('#btnViewCauseOfDamage').hide();
+        }
+        $(document).on("change", '#cboLoaiBaoTri', function () {
+            let IsDamaged = $(this).find(":selected").data('huhong')
+            console.log(IsDamaged)
+            if (IsDamaged == 1) {
+                $('#btnViewCauseOfDamage').show();
+            }
+            else {
+                $('#btnViewCauseOfDamage').hide();
+            }
+        })
+
         $(document).on("keyup", '#search', function () {
+            showLoadingOverlay("#modalResultContent");
             clearTimeout(delayTimer)
             delayTimer = setTimeout(function () {
                 GetCauseOfDamageList()
             }, 1000)
+            hideLoadingOverlay("#modalResultContent");
         })
 
         $('#btnViewCauseOfDamage').on('click', function () {
@@ -268,7 +287,7 @@
             let fromDate = moment(rowdata.find("td").eq(0).find('input').val(), 'HH:mm DD/MM/YYYY').toDate() ;
             let toDate = moment(rowdata.find("td").eq(1).find('input').val(), 'HH:mm DD/MM/YYYY').toDate();
             let diffTime = getDiffTimes(fromDate, toDate) 
-            let text = diffTime > 0 ? diffTime : 0 
+            let text = diffTime > 0 ? diffTime : 0
             rowdata.find("td p").text(text)
         });
     }
@@ -310,15 +329,11 @@
                         $('#inputCauseOfDamageContent').append(html)
                     }
                 }
-            },
-            complete: function () {
-                hideLoadingOverlay("#inputCauseOfDamageContent");
             }
         });
     }
 
     function GetCauseOfDamageList() {
-        showLoadingOverlay("#resultContent");
         $.ajax({
             type: "GET",
             url: config.GET_CAUSE_OF_DAMAGE_LIST,
@@ -339,9 +354,6 @@
                         $('#resultContent').append(html)
                     }
                 }
-            },
-            complete: function () {
-                hideLoadingOverlay("#resultContent");
             }
         });
     }
@@ -404,10 +416,8 @@
             success: function (response) {
                 $('#modalLarge .modal-content').html(response);
                 $('#modalLarge').modal('show');
+              
                 GetCauseOfDamageList()
-            },
-            complete: function () {
-                hideLoadingOverlay("#resultContent");
             }
         });
     }
@@ -419,9 +429,6 @@
             success: function (response) {
                 $('#modalLarge .modal-content').html(response);
                 $('#modalLarge').modal('show');
-            },
-            complete: function () {
-                hideLoadingOverlay("#resultContent");
             }
         });
     }
