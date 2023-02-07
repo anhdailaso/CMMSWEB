@@ -8,18 +8,25 @@
 <div class="modal-body modal-confirm">
     <div class="row mb-2">
         <div class="col-12" style="height: 300px">
-            <table class="table">
+            @if(Model.Count() > 0)
+            {
+                 <table class="table">
                 <tbody>
                     @foreach (var item in Model)
                     {
                         <tr class="tr-supplies">
                             <td class="w-30" style="line-height:2.3rem">@item.MS_PT</td>
-                            <td class="w-50 " style="line-height:2.3rem">@item.TEN_PT</td>
+                            <td class="w-50 " style="line-height:2.3rem">@item.MS_VI_TRI_PT</td>
                             <td class="w-20"> @item.SL_KH</td>
                         </tr>
                     }
                 </tbody>
-            </table>
+                </table>
+            }
+            else
+            {
+                <span>@ViewText.TXT_KHONGCO_DULIEU</span>
+            }
         </div>
     </div>
 
@@ -27,5 +34,5 @@
 
 <div class="modal-footer justify-content-between gap-1 flex-nowrap">
     <button type="button" class="btn btn-outline-danger w-50" onclick="ClosePopup(this)" id="btnCancel">@ViewText.BTN_DONG</button>
-    <button type="button" class="btn btn-primary w-50" id="btnAddSupplies">@ViewText.BTN_LUU</button>
+    <button type="button" class="btn btn-primary w-50 @(Model.Count() > 0 ? "" : "disabled") " id="btnAddSupplies">@ViewText.BTN_LUU</button>
 </div>

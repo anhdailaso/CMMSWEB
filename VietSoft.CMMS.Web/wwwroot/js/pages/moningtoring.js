@@ -194,49 +194,155 @@
             $(rowId).find('table tbody').append(html)
         })
 
+
         $(document).on("click", '#btnAddWorkList', function () {
+            let workList = [];
             $('input:checkbox.input-add-work:checked').each(function () {
                 let mscv = $(this).data('ms-cviec')
                 let msbophan = $(this).data('ms-bophan')
                 let motacv = $(this).closest('tr').find("td").eq(1).text()
-                let html = `<div class="accordion border-0 break-line" id="accordionFlushExample-`+ mscv +`">
-                <div class="accordion-item border-0 break-line">
-                    <h2 class="accordion-header" id="flush-heading-`+ mscv +`">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-`+ mscv + `" aria-expanded="false" aria-controls="flush-collapse-` + mscv +`" title="Bạc đạn">
-                            + `+ msbophan + `&nbsp`+ motacv + `
-                        </button>
-                    </h2>
-                    <div id="flush-collapse-`+ mscv +`" class="accordion-collapse collapse" aria-labelledby="flush-heading-`+ mscv +`" data-bs-parent="#accordionFlushExample-`+ mscv +`">
-                        <div class="table-responsive">
-                            <table class="table table-responsive table-borderless">
-                                <tbody>
+                let tenbophan = $(this).closest('tr').find("td").eq(3).text()
+
+                //TODO SAVE WORK LIST
+                //let html = `<div class="accordion border-0 break-line" id="accordionFlushExample-`+ mscv +`">
+                //<div class="accordion-item border-0 break-line">
+                //    <h2 class="accordion-header" id="flush-heading-`+ mscv +`">
+                //        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-`+ mscv + `" aria-expanded="false" aria-controls="flush-collapse-` + mscv +`" title="Bạc đạn">
+                //            + `+ msbophan + `&nbsp`+ motacv + `
+                //        </button>
+                //    </h2>
+                //    <div id="flush-collapse-`+ mscv +`" class="accordion-collapse collapse" aria-labelledby="flush-heading-`+ mscv +`" data-bs-parent="#accordionFlushExample-`+ mscv +`">
+                //        <div class="table-responsive">
+                //            <table class="table table-responsive table-borderless">
+                //                <tbody>
                            
-                                </tbody>
-                            </table>
+                //                </tbody>
+                //            </table>
 
-                            <div class="d-flex flex-row-reverse">
-                                <div>
-                                    <a class="btn btn-outline-warning m-1 btnSaveSupplies" style="width:auto" href="#!" role="button">
-                                        <i class="fa fa-floppy-o fs-7"></i>
-                                    </a>
-                                </div>
-                                <div>
-                                    <a class="btn btn-outline-primary m-1  btnAddSupplies" data-dept=`+ msbophan + ` data-mscv=` + mscv +` style="width:auto" href="#!" role="button">
-                                        <i class="fa fa-plus fs-7"></i>
-                                    </a>
-                                </div>
-                            </div>
-
-
-                        </div>
+                //            <div class="d-flex flex-row-reverse">
+                //                <div>
+                //                    <a class="btn btn-outline-warning m-1 btnSaveSupplies" style="width:auto" href="#!" role="button">
+                //                        <i class="fa fa-floppy-o fs-7"></i>
+                //                    </a>
+                //                </div>
+                //                <div>
+                //                    <a class="btn btn-outline-primary m-1  btnAddSupplies" data-dept=`+ msbophan + ` data-mscv=` + mscv +` style="width:auto" href="#!" role="button">
+                //                        <i class="fa fa-plus fs-7"></i>
+                //                    </a>
+                //                </div>
+                //            </div>
 
 
-                    </div>
-                </div>
-                </div>`
-                $('#workListContent').append(html);
-                $('#modalLarge').modal('hide');
+                //        </div>
+
+
+                //    </div>
+                //</div>
+                //</div>`
+                //$('#workListContent').append(html);
+
+                let object = {
+                    MS_BO_PHAN: msbophan,
+                    TEN_BO_PHAN: tenbophan,
+                    MS_CV: mscv,
+                    MO_TA_CV: motacv
+                }
+
+                workList.push(object)
+
             });
+
+            SaveMaintenanceWork(workList)
+        });
+
+        $(document).on('click', '.btnSaveSupplies', function () {
+            let suppliesList = [];
+            
+            $(this).parents('.table-responsive').find('table.tbl-supplies tr').each(function () {
+                let mspt = $(this).find('td').eq(0).text()
+                let msvt = $(this).find('td').eq(1).text()
+                let sl = $(this).find('td').eq(2).find('input').val()
+                let msbp = $(this).find('td').eq(3).text()
+                let obj = {
+                    MS_PT: mspt,
+                    MS_VI_TRI_PT: msvt,
+                    SL_KH: sl,
+                    MS_BO_PHAN: msbp
+                }
+                suppliesList.push(obj);
+            })
+            let model = {
+                MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),
+                DEVICE_ID: $('#MS_MAY').val(),
+                MS_CV: $('#MS_CV').val(),
+                MS_BO_PHAN: suppliesList ? suppliesList[0].MS_BO_PHAN : '',
+                SuppliesList: suppliesList
+            }
+
+            $.ajax({
+                type: "POST",
+                url: config.SAVE_SUPPLIES,
+                data: {
+                    model: model
+                },
+                success: function (response) {
+                    if (response.responseCode == 1) {
+                        showSuccess(response.responseMessage)
+                        $('#modalLarge').modal('hide');
+                        WorkList();
+                    }
+                    else {
+                        showWarning(response.responseMessage)
+                    }
+                },
+                complete: function () {
+                }
+            });
+        });
+
+        $(document).on('click', '#btnSaveLogWork', function () {
+            let logworkList = []
+            $(this).closest('.modal').find('.modal-body table#tblLogWork tr').each(function () {
+                console.log(1)
+                let valFromDate = $(this).find('input.fromDate').val();
+                let valToDate = $(this).find('input.toDate').val();
+                let times = $(this).find('td').eq(2).find('p').text()
+                let mscn = $(this).find('td').eq(3).text()
+                let obj = {
+                    MS_CONG_NHAN: mscn,
+                    TU_GIO: valFromDate,
+                    NGAY: valFromDate,
+                    DEN_GIO: valToDate,
+                    DEN_NGAY: valToDate,
+                    SO_GIO: times
+                }
+                logworkList.push(obj);
+            })
+            let model = {
+                MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),
+                LogWorkList: logworkList
+            }
+
+            //TODO SAVE LOGWORK
+            //$.ajax({
+            //    type: "POST",
+            //    url: config.SAVE_SUPPLIES,
+            //    data: {
+            //        model: model
+            //    },
+            //    success: function (response) {
+            //        if (response.responseCode == 1) {
+            //            showSuccess(response.responseMessage)
+            //            $('#modalLarge').modal('hide');
+            //            WorkList();
+            //        }
+            //        else {
+            //            showWarning(response.responseMessage)
+            //        }
+            //    },
+            //    complete: function () {
+            //    }
+            //});
         });
 
         $(document).on("click", '.tr-supplies', function () {
@@ -293,6 +399,33 @@
         });
     }
 
+    function SaveMaintenanceWork(workList) {
+        let model = {
+            MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),
+            DEVICE_ID: $('#MS_MAY').val(),
+            WorkList: workList
+        }
+
+        $.ajax({
+            type: "POST",
+            url: config.SAVE_MAINTENANCE_WORK,
+            data: {
+                model: model
+            },
+            success: function (response) {
+                if (response.responseCode == 1) {
+                    showSuccess(response.responseMessage)
+                    $('#modalLarge').modal('hide');
+                    WorkList();
+                }
+                else {
+                    showWarning(response.responseMessage)
+                }
+            },
+            complete: function () {
+            }
+        });
+    }
     function GetInputCauseOfDamage() {
         showLoadingOverlay("#inputCauseOfDamageContent");
         $.ajax({

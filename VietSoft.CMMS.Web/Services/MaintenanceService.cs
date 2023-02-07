@@ -72,21 +72,6 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@UserName", userName);
 
                 var res = _dapper.GetAll<WorkOrderDetailViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
-                res = new List<WorkOrderDetailViewModel>()
-                {
-                    new WorkOrderDetailViewModel{ MS_BO_PHAN = "04.02.01", MO_TA_CV = "Thay nhơt", MS_CV = 1, MS_PT = "BEA-02-005", MS_VI_TRI_PT = "All", SL_TT = 2 },
-                    new WorkOrderDetailViewModel{ MS_BO_PHAN = "04.02.01", MO_TA_CV = "Thay nhơt", MS_CV = 1, MS_PT = "BEA-02-006", MS_VI_TRI_PT = "All", SL_TT = 2 },
-                    new WorkOrderDetailViewModel{ MS_BO_PHAN = "04.02.01", MO_TA_CV = "Thay nhơt", MS_CV = 1, MS_PT = "BEA-02-007", MS_VI_TRI_PT = "All", SL_TT = 2 },
-
-                    new WorkOrderDetailViewModel{ MS_BO_PHAN = "04.02.01", MO_TA_CV = "Bôi trơn vòng bi", MS_CV = 2, MS_PT = "BEA-02-005", MS_VI_TRI_PT = "All", SL_TT = 2 },
-                    new WorkOrderDetailViewModel{ MS_BO_PHAN = "04.02.01", MO_TA_CV = "Bôi trơn vòng bi", MS_CV = 2, MS_PT = "BEA-02-005", MS_VI_TRI_PT = "All", SL_TT = 2 },
-                    new WorkOrderDetailViewModel{ MS_BO_PHAN = "04.02.01", MO_TA_CV = "Bôi trơn vòng bi", MS_CV = 2, MS_PT = "BEA-02-005", MS_VI_TRI_PT = "All", SL_TT = 2 },
-
-                    new WorkOrderDetailViewModel{ MS_BO_PHAN = "04.02.01", MO_TA_CV = "Thay bạt đạn", MS_CV = 3, MS_PT = "BEA-02-005", MS_VI_TRI_PT = "All", SL_TT = 2 },
-                    new WorkOrderDetailViewModel{ MS_BO_PHAN = "04.02.01", MO_TA_CV = "Thay bạt đạn", MS_CV = 3, MS_PT = "BEA-02-005", MS_VI_TRI_PT = "All", SL_TT = 2 },
-                    new WorkOrderDetailViewModel{ MS_BO_PHAN = "04.02.01", MO_TA_CV = "Thay bạt đạn", MS_CV = 3, MS_PT = "BEA-02-005", MS_VI_TRI_PT = "All", SL_TT = 2 }
-
-                };
                 if (res != null)
                 {
                     var lst = res.GroupBy(
@@ -164,11 +149,6 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@sCot1", ticketId);
 
                 var res = _dapper.GetAll<LogWorkViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
-                res = new List<LogWorkViewModel>()
-                {
-                    new LogWorkViewModel(){ NGAY = DateTime.Now, DEN_NGAY =DateTime.Now, SO_GIO = 4},
-                    new LogWorkViewModel(){ NGAY = DateTime.Now, DEN_NGAY =DateTime.Now, SO_GIO = 4}
-                };
                 return res;
             }
             catch (Exception ex)
@@ -208,20 +188,6 @@ namespace VietSoft.CMMS.Web.Services
                                 })
                             }).ToList()
                         }).ToList();
-                    lst = new List<TreeViewModel>()
-                    {
-                        new TreeViewModel(){ ItemName = "Ket truc", ItemCode ="01.03.05", Amount = 5, Childs = new []
-                        { 
-                            new {ItemName = "Thieu boi tron", ItemCode ="01.03.05.01", Amount = 5, Childs = new []
-                                    { new {ItemName = "Tra dầu", ItemCode ="01.03.05.02", Amount = 5,  }, new {ItemName = "Boi mo", ItemCode ="01.03.05.03", Amount = 5} }
-                                },
-                            new {ItemName = "Ket di vat", ItemCode ="01.03.05.02", Amount = 5, Childs = new []
-                                    { new {ItemName = "Loai bo di vat", ItemCode ="01.03.05.02", Amount = 5,  }, new {ItemName = "dieu chinh khe ngan", ItemCode ="01.03.05.03", Amount = 5} }
-                                }
-                        } ,
-
-                        }
-                    };
                     return lst;
                 }
 
@@ -265,20 +231,6 @@ namespace VietSoft.CMMS.Web.Services
                                 })
                             }).ToList()
                         }).ToList();
-                    lst = new List<TreeViewModel>()
-                    {
-                        new TreeViewModel(){ ItemName = "Ket truc", ItemCode ="01.03.05", Amount = 5, Childs = new []
-                        {
-                            new {ItemName = "Thieu boi tron", ItemCode ="01.03.05.01", Amount = 5, Childs = new []
-                                    { new {ItemName = "Tra dầu", ItemCode ="01.03.05.02", Amount = 5,  }, new {ItemName = "Boi mo", ItemCode ="01.03.05.03", Amount = 5} }
-                                },
-                            new {ItemName = "Ket di vat", ItemCode ="01.03.05.02", Amount = 5, Childs = new []
-                                    { new {ItemName = "Loai bo di vat", ItemCode ="01.03.05.02", Amount = 5,  }, new {ItemName = "dieu chinh khe ngan", ItemCode ="01.03.05.03", Amount = 5} }
-                                }
-                        } ,
-
-                        }
-                    };
                     return lst;
                 }
 
@@ -287,6 +239,87 @@ namespace VietSoft.CMMS.Web.Services
             catch (Exception ex)
             {
                 return null;
+            }
+        }
+
+        public ResponseViewModel SaveSupplies(string deviceId, string ticketId, string userName, int workId, string dept, string json)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", CategoryType.SAVE_LIST_SPAREPART.ToString());
+                p.Add("@sCot1", ticketId);
+                p.Add("@deviceID", deviceId);
+                p.Add("@UserName", userName);
+                p.Add("@iCot1", workId);
+                p.Add("@sCot2", dept);
+                p.Add("@json", json);
+
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return new ResponseViewModel()
+                {
+                    MA = -1
+                };
+            }
+        }
+
+        public ResponseViewModel SaveMaintenanceWork(string deviceId, string ticketId, string userName, string json)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", CategoryType.SAVE_LIST_JOB.ToString());
+                p.Add("@sCot1", ticketId);
+                p.Add("@deviceID", deviceId);
+                p.Add("@UserName", userName);
+                p.Add("@json", json);
+
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                if(res != null)
+                {
+                    return res;
+                }
+                else
+                {
+                    return new ResponseViewModel
+                    {
+                        MA = 0
+                    };
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                return new ResponseViewModel()
+                {
+                    MA = -1
+                };
+            }
+        }
+
+        public ResponseViewModel SaveLogWork(string ticketId, string userName, string json)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", CategoryType.SAVE_LIST_WORKING_TIME.ToString());
+                p.Add("@sCot1", ticketId);
+                p.Add("@UserName", userName);
+                p.Add("@json", json);
+
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return new ResponseViewModel()
+                {
+                    MA = -1
+                };
             }
         }
     }

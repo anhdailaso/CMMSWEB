@@ -11,7 +11,7 @@
             </h2>
             <div id="flush-collapse-@item.MS_CV" class="accordion-collapse collapse" aria-labelledby="flush-heading-@item.MS_CV" data-bs-parent="#accordionFlushExample-@item.MS_CV">
                 <div class="table-responsive">
-                    <table class="table table-responsive table-borderless">
+                    <table class="table table-responsive table-borderless tbl-supplies">
                         <tbody>
                             @foreach (var wd in item.WorkOrderDetailViewModels)
                             {
@@ -19,6 +19,7 @@
                                     <td class="w-50" style="line-height:2.3rem">@wd.MS_PT</td>
                                     <td class="w-25" style="line-height:2.3rem">@wd.MS_VI_TRI_PT</td>
                                     <td class="w-25"> <input class="form-control" style="font-size:0.8rem;" type="text" value="@wd.SL_TT" placeholder="số lượng" /></td>
+                                    <td class="d-none">@item.MS_BO_PHAN</td>
                                 </tr>
                             }
                         </tbody>
@@ -26,7 +27,7 @@
 
                     <div class="d-flex flex-row-reverse">
                         <div>
-                            <a class="btn btn-outline-warning m-1 btnSaveSupplies" style="width:auto" href="#!" role="button">
+                            <a class="btn btn-outline-warning m-1 btnSaveSupplies" style="width:auto">
                                 <i class="fa fa-floppy-o fs-7"></i>
                             </a>
                         </div>

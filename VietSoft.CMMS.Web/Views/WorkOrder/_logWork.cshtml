@@ -30,6 +30,7 @@
                             <td style="width:10%">
                               <p class="text-orange mt-3"> @item.SO_GIO</p>
                             </td>
+                            <td class="d-none">@item.MS_CONG_NHAN</td>
                         </tr>
 
                     }
@@ -45,7 +46,7 @@
 
 <div class="modal-footer justify-content-between gap-1 flex-nowrap">
     <button type="button" class="btn btn-outline-danger w-50" onclick="ClosePopup(this)" id="btnCancel">@ViewText.BTN_DONG</button>
-    <button type="button" class="btn btn-primary w-50" id="btnApprove">@ViewText.BTN_LUU</button>
+    <button type="button" class="btn btn-primary w-50" id="btnSaveLogWork">@ViewText.BTN_LUU</button>
 </div>
 
 <script>

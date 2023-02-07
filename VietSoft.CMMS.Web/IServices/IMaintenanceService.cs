@@ -14,5 +14,9 @@ namespace VietSoft.CMMS.Web.IServices
         IEnumerable<TreeViewModel> GetViewCauseOfDamageList(string deviceId);
         IEnumerable<TreeViewModel> GetInputCauseOfDamageList(string ticketId, string deviceId);
 
+        ResponseViewModel SaveSupplies(string deviceId, string ticketId, string userName, int workId, string dept, string json);
+        ResponseViewModel SaveMaintenanceWork(string deviceId, string ticketId, string userName, string json);
+        ResponseViewModel SaveLogWork(string ticketId, string userName, string json);
+
     }
 }
