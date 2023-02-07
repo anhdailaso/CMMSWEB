@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FORMAT_DATE" xml:space="preserve">
+    <value>dd/MM/yyyy</value>
+  </data>
+  <data name="FORMAT_DATETIME" xml:space="preserve">
+    <value>dd/MM/yyyy HH:mm</value>
+  </data>
   <data name="MAIL_FROM" xml:space="preserve">
     <value>Thông báo từ Duy Minh HRM</value>
   </data>

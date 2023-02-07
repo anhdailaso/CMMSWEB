@@ -288,8 +288,8 @@
             let toDate = moment(valToDate, _formatDateTime).toDate();
 
             let diffTime = getDiffTimes(fromDate, toDate)
-            let text = diffTime > 0 ? diffTime : 0
-            $(this).closest('tr').find("td p").text(Math.round(text))
+            let hours = diffTime > 0 ? diffTime : 0
+            $(this).closest('tr').find("td p").text(Math.round(hours * 100) / 100)
         });
     }
 
