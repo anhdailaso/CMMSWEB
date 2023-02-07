@@ -61,6 +61,24 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to dd/MM/yyyy.
+        /// </summary>
+        public static string FORMAT_DATE {
+            get {
+                return ResourceManager.GetString("FORMAT_DATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to dd/MM/yyyy HH:mm.
+        /// </summary>
+        public static string FORMAT_DATETIME {
+            get {
+                return ResourceManager.GetString("FORMAT_DATETIME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thông báo từ Duy Minh HRM.
         /// </summary>
         public static string MAIL_FROM {
