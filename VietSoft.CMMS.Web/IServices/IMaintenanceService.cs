@@ -6,11 +6,11 @@ namespace VietSoft.CMMS.Web.IServices
     public interface IMaintenanceService
     {
         List<AcceptMaintenanceViewModel> GetListAcceptMaintenance(string username, int languages, DateTime? tngay, DateTime? dngay);
-        TicketMaintenanceViewModel GetTicketMaintenanceByDevice(string userName, string deviceId);
+        TicketMaintenanceViewModel GetTicketMaintenanceByDevice(string userName, string deviceId, bool isNewTicket);
         IEnumerable<WorkOrdersViewModel> GetWorkOrderList(string userName, string deviceId, string ticketId);
-        IEnumerable<WorkOrderDetailViewModel> GetJobList(string userName, string deviceId);
-        IEnumerable<SuppliesViewModel> GetSuppliesList(string userName, string deviceId, string deptId);
-        IEnumerable<LogWorkViewModel> GetLogWorkList(string ticketId);
+        IEnumerable<WorkOrderDetailViewModel> GetJobList(string userName, string deviceId, string ticketId);
+        IEnumerable<SuppliesViewModel> GetSuppliesList(string userName, string deviceId, string deptId, string ticketId);
+        IEnumerable<LogWorkViewModel> GetLogWorkList(string ticketId, string userName);
         IEnumerable<TreeViewModel> GetViewCauseOfDamageList(string deviceId);
         IEnumerable<TreeViewModel> GetInputCauseOfDamageList(string ticketId, string deviceId);
 

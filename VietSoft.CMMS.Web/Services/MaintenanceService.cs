@@ -41,7 +41,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public TicketMaintenanceViewModel GetTicketMaintenanceByDevice(string userName, string deviceId)
+        public TicketMaintenanceViewModel GetTicketMaintenanceByDevice(string userName, string deviceId, bool isNewTicket)
         {
             try
             {
@@ -49,6 +49,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@sDanhMuc", CategoryType.GET_WORDORDER.ToString());
                 p.Add("@deviceID", deviceId);
                 p.Add("@UserName", userName);
+                p.Add("@bCot1", !isNewTicket);
 
                 var res =  _dapper.Execute<TicketMaintenanceViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
 
@@ -103,12 +104,13 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public IEnumerable<WorkOrderDetailViewModel> GetJobList(string userName, string deviceId)
+        public IEnumerable<WorkOrderDetailViewModel> GetJobList(string userName, string deviceId, string ticketId)
         {
             try
             {
                 var p = new DynamicParameters();
                 p.Add("@sDanhMuc", CategoryType.GET_LIST_JOB.ToString());
+                p.Add("@sCot1", ticketId);
                 p.Add("@deviceID", deviceId);
                 p.Add("@UserName", userName);
 
@@ -121,14 +123,15 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public IEnumerable<SuppliesViewModel> GetSuppliesList(string userName, string deviceId, string deptId)
+        public IEnumerable<SuppliesViewModel> GetSuppliesList(string userName, string deviceId, string deptId, string ticketId)
         {
             try
             {
                 var p = new DynamicParameters();
                 p.Add("@sDanhMuc", CategoryType.GET_LIST_SPAREPART.ToString());
                 p.Add("@deviceID", deviceId);
-                p.Add("@sCot1", deptId);
+                p.Add("@sCot1", ticketId);
+                p.Add("@sCot2", deptId);
                 p.Add("@UserName", userName);
 
                 var res = _dapper.GetAll<SuppliesViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
@@ -140,13 +143,14 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public IEnumerable<LogWorkViewModel> GetLogWorkList(string ticketId)
+        public IEnumerable<LogWorkViewModel> GetLogWorkList(string ticketId, string userName)
         {
             try
             {
                 var p = new DynamicParameters();
                 p.Add("@sDanhMuc", CategoryType.GET_LIST_WORKING_TIME.ToString());
                 p.Add("@sCot1", ticketId);
+                p.Add("@UserName", userName);
 
                 var res = _dapper.GetAll<LogWorkViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 return res;

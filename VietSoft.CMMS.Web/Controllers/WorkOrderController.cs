@@ -45,7 +45,7 @@ namespace VietSoft.CMMS.Web.Controllers
 
         public IActionResult LogWork(string ticketId)
         {
-            var res = _maintenanceService.GetLogWorkList(ticketId);
+            var res = _maintenanceService.GetLogWorkList(ticketId, userName);
             return PartialView("_logWork", res);
         }
 
@@ -55,19 +55,19 @@ namespace VietSoft.CMMS.Web.Controllers
             return PartialView("_workList", res);
         }
 
-        public IActionResult AddSupplies(string suppliesSelectedJson, string deviceId, string dept, int workId)
+        public IActionResult AddSupplies(string suppliesSelectedJson, string deviceId, string dept, int workId, string ticketId)
         {
             @ViewBag.MS_CV = workId;
             @ViewBag.MS_BO_PHAN = dept;
             var suppliesSelected = suppliesSelectedJson == null ? new List<string>() : JsonSerializer.Deserialize<List<string>>(suppliesSelectedJson);
-            var res = _maintenanceService.GetSuppliesList(userName, deviceId, dept);
+            var res = _maintenanceService.GetSuppliesList(userName, deviceId, dept, ticketId);
             var lst = suppliesSelected == null ? res : res.Where(x => !suppliesSelected.Contains(x.MS_PT)).ToList();
             return PartialView("_addSupplies", lst);
         }
 
-        public IActionResult AddMaintenanceWork(string deviceId)
+        public IActionResult AddMaintenanceWork(string deviceId, string ticketId)
         {
-            var res = _maintenanceService.GetJobList(userName, deviceId);
+            var res = _maintenanceService.GetJobList(userName, deviceId, ticketId);
             return PartialView("_addMaintenanceWork", res);
         }
 

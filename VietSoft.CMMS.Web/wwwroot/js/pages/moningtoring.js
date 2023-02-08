@@ -594,7 +594,8 @@
                 suppliesSelectedJson: json,
                 deviceId: $('#MS_MAY').val(),
                 dept: dept,
-                workId: mscv
+                workId: mscv,
+                ticketId: $('#MS_PHIEU_BAO_TRI').val()
             },
             success: function (response) {
                 $('#modalLarge .modal-content').html(response);
@@ -608,7 +609,8 @@
             type: "GET",
             url: config.ADD_MAINTENANCE_WORK,
             data: {
-                deviceId: $('#MS_MAY').val()
+                deviceId: $('#MS_MAY').val(),
+                ticketId: $('#MS_PHIEU_BAO_TRI').val()
             },
             success: function (response) {
                 $('#modalLarge .modal-content').html(response);
