@@ -315,8 +315,7 @@
         $(document).on('click', '#btnSaveLogWork', function () {
             let logworkList = []
             $(this).closest('.modal').find('.modal-body table#tblLogWork tr').each(function () {
-                console.log(1)
-                let valFromDate = $(this).find('input.fromDate').val();
+                let valFromDate = $(this).find('input.fromDate').val() ;
                 let valToDate = $(this).find('input.toDate').val();
                 let times = $(this).find('td').eq(2).find('p').text()
                 let mscn = $(this).find('td').eq(3).text()
@@ -561,6 +560,9 @@
         $.ajax({
             type: "GET",
             url: config.LOG_WORK,
+            data: {
+                ticketId: $('#MS_PHIEU_BAO_TRI').val()
+            },
             success: function (response) {
                 $('#modalLarge .modal-content').html(response);
                 $('#modalLarge').modal('show');
