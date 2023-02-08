@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using System.Text.Json;
 using VietSoft.CMMS.Web.Helpers;
 using VietSoft.CMMS.Web.IServices;
@@ -106,6 +107,13 @@ namespace VietSoft.CMMS.Web.Controllers
         [HttpPost]
         public IActionResult SaveLogWork(SaveLogWorkModel model)
         {
+
+            model.LogWorkList = model.LogWorkList.Select(x =>
+            {
+                x.NGAY = DateTime.ParseExact(x.S_NGAY, Setting.FORMAT_DATETIME, null);
+                x.DEN_NGAY = DateTime.ParseExact(x.S_DEN_NGAY, Setting.FORMAT_DATETIME, null);
+                return x;
+            });
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(model.LogWorkList);
             var res = _maintenanceService.SaveLogWork(model.MS_PHIEU_BAO_TRI, userName, json);
 

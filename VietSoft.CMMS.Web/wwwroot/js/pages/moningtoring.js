@@ -315,14 +315,15 @@
         $(document).on('click', '#btnSaveLogWork', function () {
             let logworkList = []
             $(this).closest('.modal').find('.modal-body table#tblLogWork tr').each(function () {
-                let valFromDate = $(this).find('input.fromDate').val() ;
+                let valFromDate = $(this).find('input.fromDate').val();
                 let valToDate = $(this).find('input.toDate').val();
+              
                 let times = $(this).find('td').eq(2).find('p').text()
                 let mscn = $(this).find('td').eq(3).text()
                 let obj = {
                     MS_CONG_NHAN: mscn,
-                    NGAY: valFromDate,
-                    DEN_NGAY: valToDate,
+                    S_NGAY: valFromDate,
+                    S_DEN_NGAY: valToDate,
                     SO_GIO: times
                 }
                 logworkList.push(obj);
@@ -390,7 +391,7 @@
         $(document).on("dp.change", '.fromDate, .toDate', function () {
             let valFromDate = $(this).closest('tr').find('input.fromDate').val();
             let valToDate = $(this).closest('tr').find('input.toDate').val();
-            
+           
             let fromDate = moment(valFromDate, _formatDateTime).toDate();
             let toDate = moment(valToDate, _formatDateTime).toDate();
 
