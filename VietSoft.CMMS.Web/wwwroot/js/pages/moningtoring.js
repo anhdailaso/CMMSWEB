@@ -365,16 +365,16 @@
             let html = `<tr >
                             <td style="width:45%">
                                 <div class="form-floating input-group date">
-                                    <input style="border-radius: 0 !important" type="text" class="form-control-bottom form-control fromDate" data-date-format="HH:mm DD/MM/YYYY" autocomplete="off"/>
+                                    <input style="border-radius: 0 !important" type="text" class="form-control-bottom form-control fromDate" autocomplete="off"/>
                                 </div>
                             </td>
                             <td style="width:45%">
                                  <div class="form-floating input-group date" >
-                                    <input type="text" style="border-radius: 0 !important" class="form-control form-control-bottom toDate" data-date-format="HH:mm DD/MM/YYYY" autocomplete="off"/>
+                                    <input type="text" style="border-radius: 0 !important" class="form-control form-control-bottom toDate" autocomplete="off"/>
                                 </div>
                             </td>
                             <td style="width:5%">
-                              <p class="text-orange mt-3"> 0</p>
+                              <p class="text-orange mt-3 hours"> 0</p>
                             </td>
                              <td style="width:5%"> 
                                <p class="mt-3"><a class="remove-row" ><i class="bi bi-trash icon-danger"></i></a></p>
@@ -395,7 +395,7 @@
 
             let diffTime = getDiffTimes(fromDate, toDate)
             let hours = diffTime > 0 ? diffTime : 0
-            $(this).closest('tr').find("td p").text(Math.round(hours * 100) / 100)
+            $(this).closest('tr').find("p.hours").text(Math.round(hours * 100) / 100)
         });
     }
 

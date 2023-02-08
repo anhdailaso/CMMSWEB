@@ -19,12 +19,12 @@
                         <tr>
                             <td style="width:45%">
                                 <div class="form-floating input-group date ">
-                                    <input style="border-radius: 0 !important" type="text" class="form-control-bottom form-control fromDate" autocomplete="off" value="@item.NGAY.ToString("dd/MM/yyyy HH:mm")"/>
+                                    <input style="border-radius: 0 !important" type="text" class="form-control-bottom form-control fromDate" autocomplete="off" value="@item.NGAY.ToString(Setting.FORMAT_DATETIME)"/>
                                 </div>
                             </td>
                             <td style="width:45%">
                                  <div class="form-floating input-group date px-2" >
-                                    <input type="text" style="border-radius: 0 !important" class="form-control form-control-bottom toDate" autocomplete="off" value="@item.DEN_NGAY.ToString("dd/MM/yyyy HH:mm")"/>
+                                        <input type="text" style="border-radius: 0 !important" class="form-control form-control-bottom toDate" autocomplete="off" value="@item.DEN_NGAY.ToString(Setting.FORMAT_DATETIME)" />
                                 </div>
                             </td>
                             <td style="width:10%">
@@ -37,8 +37,6 @@
                 </tbody>
             </table>
             </div>
-          
-
         </div>
     </div>
 
@@ -50,6 +48,6 @@
 </div>
 
 <script>
-    setDateTimePicker('.fromDate', moment($(".fromDate").val(), 'DD/MM/YYYY HH:mm').toDate())
-    setDateTimePicker('.toDate', moment($(".toDate").val(), 'DD/MM/YYYY HH:mm').toDate())
+    setDateTimePicker('.fromDate', moment($(".fromDate").val(), _formatDateTime).toDate())
+    setDateTimePicker('.toDate', moment($(".toDate").val(), _formatDateTime).toDate())
 </script>
