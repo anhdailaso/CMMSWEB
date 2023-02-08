@@ -169,29 +169,39 @@
         })
 
         $(document).on("click", '.btnAddSupplies', function () {
+            let suppliesSelected = [];
+            $(this).closest('.table-responsive').find('table.tbl-supplies tbody tr').each(function () {
+                let mspt = $(this).find('td').eq(0).text();
+                suppliesSelected.push(mspt) 
+            })
             let dept = $(this).data('dept')
-            let suppliesSelected = $(this).data('supplies')
             let mscv = $(this).data('mscv')
-            AddSupplies(dept, suppliesSelected, mscv);
+            AddSupplies(dept, suppliesSelected , mscv);
         });
 
         
         $(document).on("click", '#btnAddSupplies', function () {
-            let rowdata = $(this).closest('.modal-content').find('.modal-body table tbody tr.tr-supplies.tr-supplies-active')
-            let mspt = rowdata.find("td").eq(0).text();
-            let msvt = rowdata.find("td").eq(1).text()
-            let sl = rowdata.find("td").eq(2).text()
-            let rowId = `#flush-collapse-` + $('#MS_CV').val()
+            let rowdata = $(this).closest('.modal-content').find('.modal-body table.tblAddSuppliesSeleced tbody tr.tr-supplies')
+            
+            $(rowdata).find('input:checkbox:checked').each(function () {
+                let mspt = $(this).closest('tr').find("td").eq(0).text();
+                let msvt = $(this).closest('tr').find("td").eq(1).text()
+                let sl = $(this).closest('tr').find("td").eq(2).text()
+                let rowId = `#flush-collapse-` + $('#MS_CV').val()
+                
+                let html = ` <tr>
+                                    <td class="w-40" style="line-height:2.3rem">`+ mspt + `</td>
+                                    <td class="w-25" style="line-height:2.3rem">`+ msvt +`</td>
+                                    <td class="w-25"> <input class="form-control" style="font-size:0.8rem;" type="text" value="`+ sl +`" placeholder="số lượng" /></td>
+                                    <td class="w-10">
+                                        <p class="mt-3"><a class="remove-row" ><i class="bi bi-trash icon-danger"></i></a></p>
+                                    </td>
+                            </tr>`
+                $(rowId).find('table tbody').append(html)
+            });
             $('#modalLarge').modal('hide');
-            let html = ` <tr>
-                                <td class="w-40" style="line-height:2.3rem">`+ mspt + `</td>
-                                <td class="w-25" style="line-height:2.3rem">`+ msvt +`</td>
-                                <td class="w-25"> <input class="form-control" style="font-size:0.8rem;" type="text" value="`+ sl +`" placeholder="số lượng" /></td>
-                                <td class="w-10"> 
-                                    <p class="mt-3"><a class="remove-row" ><i class="bi bi-trash icon-danger"></i></a></p>
-                                </td>
-                        </tr>`
-            $(rowId).find('table tbody').append(html)
+
+
         })
 
 
@@ -263,18 +273,20 @@
                 let msvt = $(this).find('td').eq(1).text()
                 let sl = $(this).find('td').eq(2).find('input').val()
                 let msbp = $(this).find('td').eq(3).text()
+                let mscv = $(this).find('td').eq(4).text()
                 let obj = {
                     MS_PT: mspt,
                     MS_VI_TRI_PT: msvt,
                     SL_KH: sl,
-                    MS_BO_PHAN: msbp
+                    MS_BO_PHAN: msbp,
+                    MS_CV: mscv
                 }
                 suppliesList.push(obj);
             })
             let model = {
                 MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),
                 DEVICE_ID: $('#MS_MAY').val(),
-                MS_CV: $('#MS_CV').val(),
+                MS_CV: suppliesList ? suppliesList[0].MS_CV : '',
                 MS_BO_PHAN: suppliesList ? suppliesList[0].MS_BO_PHAN : '',
                 SuppliesList: suppliesList
             }
@@ -310,9 +322,7 @@
                 let mscn = $(this).find('td').eq(3).text()
                 let obj = {
                     MS_CONG_NHAN: mscn,
-                    TU_GIO: valFromDate,
                     NGAY: valFromDate,
-                    DEN_GIO: valToDate,
                     DEN_NGAY: valToDate,
                     SO_GIO: times
                 }
@@ -322,32 +332,24 @@
                 MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),
                 LogWorkList: logworkList
             }
-
-            //TODO SAVE LOGWORK
-            //$.ajax({
-            //    type: "POST",
-            //    url: config.SAVE_SUPPLIES,
-            //    data: {
-            //        model: model
-            //    },
-            //    success: function (response) {
-            //        if (response.responseCode == 1) {
-            //            showSuccess(response.responseMessage)
-            //            $('#modalLarge').modal('hide');
-            //            WorkList();
-            //        }
-            //        else {
-            //            showWarning(response.responseMessage)
-            //        }
-            //    },
-            //    complete: function () {
-            //    }
-            //});
-        });
-
-        $(document).on("click", '.tr-supplies', function () {
-            $(this).closest('table').find('tr.tr-supplies.tr-supplies-active').removeClass('tr-supplies-active')
-            $(this).addClass('tr-supplies-active')
+            $.ajax({
+                type: "POST",
+                url: config.SAVE_LOG_WORK,
+                data: {
+                    model: model
+                },
+                success: function (response) {
+                    if (response.responseCode == 1) {
+                        showSuccess(response.responseMessage)
+                        $('#modalLarge').modal('hide');
+                    }
+                    else {
+                        showWarning(response.responseMessage)
+                    }
+                },
+                complete: function () {
+                }
+            });
         });
         
         $('#logWork').on('click', function () {
@@ -398,7 +400,6 @@
             $(this).closest('tr').find("p.hours").text(Math.round(hours * 100) / 100)
         });
     }
-
     function SaveMaintenanceWork(workList) {
         let model = {
             MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),

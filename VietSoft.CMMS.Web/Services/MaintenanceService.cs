@@ -85,7 +85,7 @@ namespace VietSoft.CMMS.Web.Services
                         MS_BO_PHAN = x.MS_BO_PHAN,
                         MS_CV = x.MS_CV,
                         MO_TA_CV = x.MO_TA_CV,
-                        WorkOrderDetailViewModels = x.WorkOrderDetailViewModels.Select(x => new WorkOrderDetailViewModel()
+                        WorkOrderDetailViewModels = x.WorkOrderDetailViewModels.Where(x => !string.IsNullOrEmpty(x.MS_PT)).Select(x => new WorkOrderDetailViewModel()
                         {
                            MS_PT = x.MS_PT,
                            MS_VI_TRI_PT = x.MS_VI_TRI_PT,
@@ -260,7 +260,11 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@json", json);
 
                 var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
-                return res;
+             
+                return res != null ? res  : new ResponseViewModel()
+                {
+                    MA = 0
+                };
             }
             catch (Exception ex)
             {
