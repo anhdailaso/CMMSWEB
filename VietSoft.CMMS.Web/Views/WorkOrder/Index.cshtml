@@ -52,7 +52,15 @@
             <label for="cboUuTien">Mức ưu tiên</label>
         </div>
 
-
+        @if(ViewBag.FLAG == 0)
+        {
+            <div class="break-line">
+                <a id="" class="btn btn-outline-success">
+                    <i class="fa fa-floppy-o fs-7"></i>
+                </a>
+            </div>
+        }
+        
         <div class="border-top my-3"></div>
         <br />
         <div id="workListContent"></div>
@@ -61,31 +69,35 @@
 </div>
 <br />
 <br />
-<nav class="fixed-bottom">
-    <div class="navbar-button  text-center text-white">
-        <div id="button-container" class="btn-group">
-            <a id="btnAddMaintenanceWork" class="btn btn-outline-primary m-1">
-                <i class="fa fa-plus fs-7" aria-hidden="true"></i>
-            </a>
-            <a id="logWork" class="btn btn-outline-dark m-1">
-                <i class="fa fa-clock-o fs-7"></i>
-            </a>
-            <!-- Twitter -->
-            <a class="btn btn-outline-secondary m-1" href="#!" role="button">
-                <i class="fa fa-cogs fs-7"></i>
-            </a>
+@if(ViewBag.FLAG == 1)
+{
+    <nav class="fixed-bottom">
+        <div class="navbar-button  text-center text-white">
+            <div id="button-container" class="btn-group">
+                <a id="btnAddMaintenanceWork" class="btn btn-outline-primary m-1">
+                    <i class="fa fa-plus fs-7" aria-hidden="true"></i>
+                </a>
+                <a id="logWork" class="btn btn-outline-dark m-1">
+                    <i class="fa fa-clock-o fs-7"></i>
+                </a>
+                <!-- Twitter -->
+                <a class="btn btn-outline-secondary m-1" href="#!" role="button">
+                    <i class="fa fa-cogs fs-7"></i>
+                </a>
 
-            <!-- Google -->
-            <a id="btnCompletePBT" class="btn btn-outline-success m-1">
-                <i class="fa fa-check-circle fs-7"></i>
-            </a>
+                <!-- Google -->
+                <a id="btnCompletePBT" class="btn btn-outline-success m-1">
+                    <i class="fa fa-check-circle fs-7"></i>
+                </a>
 
-            <a class="btn btn-outline-warning m-1" href="#!" role="button">
-                <i class="fa fa-times fs-7"></i>
-            </a>
+                <a class="btn btn-outline-warning m-1" href="#!" role="button">
+                    <i class="fa fa-times fs-7"></i>
+                </a>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+}
+
 @section scripts {
     <script src="~/js/pages/jquery.imagesloader-1.0.1.js"></script>
     <script>
