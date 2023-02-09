@@ -21,7 +21,10 @@
         GET_LISTWO_FAILRULE_ANALYSIS,
         SAVE_LIST_SPAREPART,
         SAVE_LIST_JOB,
-        SAVE_LIST_WORKING_TIME
+        SAVE_LIST_WORKING_TIME,
+        SAVE_WORDORDER,
+        COMPLETE_WORDORDER,
+        SAVE_LISTWO_FAILRULE_ANALYSIS
     }
 
     public enum GoodsIssueCategory

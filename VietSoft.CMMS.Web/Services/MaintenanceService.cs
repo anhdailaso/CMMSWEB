@@ -330,5 +330,83 @@ namespace VietSoft.CMMS.Web.Services
                 };
             }
         }
+
+        public ResponseViewModel SaveWorkOrder(string ticketId, DateTime date, int categoryTicketId, int priorityId, string statusDevice, string userName, string deviceId)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", CategoryType.SAVE_WORDORDER.ToString());
+                p.Add("@sCot1", ticketId);
+                p.Add("@dCot1", date);
+                p.Add("@iCot1", categoryTicketId);
+                p.Add("@iCot2", priorityId);
+                p.Add("@sCot3", statusDevice);
+                p.Add("@UserName", userName);
+                p.Add("@deviceID", deviceId);
+
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res != null ? res : new ResponseViewModel()
+                {
+                    MA = 0
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseViewModel()
+                {
+                    MA = -1
+                };
+            }
+        }
+
+        public ResponseViewModel CompletedWorkOrder(string ticketId, string userName, string deviceId)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", CategoryType.COMPLETE_WORDORDER.ToString());
+                p.Add("@sCot1", ticketId);
+                p.Add("@UserName", userName);
+                p.Add("@deviceID", deviceId);
+
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res != null ? res : new ResponseViewModel()
+                {
+                    MA = 0
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseViewModel()
+                {
+                    MA = -1
+                };
+            }
+        }
+
+        public ResponseViewModel SaveInputCauseOfDamageList(string ticketId, string json)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", CategoryType.SAVE_LISTWO_FAILRULE_ANALYSIS.ToString());
+                p.Add("@sCot1", ticketId);
+                p.Add("@json", json);
+
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res != null ? res : new ResponseViewModel()
+                {
+                    MA = 0
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseViewModel()
+                {
+                    MA = -1
+                };
+            }
+        }
     }
 }

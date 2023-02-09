@@ -126,5 +126,51 @@ namespace VietSoft.CMMS.Web.Controllers
                 return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
             }
         }
+
+        [HttpPost]
+        public IActionResult SaveInputCauseOfDamageList(SaveInputCauseOfDamageListModel model)
+        {
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(model.CauseOfDamageModels);
+            var res = _maintenanceService.SaveInputCauseOfDamageList(model.MS_PHIEU_BAO_TRI, json);
+
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+            }
+        }
+
+        [HttpPost]
+        public IActionResult SaveWorkOrder(TicketMaintenanceViewModel model, string deviceId)
+        {
+            var res = _maintenanceService.SaveWorkOrder(model.MS_PHIEU_BAO_TRI, model.NGAY_KT_KH, model.MS_LOAI_BT, model.MS_UU_TIEN, model.TINH_TRANG_MAY, userName, deviceId);
+
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CompletedWorkOrder(string ticketId, string userName, string deviceId)
+        {
+            var res = _maintenanceService.CompletedWorkOrder(ticketId, userName, deviceId);
+
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+            }
+        }
     }
 }

@@ -18,5 +18,12 @@ namespace VietSoft.CMMS.Web.IServices
         ResponseViewModel SaveMaintenanceWork(string deviceId, string ticketId, string userName, string json);
         ResponseViewModel SaveLogWork(string ticketId, string userName, string json);
 
+
+        ResponseViewModel SaveWorkOrder(string ticketId, DateTime date, int categoryTicketId, int priorityId, string statusDevice, string userName, string deviceId);
+        ResponseViewModel CompletedWorkOrder(string ticketId, string userName, string deviceId);
+
+        ResponseViewModel SaveInputCauseOfDamageList(string ticketId, string json);
+
+        
     }
 }
