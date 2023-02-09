@@ -161,7 +161,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public IEnumerable<TreeViewModel> GetViewCauseOfDamageList(string deviceId)
+        public IEnumerable<TreeViewModel> GetViewCauseOfDamageList(string deviceId, string keyWork)
         {
             try
             {
@@ -172,13 +172,15 @@ namespace VietSoft.CMMS.Web.Services
                 var res = _dapper.GetAll<CauseOfDamageModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 if (res != null)
                 {
+                    //TODO SEACH BY KEYWORK
+
                     var lst = res.GroupBy(
-                        x => (x.CLASS_CODE, x.CLASS_ID, x.CLASS_NAME),
+                        x => (x.PROBLEM_CODE, x.PROBLEM_ID, x.PROBLEM_NAME),
                         (key, data) => new TreeViewModel
                         { 
-                            ItemCode = key.CLASS_CODE, 
-                            Id = key.CLASS_ID, 
-                            ItemName = key.CLASS_NAME,
+                            ItemCode = key.PROBLEM_CODE, 
+                            Id = key.PROBLEM_ID, 
+                            ItemName = key.PROBLEM_NAME,
                             Childs = data.GroupBy(c => (c.CAUSE_ID, c.CAUSE_NAME, c.CAUSE_CODE), (key, data) => new
                             {
                                 Id = key.CAUSE_ID,
@@ -216,12 +218,12 @@ namespace VietSoft.CMMS.Web.Services
                 if (res != null)
                 {
                     var lst = res.GroupBy(
-                        x => (x.CLASS_CODE, x.CLASS_ID, x.CLASS_NAME),
+                        x => (x.PROBLEM_CODE, x.PROBLEM_ID, x.PROBLEM_NAME),
                         (key, data) => new TreeViewModel
                         {
-                            ItemCode = key.CLASS_CODE,
-                            Id = key.CLASS_ID,
-                            ItemName = key.CLASS_NAME,
+                            ItemCode = key.PROBLEM_CODE,
+                            Id = key.PROBLEM_ID,
+                            ItemName = key.PROBLEM_NAME,
                             Childs = data.GroupBy(c => (c.CAUSE_ID, c.CAUSE_NAME, c.CAUSE_CODE), (key, data) => new
                             {
                                 Id = key.CAUSE_ID,

@@ -120,7 +120,12 @@
 
 
     function initEvent() {
+        CalculatePlanDate()
 
+        $(document).on("change", '#cboUuTien', function () {
+            CalculatePlanDate();
+        })
+        
         WorkList();
         if ($("#cboLoaiBaoTri :selected").data('huhong') == 1) {
             $('#btnViewCauseOfDamage').show();
@@ -178,7 +183,6 @@
             let mscv = $(this).data('mscv')
             AddSupplies(dept, suppliesSelected , mscv);
         });
-
         
         $(document).on("click", '#btnAddSupplies', function () {
             let rowdata = $(this).closest('.modal-content').find('.modal-body table.tblAddSuppliesSeleced tbody tr.tr-supplies')
@@ -200,11 +204,42 @@
                 $(rowId).find('table tbody').append(html)
             });
             $('#modalLarge').modal('hide');
-
-
         })
 
+        $(document).on("click", '#btnSaveWorkOrder', function () {
+            let model = {
+                MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),
+                S_NGAY_KT_KH: $('#NGAY_KT_KH').text(),
+                MS_UU_TIEN: $('#cboUuTien').val(),
+                TINH_TRANG_MAY: $('#TINH_TRANG_MAY').val(),
+                MS_LOAI_BT: $('#cboLoaiBaoTri').val()
+            };
 
+            $.ajax({
+                type: "POST",
+                url: config.SAVE_WORK_ORDER,
+                data: {
+                    model: model,
+                    deviceId: $('#MS_MAY').val(),
+                },
+                success: function (response) {
+                    if (response.responseCode == 1) {
+                        showSuccess(response.responseMessage)
+                        setTimeout(function () {
+                            window.history.back(1)
+                        }, 600)
+                        
+                    }
+                    else {
+                        showWarning(response.responseMessage)
+                    }
+                },
+                complete: function () {
+                }
+            });
+            
+        })
+        
         $(document).on("click", '#btnAddWorkList', function () {
             let workList = [];
             $('input:checkbox.input-add-work:checked').each(function () {
@@ -621,6 +656,13 @@
                 $('#modalLarge').modal('show');
             }
         });
+    }
+
+    function CalculatePlanDate() {
+        let songay = $('#cboUuTien').find(":selected").data('songay')
+        let date = moment($('#currentDate').val(), _formatDate).toDate();
+        let a = date.setDate(date.getDate() + songay)
+        $('#NGAY_KT_KH').text(moment(a).format(_formatDate))
     }
 
     return {

@@ -209,7 +209,19 @@ namespace VietSoft.CMMS.Web.Services
             return new SelectList(listItem, "Value", "Text", null);
         }
 
+        public IEnumerable<PriorityCategoryViewModel> GetPriorityCategory(int NN)
+        {
+            try
+            {
+                var res = _dapper.GetAll<PriorityCategoryViewModel>("H_YEU_CAU_NSD_MUC_UU_TIEN", null, System.Data.CommandType.StoredProcedure);
 
+                return res ?? new List<PriorityCategoryViewModel>();
+            }
+            catch (Exception ex)
+            {
+                return new List<PriorityCategoryViewModel>();
+            }
+        }
         // Đạt sửa 10101999
         public SelectList GetCbbBoPhan(string Username, int NNgu, int CoAll)
         {

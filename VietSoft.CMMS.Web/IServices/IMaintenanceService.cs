@@ -11,7 +11,7 @@ namespace VietSoft.CMMS.Web.IServices
         IEnumerable<WorkOrderDetailViewModel> GetJobList(string userName, string deviceId, string ticketId);
         IEnumerable<SuppliesViewModel> GetSuppliesList(string userName, string deviceId, string deptId, string ticketId);
         IEnumerable<LogWorkViewModel> GetLogWorkList(string ticketId, string userName);
-        IEnumerable<TreeViewModel> GetViewCauseOfDamageList(string deviceId);
+        IEnumerable<TreeViewModel> GetViewCauseOfDamageList(string deviceId, string keyWork);
         IEnumerable<TreeViewModel> GetInputCauseOfDamageList(string ticketId, string deviceId);
 
         ResponseViewModel SaveSupplies(string deviceId, string ticketId, string userName, int workId, string dept, string json);

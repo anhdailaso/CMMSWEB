@@ -1,4 +1,5 @@
 ﻿var _formatDateTime = 'DD/MM/YYYY HH:mm'
+var _formatDate = 'DD/MM/YYYY'
 $(function () {
 
     $.ajaxSetup({

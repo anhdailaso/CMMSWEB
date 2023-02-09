@@ -22,7 +22,7 @@ namespace VietSoft.CMMS.Web.Controllers
 
         public IActionResult GetCauseOfDamageList(string keyword, string deviceId)
         {
-            var res = _maintenanceService.GetViewCauseOfDamageList(deviceId);
+            var res = _maintenanceService.GetViewCauseOfDamageList(deviceId, keyword);
 
             return Json(new JsonResponseViewModel { ResponseCode = 1, Data = res });
         }
@@ -146,7 +146,10 @@ namespace VietSoft.CMMS.Web.Controllers
         [HttpPost]
         public IActionResult SaveWorkOrder(TicketMaintenanceViewModel model, string deviceId)
         {
-            var res = _maintenanceService.SaveWorkOrder(model.MS_PHIEU_BAO_TRI, model.NGAY_KT_KH, model.MS_LOAI_BT, model.MS_UU_TIEN, model.TINH_TRANG_MAY, userName, deviceId);
+            DateTime dateOut;
+            DateTime.TryParseExact(model.S_NGAY_KT_KH, Setting.FORMAT_DATE, null, DateTimeStyles.None, out dateOut) ;
+
+            var res = _maintenanceService.SaveWorkOrder(model.MS_PHIEU_BAO_TRI, dateOut, model.MS_LOAI_BT, model.MS_UU_TIEN, model.TINH_TRANG_MAY, userName, deviceId);
 
             if (res.MA == 1)
             {

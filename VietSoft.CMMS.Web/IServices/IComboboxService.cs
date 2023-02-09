@@ -29,5 +29,6 @@ namespace VietSoft.CMMS.Web.IServices
         SelectList GetCbbNYC(string Username, int NNgu, int CoAll);
 
         IEnumerable<MaintenanceCategoryViewModel> GetMaintenanceCategoy();
+        IEnumerable<PriorityCategoryViewModel> GetPriorityCategory(int NN);
     }
 }

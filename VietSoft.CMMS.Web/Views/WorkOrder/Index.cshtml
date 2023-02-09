@@ -1,127 +1,137 @@
 ﻿@using VietSoft.CMMS.Web.Resources
 @using VietSoft.CMMS.Web.Helpers
 @using VietSoft.CMMS.Web.Models.Maintenance;
-@model VietSoft.CMMS.Web.Models.Maintenance.TicketMaintenanceViewModel
+@model VietSoft.CMMS.Web.Models.Maintenance.TicketMaintenanceViewModel;
 @{
     ViewBag.Title = "PHIẾU BẢO TRÌ";
     ViewBag.BackUrl = @Url.Action("Index", "Home", new { });
-    var maintenanceCategories = (IEnumerable<MaintenanceCategoryViewModel>)@ViewBag.LoaiBaoTri;
+     var priorityCategories = (IEnumerable<PriorityCategoryViewModel>)ViewBag.UuTien;
+    var maintenanceCategories = (IEnumerable<MaintenanceCategoryViewModel>)ViewBag.LoaiBaoTri;
 }
-<style>
-    .btn-group .d-flex .justify-content-end a i {
-        width: 3rem !important;
-    }
-</style>
-<div class="row">
-    <div class="col-md-6 offset-md-3 col-xs-12">
-        <div class="row detail-page-emp-info">
-            <div class="col-12 d-flex justify-content-left gap-2 ">
-                @Html.Hidden("MS_MAY", @ViewBag.MS_MAY, null)
-                <span class="emp-name">@ViewBag.MS_MAY</span>
-                <span class="emp-code">@ViewBag.TEN_MAY</span>
-                @*         <span class="emp-name">A05534</span>
+    <style>
+        .btn-group .d-flex .justify-content-end a i {
+            width: 3rem !important;
+        }
+    </style>
+    <div class="row">
+        <div class="col-md-6 offset-md-3 col-xs-12">
+            <div class="row detail-page-emp-info">
+                <div class="col-12 d-flex justify-content-left gap-2 ">
+                    @Html.Hidden("MS_MAY", @ViewBag.MS_MAY, null)
+                    <span class="emp-name">@ViewBag.MS_MAY</span>
+                    <span class="emp-code">@ViewBag.TEN_MAY</span>
+                    @*         <span class="emp-name">A05534</span>
                 <span class="emp-code">máy đóng bao</span>*@
+                </div>
             </div>
-        </div>
-        @*<div class="border text-secondary m-auto mt-4 w-90 break-line"></div>*@
-        <div class="border-top my-3"></div>
+            @*<div class="border text-secondary m-auto mt-4 w-90 break-line"></div>*@
+            <div class="border-top my-3"></div>
 
-        <div class="d-flex justify-content-between mb-3">
-            @Html.Hidden("MS_PHIEU_BAO_TRI", @Model.MS_PHIEU_BAO_TRI, null)
-            <div><span>@Model.MS_PHIEU_BAO_TRI</span></div>
-            <div><span>@Model.NGAY_KT_KH.ToString(Setting.FORMAT_DATE)</span></div>
-        </div>
+            <div class="d-flex justify-content-between mb-3">
+                @Html.Hidden("MS_PHIEU_BAO_TRI", @Model.MS_PHIEU_BAO_TRI, null)
+                <div><span>@Model.MS_PHIEU_BAO_TRI</span></div>
+                @Html.Hidden("currentDate", @Model.NGAY_KT_KH.ToString(Setting.FORMAT_DATE), null)
+                <div><span id="NGAY_KT_KH">@Model.NGAY_KT_KH.ToString(Setting.FORMAT_DATE)</span></div>
+            </div>
 
-        <div class="form-floating break-line">
-            <select id="cboLoaiBaoTri" name="cboLoaiBaoTri" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
-                @foreach(var item in maintenanceCategories)
+            <div class="form-floating break-line">
+                <select id="cboLoaiBaoTri" name="cboLoaiBaoTri" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+                    @foreach(var item in maintenanceCategories)
                 {
-                    <option value="@item.MS_LOAI_BT" selected="@(Model.MS_LOAI_BT == item.MS_LOAI_BT ? "selected" : "")" data-huhong=@item.HU_HONG>@item.TEN_LOAI_BT</option>
+                        <option value="@item.MS_LOAI_BT" selected="@(Model.MS_LOAI_BT == item.MS_LOAI_BT ? "selected" : "")" data-huhong=@item.HU_HONG>@item.TEN_LOAI_BT</option>
                 }
-            </select>
-            <label for="cboLoaiBaoTri">Loại bảo trì</label>
+                </select>
+                <label for="cboLoaiBaoTri">Loại bảo trì</label>
 
-            <a id="btnViewCauseOfDamage">
-                <img src="~/images/phantich.png" alt="image" class="icon-barcode">
-            </a>
-        </div>
+                <a id="btnViewCauseOfDamage">
+                    <img src="~/images/phantich.png" alt="image" class="icon-barcode">
+                </a>
+            </div>
 
-        <div class="form-floating break-line">
-            <select id="cboUuTien" name="cboMay" asp-for="@Model.MS_UU_TIEN" asp-items="@ViewBag.UuTien"  class="form-select form-select-sm">
-            </select>
-            <label for="cboUuTien">Mức ưu tiên</label>
-        </div>
+            <div class="form-floating break-line">
+                <select id="cboUuTien" name="cboMay"  class="form-select form-select-sm">
+                  @foreach(var item in priorityCategories)
+                {
+                        <option value="@item.MS_UU_TIEN" selected="@(Model.MS_UU_TIEN == item.MS_UU_TIEN ? "selected" : "")" data-songay=@item.SO_NGAY>@item.TEN_UU_TIEN</option>
+                }
+                </select>
+                <label for="cboUuTien">Mức ưu tiên</label>
+            </div>
 
-        @if(ViewBag.FLAG == 0)
+            @if(ViewBag.FLAG == 0)
         {
-            <div class="break-line">
-                <a id="" class="btn btn-outline-success">
-                    <i class="fa fa-floppy-o fs-7"></i>
-                </a>
-            </div>
+                <div class="break-line">
+                    <p id="TINH_TRANG_MAY">@Model.TINH_TRANG_MAY</p>
+                    <a id="btnSaveWorkOrder" class="btn btn-outline-success">
+                        <i class="fa fa-floppy-o fs-7"></i>
+                    </a>
+                </div>
         }
-        
-        <div class="border-top my-3"></div>
-        <br />
-        <div id="workListContent"></div>
-       
-    </div>
-</div>
-<br />
-<br />
-@if(ViewBag.FLAG == 1)
-{
-    <nav class="fixed-bottom">
-        <div class="navbar-button  text-center text-white">
-            <div id="button-container" class="btn-group">
-                <a id="btnAddMaintenanceWork" class="btn btn-outline-primary m-1">
-                    <i class="fa fa-plus fs-7" aria-hidden="true"></i>
-                </a>
-                <a id="logWork" class="btn btn-outline-dark m-1">
-                    <i class="fa fa-clock-o fs-7"></i>
-                </a>
-                <!-- Twitter -->
-                <a class="btn btn-outline-secondary m-1" href="#!" role="button">
-                    <i class="fa fa-cogs fs-7"></i>
-                </a>
-
-                <!-- Google -->
-                <a id="btnCompletePBT" class="btn btn-outline-success m-1">
-                    <i class="fa fa-check-circle fs-7"></i>
-                </a>
-
-                <a class="btn btn-outline-warning m-1" href="#!" role="button">
-                    <i class="fa fa-times fs-7"></i>
-                </a>
-            </div>
+            
+            <div class="border-top my-3"></div>
+            <br />
+            <div id="workListContent"></div>
+           
         </div>
-    </nav>
+    </div>
+    <br />
+    <br />
+    @if(ViewBag.FLAG == 1)
+{
+        <nav class="fixed-bottom">
+            <div class="navbar-button  text-center text-white">
+                <div id="button-container" class="btn-group">
+                    <a id="btnAddMaintenanceWork" class="btn btn-outline-primary m-1">
+                        <i class="fa fa-plus fs-7" aria-hidden="true"></i>
+                    </a>
+                    <a id="logWork" class="btn btn-outline-dark m-1">
+                        <i class="fa fa-clock-o fs-7"></i>
+                    </a>
+                    <!-- Twitter -->
+                    <a class="btn btn-outline-secondary m-1" href="#!" role="button">
+                        <i class="fa fa-cogs fs-7"></i>
+                    </a>
+
+                    <!-- Google -->
+                    <a id="btnCompletePBT" class="btn btn-outline-success m-1">
+                        <i class="fa fa-check-circle fs-7"></i>
+                    </a>
+
+                    <a class="btn btn-outline-warning m-1" href="#!" role="button">
+                        <i class="fa fa-times fs-7"></i>
+                    </a>
+                </div>
+            </div>
+        </nav>
 }
 
-@section scripts {
-    <script src="~/js/pages/jquery.imagesloader-1.0.1.js"></script>
-    <script>
-        var config = {
-            PAGE_SIZE: 10,
-            GET_CAUSE_OF_DAMAGE_LIST: '@Url.Action("GetCauseOfDamageList", "WorkOrder")',
-            GET_VIEW_CAUSE_OF_DAMAGE: '@Url.Action("ViewCauseOfDamage", "WorkOrder")',
-            GET_INPUT_CAUSE_OF_DAMAGE: '@Url.Action("InputCauseOfDamage", "WorkOrder")',
-            GET_INPUT_CAUSE_OF_DAMAGE_LIST: '@Url.Action("GetInputCauseOfDamageList", "WorkOrder")',
-            LOG_WORK: '@Url.Action("LogWork","WorkOrder")',
-            GET_WORK_LIST:  '@Url.Action("GetWorkList","WorkOrder")',
-            ADD_SUPPLIES:  '@Url.Action("AddSupplies","WorkOrder")',
-            ADD_MAINTENANCE_WORK:  '@Url.Action("AddMaintenanceWork","WorkOrder")',
-            SAVE_MAINTENANCE_WORK:  '@Url.Action("SaveMaintenanceWork","WorkOrder")',
-            SAVE_LOG_WORK:  '@Url.Action("SaveLogWork","WorkOrder")',
-            SAVE_SUPPLIES:  '@Url.Action("SaveSupplies","WorkOrder")',
-            KHONGCO_DULIEU: '@ViewText.TXT_KHONGCO_DULIEU',
+    @section scripts {
+        <script src="~/js/pages/jquery.imagesloader-1.0.1.js"></script>
+        <script>
+            var config = {
+                PAGE_SIZE: 10,
+                GET_CAUSE_OF_DAMAGE_LIST: '@Url.Action("GetCauseOfDamageList", "WorkOrder")',
+                GET_VIEW_CAUSE_OF_DAMAGE: '@Url.Action("ViewCauseOfDamage", "WorkOrder")',
+                GET_INPUT_CAUSE_OF_DAMAGE: '@Url.Action("InputCauseOfDamage", "WorkOrder")',
+                GET_INPUT_CAUSE_OF_DAMAGE_LIST: '@Url.Action("GetInputCauseOfDamageList", "WorkOrder")',
+                LOG_WORK: '@Url.Action("LogWork","WorkOrder")',
+                GET_WORK_LIST:  '@Url.Action("GetWorkList","WorkOrder")',
+                ADD_SUPPLIES:  '@Url.Action("AddSupplies","WorkOrder")',
+                ADD_MAINTENANCE_WORK:  '@Url.Action("AddMaintenanceWork","WorkOrder")',
+                SAVE_MAINTENANCE_WORK:  '@Url.Action("SaveMaintenanceWork","WorkOrder")',
+                SAVE_LOG_WORK:  '@Url.Action("SaveLogWork","WorkOrder")',
+                SAVE_SUPPLIES:  '@Url.Action("SaveSupplies","WorkOrder")',
+                KHONGCO_DULIEU: '@ViewText.TXT_KHONGCO_DULIEU',
+                SAVE_WORK_ORDER:  '@Url.Action("SaveWorkOrder","WorkOrder")',
+                COMPLETED_WORK_ORDER:  '@Url.Action("CompletedWorkOrder","WorkOrder")',
+                SAVE_INPUT_CAUSE_OF_DAMAGE:  '@Url.Action("SaveInputCauseOfDamageList","WorkOrder")',
 
-        }
-    </script>
-    <script src="~/js/pages/moningtoring.js" asp-append-version="true"></script>
-    <script>
-        $(document).ready(function () {
-            MoningToringModule.init();
-        });
-    </script>
-}
+            }
+        </script>
+        <script src="~/js/pages/moningtoring.js" asp-append-version="true"></script>
+        <script>
+            $(document).ready(function () {
+                MoningToringModule.init();
+            });
+        </script>
+    }
