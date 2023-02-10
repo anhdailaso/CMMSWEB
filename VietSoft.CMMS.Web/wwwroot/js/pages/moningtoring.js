@@ -153,6 +153,10 @@
             hideLoadingOverlay("#modalResultContent");
         })
 
+        //$(document).on("change", '#inputCauseOfDamageContent .form-check-input', function () {
+            
+        //})
+
         $('#btnViewCauseOfDamage').on('click', function () {
             GetViewCauseOfDamage();
         });

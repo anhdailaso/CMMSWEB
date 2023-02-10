@@ -80,7 +80,7 @@ namespace VietSoft.CMMS.Web.Controllers
 
             if (res.MA == 1)
             {
-                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = res.NAME });
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
             }
             else
             {
