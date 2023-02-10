@@ -172,16 +172,17 @@ namespace VietSoft.CMMS.Web.Services
                 var res = _dapper.GetAll<CauseOfDamageModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 if (res != null)
                 {
-                    //TODO SEACH BY KEYWORK
+                    var query = res.Where(x => string.IsNullOrEmpty(keyWork) || x.MS_BO_PHAN.Contains(keyWork) || x.TEN_BO_PHAN.Contains(keyWork) || x.CAUSE_NAME.Contains(keyWork)
+                    || x.CAUSE_CODE.Contains(keyWork) || x.CLASS_CODE.Contains(keyWork) || x.CLASS_NAME.Contains(keyWork));
 
-                    var lst = res.GroupBy(
-                        x => (x.PROBLEM_CODE, x.PROBLEM_ID, x.PROBLEM_NAME),
+                    var lst = query.GroupBy(
+                        x => (x.MS_BO_PHAN, x.PROBLEM_CODE, x.PROBLEM_ID, x.PROBLEM_NAME),
                         (key, data) => new TreeViewModel
                         { 
-                            ItemCode = key.PROBLEM_CODE, 
+                            ItemCode = key.MS_BO_PHAN, 
                             Id = key.PROBLEM_ID, 
                             ItemName = key.PROBLEM_NAME,
-                            Childs = data.GroupBy(c => (c.CAUSE_ID, c.CAUSE_NAME, c.CAUSE_CODE), (key, data) => new
+                            Childs = data.GroupBy(c => (c.MS_BO_PHAN, c.PROBLEM_CODE, c.PROBLEM_ID, c.PROBLEM_NAME, c.CAUSE_ID, c.CAUSE_NAME, c.CAUSE_CODE), (key, data) => new
                             {
                                 Id = key.CAUSE_ID,
                                 ItemCode = key.CAUSE_CODE,
@@ -190,9 +191,10 @@ namespace VietSoft.CMMS.Web.Services
                                 {
                                     ItemCode = r.REMEDY_CODE,
                                     Id = r.REMEDY_ID,
-                                    ItemName = r.REMEDY_NAME
+                                    ItemName = r.REMEDY_NAME,
+                                    Key = $"{r.MS_MAY}|{r.MS_BO_PHAN}|{r.CLASS_ID}|{r.PROBLEM_ID}|{r.CAUSE_ID}|{r.REMEDY_ID}"
                                 })
-                            }).ToList()
+                            }).Distinct().ToList()
                         }).ToList();
                     return lst;
                 }
@@ -218,13 +220,13 @@ namespace VietSoft.CMMS.Web.Services
                 if (res != null)
                 {
                     var lst = res.GroupBy(
-                        x => (x.PROBLEM_CODE, x.PROBLEM_ID, x.PROBLEM_NAME),
+                         x => (x.MS_BO_PHAN, x.PROBLEM_CODE, x.PROBLEM_ID, x.PROBLEM_NAME),
                         (key, data) => new TreeViewModel
                         {
-                            ItemCode = key.PROBLEM_CODE,
+                            ItemCode = key.MS_BO_PHAN,
                             Id = key.PROBLEM_ID,
                             ItemName = key.PROBLEM_NAME,
-                            Childs = data.GroupBy(c => (c.CAUSE_ID, c.CAUSE_NAME, c.CAUSE_CODE), (key, data) => new
+                            Childs = data.GroupBy(c => (c.MS_BO_PHAN, c.PROBLEM_CODE, c.PROBLEM_ID, c.PROBLEM_NAME, c.CAUSE_ID, c.CAUSE_NAME, c.CAUSE_CODE), (key, data) => new
                             {
                                 Id = key.CAUSE_ID,
                                 ItemCode = key.CAUSE_CODE,
@@ -233,9 +235,10 @@ namespace VietSoft.CMMS.Web.Services
                                 {
                                     ItemCode = r.REMEDY_CODE,
                                     Id = r.REMEDY_ID,
-                                    ItemName = r.REMEDY_NAME
+                                    ItemName = r.REMEDY_NAME,
+                                    Key = $"{r.MS_MAY}|{r.MS_BO_PHAN}|{r.CLASS_ID}|{r.PROBLEM_ID}|{r.CAUSE_ID}|{r.REMEDY_ID}"
                                 })
-                            }).ToList()
+                            }).Distinct().ToList()
                         }).ToList();
                     return lst;
                 }

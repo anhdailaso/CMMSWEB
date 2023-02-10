@@ -158,7 +158,29 @@
         });
 
         $(document).on("click", '#btnCompletePBT', function () {
-            GetInputCauseOfDamage();
+            showLoadingOverlay("#inputCauseOfDamageContent");
+            $.ajax({
+                type: "POST",
+                url: config.COMPLETED_WORK_ORDER,
+                data: {
+                    ticketId: $('#MS_PHIEU_BAO_TRI').val(),
+                    deviceId: $('#MS_MAY').val()
+                },
+                success: function (response) {
+                    if (response.responseCode == 1) {
+                        showSuccess(response.responseMessage)
+                    }
+                    else if (response.responseCode == 2) {
+                        GetInputCauseOfDamage();
+                    }
+                    else {
+                        showWarning(response.responseMessage)
+                    }
+                },
+                complete: function () {
+                    hideLoadingOverlay("#inputCauseOfDamageContent");
+                }
+            });
         });
 
         $(document).on("click", '.expand', function () {
@@ -298,6 +320,37 @@
             });
 
             SaveMaintenanceWork(workList)
+        });
+
+        $(document).on('click', '#btnSaveInputCauseOfDamageList', function () {
+            let causeOfDamageModels = []
+            $(this).closest('.modal').find('.modal-body #inputCauseOfDamageContent input:checkbox:checked').each(function () {
+              console.log($(this).data('key'))
+            })
+
+            //TODO SaveInputCauseOfDamageList
+            //let model = {
+            //    MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),
+            //    CauseOfDamageModels: causeOfDamageModels
+            //}
+            //$.ajax({
+            //    type: "POST",
+            //    url: config.SAVE_INPUT_CAUSE_OF_DAMAGE,
+            //    data: {
+            //        model: model
+            //    },
+            //    success: function (response) {
+            //        if (response.responseCode == 1) {
+            //            showSuccess(response.responseMessage)
+                       
+            //        }
+            //        else {
+            //            showWarning(response.responseMessage)
+            //        }
+            //    },
+            //    complete: function () {
+            //    }
+            //});
         });
 
         $(document).on('click', '.btnSaveSupplies', function () {
@@ -489,10 +542,14 @@
             success: function (response) {
                 if (response.responseCode == 1) {
                     $("#inputCauseOfDamageContent").html("");
-                    if (response.data[0]) {
-                        var troot = document.createElement("ul");
-                        treeMenuForInput(response.data[0], troot, 0);
-                        $('#inputCauseOfDamageContent').append(troot)
+                    if (response.data) {
+                        $(response.data).each(function (index, value) {
+                            var troot = document.createElement("ul");
+                            treeMenuForInput(value, troot, 0);
+                            $('#inputCauseOfDamageContent').append(troot)
+                            $('#btnSaveInputCauseOfDamageList').removeClass("disabled");
+                        });
+                        
                     }
                     else {
                         let html = `<span>` + config.KHONGCO_DULIEU + `</span>`
@@ -514,10 +571,14 @@
             success: function (response) {
                 if (response.responseCode == 1) {
                     $("#resultContent").html("");
-                    if (response.data[0]) {
-                        var troot = document.createElement("ul");
-                        treeMenu(response.data[0], troot, 0);
-                        $('#resultContent').append(troot)
+                    if (response.data) {
+                        $(response.data).each(function (index, value) {
+                            var troot = document.createElement("ul");
+                            troot.className = "rootNode"
+                            treeMenu(value, troot, 0);
+                            $('#resultContent').append(troot)
+                        });
+                      
                     }
                     else {
                         let html = `<span>` + config.KHONGCO_DULIEU +`</span>`
@@ -541,12 +602,13 @@
             <i class="` + icon + `"></i>
             <span>`+ (parent.itemCode ? parent.itemCode : '') + `</span>
             <span class=`+ color +`>`+ parent.itemName + `</span>
-            <span> &emsp;&emsp;`+ (parent.amount ? parent.amount : '') +`</span>
+            <span> &emsp;`+ (parent.amount ? parent.amount : '') +`</span>
             </div>`;
         tparent.appendChild(sib);
         if (!childs) return;
 
         var nextRoot = document.createElement("ul");
+
         insertAfter(nextRoot, sib);
         
         for (var i = 0; i < childs.length; i++) {
@@ -566,7 +628,7 @@
             <span>`+ (parent.itemCode ? parent.itemCode : '') + `</span>
             <span class=`+ color + `>` + parent.itemName + `</span>
             </div>
-                <div class="mx-3 my-1"><input class="form-check-input" type="checkbox" ></div>
+                <div class="mx-3 my-1"><input class="form-check-input" type="checkbox" data-key=`+ parent.key+`></div>
             </div>`;
         tparent.appendChild(sib);
         if (!childs) return;

@@ -1647,3 +1647,6 @@ ul {
     width: 50px;
     cursor: pointer;
 }
+.treeMenuContent ul.rootNode {
+    padding-left: 0.5rem;
+}

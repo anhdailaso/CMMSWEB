@@ -162,17 +162,24 @@ namespace VietSoft.CMMS.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult CompletedWorkOrder(string ticketId, string userName, string deviceId)
+        public IActionResult CompletedWorkOrder(string ticketId, string deviceId)
         {
             var res = _maintenanceService.CompletedWorkOrder(ticketId, userName, deviceId);
 
             if (res.MA == 1)
             {
-                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+                if(res.NAME == "SHOW_HH")
+                {
+                    return Json(new JsonResponseViewModel { ResponseCode = 2, ResponseMessage = Message.CAPNHAT_THANHCONG });
+                }
+                else
+                {
+                    return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+                }
             }
             else
             {
-                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = res.NAME });
             }
         }
     }

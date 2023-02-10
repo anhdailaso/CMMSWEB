@@ -58,6 +58,7 @@
         public string ItemCode { get; set; }
         public string ItemName { get; set; }
         public string Id { get; set; }
+        public string Key { get; set; }
         public double Amount { get; set; }
         public IEnumerable<object> Childs { get; set; }
 
