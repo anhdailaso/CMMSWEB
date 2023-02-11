@@ -21,8 +21,8 @@ namespace VietSoft.CMMS.Web.IServices
         SelectList LoadListUuTien(int NN);
 
         //Đạt sửa 10101999
-        SelectList GetCbbBoPhan(string Username, int NNgu, int CoAll);
-        SelectList GetCbbPhuTung(string Username, int NNgu, int CoAll);
+        SelectList GetCbbBoPhan(string msmay,string Username, int NNgu, int CoAll);
+        SelectList GetCbbPhuTung(string msmay,string msbp,string Username, int NNgu, int CoAll);
 
         //Đạt sửa 26122022
         SelectList GetCbbNYC(string Username, int NNgu, int CoAll);

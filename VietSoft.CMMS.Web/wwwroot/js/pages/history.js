@@ -21,11 +21,12 @@
         })
 
         $('#cboMaThietBi').on('change', function () {
-            GetListHistory(1);
+            LoadBoPhan();
+            LoadPhuTung();
         })
 
         $('#cboMaBoPhan').on('change', function () {
-            GetListHistory(1);
+            LoadPhuTung();
         })
 
         $('#cboMaPhuTung').on('change', function () {
@@ -49,6 +50,41 @@
 
         GetListHistory(1);
 
+    }
+
+    function LoadBoPhan() {
+        $('#cboMaBoPhan option').remove();
+        $.ajax({
+            type: "POST",
+            url: config.GET_BO_PHAN,
+            data: { msmay: $('#cboMaThietBi').val() },
+            success: function (data) {
+                $('#cboMaBoPhan').html('');
+                var s = '';
+                for (var i = 0; i < data.length; i++) {
+                    s += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
+                }
+                $("#cboMaBoPhan").html(s);
+            }
+        });
+    }
+
+    function LoadPhuTung() {
+        $('#cboMaPhuTung option').remove();
+        $.ajax({
+            type: "POST",
+            url: config.GET_PHU_TUNG,
+            data: { msmay: $('#cboMaThietBi').val(), msbp: $('#cboMaBoPhan').val() },
+            success: function (data) {
+                $('#cboMaPhuTung').html('');
+                var s = '';
+                for (var i = 0; i < data.length; i++) {
+                    s += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
+                }
+                $("#cboMaPhuTung").html(s);
+                GetListHistory(1);
+            }
+        });
     }
 
     function GetListHistory(pageIndex) {

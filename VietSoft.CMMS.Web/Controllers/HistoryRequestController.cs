@@ -33,7 +33,7 @@ namespace VietSoft.CMMS.Web.Controllers
         }
 
         public static List<HistoryRequestViewModel>? res;
-        public IActionResult GetListHistoryRequest(string keySeach, int pageIndex, int pageSize, string msmay, string tungay, string denngay, int idNYC)
+        public IActionResult GetListHistoryRequest(string keySeach, int pageIndex, int pageSize, string msmay, string tungay, string denngay, string nguoiyc)
         {
             PagedList<HistoryRequestViewModel>? result = null;
             var user = SessionManager.CurrentUser.UserName;
@@ -41,14 +41,14 @@ namespace VietSoft.CMMS.Web.Controllers
             {
                 DateTime? toDate = ExtendedDateTime.ToDateTimeOrDefault(tungay);
                 DateTime? fromDate = ExtendedDateTime.ToDateTimeOrDefault(denngay);
-                res = _historyRequestService.GetListHistoryRequest(user, 0, toDate, fromDate, msmay, idNYC, pageIndex, pageSize);
+                res = _historyRequestService.GetListHistoryRequest(user, 0, toDate, fromDate, msmay, nguoiyc);
                 result = new PagedList<HistoryRequestViewModel>(res, res.Count, pageIndex, pageSize);
             }
             else
             {
                 if (keySeach != null)
                 {
-                    result = new PagedList<HistoryRequestViewModel>(res.Where(x => x.TINH_TRANG_MAY.Contains(keySeach)).ToList(), res.Count(x => x.TINH_TRANG_MAY.Contains(keySeach)), pageIndex, pageSize);
+                    result = new PagedList<HistoryRequestViewModel>(res.Where(x => x.TINH_TRANG_MAY.Contains(keySeach) || x.NGAY_KT_PBT.Contains(keySeach) || x.TINH_TRANG_MAY.Contains(keySeach)).ToList(), res.Count(x => x.TINH_TRANG_MAY.Contains(keySeach)), pageIndex, pageSize);
                 }
                 else
                 {

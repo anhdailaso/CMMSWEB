@@ -29,17 +29,17 @@
 </style>
 <div class="row">
     <div class="col-md-6 offset-md-3 col-xs-12">
-        <div class="accordion break-line" id="accordionPanelsStayOpenExample">
+        <div class="accordion" id="accordionPanelsStayOpenExample">
             <div class="accordion-item border-0">
                 <p style="align-items:center; justify-content:center; text-align:center" class="accordion" id="panelsStayOpen-headingOne">
                     <button style="padding-right:50%" class="accordion-button collapsed w-100" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
                     </button>
                 </p>
-                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show break-line" aria-labelledby="panelsStayOpen-headingOne">
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                     <div class="accordion-body">
                         <form id="formSubmitRequest">
                             <div class="form-floating break-line">
-                                <select id="cboMaThietBi" name="cboMaThietBi" asp-items="@ViewBag.ListMAY" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+                                <select id="cboMaThietBi" name="cboMaThietBi" asp-items="@ViewBag.ListMAY" class="form-control form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
                                 </select>
                                 <label for="cboMaThietBi">@ViewText.TXT_MA_THIET_BI</label>
                                 <div id="cboMaThietBi-error"></div>
@@ -76,7 +76,7 @@
                             </div>
 
                             <div class="form-floating break-line">
-                                <select id="cboMaBoPhan" name="cboMaBoPhan" asp-items="@ViewBag.ListBoPhan" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+                                <select id="cboMaBoPhan" name="cboMaBoPhan" asp-items="@ViewBag.ListBoPhan" class="form-control form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
                                 </select>
                                 <label for="cboMaBoPhan">@ViewText.TXT_MA_BO_PHAN</label>
                                 <div id="cboMaBoPhan-error"></div>
@@ -86,7 +86,7 @@
                             </div>
 
                             <div class="form-floating break-line">
-                                <select id="cboMaPhuTung" name="cboMaPhuTung" asp-items="@ViewBag.ListPhuTung" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+                                <select id="cboMaPhuTung" name="cboMaPhuTung" asp-items="@ViewBag.ListPhuTung" class="form-control form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
                                 </select>
                                 <label for="cboMaPhuTung">@ViewText.TXT_MA_PHU_TUNG</label>
                                 <div id="cboMaPhuTung-error"></div>
@@ -147,6 +147,8 @@
     <script>
         var config = {
             GET_LIST_HISTORY: '@Url.Action("GetListHistory", "History")',
+            GET_BO_PHAN: '@Url.Action("getBoPhan", "History")',
+            GET_PHU_TUNG: '@Url.Action("getPhuTung", "History")',
             PAGE_SIZE: 10
         }
     </script>

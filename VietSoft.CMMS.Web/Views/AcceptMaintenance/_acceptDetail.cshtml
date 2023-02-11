@@ -5,134 +5,82 @@
 
 <br />
 <br />
-<div class="accordion-item border-0 break-line">
-    <h2 class="accordion-header" id="heading-100">
-        <button class="accordion-button collapsed parentCell" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-100" aria-expanded="false" aria-controls="collapse-100">
-            <div class="d-flex justify-content-between w-100">
+@if (Model != null && Model.Data.Count > 0)
+{
+    <div class="accordion border-0 break-line" id="accordionFlushExample">
+        @foreach (var item in Model.Data.OrderBy(x => x.MS_PHIEU_BAO_TRI))
+        {
+            <div class="accordion-item border-0 break-line">
+                <h2 class="accordion-header" id="heading-100">
+                    <button class="accordion-button collapsed parentCell" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@item.MS_PHIEU_BAO_TRI" aria-expanded="false" aria-controls="collapse-@item.MS_PHIEU_BAO_TRI">
+                        <div class="d-flex justify-content-between w-100">
+                            <div class="col-12 d-flex justify-content-left gap-2 ">
+                                <span style="color:black">@item.NGAY_HOAN_THANH</span>
+                                <span style="color:#ff870f">@item.MS_MAY</span>
+                                <span style="color:#113186">@item.TEN_LOAI_BT</span>
 
-                <div class="col-12 d-flex justify-content-left gap-2 ">
-                    <span style="color:black">05.12.22</span>
-                    <span style="color:#ff870f">CAN-0003</span>
-                    <span style="color:#113186">Sữa chữa máy</span>
+                                <a data-src="@item.MS_PHIEU_BAO_TRI" onclick="AcceptMaintenanceModule.nghiemthuPBT(this)">
+                                    <i class="fa fa-check-circle text-success"></i>
+                                </a>
+                            </div>
+
+
+                        </div>
+                        <div class="tooltip-action" style="margin-top:-5.2rem">
+                            <a>
+                                <span>@item.TEN_MAY</span>
+                            </a>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapse-@item.MS_PHIEU_BAO_TRI" class="accordion-collapse collapse" aria-labelledby="heading-100" data-bs-parent="#accordionFlushExample">
+                    @foreach (var itemCV in @item.JobViewModel.Distinct())
+                    {
+                        <div class="card card-list">
+                            <div class="card-header gap-2 parentCell">
+                                <span class="">@itemCV.MS_BO_PHAN </span>
+                                <span style="color:#ff870f">@itemCV.MO_TA_CV</span>
+                                <div class="tooltip-action" style="margin-top:-5.2rem">
+                                    <a>
+                                        <span>@itemCV.TEN_BO_PHAN</span>
+                                    </a>
+                                </div>
+                                @*<div class="separate-line"></div>*@
+                            </div>
+                            <div>
+                                <table class="table table-responsive table-borderless cuscess">
+                                    <tbody>
+                                        @foreach (var itemPT in @item.SParePartViewModel.Where(x => x.MS_BO_PHAN.Equals(itemCV.MS_BO_PHAN) && x.MS_CV.Equals(itemCV.MS_CV)))
+                                        {
+                                            if (itemPT.MS_PT != null)
+                                            {
+                                                <tr>
+                                                    <td style="text-align:left !important;width:40%">@itemPT.MS_PT</td>
+                                                    <td style="text-align:left !important;width:50%">@itemPT.TEN_PT</td>
+                                                    <td style="width:10%"> @itemPT.SL_TT</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
                 </div>
-
-
             </div>
-            <div class="tooltip-action" style="margin-top:-5.2rem">
-                <a>
-                    <span>Mấy cán nhựa số 1</span>
-                </a>
-            </div>
-        </button>
-    </h2>
-
-    <div id="collapse-100" class="accordion-collapse collapse" aria-labelledby="heading-100" data-bs-parent="#accordionFlushExample">
-
-        <div class="card card-list">
-            <div class="card-header gap-2 parentCell">
-                <span class="">01.02.01 </span>
-                <span style="color:#ff870f">Thây thế bạc đạn</span>
-                <a style="width:auto" id='btnsave' role="button">
-                    <i class="fa fa-check-circle text-success"></i>
-                </a>
-
-                <div class="tooltip-action" style="margin-top:-5.2rem">
-                    <a>
-                        <span>mã số bộ phận</span>
-                    </a>
-                </div>
-
-                <div class="separate-line"></div>
-            </div>
-            <div>
-                @*   <div style="padding-bottom:0.3rem;justify-content:space-between" class="d-flex">
-                <div class="d-flex gap-2 ">
-                <span>Mã bộ phận:</span>
-                <span class="card-value">MA_BP</span>
-                </div>
-                <div class="d-flex gap-2">
-                <span>Mã PT:</span>
-                <span class="card-value">MA_PT</span>
-                </div>
-                </div>
-                <div class="d-flex gap-2">
-                <span>Số lượng thay thế:</span>
-                <span class="card-value">SL_THAY_THE</span>
-                </div>*@
-                <table class="table table-responsive table-borderless cuscess">
-                    <tbody>
-                        <tr>
-                            <td style="text-align:left !important;width:40%">PT-001</td>
-                            <td style="text-align:left !important;width:50%">Bạc đạn</td>
-                            <td style="width:10%"> 2</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align:left !important;width:40%">PT-001</td>
-                            <td style="text-align:left !important;width:50%">Bạc đạn</td>
-                            <td style="width:10%"> 2</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
-        <div class="card card-list">
-            <div class="card-header gap-2 parentCell">
-                <span class="">01.02.01 </span>
-                <span style="color:#ff870f">Thây thế bạc đạn</span>
-                <a style="width:auto" id='btnsave' role="button">
-                    <i class="fa fa-check-circle text-success"></i>
-                </a>
-
-                <div class="tooltip-action" style="margin-top:-5.2rem">
-                    <a>
-                        <span>mã số bộ phận</span>
-                    </a>
-                </div>
-
-                <div class="separate-line"></div>
-            </div>
-            <div>
-                @*   <div style="padding-bottom:0.3rem;justify-content:space-between" class="d-flex">
-                <div class="d-flex gap-2 ">
-                <span>Mã bộ phận:</span>
-                <span class="card-value">MA_BP</span>
-                </div>
-                <div class="d-flex gap-2">
-                <span>Mã PT:</span>
-                <span class="card-value">MA_PT</span>
-                </div>
-                </div>
-                <div class="d-flex gap-2">
-                <span>Số lượng thay thế:</span>
-                <span class="card-value">SL_THAY_THE</span>
-                </div>*@
-                <table class="table table-responsive table-borderless cuscess">
-                    <tbody>
-                        <tr>
-                            <td style="text-align:left !important;width:40%">PT-001</td>
-                            <td style="text-align:left !important;width:50%">Bạc đạn</td>
-                            <td style="width:10%"> 2</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align:left !important;width:40%">PT-001</td>
-                            <td style="text-align:left !important;width:50%">Bạc đạn</td>
-                            <td style="width:10%"> 2</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
-        
-
-
+        }
     </div>
-</div>
+
+    <input type="hidden" id="hfTotalPage" value="@Model.TotalPages" data-total-rows="@Model.TotalItems">
+    <div id="paggingResult"></div>
+}
+else
+{
+    <div class="col-12">
+        <div class="no-data">
+            <span>@ViewText.TXT_KHONGCO_DULIEU</span>
+        </div>
+    </div>
+}
 
 
-
-
-
-<input type="hidden" id="hfTotalPage" value="@Model.TotalPages" data-total-rows="@Model.TotalItems">
-<div id="paggingResult"></div>

@@ -75,11 +75,12 @@ namespace VietSoft.HRM.Web.Controllers
             ViewBag.UuTien = _combobox.LoadListUuTien(0);
             return View("~/Views/WorkOrder/Index.cshtml");
         }
-        public ActionResult getDevices(string WorkSiteID)
+        public ActionResult getDevices(string WorkSiteID,int coall)
         {
-            SelectList lst = _combobox.GetCbbMay(WorkSiteID, -1, SessionManager.CurrentUser.UserName, 0, 1);
+            SelectList lst = _combobox.GetCbbMay(WorkSiteID, -1, SessionManager.CurrentUser.UserName, 0, coall);
             return Json(lst);
         }
+
         private static void GetListMenu(int menuSelected)
         {
             List<MenuViewModel> menus = new();

@@ -38,7 +38,7 @@ namespace VietSoft.CMMS.Web.Services
         public SelectList DanhSachLoaiBT()
         {
             DataTable tb = new DataTable();
-            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, System.Data.CommandType.Text, "SELECT MS_LOAI_BT AS 'Value',TEN_LOAI_BT AS 'Text' FROM LOAI_BAO_TRI ORDER BY TEN_LOAI_BT"));
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, System.Data.CommandType.Text, "SELECT MS_LOAI_BT AS 'Value',TEN_LOAI_BT AS 'Text',HU_HONG FROM LOAI_BAO_TRI ORDER BY TEN_LOAI_BT"));
             var listItem = tb.AsEnumerable().Select(
                   x => new SelectListItem
                   {
@@ -88,7 +88,14 @@ namespace VietSoft.CMMS.Web.Services
         {
             DataTable tb = new DataTable();
             tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "SP_Y_GET_MAY", Username, NNgu, "-1", DD, DC, "-1", "-1", "-1"));
-            tb.Rows.Add("-1", " < ALL > ", "-1");
+            if (CoAll == 1)
+            {
+                tb.Rows.Add("-1", " < ALL > ", "-1");
+            }
+            else
+            {
+                tb.Rows.Add("-1", "", "-1");
+            }    
             tb.DefaultView.Sort = "MS_MAY";
             tb = tb.DefaultView.ToTable();
             var listItem = tb.AsEnumerable().Select(
@@ -196,7 +203,7 @@ namespace VietSoft.CMMS.Web.Services
 
 
         // Đạt sửa 10101999
-        public SelectList GetCbbBoPhan(string Username, int NNgu, int CoAll)
+        public SelectList GetCbbBoPhan(string msmay,string Username, int NNgu, int CoAll)
         {
             DataTable dtTmp = new DataTable();
             SqlCommand sqlcom = new SqlCommand();
@@ -205,12 +212,13 @@ namespace VietSoft.CMMS.Web.Services
                 con.Open();
             sqlcom.Connection = con;
             sqlcom.Parameters.AddWithValue("@sDanhMuc", "HISTORY");
-            sqlcom.Parameters.AddWithValue("@UName", Username);
+            sqlcom.Parameters.AddWithValue("@UserName", Username);
             sqlcom.Parameters.AddWithValue("@iLoai", 0);
-            sqlcom.Parameters.AddWithValue("@NNgu", NNgu);
             sqlcom.Parameters.AddWithValue("@CoAll", CoAll);
+            sqlcom.Parameters.AddWithValue("@NNgu", NNgu);
+            sqlcom.Parameters.AddWithValue("@deviceID", msmay);
             sqlcom.CommandType = CommandType.StoredProcedure;
-            sqlcom.CommandText = "spWBaoTri";
+            sqlcom.CommandText = "spCMMSWEB";
             SqlDataAdapter da = new SqlDataAdapter(sqlcom);
             da.Fill(dtTmp);
 
@@ -218,12 +226,12 @@ namespace VietSoft.CMMS.Web.Services
              x => new SelectListItem
              {
                  Text = x.Field<string>("TEN_BP"),
-                 Value = x.Field<int>("MA_BP").ToString()
+                 Value = x.Field<string>("MA_BP")
              });
             return new SelectList(listItem, "Value", "Text", null);
         }
 
-        public SelectList GetCbbPhuTung(string Username, int NNgu, int CoAll)
+        public SelectList GetCbbPhuTung(string msmay,string msbp, string Username, int NNgu, int CoAll)
         {
             DataTable dtTmp = new DataTable();
             SqlCommand sqlcom = new SqlCommand();
@@ -232,12 +240,15 @@ namespace VietSoft.CMMS.Web.Services
                 con.Open();
             sqlcom.Connection = con;
             sqlcom.Parameters.AddWithValue("@sDanhMuc", "HISTORY");
-            sqlcom.Parameters.AddWithValue("@UName", Username);
+            sqlcom.Parameters.AddWithValue("@UserName", Username);
             sqlcom.Parameters.AddWithValue("@iLoai", 1);
             sqlcom.Parameters.AddWithValue("@NNgu", NNgu);
             sqlcom.Parameters.AddWithValue("@CoAll", CoAll);
+            sqlcom.Parameters.AddWithValue("@deviceID", msmay);
+            sqlcom.Parameters.AddWithValue("@sCot1", msbp == null ? "-1" : msbp);
+
             sqlcom.CommandType = CommandType.StoredProcedure;
-            sqlcom.CommandText = "spWBaoTri";
+            sqlcom.CommandText = "spCMMSWEB";
             SqlDataAdapter da = new SqlDataAdapter(sqlcom);
             da.Fill(dtTmp);
 
@@ -260,12 +271,12 @@ namespace VietSoft.CMMS.Web.Services
                 con.Open();
             sqlcom.Connection = con;
             sqlcom.Parameters.AddWithValue("@sDanhMuc", "HISTORY_REQUEST");
-            sqlcom.Parameters.AddWithValue("@UName", Username);
+            sqlcom.Parameters.AddWithValue("@UserName", Username);
             sqlcom.Parameters.AddWithValue("@iLoai", 0);
             sqlcom.Parameters.AddWithValue("@NNgu", NNgu);
             sqlcom.Parameters.AddWithValue("@CoAll", CoAll);
             sqlcom.CommandType = CommandType.StoredProcedure;
-            sqlcom.CommandText = "spWBaoTri";
+            sqlcom.CommandText = "spCMMSWEB";
             SqlDataAdapter da = new SqlDataAdapter(sqlcom);
             da.Fill(dtTmp);
 
@@ -273,7 +284,7 @@ namespace VietSoft.CMMS.Web.Services
              x => new SelectListItem
              {
                  Text = x.Field<string>("TEN_NYC"),
-                 Value = x.Field<int>("ID_NYC").ToString()
+                 Value = x.Field<string>("ID_NYC").ToString()
              });
             return new SelectList(listItem, "Value", "Text", null);
         }

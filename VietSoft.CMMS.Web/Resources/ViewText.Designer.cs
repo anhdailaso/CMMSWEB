@@ -754,7 +754,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mã thiết bị.
+        ///   Looks up a localized string similar to Tìm kiếm.
         /// </summary>
         public static string TXT_SEARCH {
             get {

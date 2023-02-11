@@ -109,7 +109,9 @@ function initBootstrapDialog() {
 }
 
 function SetActive(e) {
+    $(e).closest('.form-floating').find('select').addClass('scanner-input-active');
     $(e).closest('.form-floating').find('input').addClass('scanner-input-active');
+/*    console.log($(e).closest('.form-floating').find('select').val());*/
 }
 
 $('.disabled').click(function (e) {

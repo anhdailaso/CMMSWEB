@@ -4,78 +4,63 @@
     ViewBag.Title = "DI CHUYỂN THIẾT BỊ";
     ViewBag.BackUrl = @Url.Action("Index", "Home", new { });
 }
-
-
 <div class="row">
-    <div class="col-md-6 offset-md-3 col-xs-12  marrgin-bottom">
+    <div class="col-md-6 offset-md-3 col-xs-12">
+        <div class="accordion" id="accordionPanelsStayOpenExample">
+            <div class="accordion-item border-0">
+                <p class="accordion" id="panelsStayOpen-headingOne">
+                    <button class="accordion-button collapsed w-50" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                    </button>
+                </p>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="accordion-body">
 
-        <div class="form-check form-check-inline break-line">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
-            <label class="form-check-label" for="inlineRadio1">Chuyển đến</label>
-        </div>
-        <div class="form-check form-check-inline break-line">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-            <label class="form-check-label" for="inlineRadio2">Chuyển đi</label>
-        </div>
-
-        <div class="form-floating break-line">
-            @Html.TextBox("MS_N_XUONG", null, new { @class = "form-control", maxlength = 250, autocomplete = "off" , placeholder="Scan nơi chuyển dến"})
-            <label for="MS_N_XUONG">Scan nơi chuyển dến</label>
-            <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
-                <img src="~/images/barcode.png" alt="image" class="icon-barcode">
-            </a>
-        </div>
-        <div class="form-floating break-line disabled" id="area-scan-index">
-            @Html.TextBox("MS_MAY", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder="Scan máy"})
-            <label for="MS_MAY">Scan máy</label>
-            <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
-                <img src="~/images/barcode.png" alt="image" class="icon-barcode">
-            </a>
-        </div>
-
-
-        <div class="col-md-12 offset-md-12 col-xs-12  px-0">
-            <div id="GetMoveDivice">
-                <div class="card card-list">
-                    <div class="card-body">
-                        <div style="padding-bottom:0.3rem;justify-content:space-between" class="d-flex">
-                            <div class="d-flex gap-2 ">
-                                <span>Mã số máy:</span>
-                                <span class="card-value">TAN-003</span>
-                            </div>
-                            <div class="d-flex gap-2">
-                                <span>Tên máy:</span>
-                                <span class="card-value">Máy tán đinh</span>
-                            </div>
+                        <div class="form-check form-check-inline break-line">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="false" checked>
+                            <label class="form-check-label" for="inlineRadio1">Chuyển đi</label>
                         </div>
-                        <div class="d-flex gap-2">
-                            <span>mã VT:</span>
-                            <span class="card-value">L-0003</span>
+                        <div class="form-check form-check-inline break-line">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="true">
+                            <label class="form-check-label" for="inlineRadio2">Chuyển đến</label>
                         </div>
-                    </div>
-                </div>
 
-                <div class="card card-list">
-                    <div class="card-body">
-                        <div style="padding-bottom:0.3rem;justify-content:space-between" class="d-flex">
-                            <div class="d-flex gap-2 ">
-                                <span>Mã số máy:</span>
-                                <span class="card-value">TAN-003</span>
-                            </div>
-                            <div class="d-flex gap-2">
-                                <span>Tên máy:</span>
-                                <span class="card-value">Máy tán đinh</span>
-                            </div>
+                        <div class="form-floating break-line">
+                            <select id="cboDiaDiemDi" name="cboDiaDiemDi" asp-items="@ViewBag.ListNhaXuong" class="form-control form-select form-select-sm">
+                            </select>
+                            <label for="cboDiaDiemDi">Nơi chuyển đi</label>
+                            <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
+                                <img src="~/images/barcode.png" alt="image" class="icon-barcode">
+                            </a>
                         </div>
-                        <div class="d-flex gap-2">
-                            <span>mã VT:</span>
-                            <span class="card-value">L-0003</span>
+                        <div class="form-floating break-line">
+                            <select id="cboDiaDiemDen" name="cboDiaDiemDen" asp-items="@ViewBag.ListNhaXuong" class="form-control form-select form-select-sm">
+                            </select>
+                            <label for="cboDiaDiemDen">Nơi chuyển đến</label>
+                            <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
+                                <img src="~/images/barcode.png" alt="image" class="icon-barcode">
+                            </a>
+                        </div>
+                        <div class="form-floating break-line">
+                            <select id="cboMay" name="cboMay" asp-items="@ViewBag.ListMAY" class="form-control form-select form-select-sm">
+                            </select>
+                            <label for="cboMay">@ViewText.TXT_THIET_BI</label>
+                            <div id="cboMay-error"></div>
+                            <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
+                                <img src="~/images/barcode.png" alt="image" class="icon-barcode">
+                            </a>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
+        <div class="row mb-2">
+            <div class="col-md-12 offset-md-12 col-xs-12  px-0">
+                <div id="GetMoveDevice">
+                </div>
+            </div>
+        </div>
+        <br />
+
     </div>
 </div>
 
@@ -98,19 +83,23 @@
         </div>
     </div>
 </nav>
+
 @section scripts {
+    <script src="~/lib/jquery.twbsPagination/jquery.twbsPagination.min.js"></script>
     <script>
         var config = {
-            GET_LIST_HISTORY: '@Url.Action("GetListHistory", "History")',
+            GET_MOVE_DIVE: '@Url.Action("GetListMoveDevice", "MoveDevice")',
+            SAVE_MOVE_DIVE: '@Url.Action("SaveListMoveDevice", "MoveDevice")',
+            SAVE_DATA_MOVE_DIVE: '@Url.Action("SaveListDataMoveDevice", "MoveDevice")',
+            GET_MAY: '@Url.Action("getDevices", "Home")',
+            GET_MAY_DEN: '@Url.Action("getToDevices", "MoveDevice")',
             PAGE_SIZE: 10
         }
     </script>
-
-    <script src="~/js/pages/history.js" asp-append-version="true"></script>
-
+    <script src="~/js/pages/movedevice.js" asp-append-version="true"></script>
     <script>
         $(document).ready(function () {
-            HistoryModule.init();
+            MoveDeviceModule.init();
         });
     </script>
-    }
+}
