@@ -195,6 +195,9 @@
         $(document).on("click", '.expand', function () {
             $('ul', $(this).parent()).eq(0).toggle();
         })
+        $(document).on("click", '.expand', function () {
+            $('ul', $(this).closest('.parent').parent()).eq(0).toggle();
+        })
 
         $(document).on("click", '.form-check-input', function () {
             var isChecked = false
