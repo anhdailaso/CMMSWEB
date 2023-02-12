@@ -187,10 +187,9 @@
             <!-- Twitter -->
             @if (Model.DUYET == 1)
             {
-                <a class="btn btn-outline-primary m-1" role="button">
+                    <a class="btn btn-outline-primary m-1" role="button" href="@Url.Action("WorkOrder","Home", new{msmay = @ViewBag.MS_MAY, tenmay = @ViewBag.TEN_MAY, flag = 0})">
                     <i class="fa fa-cogs fs-7"></i>
                 </a>
-
             }
             else
             {

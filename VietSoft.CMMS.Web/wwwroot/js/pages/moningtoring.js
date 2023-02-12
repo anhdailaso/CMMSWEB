@@ -153,9 +153,14 @@
             hideLoadingOverlay("#modalResultContent");
         })
 
-        //$(document).on("change", '#inputCauseOfDamageContent .form-check-input', function () {
-            
-        //})
+        $(document).on("change", '#inputCauseOfDamageContent input:checkbox', function () {
+            if ($("#inputCauseOfDamageContent input:checkbox:checked").length > 0) {
+                $("#btnSaveInputCauseOfDamageList").removeClass("disabled");
+            }
+            else {
+                $("#btnSaveInputCauseOfDamageList").addClass("disabled");
+            }
+        })
 
         $('#btnViewCauseOfDamage').on('click', function () {
             GetViewCauseOfDamage();
@@ -329,32 +334,34 @@
         $(document).on('click', '#btnSaveInputCauseOfDamageList', function () {
             let causeOfDamageModels = []
             $(this).closest('.modal').find('.modal-body #inputCauseOfDamageContent input:checkbox:checked').each(function () {
-              console.log($(this).data('key'))
+                let key = $(this).data('key')
+                if (key !== null && key !== '' && key !== 'undefined') {
+                    causeOfDamageModels.push(key)
+                }
             })
 
-            //TODO SaveInputCauseOfDamageList
-            //let model = {
-            //    MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),
-            //    CauseOfDamageModels: causeOfDamageModels
-            //}
-            //$.ajax({
-            //    type: "POST",
-            //    url: config.SAVE_INPUT_CAUSE_OF_DAMAGE,
-            //    data: {
-            //        model: model
-            //    },
-            //    success: function (response) {
-            //        if (response.responseCode == 1) {
-            //            showSuccess(response.responseMessage)
+            let model = {
+                MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),
+                Keys: causeOfDamageModels
+            }
+            $.ajax({
+                type: "POST",
+                url: config.SAVE_INPUT_CAUSE_OF_DAMAGE,
+                data: {
+                    model: model
+                },
+                success: function (response) {
+                    if (response.responseCode == 1) {
+                        showSuccess(response.responseMessage)
                        
-            //        }
-            //        else {
-            //            showWarning(response.responseMessage)
-            //        }
-            //    },
-            //    complete: function () {
-            //    }
-            //});
+                    }
+                    else {
+                        showWarning(response.responseMessage)
+                    }
+                },
+                complete: function () {
+                }
+            });
         });
 
         $(document).on('click', '.btnSaveSupplies', function () {
@@ -549,6 +556,7 @@
                     if (response.data) {
                         $(response.data).each(function (index, value) {
                             var troot = document.createElement("ul");
+                            troot.className = "rootNode";
                             treeMenuForInput(value, troot, 0);
                             $('#inputCauseOfDamageContent').append(troot)
                             $('#btnSaveInputCauseOfDamageList').removeClass("disabled");
@@ -602,7 +610,7 @@
         var icon = childs ? "bi bi-plus-lg" : ""
         var sib = document.createElement("li");
         var color = level == 0 ? "root" : ((childs && level != 0) ? "sub-item" : "")
-        sib.innerHTML = `<div class="expand pt-2" ` + (childs ? 'style="cursor: pointer"' : '') + `>
+        sib.innerHTML = `<div class="expand pt-2 flex-fill" ` + (childs ? 'style="cursor: pointer"' : '') + `>
             <i class="` + icon + `"></i>
             <span>`+ (parent.itemCode ? parent.itemCode : '') + `</span>
             <span class=`+ color +`>`+ parent.itemName + `</span>
@@ -627,7 +635,7 @@
         var color = level == 0 ? "root" : ((childs && level != 0) ? "sub-item" : "")
         sib.innerHTML = `
                <div class="d-flex parent">
-            <div class="expand pt-2" ` + (childs ? 'style="cursor: pointer"' : '') + `>
+            <div class="expand pt-2 flex-fill" ` + (childs ? 'style="cursor: pointer"' : '') + `>
             <i class="` + icon + `"></i>
             <span>`+ (parent.itemCode ? parent.itemCode : '') + `</span>
             <span class=`+ color + `>` + parent.itemName + `</span>

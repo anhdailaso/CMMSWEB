@@ -63,4 +63,14 @@
         public IEnumerable<object> Childs { get; set; }
 
     }
+
+    public class SaveCauseOfDamageModel
+    {
+        public string MS_MAY { get; set; }
+        public string MS_BO_PHAN { get; set; }
+        public string CLASS_ID { get; set; }
+        public string PROBLEM_ID { get; set; }
+        public string CAUSE_ID { get; set; }
+        public string REMEDY_ID { get; set; }
+    }
 }

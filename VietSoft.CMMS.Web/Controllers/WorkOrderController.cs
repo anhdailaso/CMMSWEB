@@ -128,9 +128,27 @@ namespace VietSoft.CMMS.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveInputCauseOfDamageList(SaveInputCauseOfDamageListModel model)
+        public IActionResult SaveInputCauseOfDamageList(SaveCauseOfDamageInputModel model)
         {
-            var json = Newtonsoft.Json.JsonConvert.SerializeObject(model.CauseOfDamageModels);
+            var causeOfDamages = new List<SaveCauseOfDamageModel>();
+            foreach (var item in model.Keys)
+            {
+                var ids = item.Split('|');
+                var causeOfDamage = new SaveCauseOfDamageModel()
+                {
+                    MS_MAY = ids[0],
+                    MS_BO_PHAN = ids[1],
+                    CLASS_ID = ids[2],
+                    PROBLEM_ID = ids[3],
+                    CAUSE_ID = ids[4],
+                    REMEDY_ID = ids[5]
+                };
+
+                causeOfDamages.Add(causeOfDamage);
+            }
+                
+
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(causeOfDamages);
             var res = _maintenanceService.SaveInputCauseOfDamageList(model.MS_PHIEU_BAO_TRI, json);
 
             if (res.MA == 1)
