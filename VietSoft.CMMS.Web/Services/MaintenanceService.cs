@@ -173,7 +173,8 @@ namespace VietSoft.CMMS.Web.Services
                 if (res != null)
                 {
                     var query = res.Where(x => string.IsNullOrEmpty(keyWork) || x.MS_BO_PHAN.Contains(keyWork) || x.TEN_BO_PHAN.Contains(keyWork) || x.CAUSE_NAME.Contains(keyWork)
-                    || x.CAUSE_CODE.Contains(keyWork) || x.CLASS_CODE.Contains(keyWork) || x.CLASS_NAME.Contains(keyWork));
+                    || x.CAUSE_CODE.Contains(keyWork) || x.CLASS_CODE.Contains(keyWork) || x.CLASS_NAME.Contains(keyWork)
+                    || x.PROBLEM_NAME.Contains(keyWork) || x.PROBLEM_CODE.Contains(keyWork) || x.PROBLEM_ID.Contains(keyWork));
 
                     var lst = query.GroupBy(
                         x => (x.MS_BO_PHAN, x.PROBLEM_CODE, x.PROBLEM_ID, x.PROBLEM_NAME),
