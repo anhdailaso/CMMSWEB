@@ -166,31 +166,19 @@
             GetViewCauseOfDamage();
         });
 
+        // confirm save workorder
+        $(document).on('click', '#btnYes', function () {
+            saveCompleteWorkOrder();
+            $('#modal').modal('hide');
+        })
+        $(document).on('click', '#btnNo', function () {
+            $('#modal').modal('hide');
+        })
+
         $(document).on("click", '#btnCompletePBT', function () {
-            showLoadingOverlay("#inputCauseOfDamageContent");
-            $.ajax({
-                type: "POST",
-                url: config.COMPLETED_WORK_ORDER,
-                data: {
-                    ticketId: $('#MS_PHIEU_BAO_TRI').val(),
-                    deviceId: $('#MS_MAY').val()
-                },
-                success: function (response) {
-                    if (response.responseCode == 1) {
-                        showSuccess(response.responseMessage)
-                    }
-                    else if (response.responseCode == 2) {
-                        GetInputCauseOfDamage();
-                    }
-                    else {
-                        showWarning(response.responseMessage)
-                    }
-                },
-                complete: function () {
-                    hideLoadingOverlay("#inputCauseOfDamageContent");
-                }
-            });
+            ShowConfirmModal(config.MESS_XACNHAN_HOANTHANH_PHIEUBAOTRI);           
         });
+        
 
         $(document).on("click", '.expand', function () {
             $('ul', $(this).parent()).eq(0).toggle();
@@ -355,8 +343,11 @@
                 },
                 success: function (response) {
                     if (response.responseCode == 1) {
+                        $('#modalLarge').modal('hide')
                         showSuccess(response.responseMessage)
-                       
+                        setTimeout(function () {
+                            window.location.href = "/Home/Index";
+                        }, _notifyTimeout)
                     }
                     else {
                         showWarning(response.responseMessage)
@@ -501,7 +492,34 @@
             let hours = diffTime > 0 ? diffTime : 0
             $(this).closest('tr').find("p.hours").text(Math.round(hours * 100) / 100)
         });
+    }   
+
+    function saveCompleteWorkOrder() {
+        showLoadingOverlay("#inputCauseOfDamageContent");
+        $.ajax({
+            type: "POST",
+            url: config.COMPLETED_WORK_ORDER,
+            data: {
+                ticketId: $('#MS_PHIEU_BAO_TRI').val(),
+                deviceId: $('#MS_MAY').val()
+            },
+            success: function (response) {
+                if (response.responseCode == 1) {
+                    showSuccess(response.responseMessage)
+                }
+                else if (response.responseCode == 2) {
+                    GetInputCauseOfDamage();
+                }
+                else {
+                    showWarning(response.responseMessage)
+                }
+            },
+            complete: function () {
+                hideLoadingOverlay("#inputCauseOfDamageContent");
+            }
+        });
     }
+
     function SaveMaintenanceWork(workList) {
         let model = {
             MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),

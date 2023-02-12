@@ -156,4 +156,7 @@
   <data name="UPDATE_REQUEST_SUCCESS" xml:space="preserve">
     <value>Cập nhật yêu cầu thành công.</value>
   </data>
+  <data name="XACNHAN_HOANTHANH_PHIEUBAOTRI" xml:space="preserve">
+    <value>Bạn có muốn hoàn thành khai báo phiếu bảo trì?</value>
+  </data>
 </root>

@@ -1,5 +1,8 @@
-﻿var _formatDateTime = 'DD/MM/YYYY HH:mm'
-var _formatDate = 'DD/MM/YYYY'
+﻿var _formatDateTime = 'DD/MM/YYYY HH:mm';
+var _formatDate = 'DD/MM/YYYY';
+var _formatDate = 'DD/MM/YYYY';
+var _notifyTimeout = 3000;
+
 $(function () {
 
     $.ajaxSetup({
@@ -369,4 +372,18 @@ function checkIsWeekend(date1, date2) {
 
 function ClosePopup(element) {
     $(element).parents('.modal').modal('hide')
+}
+
+function ShowConfirmModal(message) {
+    $.ajax({
+        type: "GET",
+        data: {
+            message: message
+        },
+        url: "/Home/ShowConfirmModal",
+        success: function (response) {
+            $('#modal .modal-content').html(response);
+            $('#modal').modal('show');
+        }
+    });
 }

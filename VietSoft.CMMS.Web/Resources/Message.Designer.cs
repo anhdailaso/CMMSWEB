@@ -176,5 +176,14 @@ namespace VietSoft.CMMS.Web.Resources {
                 return ResourceManager.GetString("UPDATE_REQUEST_SUCCESS", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bạn có muốn hoàn thành khai báo phiếu bảo trì?.
+        /// </summary>
+        public static string XACNHAN_HOANTHANH_PHIEUBAOTRI {
+            get {
+                return ResourceManager.GetString("XACNHAN_HOANTHANH_PHIEUBAOTRI", resourceCulture);
+            }
+        }
     }
 }

@@ -254,5 +254,11 @@ namespace VietSoft.HRM.Web.Controllers
             }
 
         }
+
+        public ActionResult ShowConfirmModal(string message)
+        {
+            ViewBag.Message = message;
+            return PartialView("~/Views/Shared/_ConfirmModal.cshtml");
+        }
     }
 }
