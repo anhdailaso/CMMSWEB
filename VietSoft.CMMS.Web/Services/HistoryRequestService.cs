@@ -13,25 +13,25 @@ namespace VietSoft.CMMS.Web.Services
             _dapper = dapper;
         }
 
-        public List<HistoryRequestViewModel> GetListHistoryRequest(string username, int languages, DateTime? tngay, DateTime? dngay, string ms_may, int idNguoiYC, int pageIndex, int pageSize)
+        public List<HistoryRequestViewModel> GetListHistoryRequest(string username, int languages, DateTime? tngay, DateTime? dngay, string ms_may,string nguoiyc)
         {
             try
             {
                 var p = new DynamicParameters();
                 p.Add("@sDanhMuc", "HISTORY_REQUEST");
                 p.Add("@iLoai", 1);
-                p.Add("@TNgay", tngay);
-                p.Add("@DNgay", dngay);
-                p.Add("@UName", username);
-                p.Add("@MS_MAY", ms_may == "" ? "-1" : ms_may);
-                p.Add("@iCot1", idNguoiYC);
+                p.Add("@dCot1", tngay);
+                p.Add("@dCot2", dngay);
+                p.Add("@UserName", username);
+                p.Add("@deviceID", ms_may == "" ? "-1" : ms_may);
+                p.Add("@sCot1", nguoiyc == null ? "-1" : nguoiyc);
                 p.Add("@NNgu", languages);
 
                 //int TotalRows = p.Get<int>("@TotalRows");
-                List<HistoryRequestViewModel>? res = _dapper.GetAll<HistoryRequestViewModel>("spWBaoTri", p, CommandType.StoredProcedure);
+                List<HistoryRequestViewModel>? res = _dapper.GetAll<HistoryRequestViewModel>("spCMMSWEB", p, CommandType.StoredProcedure);
                 return res;
             }
-            catch
+            catch(Exception ex)
             {
                 return null;
             }

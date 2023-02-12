@@ -24,7 +24,7 @@ builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDistributedMemoryCache();
-
+//builder.WebHost.UseUrls("http://192.168.2.6:5000");
 double sessionTimeout = Convert.ToDouble(builder.Configuration["SessionTimeout"]);
 builder.Services.AddSession(options =>
 {

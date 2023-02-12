@@ -33,8 +33,10 @@
                 // do something when code is read
                 console.log('decodedText ', decodedText)
                 console.log('decodedResult ', decodedResult)
-                $('#cboMaBoPhan').val(decodedText).change();
+                //$('#cboMaBoPhan').val(decodedText).change();
+                $('.scanner-input-active').val(decodedText).change();
                 $('#modalCameraScanner').modal('hide');
+                $('.form-control').removeClass('scanner-input-active');
                 StopCamera();
             },
             (errorMessage) => {
@@ -78,8 +80,9 @@
                     // success, use decodedText
                     console.log(decodedText);
                     console.log(decodedResult);
-                    $('#cboMaBoPhan').val(decodedText).change();
+                    $('.scanner-input-active').val(decodedText).change();
                     $('#modalCameraScanner').modal('hide');
+                    $('.form-control').removeClass('scanner-input-active');
                     StopCamera();
                 })
                 .catch(err => {
