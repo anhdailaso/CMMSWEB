@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using VietSoft.CMMS.Web.Helpers;
 using VietSoft.CMMS.Web.IServices;
 using VietSoft.CMMS.Web.Models;
@@ -29,10 +30,25 @@ namespace VietSoft.CMMS.Web.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult HistoryIndex()
         {
-            ViewBag.ListMAY = _combobox.GetCbbMay("-1", -1, SessionManager.CurrentUser.UserName, 0, 1);
-            ViewBag.ListBoPhan = _combobox.GetCbbBoPhan(SessionManager.CurrentUser.UserName, 0, 1);
-            ViewBag.ListPhuTung = _combobox.GetCbbPhuTung(SessionManager.CurrentUser.UserName, 0, 1);
+            SelectList listMAY = _combobox.GetCbbMay("-1", -1, SessionManager.CurrentUser.UserName, 0, 1);
+            SelectListItem itemMay = listMAY.Where(x => x.Value.ToString() == "-1").FirstOrDefault();
+            itemMay.Text = "";
+            ViewBag.ListMAY = listMAY;
+
+            ViewBag.ListBoPhan = _combobox.GetCbbBoPhan("-1",SessionManager.CurrentUser.UserName, 0, 1);
+            ViewBag.ListPhuTung = _combobox.GetCbbPhuTung("-1","-1",SessionManager.CurrentUser.UserName, 0, 1);
             return View();
+        }
+        public ActionResult getBoPhan(string msmay)
+        {
+            SelectList lst = _combobox.GetCbbBoPhan(msmay, SessionManager.CurrentUser.UserName, 0, 1);
+            return Json(lst);
+        }
+
+        public ActionResult getPhuTung(string msmay,string msbp)
+        {
+            SelectList lst = _combobox.GetCbbPhuTung(msmay, msbp, SessionManager.CurrentUser.UserName, 0, 1);
+            return Json(lst);
         }
 
         public static List<HistoryViewModel>? res;
@@ -51,7 +67,7 @@ namespace VietSoft.CMMS.Web.Controllers
             {
                 if (keySeach != null)
                 {
-                    result = new PagedList<HistoryViewModel>(res.Where(x => x.MA_BP.Contains(keySeach)).ToList(), res.Count(x => x.MA_BP.Contains(keySeach)), pageIndex, pageSize);
+                    result = new PagedList<HistoryViewModel>(res.Where(x => x.MA_BP.Contains(keySeach) || x.NGAY.Contains(keySeach) || x.MA_PT.Contains(keySeach)).ToList(), res.Count(x => x.MA_BP.Contains(keySeach)), pageIndex, pageSize);
                 }
                 else
                 {

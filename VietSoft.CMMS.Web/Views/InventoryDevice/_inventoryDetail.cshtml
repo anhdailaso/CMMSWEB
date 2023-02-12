@@ -1,6 +1,6 @@
 ﻿@using VietSoft.CMMS.Web.Resources;
 @using VietSoft.CMMS.Web.Helpers;
-@model PagedList<VietSoft.CMMS.Web.Models.MoveDeviceModel>
+@model PagedList<VietSoft.CMMS.Web.Models.IventoryDeviceModel>
 
 @if (Model != null && Model.Data.Count > 0)
 { @foreach (var item in Model.Data)
@@ -12,10 +12,9 @@
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex flex-column w-50 fs-sm">
-                                <span class="fw-600">@item.NGAY_CHUYEN</span>
+                                <span class="fw-600">@item.NGAY_SCAN</span>
                             </div>
                             <div class="d-flex flex-column">
-                                <span class="fw-600 fs-sm">Số ngày(@item.SO_NGAY)</span>
                             </div>
                         </div>
                     </div>
@@ -28,18 +27,13 @@
                             </div>
                         </div>
                         <div class="d-flex mt-1">
-                            <div class="d-flex w-50 gap-2">
-                                <span class="text-secondary">@item.TEN_KHO_DI</span>
-                            </div>
-                            <div class="d-flex gap-2">
-                                <span class="text-secondary">@item.TEN_KHO_DEN</span>
-                            </div>
+                            <span class="text-secondary">@item.TEN_KHO</span>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
+
     }
     <input type="hidden" id="hfTotalPage" value="@Model.TotalPages" data-total-rows="@Model.TotalItems">
     <div id="paggingResult"></div>

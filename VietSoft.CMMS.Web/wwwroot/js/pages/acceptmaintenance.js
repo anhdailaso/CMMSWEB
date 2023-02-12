@@ -32,10 +32,27 @@
 
     }
 
+    function nghiemthuPBT(e) {
+        $.ajax({
+            type: "POST",
+            url: config.urlSaveAcceptMaintenance,
+            data: { mspbt: $(e).attr('data-src') },
+            success: function (response) {
+                if (response.responseCode == 1) {
+                    showSuccess(response.responseMessage);
+                    GetListAcceptMaintenance(1);
+                }
+                else {
+                    showWarning(response.responseMessage);
+                }
+            }
+        });
+    }
+
+
     function GetListAcceptMaintenance(pageIndex) {
         var currenpage = pageIndex || 1;
         showLoadingOverlay("#GetAcceptMaintenance");
-
         $.ajax({
             type: "GET",
             url: config.GET_LIST_AcceptMaintenance,
@@ -71,7 +88,8 @@
 
 
     return {
-        init: init
+        init: init,
+        nghiemthuPBT: nghiemthuPBT
     };
 
 })(window, jQuery, config);

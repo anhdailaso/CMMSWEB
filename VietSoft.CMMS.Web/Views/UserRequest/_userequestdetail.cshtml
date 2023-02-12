@@ -66,7 +66,7 @@
                     <div data-type="loading" class="img-loading" style="color:#218838; display:none;">
                         <span class="fa fa-2x fa-spin fa-spinner"></span>
                     </div>
-                    <img data-type="preview" class="btn btn-light ratio-img img-fluid p-2 image border dashed rounded" src="" style="display: none; cursor: default;">
+                    <img data-type="preview" onclick="loadhinh(this)" class="btn btn-light ratio-img img-fluid p-2 image border dashed rounded" src="" style="display: none; cursor: default;">
                     <span class="badge badge-pill badge-success p-2 w-50 main-tag" style="display:none;">Main</span>
                 </div>
 
@@ -139,6 +139,10 @@
             });
         });
 
+        function loadhinh(e)
+        {
+            alert("123");
+        }
     </script>
 </body>
 </html>

@@ -126,14 +126,14 @@
             </div>
 
             <!-- Buttons -->
-            @*<div data-type="image-buttons" class="row justify-content-center mt-2">
+            <div data-type="image-buttons" class="row justify-content-center mt-2">
                 <button data-type="add" class="btn btn-outline-warning" type="button"><span class="fa fa-camera mr-2"></span>Add</button>
                 <button data-type="btn-modify" type="button" class="btn btn-outline-warning m-0" data-toggle="popover" data-placement="right" style="display:none;">
                     <span class="fa fa-pencil-alt mr-2"></span>Modify
                 </button>
-            </div>*@
+            </div>
         </div>
-        @*
+
         <!-- Popover operations -->
         <div data-type="popover-model" style="display:none">
             <div data-type="popover" class="ml-3 mr-3" style="min-width:150px;">
@@ -163,7 +163,7 @@
                 </div>
             </div>
         </div>
-            *@
+
     </div>
 
     <div class="form-group row">
@@ -187,9 +187,10 @@
             <!-- Twitter -->
             @if (Model.DUYET == 1)
             {
-                    <a class="btn btn-outline-primary m-1" role="button" href="@Url.Action("WorkOrder","Home", new{msmay = @ViewBag.MS_MAY, tenmay = @ViewBag.TEN_MAY, flag = 0})">
+                <a class="btn btn-outline-primary m-1" role="button">
                     <i class="fa fa-cogs fs-7"></i>
                 </a>
+
             }
             else
             {
@@ -233,5 +234,3 @@
         });
     </script>
 }
-
-

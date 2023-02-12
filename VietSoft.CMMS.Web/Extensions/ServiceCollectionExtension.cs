@@ -15,6 +15,7 @@ namespace VietSoft.CMMS.Web.Extensions
             services.TryAddScoped<IComboboxService, ComboboxService>();
             services.TryAddScoped<IChartService, ChartService>();
             services.TryAddScoped<IMaintenanceService, MaintenanceService>();
+            services.TryAddScoped<IDeviceService, DeviceService>();
         }
     }
 }

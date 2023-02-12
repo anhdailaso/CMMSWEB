@@ -395,6 +395,7 @@ function drawRotated(img, degree) {
                     self.AttachmentArray[idx].Orientation = orientation;
 
                     handle(++i);
+
                 };
 
                 image.src = src;
@@ -403,7 +404,8 @@ function drawRotated(img, degree) {
             // Read in the image file as a data URL.
             // readAsDataURL: The result property will contain the file/blob's data encoded as a data URL.
             // More info about Data URI scheme https://en.wikipedia.org/wiki/Data_URI_scheme
-            fileReader.readAsDataURL(file);
+            fileReader.readAsDataURL(file); 
+            alert(1);
         })(0);
 
     }
@@ -745,7 +747,8 @@ function drawRotated(img, degree) {
 
         // To check if the user don't upload same images
         if (self.CheckFileUnique(readerEvt.name) == false) {
-            self.ShowProgress(self.barStyle.danger, options.errorduplicate + " (" + readerEvt.name + ")");
+            //self.ShowProgress(self.barStyle.danger, options.errorduplicate + " (" + readerEvt.name + ")");
+            showWarning(options.errorduplicate);
             return false;
         }
 

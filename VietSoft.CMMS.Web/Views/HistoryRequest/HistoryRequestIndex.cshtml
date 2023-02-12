@@ -7,17 +7,17 @@
 
 <div class="row">
     <div class="col-md-6 offset-md-3 col-xs-12">
-        <div class="accordion break-line" id="accordionPanelsStayOpenExample">
+        <div class="accordion" id="accordionPanelsStayOpenExample">
             <div class="accordion-item border-0">
                 <p class="accordion" id="panelsStayOpen-headingOne">
                     <button class="accordion-button collapsed w-50" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
                     </button>
                 </p>
-                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show break-line" aria-labelledby="panelsStayOpen-headingOne">
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                     <div class="accordion-body">
                         <form id="formSubmitRequest">
                             <div class="form-floating break-line">
-                                <select id="cboMaThietBi" name="cboMaThietBi" asp-items="@ViewBag.ListMAY" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+                                <select id="cboMaThietBi" name="cboMaThietBi" asp-items="@ViewBag.ListMAY" class="form-control form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
                                 </select>
                                 <label for="cboMaThietBi">@ViewText.TXT_MA_THIET_BI</label>
                                 <div id="cboMaThietBi-error"></div>
@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                             <div class="form-floating break-line">
-                                <select id="cboNguoiYeuCau" name="cboNguoiYeuCau" asp-items="@ViewBag.ListNYC" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+                                <select id="cboNguoiYeuCau" name="cboNguoiYeuCau" asp-items="@ViewBag.ListNYC" class="form-control form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
                                 </select>
                                 <label for="cboNguoiYeuCau">@ViewText.TXT_NGUOI_YEU_CAU</label>
                                 <div id="cboNguoiYeuCau-error"></div>
@@ -85,7 +85,7 @@
         </div>
         <div>
             <div class="position-relative">
-                @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder="Tình trạng yêu cầu"})
+                @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder= @ViewText.TXT_SEARCH})
                 <i class="bi bi-search icon-obsolute"></i>
             </div>
             <div class="col-md-12 offset-md-12 col-xs-12  px-0">
