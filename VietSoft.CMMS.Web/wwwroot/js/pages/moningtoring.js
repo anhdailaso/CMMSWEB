@@ -559,7 +559,6 @@
                             troot.className = "rootNode";
                             treeMenuForInput(value, troot, 0);
                             $('#inputCauseOfDamageContent').append(troot)
-                            $('#btnSaveInputCauseOfDamageList').removeClass("disabled");
                         });
                         
                     }

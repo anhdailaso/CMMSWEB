@@ -133,6 +133,15 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Không.
+        /// </summary>
+        public static string BTN_NO {
+            get {
+                return ResourceManager.GetString("BTN_NO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lấy lại mật khẩu.
         /// </summary>
         public static string BTN_QUEN_MK {
@@ -165,6 +174,15 @@ namespace VietSoft.CMMS.Web.Resources {
         public static string BTN_XACNHAN {
             get {
                 return ResourceManager.GetString("BTN_XACNHAN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Có.
+        /// </summary>
+        public static string BTN_YES {
+            get {
+                return ResourceManager.GetString("BTN_YES", resourceCulture);
             }
         }
         
@@ -246,6 +264,15 @@ namespace VietSoft.CMMS.Web.Resources {
         public static string LABEL_TOXINGHIEP {
             get {
                 return ResourceManager.GetString("LABEL_TOXINGHIEP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Xác nhận.
+        /// </summary>
+        public static string LABEL_XACNHAN {
+            get {
+                return ResourceManager.GetString("LABEL_XACNHAN", resourceCulture);
             }
         }
         

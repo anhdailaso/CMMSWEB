@@ -492,4 +492,13 @@
   <data name="TXT_THEM_PHUTUNG" xml:space="preserve">
     <value>Thêm phụ tùng</value>
   </data>
+  <data name="BTN_NO" xml:space="preserve">
+    <value>Không</value>
+  </data>
+  <data name="BTN_YES" xml:space="preserve">
+    <value>Có</value>
+  </data>
+  <data name="LABEL_XACNHAN" xml:space="preserve">
+    <value>Xác nhận</value>
+  </data>
 </root>
