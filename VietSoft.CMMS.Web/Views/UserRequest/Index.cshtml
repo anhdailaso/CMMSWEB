@@ -4,179 +4,80 @@
 @{
     ViewBag.Title = "YÊU CẦU BẢO TRÌ";
     ViewBag.BackUrl = @Url.Action("Index", "Home", new { });
-@using (Html.BeginForm("Home","SaveUserRequest", FormMethod.Post, new { id = "UserRequestForm", name = "UserRequestForm"}))
+}
+@using (Html.BeginForm("Home", "SaveUserRequest", FormMethod.Post, new { id = "UserRequestForm", name = "UserRequestForm" }))
 {
-        @Html.AntiForgeryToken()
-        @Html.Hidden("MS_MAY", (object)ViewBag.MS_MAY)
+    @Html.AntiForgeryToken()
+    @Html.Hidden("MS_MAY", (object)ViewBag.MS_MAY)
     <input type="hidden" id="flag" name="flag" value="@ViewBag.FLAG">
     <div class="col-md-6 offset-md-3 col-xs-12">
         <div class="row detail-page-emp-info">
             <div class="col-12 d-flex justify-content-left gap-2 ">
                 <span class="emp-name" data-ms="@ViewBag.MS_MAY">@ViewBag.MS_MAY</span>
-                    <span class="emp-code" data-ten="@ViewBag.TEN_MAY">@ViewBag.TEN_MAY</span>
+                <span class="emp-code" data-ten="@ViewBag.TEN_MAY">@ViewBag.TEN_MAY</span>
             </div>
         </div>
         <div class="border-top my-3"></div>
         <div class="form-floating  break-line">
             @Html.TextAreaFor(model=>model.MO_TA_TINH_TRANG,new {@class = "form-control", maxlength = 250, autocomplete = "off" , placeholder="Mô tả tình trạng" })
             @Html.ValidationMessageFor(model=>model.MO_TA_TINH_TRANG)
-                <label for="MO_TA_TINH_TRANG">Mô tả tình trạng</label>
+            <label for="MO_TA_TINH_TRANG">Mô tả tình trạng</label>
         </div>
 
         <div class="form-floating break-line">
             @Html.TextAreaFor(model=>model.YEU_CAU, new { @class = "form-control", maxlength = 250, autocomplete = "off" , placeholder="Nội dung yêu cầu" })
             @Html.ValidationMessageFor(model=>model.YEU_CAU)
-                <label for="YEU_CAU">Nội dung yêu cầu</label>
+            <label for="YEU_CAU">Nội dung yêu cầu</label>
         </div>
 
         <div class="form-floating break-line">
             @Html.DropDownListFor(model => model.MS_UU_TIEN,(IEnumerable<SelectListItem>)@ViewBag.UuTien, new { id="cboMucdo",name="cboMucdo", @class = "form-select form-select-sm"})
             @Html.ValidationMessageFor(model=>model.MS_UU_TIEN)
-                <label for="MS_UU_TIEN">Mức độ khẩn cấp</label>
+            <label for="MS_UU_TIEN">Mức độ khẩn cấp</label>
         </div>
 
         <div class="form-floating break-line">
             @Html.DropDownListFor(model => model.STT_VAN_DE,(IEnumerable<SelectListItem>)@ViewBag.NguyenNhan, new { id="cboNguyennhan",name="cboNguyennhan", @class = "form-select form-select-sm"})
             @Html.ValidationMessageFor(model=>model.STT_VAN_DE)
-                <label for="STT_VAN_DE">Nguyên nhân</label>
+            <label for="STT_VAN_DE">Nguyên nhân</label>
         </div>
 
         <div class="form-check text-nowrap break-line">
-                @Html.CheckBoxFor(model=>model.HONG,new{@class="form-check-input",autocomplete = "off"})
-                <label class="form-check-label" for="HONG">
+            @Html.CheckBoxFor(model=>model.HONG,new{@class="form-check-input",autocomplete = "off"})
+            <label class="form-check-label" for="HONG">
                 Máy hỏng
             </label>
         </div>
-        @if(Model.HONG == true)
-            {
-                <div class="form-floating input-group break-line date">
-                    @Html.TextBoxFor(model => model.NGAY_XAY_RA,new{ @class="form-control",autocomplete="off"})
-                    @Html.ValidationMessageFor(model=>model.NGAY_XAY_RA)
-                    <span class="input-group-append d-flex align-items-center">
-                        <i class="bi bi-calendar4-week date-icon"></i>
-                    </span>
-                    <label for="NGAY_XAY_RA">Thời gian hỏng</label>
-                </div>
-            }
-            else
-            {
-                <div class="form-floating input-group break-line date" hidden>
-                    @Html.TextBoxFor(model => model.NGAY_XAY_RA,new{ @class="form-control",autocomplete="off"})
-                    @Html.ValidationMessageFor(model=>model.NGAY_XAY_RA)
-                    <span class="input-group-append d-flex align-items-center">
-                        <i class="bi bi-calendar4-week date-icon"></i>
-                    </span>
-                    <label for="NGAY_XAY_RA">Thời gian hỏng</label>
-                </div>
-            }
-
-
+        @if (Model.HONG == true)
+        {
+            <div class="form-floating input-group break-line date">
+                @Html.TextBoxFor(model => model.NGAY_XAY_RA,new{ @class="form-control",autocomplete="off"})
+                @Html.ValidationMessageFor(model=>model.NGAY_XAY_RA)
+                <span class="input-group-append d-flex align-items-center">
+                    <i class="bi bi-calendar4-week date-icon"></i>
+                </span>
+                <label for="NGAY_XAY_RA">Thời gian hỏng</label>
+            </div>
+        }
+        else
+        {
+            <div class="form-floating input-group break-line date" hidden>
+                @Html.TextBoxFor(model => model.NGAY_XAY_RA,new{ @class="form-control",autocomplete="off"})
+                @Html.ValidationMessageFor(model=>model.NGAY_XAY_RA)
+                <span class="input-group-append d-flex align-items-center">
+                    <i class="bi bi-calendar4-week date-icon"></i>
+                </span>
+                <label for="NGAY_XAY_RA">Thời gian hỏng</label>
+            </div>
+        }
         <div class="row detail-page-emp-info">
             <div class="col-12 d-flex justify-content-left gap-2 ">
                 <span class="emp-name">@Model.NGUOI_YEU_CAU</span>
             </div>
         </div>
-
-
-        @*    <div class="d-flex overflow-auto">
-    <div class="p-2 m-2">
-    <img src="~/images/logo.jpg" class="hover-shadow btn-close">
-    <div class="tooltip-action">
     </div>
-    </div>
-    <div class="p-2 m-2">
-    <img src="~/images/logo.jpg" class="hover-shadow">
-    </div>
-    <div class="p-2 m-2">
-    <img src="~/images/logo.jpg" class="hover-shadow">
-    </div>
-    </div>
-    *@
-
-    </div>
-
 }
 
-<form id="frm" method="post" class="needs-validation" novalidate="">
-    <!--Image container -->
-    <div id="imagesloader" class="row"
-         data-type="imagesloader"
-         data-errorformat="Accepted file formats"
-         data-errorsize="Maximum size accepted"
-         data-errorduplicate="File already loaded"
-         data-errormaxfiles="Maximum number of images you can upload"
-         data-errorminfiles="Minimum number of images to upload"
-         data-modifyimagetext="Modify immage">
-
-        <!-- Progress bar -->
-        <div class="col-12 order-1 mt-2">
-            <div data-type="progress" class="progress" style="height: 25px; display:none;">
-                <div data-type="progressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width: 100%;">Load in progress...</div>
-            </div>
-        </div>
-        <!-- Model -->
-        <div data-type="image-model" class="col-4 pl-2 pr-2 pt-2" style="max-width:200px; display:none;">
-            <div class="ratio-box text-center" data-type="image-ratio-box">
-                <img data-type="noimage" class="btn btn-light ratio-img img-fluid p-2 image border dashed rounded" src="~/images/photo-camera-gray.svg" style="cursor:pointer;">
-                <div data-type="loading" class="img-loading" style="color:#fd7e14; display:none;">
-                    <span class="fa fa-2x fa-spin fa-spinner"></span>
-                </div>
-                <img data-type="preview" class="btn btn-light ratio-img img-fluid p-2 image border dashed rounded" src="" style="display: none; cursor: default;">
-                <span class="badge badge-pill badge-warning p-2 w-50 main-tag" style="display:none;">Main</span>
-            </div>
-
-            <!-- Buttons -->
-            @*<div data-type="image-buttons" class="row justify-content-center mt-2">
-                <button data-type="add" class="btn btn-outline-warning" type="button"><span class="fa fa-camera mr-2"></span>Add</button>
-                <button data-type="btn-modify" type="button" class="btn btn-outline-warning m-0" data-toggle="popover" data-placement="right" style="display:none;">
-                    <span class="fa fa-pencil-alt mr-2"></span>Modify
-                </button>
-            </div>*@
-        </div>
-        @*
-        <!-- Popover operations -->
-        <div data-type="popover-model" style="display:none">
-            <div data-type="popover" class="ml-3 mr-3" style="min-width:150px;">
-                <div class="row">
-                    <div class="col p-0">
-                        <button data-operation="main" class="btn btn-block btn-warning btn-sm rounded-pill" type="button"><span class="fa fa-angle-double-up mr-2"></span>Main</button>
-                    </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-6 p-0 pr-1">
-                        <button data-operation="left" class="btn btn-block btn-outline-warning btn-sm rounded-pill" type="button"><span class="fa fa-angle-left mr-2"></span>Left</button>
-                    </div>
-                    <div class="col-6 p-0 pl-1">
-                        <button data-operation="right" class="btn btn-block btn-outline-warning btn-sm rounded-pill" type="button">Right<span class="fa fa-angle-right ml-2"></span></button>
-                    </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-6 p-0 pr-1">
-                        <button data-operation="rotateanticlockwise" class="btn btn-block btn-outline-warning btn-sm rounded-pill" type="button"><span class="fas fa-undo-alt mr-2"></span>Rotate</button>
-                    </div>
-                    <div class="col-6 p-0 pl-1">
-                        <button data-operation="rotateclockwise" class="btn btn-block btn-outline-warning btn-sm rounded-pill" type="button">Rotate<span class="fas fa-redo-alt ml-2"></span></button>
-                    </div>
-                </div>
-                <div class="row mt-2">
-                    <button data-operation="remove" class="btn btn-outline-danger btn-sm btn-block" type="button"><span class="fa fa-times mr-2"></span>Remove</button>
-                </div>
-            </div>
-        </div>
-            *@
-    </div>
-
-    <div class="form-group row">
-        <div class="input-group">
-            <!--Hidden file input for images-->
-            <input id="files" type="file" name="files[]" data-button="" multiple="" accept="image/jpeg, image/png, image/gif," style="display:none;">
-        </div>
-    </div>
-
-</form>
-
-<br />
-<br />
 <nav class="fixed-bottom">
     <div class="navbar-button  text-center text-white">
         <div id="button-container" class="btn-group">
@@ -187,7 +88,7 @@
             <!-- Twitter -->
             @if (Model.DUYET == 1)
             {
-                    <a class="btn btn-outline-primary m-1" id='btnLPBT' role="button">
+                <a class="btn btn-outline-primary m-1" id='btnLPBT' role="button">
                     <i class="fa fa-cogs fs-7"></i>
                 </a>
             }
@@ -201,21 +102,24 @@
                     <i class="fa fa-times fs-7"></i>
                 </a>
             }
-
-            <!-- Google -->
-
         </div>
     </div>
 </nav>
-
-@*    <div class="row mt-2">
-      <div class="col-md-4 offset-md-8 text-center mb-4">
-        <button id="btnContinue" type="submit" form="frm" class="btn btn-block btn-outline-warning float-right" data-toggle="tooltip" data-trigger="manual" data-placement="top" data-title="Continue">
-          Continue<span id="btnContinueIcon" class="fa fa-chevron-circle-right ml-2"></span><span id="btnContinueLoading" class="fa fa-spin fa-spinner ml-2" style="display:none"></span>
-        </button>
-      </div>
-    </div>*@
-}
+<div class="row">
+    <div class="col-md-6 offset-md-3 col-xs-12">
+        <input style="display:none;" id="files" type="file" name="files[]" data-button="" multiple="" accept="image/jpeg, image/png, image/gif,">
+         <div class="row mt-3 mb-2">
+             <div class="add-image">
+                 <i class="fa fa-camera-retro" aria-hidden="true" style="font-size:20px"></i>
+                 <span>Them hinh</span>
+             </div>
+               
+            </div>
+        <div id="filesContent">
+           <div class="row"></div>
+        </div>
+    </div>
+</div>
 
 @section scripts {
     <script src="~/js/pages/jquery.imagesloader-1.0.1.js"></script>
@@ -228,9 +132,11 @@
         }
     </script>
     <script src="~/js/pages/userequest.js" asp-append-version="true"></script>
+    <script src="~/js/pages/multiple-file-upload.js" asp-append-version="true"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             UserRequestModule.init();
+            MultipleFileUploadModule.init();
         });
     </script>
 }

@@ -1662,3 +1662,16 @@ ul {
     cursor: pointer;
     z-index: 100;
 }
+.image-model{
+    position:relative;
+}
+.remove-image {
+    position: absolute;
+    color: var(--danger-color);
+    right: 0;
+    top: 10px;
+    padding-right: 20px;
+    z-index: 10;
+    width:50px;
+    text-align:end;
+}
