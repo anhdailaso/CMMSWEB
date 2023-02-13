@@ -1651,3 +1651,14 @@ ul {
 .treeMenuContent ul.rootNode {
     padding-left: 0.5rem;
 }
+/*custom imageloader*/
+.imageloader-remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-left: 10px;
+    padding: 10px;
+    color: red;
+    cursor: pointer;
+    z-index: 100;
+}
