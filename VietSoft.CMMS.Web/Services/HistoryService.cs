@@ -20,8 +20,8 @@ namespace VietSoft.CMMS.Web.Services
                 var p = new DynamicParameters();
                 p.Add("@sDanhMuc", "HISTORY");
                 p.Add("@iLoai", 2);
-                p.Add("@dCot1", tngay.ToStringDate("MM/dd/yyyy"));
-                p.Add("@dCot2", dngay.ToStringDate("MM/dd/yyyy"));
+                p.Add("@dCot1", tngay);
+                p.Add("@dCot2", dngay);
                 p.Add("@UserName", username);
                 p.Add("@deviceID", ms_may == "" ? "-1" : ms_may);
                 p.Add("@sCot1", ms_bp);

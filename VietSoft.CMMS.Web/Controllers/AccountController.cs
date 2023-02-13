@@ -5,7 +5,6 @@ using VietSoft.CMMS.Web.Helpers;
 using VietSoft.CMMS.Web.Models;
 using VietSoft.CMMS.Web.IServices;
 using VietSoft.CMMS.Web.Resources;
-
 namespace VietSoft.CMMS.Web.Controllers
 {
     public class AccountController : Controller
@@ -47,8 +46,6 @@ namespace VietSoft.CMMS.Web.Controllers
         {
             return View();
         }
-
-
         [HttpPost]
         public IActionResult Login(LoginViewModel userViewModel)
         {
@@ -56,7 +53,6 @@ namespace VietSoft.CMMS.Web.Controllers
             {
                 UserModel? user = new();
                 SessionManager.Module = userViewModel.Module;
-
                 int res = _accountService.Login(userViewModel.UserName, userViewModel.Password);
                 if (res == 1)
                 {
@@ -71,7 +67,6 @@ namespace VietSoft.CMMS.Web.Controllers
                         HttpOnly = true,
                         IsEssential = true
                     };
-
                     // save cookie remember me
                     if (userViewModel.RememberMe)
                     {
@@ -87,11 +82,9 @@ namespace VietSoft.CMMS.Web.Controllers
                     MessageUtil.ShowError(Message.LOGIN_FAILED, false);
                     return View(userViewModel);
                 }
-
                 return RedirectToAction("Index", "Home");
                 //return RedirectToAction("HistoryIndex", "History");
             }
-
             return View(userViewModel);
         }
 

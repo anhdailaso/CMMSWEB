@@ -26,7 +26,7 @@ namespace VietSoft.CMMS.Web.Services
             {
                 var p = new DynamicParameters();
                 p.Add("@sDanhMuc", "GET_MYECOMAINT");
-                p.Add("@DNgay", dngay.ToStringDate("MM/dd/yyyy"));
+                p.Add("@DNgay", dngay);
                 p.Add("@UserName", username);
                 p.Add("@MsNXuong", ms_nx);
                 p.Add("@deviceID", may == "" ? "-1" : may);
@@ -125,7 +125,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@scot2", request.YEU_CAU);
                 p.Add("@scot3", request.NGUOI_YEU_CAU);
                 p.Add("@stt", request.STT);
-                p.Add("@dCot1", request.NGAY_XAY_RA.ToStringDate("MM/dd/yyyy"));
+                p.Add("@dCot1", request.NGAY_XAY_RA);
                 p.Add("@bCot1", request.HONG);
                 p.Add("@UserName", username);
                 var res = _dapper.Execute<BaseResponseModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);

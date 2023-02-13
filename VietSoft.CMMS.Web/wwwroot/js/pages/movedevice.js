@@ -49,14 +49,14 @@
 
 
         $('#cboMay').on('change', function () {
-            if ($('input[type=radio][name=inlineRadioOptions]') == 'false') {
+            if ($('input[type=radio][name=inlineRadioOptions]').val() == 'false') {
                 if ($('#cboDiaDiemDi').val() == "-1") {
-                    showWarning("Bạn chưa chọn nơi chuyển đi nơi chuyển đi!");
+                    showWarning("Bạn chưa chọn nơi chuyển đi!");
                     $('#cboDiaDiemDi').focus();
                     return;
                 }
                 if ($('#cboDiaDiemDen').val() == "-1") {
-                    showWarning("Bạn chưa chọn nơi chuyển đi nơi chuyển đến!");
+                    showWarning("Bạn chưa chọn nơi chuyển đến!");
                     $('#cboDiaDiemDen').focus();
                     return;
                 }
@@ -68,8 +68,6 @@
             }
             //add dữ liệu quéc được vào list
             AddListmoveDevice();
-
-
         })
         GetListmoveDevice(1,0)
     }

@@ -4,6 +4,7 @@ using VietSoft.CMMS.Web.IServices;
 using VietSoft.CMMS.Web.Models;
 using VietSoft.CMMS.Web.Serilog;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using Microsoft.VisualBasic;
 
 namespace VietSoft.CMMS.Web.Services
 {
@@ -20,8 +21,7 @@ namespace VietSoft.CMMS.Web.Services
             try
             {
                 string? passwordEncrypt = MaHoamd5.MaHoamd5.Encrypt(passWord, true);
-                string sql = $"SELECT 1";
-
+                string sql = $"SELECT COUNT(*) FROM dbo.USERS WHERE USERNAME = N'"+userName+"' AND PASS = N'"+ MaHoaDL(passWord) +"' AND ACTIVE = 1";
                 return _dapper.Get<int>(sql, null, System.Data.CommandType.Text);
             }
             catch (Exception ex)
@@ -30,6 +30,26 @@ namespace VietSoft.CMMS.Web.Services
                 return 0;
             }
         }
+        public string MaHoaDL(string str)
+        {
+            double dLen = str.Length;
+            string sTam = "";
+            const int _CODE_ = 354;
+            for (int i = 1; i <= dLen; i++)
+                sTam += Strings.ChrW((Strings.AscW(Strings.Mid(str, i, 1)) + _CODE_) * 2).ToString();
+            return sTam;
+        }
+        string GiaiMaDL(string str)
+        {
+            string sTam = "";
+            const int _CODE_ = 354;
+            for (int i = 0; i < str.Length; i++)
+            {
+                sTam += System.Convert.ToChar(((int)System.Convert.ToChar(str.Substring(i, 1)) / 2) - _CODE_).ToString();
+            }
+            return sTam;
+        }
+
 
         public UserModel GetProfile(string userName)
         {

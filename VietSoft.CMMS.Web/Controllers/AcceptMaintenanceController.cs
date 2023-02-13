@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using VietSoft.CMMS.Core.Models;
 using VietSoft.CMMS.Web.Helpers;
 using VietSoft.CMMS.Web.IServices;
@@ -36,8 +37,8 @@ namespace VietSoft.CMMS.Web.Controllers
         {
             PagedList<AcceptMaintenanceViewModel>? resulst = null;
             var user = SessionManager.CurrentUser.UserName;
-            DateTime? toDate = ExtendedDateTime.ToDateTimeOrDefault(tungay);
-            DateTime? fromDate = ExtendedDateTime.ToDateTimeOrDefault(denngay);
+            DateTime? toDate = DateTime.ParseExact(tungay, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            DateTime? fromDate = DateTime.ParseExact(denngay, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             List<AcceptMaintenanceModel> model = _maintenance.GetListAcceptMaintenance(user, 0, toDate, fromDate);
 
             List<AcceptMaintenanceViewModel> res = new List<AcceptMaintenanceViewModel>();

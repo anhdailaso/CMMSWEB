@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using VietSoft.CMMS.Web.Helpers;
 using VietSoft.CMMS.Web.IServices;
 using VietSoft.CMMS.Web.Models;
@@ -39,8 +40,8 @@ namespace VietSoft.CMMS.Web.Controllers
             var user = SessionManager.CurrentUser.UserName;
             if (pageIndex == 1 && keySeach == null)
             {
-                DateTime? toDate = ExtendedDateTime.ToDateTimeOrDefault(tungay);
-                DateTime? fromDate = ExtendedDateTime.ToDateTimeOrDefault(denngay);
+                DateTime? toDate = DateTime.ParseExact(tungay, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                DateTime? fromDate = DateTime.ParseExact(denngay, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 res = _historyRequestService.GetListHistoryRequest(user, 0, toDate, fromDate, msmay, nguoiyc);
                 result = new PagedList<HistoryRequestViewModel>(res, res.Count, pageIndex, pageSize);
             }
