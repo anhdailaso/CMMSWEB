@@ -12,8 +12,8 @@
     <div class="col-md-6 offset-md-3 col-xs-12">
         <div class="row detail-page-emp-info">
             <div class="col-12 d-flex justify-content-left gap-2 ">
-                <span class="emp-name">@ViewBag.MS_MAY</span>
-                <span class="emp-code">@ViewBag.TEN_MAY</span>
+                <span class="emp-name" data-ms="@ViewBag.MS_MAY">@ViewBag.MS_MAY</span>
+                    <span class="emp-code" data-ten="@ViewBag.TEN_MAY">@ViewBag.TEN_MAY</span>
             </div>
         </div>
         <div class="border-top my-3"></div>
@@ -187,7 +187,7 @@
             <!-- Twitter -->
             @if (Model.DUYET == 1)
             {
-                    <a class="btn btn-outline-primary m-1" role="button" href="@Url.Action("WorkOrder","Home", new{msmay = @ViewBag.MS_MAY, tenmay = @ViewBag.TEN_MAY, flag = 0})">
+                    <a class="btn btn-outline-primary m-1" id='btnLPBT' role="button">
                     <i class="fa fa-cogs fs-7"></i>
                 </a>
             }
@@ -223,6 +223,7 @@
         var config = {
             PAGE_SIZE: 10,
             SAVE_USERREQUEST: '@Url.Action("SaveUserRequest", "Home")',
+            CREAT_WORKORDER: '@Url.Action("WorkOrder", "Home")',
             MyEcomaint: '@Url.Action("Index", "Home")',
         }
     </script>

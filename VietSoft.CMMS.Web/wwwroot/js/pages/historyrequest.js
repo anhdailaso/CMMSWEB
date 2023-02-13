@@ -53,7 +53,7 @@
                 msmay: $('#cboMaThietBi').val(),
                 tungay: $('#fromDate').val(),
                 denngay: $('#toDate').val(),
-                idNYC: $('#cboMaThietBi').val(),
+                nguoiyc: $('#cboNguoiYeuCau').val(),
             },
             success: function (response) {
                 $(contentDataList).html(response);

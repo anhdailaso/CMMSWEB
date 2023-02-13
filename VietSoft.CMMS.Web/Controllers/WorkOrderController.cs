@@ -146,7 +146,6 @@ namespace VietSoft.CMMS.Web.Controllers
 
                 causeOfDamages.Add(causeOfDamage);
             }
-                
 
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(causeOfDamages);
             var res = _maintenanceService.SaveInputCauseOfDamageList(model.MS_PHIEU_BAO_TRI, json);
@@ -166,7 +165,6 @@ namespace VietSoft.CMMS.Web.Controllers
         {
             DateTime dateOut;
             DateTime.TryParseExact(model.S_NGAY_KT_KH, Setting.FORMAT_DATE, null, DateTimeStyles.None, out dateOut) ;
-
             var res = _maintenanceService.SaveWorkOrder(model.MS_PHIEU_BAO_TRI, dateOut, model.MS_LOAI_BT, model.MS_UU_TIEN, model.TINH_TRANG_MAY, userName, deviceId);
 
             if (res.MA == 1)

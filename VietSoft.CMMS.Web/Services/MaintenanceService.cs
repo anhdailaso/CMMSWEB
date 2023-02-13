@@ -22,8 +22,8 @@ namespace VietSoft.CMMS.Web.Services
                 var p = new DynamicParameters();
                 p.Add("@sDanhMuc", "ACCEPT_MAINTENANCE");
                 p.Add("@UserName", username);
-                p.Add("@dCot1", tngay.ToStringDate("MM/dd/yyyy"));
-                p.Add("@dCot2", dngay.ToStringDate("MM/dd/yyyy"));
+                p.Add("@dCot1", tngay);
+                p.Add("@dCot2", dngay);
                 //int TotalRows = p.Get<int>("@TotalRows");
                 List<AcceptMaintenanceModel>? res = _dapper.GetAll<AcceptMaintenanceModel>("spCMMSWEB", p, CommandType.StoredProcedure);
                 return res;

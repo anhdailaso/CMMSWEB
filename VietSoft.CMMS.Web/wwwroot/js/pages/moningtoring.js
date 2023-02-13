@@ -248,7 +248,8 @@
                     if (response.responseCode == 1) {
                         showSuccess(response.responseMessage)
                         setTimeout(function () {
-                            window.history.back(1)
+                            //window.history.back(1)
+                            window.location.href = config.MyEcomaint;
                         }, 600)
                         
                     }

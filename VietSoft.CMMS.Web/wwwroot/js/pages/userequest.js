@@ -18,6 +18,8 @@
             $('#cboMucdo').prop("disabled", true);
             $("#cboNguyennhan").prop("disabled", true);
 
+            $("#HONG").prop("disabled", true);
+
             $("#NGAY_XAY_RA").prop("disabled", true);
             $("#NGAY_XAY_RA").css('background-color', '#FFFFFF');
 
@@ -39,7 +41,6 @@
         })
 
         $('#btnsave').on('click', function () {
-            console.log($('#UserRequestForm').method);
             if ($('#UserRequestForm').valid()) {
                 $.ajax({
                     url: config.SAVE_USERREQUEST,
@@ -60,6 +61,27 @@
             
     });
 
+        $('#btnLPBT').on('click', function () {
+            //$.ajax({
+            //    url: config.CREAT_WORKORDER,
+            //    type: "GET",
+            //    data: {
+            //        msmay: $('.emp-name').attr('data-ms'),
+            //        tenmay: $('.emp-code').attr('data-ten'),
+            //        flag: 0,
+            //        ttmay: $('#MO_TA_TINH_TRANG').val()
+            //    },
+            //    success: function (response) {
+            //    }
+            //});
+            var msmay = $('.emp-name').attr('data-ms');
+            var tenmay= $('.emp-code').attr('data-ten');
+            var flag= 0;
+            var ttmay= $('#MO_TA_TINH_TRANG').val();
+
+            window.location.href = "WorkOrder?msmay=" + msmay + "&tenmay=" + tenmay+"&flag=0&ttmay=" + ttmay;
+
+        });
     }
     return {
         init: init

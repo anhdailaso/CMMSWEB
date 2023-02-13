@@ -9,6 +9,7 @@ using VietSoft.CMMS.Web.Controllers;
 using VietSoft.CMMS.Web.IServices;
 using System.Data;
 using VietSoft.CMMS.Core.Models;
+using System.Globalization;
 
 namespace VietSoft.HRM.Web.Controllers
 {
@@ -47,6 +48,7 @@ namespace VietSoft.HRM.Web.Controllers
 
         public IActionResult Moningtoring(string msmay, string tenmay, int flag)
         {
+            res = null;
             ViewBag.MS_MAY = msmay;
             ViewBag.TEN_MAY = tenmay;
             ViewBag.FLAG = flag;
@@ -55,6 +57,7 @@ namespace VietSoft.HRM.Web.Controllers
         }
         public IActionResult UserRequest(string msmay, string tenmay, int flag)
         {
+            res = null;
             ViewBag.MS_MAY = msmay;
             ViewBag.TEN_MAY = tenmay;
             ViewBag.FLAG = flag;
@@ -67,14 +70,15 @@ namespace VietSoft.HRM.Web.Controllers
             ViewBag.UuTien = _combobox.LoadListUuTien(0);
             return View("~/Views/UserRequest/Index.cshtml", userequest);
         }
-        public IActionResult WorkOrder(string msmay, string tenmay, int flag)
+        public IActionResult WorkOrder(string msmay, string tenmay, int flag,string ttmay)
         {
+            res = null;
             ViewBag.MS_MAY = msmay;
             ViewBag.TEN_MAY = tenmay;
             ViewBag.FLAG = flag;
-            //nếu flag = 1 thì lấy
 
             var ticketMaintenance = _maintenanceService.GetTicketMaintenanceByDevice(SessionManager.CurrentUser.UserName, msmay, flag == 1 ? false : true);
+            ticketMaintenance.TINH_TRANG_MAY = ttmay;
             ViewBag.LoaiBaoTri = _combobox.GetMaintenanceCategoy();
             ViewBag.UuTien = _combobox.GetPriorityCategory(0);
             return View("~/Views/WorkOrder/Index.cshtml", ticketMaintenance);
@@ -171,7 +175,7 @@ namespace VietSoft.HRM.Web.Controllers
             if (pageIndex == 1 && keyword == null)
             {
                 var user = SessionManager.CurrentUser.UserName;
-                DateTime? endDate = ExtendedDateTime.ToDateTimeOrDefault(denngay);
+                DateTime? endDate = DateTime.ParseExact(denngay, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 res = _homeService.GetMyEcomain(user, 0, endDate, msnx, msmay, xuly, pageIndex, pageSize);
                 result = new PagedList<MyEcomaintViewModel>(res, res.Count, pageIndex, pageSize);
             }

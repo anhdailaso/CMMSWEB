@@ -53,22 +53,24 @@
             else
             {
                 <div class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Admin</a>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        @*         <li>
-                    <a href="#" id="LanguageMenuItem">
-                    <i class="fa fa-fw fa-language"></i> <span style=" padding-right: 18px;" data-lang="lblNgonNgu">Ngôn ngữ</span>
-                    <i class="fa fa-caret-right" aria-hidden="true"></i>
-                    </a>
-                    </li>*@
-                        @* <li>
-                    <a href=""><i style="color:#113186" class="fa fa-fw fa-language"></i> <span style=" padding-right: 18px;">Đổi NN</span></a>
-                    </li>*@
+                    <a href="#" class="@*dropdown-toggle*@" data-toggle="dropdown">
+                        <i class="fa fa-user"></i>
+                        Admin</a>
+@*                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li>
+                            <a href="#" id="LanguageMenuItem">
+                                <i class="fa fa-fw fa-language"></i> <span style=" padding-right: 18px;" data-lang="lblNgonNgu">Ngôn ngữ</span>
+                                <i class="fa fa-caret-right" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href=""><i style="color:#113186" class="fa fa-fw fa-language"></i> <span style=" padding-right: 18px;">Đổi NN</span></a>
+                        </li>
                         <li>
                             <a href="@Url.Action("LogOut", "Account")"><i style="color:#113186" class="fa fa-fw fa-power-off"></i> <span style=" padding-right: 18px;">Đăng xuất</span></a>
                         </li>
                     </ul>
-                </div>
+*@                </div>
                 <div class="row page-title">@ViewData["Title"] </div>
             }
 
