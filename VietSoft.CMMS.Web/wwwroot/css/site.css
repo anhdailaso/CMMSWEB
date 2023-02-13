@@ -733,6 +733,11 @@ td, th {
     padding: 0;
 }
 
+.accordion-right-icon, .accordion-right-icon:hover {
+    margin-top: -18px;
+    color: #000000;
+}
+
 .disabled, .disabled input {
     pointer-events: none !important;
     background-color: #e9ecef !important;
