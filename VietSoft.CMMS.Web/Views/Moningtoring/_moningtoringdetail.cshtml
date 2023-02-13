@@ -9,14 +9,10 @@
         @foreach (var item in Model.OrderBy(x => x.ComponentID))
         {
             <div class="accordion-item border-0 break-line">
-                <h2 class="accordion-header" id="heading-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID">
+                <h2 class="accordion-header d-flex" id="heading-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID">
                     <button class="accordion-button collapsed parentCell" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" aria-expanded="false" aria-controls="collapse-@item.ComponentID@item.MonitoringParamsID">
                         <div class="d-flex justify-content-between w-100">
                             <span id="title-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID">+ @item.ComponentID  @item.MonitoringParamsName</span>
-                            <a data-bs-toggle="modal" data-bs-target="#exampleModal" data-mor="@item.MonitoringParamsID" data-com="@item.ComponentID" data-src="" onclick="loadhinh(this)">
-                                <i class="fa fa-camera-retro"></i>
-                            </a>
-
                         </div>
                         <div class="tooltip-action" style="margin-top:-5.2rem">
                             <a>
@@ -24,6 +20,9 @@
                             </a>
                         </div>
                     </button>
+                    <a class="d-flex accordion-right-icon" data-bs-toggle="modal" data-bs-target="#exampleModal" data-mor="@item.MonitoringParamsID" data-com="@item.ComponentID" data-src="" onclick="loadhinh(this)">
+                        <i class="fa fa-camera-retro"></i>
+                    </a>
                 </h2>
 
                 <div id="collapse-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" class="accordion-collapse collapse" aria-labelledby="heading-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" data-bs-parent="#accordionFlushExample">
