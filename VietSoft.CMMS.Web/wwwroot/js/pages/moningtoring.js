@@ -361,13 +361,13 @@
 
         $(document).on('click', '.btnSaveSupplies', function () {
             let suppliesList = [];
-            
+            let msbp = $(this).closest('div').find('input.MS_BO_PHAN').val();
+            let mscv = $(this).closest('div').find('input.MS_CV').val();
             $(this).parents('.table-responsive').find('table.tbl-supplies tr').each(function () {
                 let mspt = $(this).find('td').eq(0).text()
                 let msvt = $(this).find('td').eq(1).text()
                 let sl = $(this).find('td').eq(2).find('input').val()
-                let msbp = $(this).find('td').eq(3).text()
-                let mscv = $(this).find('td').eq(4).text()
+               
                 let obj = {
                     MS_PT: mspt,
                     MS_VI_TRI_PT: msvt,
@@ -380,8 +380,8 @@
             let model = {
                 MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),
                 DEVICE_ID: $('#MS_MAY').val(),
-                MS_CV: suppliesList ? suppliesList[0].MS_CV : '',
-                MS_BO_PHAN: suppliesList ? suppliesList[0].MS_BO_PHAN : '',
+                MS_CV: mscv,
+                MS_BO_PHAN: msbp,
                 SuppliesList: suppliesList
             }
 
