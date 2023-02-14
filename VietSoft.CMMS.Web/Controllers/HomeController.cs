@@ -15,6 +15,7 @@ namespace VietSoft.HRM.Web.Controllers
 {
     public class HomeController : BaseController
     {
+        private readonly IHostEnvironment _hostEnvironment;
         private readonly ILogger<HomeController> _logger;
         private readonly IAccountService _accountService;
         private readonly IComboboxService _combobox;
@@ -22,13 +23,14 @@ namespace VietSoft.HRM.Web.Controllers
         private readonly IMaintenanceService _maintenanceService;
 
         public HomeController(ILogger<HomeController> logger, IAccountService accountService, IHomeService homeService, IComboboxService combobox,
-            IMaintenanceService maintenanceService)
+            IMaintenanceService maintenanceService, IHostEnvironment hostEnvironment)
         {
             _logger = logger;
             _accountService = accountService;
             _homeService = homeService;
             _combobox = combobox;
             _maintenanceService = maintenanceService;
+            _hostEnvironment = hostEnvironment;
         }
 
         [AllowAnonymous]
@@ -244,25 +246,64 @@ namespace VietSoft.HRM.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveUserRequest(UserRequestViewModel model)
+        public async Task<ActionResult> SaveUserRequest(IList<IFormFile> files, string data)
         {
-            model.NGUOI_YEU_CAU = SessionManager.CurrentUser.FullName;
-            BaseResponseModel? res = _homeService.SaveUserRequest(SessionManager.CurrentUser.UserName, model);
-            if  (res.MA == 1)
+            UserRequestViewModel? model = string.IsNullOrEmpty(data) ? new UserRequestViewModel() : Newtonsoft.Json.JsonConvert.DeserializeObject<UserRequestViewModel>(data);
+            if(model != null)
             {
-                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
-            }
-            else
-            {
-                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
-            }
+                var uploadedFiles = await SaveUploadFile(files);
 
+                model.NGUOI_YEU_CAU = SessionManager.CurrentUser.FullName;
+                model.NGAY_XAY_RA = DateTime.ParseExact(model.NGAY_XAY_RA_STR, Setting.FORMAT_DATE, null);
+                BaseResponseModel? res = _homeService.SaveUserRequest(SessionManager.CurrentUser.UserName, model);
+                if (res.MA == 1)
+                {
+                    return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+                }
+                else
+                {
+                    return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+                }
+            }
+            return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
         }
 
         public ActionResult ShowConfirmModal(string message)
         {
             ViewBag.Message = message;
             return PartialView("~/Views/Shared/_ConfirmModal.cshtml");
+        }
+
+        [HttpPost]
+        public ActionResult ViewImageModal(string image)
+        {
+            ViewBag.Image = image;
+            return PartialView("~/Views/Home/_viewImageModal.cshtml");
+        }
+
+        public async Task<List<string>> SaveUploadFile(IList<IFormFile> files)
+        {
+            var uploadedFiles = new List<string>();
+            foreach(var dataSource in files)
+            {
+                var fileName = dataSource.FileName;
+                string rootPath = Setting.UPLOAD_FOLDER;
+
+                bool exists = System.IO.Directory.Exists(rootPath);
+
+                if (!exists)
+                    System.IO.Directory.CreateDirectory(rootPath);
+
+                var fullFilePath = rootPath + fileName + DateTime.Now.Date.ToShortDateString().Replace('/', '_');
+
+                if (System.IO.File.Exists(fullFilePath)) continue;
+                using (var stream = System.IO.File.Create(fullFilePath))
+                {
+                    await dataSource.CopyToAsync(stream);
+                    uploadedFiles.Add(fullFilePath);
+                }
+            }
+            return uploadedFiles;
         }
     }
 }

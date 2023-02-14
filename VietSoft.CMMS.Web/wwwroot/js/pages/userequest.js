@@ -41,11 +41,25 @@
         })
 
         $('#btnsave').on('click', function () {
+            var input = document.getElementById('files');
+            var files = input.files;
+            var formData = new FormData();
+
+            for (var i = 0; i != files.length; i++) {
+                formData.append("files", files[i]);
+            }
+
+            var userRequestFormData = GetUserRequestFormData();
+            formData.append("data", JSON.stringify(userRequestFormData));
+
             if ($('#UserRequestForm').valid()) {
                 $.ajax({
                     url: config.SAVE_USERREQUEST,
                     type: "POST",
-                    data: $('#UserRequestForm').serialize(),
+                    data: formData,
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
                     success: function (response) {
                         if (response.responseCode == 1) {
                             showSuccess(response.responseMessage)
@@ -82,6 +96,23 @@
             window.location.href = "WorkOrder?msmay=" + msmay + "&tenmay=" + tenmay+"&flag=0&ttmay=" + ttmay;
 
         });
+    }
+
+    function GetUserRequestFormData() {
+        var obj = {
+            MS_MAY: $('#MS_MAY').val(),
+            DUYET: $('#DUYET').val(),
+            MS_UU_TIEN: $('#MS_UU_TIEN').val(),
+            STT_VAN_DE: $('#STT_VAN_DE').val(),
+            MO_TA_TINH_TRANG: $('#MO_TA_TINH_TRANG').val(),
+            YEU_CAU: $('#YEU_CAU').val(),
+            STT: $('#STT_VAN_DE').val(),
+            NGAY_XAY_RA_STR: $('#NGAY_XAY_RA').val(),
+            NGUOI_YEU_CAU: $('#NGUOI_YEU_CAU').val(),
+            HONG: $('#HONG').val()
+        };
+     
+        return obj;
     }
     return {
         init: init

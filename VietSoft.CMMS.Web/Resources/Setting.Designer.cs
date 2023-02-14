@@ -113,5 +113,14 @@ namespace VietSoft.CMMS.Web.Resources {
                 return ResourceManager.GetString("TEMPLATE_CREATE_NEW_PASS", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D:\\Content\\Images\\.
+        /// </summary>
+        public static string UPLOAD_FOLDER {
+            get {
+                return ResourceManager.GetString("UPLOAD_FOLDER", resourceCulture);
+            }
+        }
     }
 }

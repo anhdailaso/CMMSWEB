@@ -582,7 +582,9 @@
                             treeMenuForInput(value, troot, 0);
                             $('#inputCauseOfDamageContent').append(troot)
                         });
-                        
+                        $('.expand').each(function () {
+                            $('ul', $(this).closest('.parent').parent()).eq(0).toggle();
+                        })
                     }
                     else {
                         let html = `<span>` + config.KHONGCO_DULIEU + `</span>`
@@ -611,7 +613,10 @@
                             treeMenu(value, troot, 0);
                             $('#resultContent').append(troot)
                         });
-                      
+
+                        $('.expand').each(function () {
+                            $('ul', $(this).parent()).eq(0).toggle();
+                        })
                     }
                     else {
                         let html = `<span>` + config.KHONGCO_DULIEU +`</span>`
