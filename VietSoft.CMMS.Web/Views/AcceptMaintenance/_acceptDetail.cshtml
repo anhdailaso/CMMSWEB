@@ -11,20 +11,14 @@
         @foreach (var item in Model.Data.OrderBy(x => x.MS_PHIEU_BAO_TRI))
         {
             <div class="accordion-item border-0 break-line">
-                <h2 class="accordion-header" id="heading-100">
+                <h2 class="accordion-header d-flex" id="heading-100">
                     <button class="accordion-button collapsed parentCell" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@item.MS_PHIEU_BAO_TRI" aria-expanded="false" aria-controls="collapse-@item.MS_PHIEU_BAO_TRI">
                         <div class="d-flex justify-content-between w-100">
                             <div class="col-12 d-flex justify-content-left gap-2 ">
                                 <span style="color:black">@item.NGAY_HOAN_THANH</span>
                                 <span style="color:#ff870f">@item.MS_MAY</span>
                                 <span style="color:#113186">@item.TEN_LOAI_BT</span>
-
-                                <a data-src="@item.MS_PHIEU_BAO_TRI" onclick="AcceptMaintenanceModule.nghiemthuPBT(this)">
-                                    <i class="fa fa-check-circle text-success"></i>
-                                </a>
                             </div>
-
-
                         </div>
                         <div class="tooltip-action" style="margin-top:-5.2rem">
                             <a>
@@ -32,7 +26,12 @@
                             </a>
                         </div>
                     </button>
+                    <a class="d-flex accordion-right-icon" data-src="@item.MS_PHIEU_BAO_TRI" onclick="AcceptMaintenanceModule.nghiemthuPBT(this)">
+                        <i class="fa fa-check-circle text-success"></i>
+                    </a>
                 </h2>
+               
+                   
                 <div id="collapse-@item.MS_PHIEU_BAO_TRI" class="accordion-collapse collapse" aria-labelledby="heading-100" data-bs-parent="#accordionFlushExample">
                     @foreach (var itemCV in @item.JobViewModel.Distinct())
                     {
