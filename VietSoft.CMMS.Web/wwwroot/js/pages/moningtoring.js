@@ -89,6 +89,10 @@
             GetMoningToring();
         });
 
+        $('#btnhuyBT').on('click', function () {
+            WorkList();
+        });
+
         $('input[type=radio][name=flexRadioDefault]').change(function () {
             GetMoningToring();
         });

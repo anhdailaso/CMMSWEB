@@ -35,7 +35,7 @@
                 <div id="collapse-@item.MS_PHIEU_BAO_TRI" class="accordion-collapse collapse" aria-labelledby="heading-100" data-bs-parent="#accordionFlushExample">
                     @foreach (var itemCV in @item.JobViewModel.Distinct())
                     {
-                        <div class="card card-list">
+                        <div class="card card-list card-hover">
                             <div class="card-header gap-2 parentCell">
                                 <span class="">@itemCV.MS_BO_PHAN </span>
                                 <span style="color:#ff870f">@itemCV.MO_TA_CV</span>

@@ -709,6 +709,7 @@ td, th {
 /*accordion*/
 .accordion-button {
     margin-left:10px;
+    z-index:1;
     margin-top: -18px;
 }
 

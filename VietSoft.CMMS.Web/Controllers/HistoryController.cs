@@ -53,7 +53,7 @@ namespace VietSoft.CMMS.Web.Controllers
         }
 
         public static List<HistoryViewModel>? res;
-        public IActionResult GetListHistory(string keySeach, int pageIndex, int pageSize, string msmay, string tungay, string denngay, bool ttphutung, int mabp, string mapt)
+        public IActionResult GetListHistory(string keySeach, int pageIndex, int pageSize, string msmay, string tungay, string denngay, bool ttphutung, string mabp, string mapt)
         {
             PagedList<HistoryViewModel>? result = null;
             var user = SessionManager.CurrentUser.UserName;

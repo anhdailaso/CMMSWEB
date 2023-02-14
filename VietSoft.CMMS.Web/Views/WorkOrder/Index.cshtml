@@ -62,7 +62,7 @@
         {
                 <div class="break-line">
                     <p id="TINH_TRANG_MAY">@Model.TINH_TRANG_MAY</p>
-                    <a id="btnSaveWorkOrder" class="btn btn-outline-success">
+                <a id="btnSaveWorkOrder" class="btn btn-outline-dark m-1">
                         <i class="fa fa-floppy-o fs-7"></i>
                     </a>
                 </div>
@@ -97,7 +97,7 @@
                         <i class="fa fa-check-circle fs-7"></i>
                     </a>
 
-                    <a class="btn btn-outline-warning m-1" href="#!" role="button">
+                <a class="btn btn-outline-warning m-1" id="btnhuyBT" role="button">
                         <i class="fa fa-times fs-7"></i>
                     </a>
                 </div>
@@ -125,7 +125,8 @@
                 SAVE_WORK_ORDER:  '@Url.Action("SaveWorkOrder","WorkOrder")',
                 COMPLETED_WORK_ORDER:  '@Url.Action("CompletedWorkOrder","WorkOrder")',
                 SAVE_INPUT_CAUSE_OF_DAMAGE:  '@Url.Action("SaveInputCauseOfDamageList","WorkOrder")',
-                MESS_XACNHAN_HOANTHANH_PHIEUBAOTRI: '@Html.Raw(Message.XACNHAN_HOANTHANH_PHIEUBAOTRI)'
+                MESS_XACNHAN_HOANTHANH_PHIEUBAOTRI: '@Html.Raw(Message.XACNHAN_HOANTHANH_PHIEUBAOTRI)',
+                MyEcomaint: '@Url.Action("Index", "Home")',
             }
         </script>
         <script src="~/js/pages/moningtoring.js" asp-append-version="true"></script>

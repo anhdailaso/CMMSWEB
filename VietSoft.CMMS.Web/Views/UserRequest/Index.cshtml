@@ -108,18 +108,22 @@
 <div class="row">
     <div class="col-md-6 offset-md-3 col-xs-12">
         <input style="display:none;" id="files" type="file" name="files[]" data-button="" multiple="" accept="image/jpeg, image/png, image/gif,">
-         <div class="row mt-3 mb-2">
-             <div class="add-image">
-                 <i class="fa fa-camera-retro" aria-hidden="true" style="font-size:20px"></i>
-                 <span>Them hinh</span>
-             </div>
-               
+        <div class="row mt-3 mb-2">
+            @if(@ViewBag.FLAG == 0)
+            {
+            <div class="add-image">
+                <i class="fa fa-camera-retro" aria-hidden="true" style="font-size:20px"></i>
+                <span>Thêm hình</span>
             </div>
+            }
+        </div>
         <div id="filesContent">
-           <div class="row"></div>
+            <div class="row"></div>
         </div>
     </div>
 </div>
+<br />
+<br />
 
 @section scripts {
     <script src="~/js/pages/jquery.imagesloader-1.0.1.js"></script>
@@ -134,7 +138,7 @@
     <script src="~/js/pages/userequest.js" asp-append-version="true"></script>
     <script src="~/js/pages/multiple-file-upload.js" asp-append-version="true"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             UserRequestModule.init();
             MultipleFileUploadModule.init();
         });

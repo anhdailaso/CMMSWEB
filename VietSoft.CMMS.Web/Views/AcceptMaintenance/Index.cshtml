@@ -22,11 +22,11 @@
         /*https://astronautweb.co/snippet/font-awesome/*/
         /*        content: "\f083";
                     font-family: FontAwesome;*/
-        background-image: none;
+        background-image: none !important;
     }
 
     .accordion-button:not(.collapsed)::after {
-        background-image: none;
+        background-image: none !important;
         transform: none;
     }
 </style>
@@ -55,8 +55,6 @@
 
             @*<div style="border-bottom:1px solid gray" class="break-line"></div>*@
         </form>
-
-
         <div class="position-relative">
             @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder=@ViewText.TXT_SEARCH})
             <i class="bi bi-search icon-obsolute"></i>

@@ -56,7 +56,16 @@
                         @if (item.PBT == 1)
                         {
                             <a href="/Home/WorkOrder?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=1&ttmay=''">
+                                @if(item.TREBT == 1)
+                                {
+                                    <i class="fa fa-times" style=" color: #ff0000;"></i>
+
+                                }
+                                else
+                                {
                                 <i class="fa fa-times" style="color:#ff870f"></i>
+
+                                }
                             </a>
 
                         }
@@ -71,7 +80,17 @@
                         @if (item.GSTT == 1)
                         {
                             <a href="/Home/Moningtoring?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=1">
+                                
+                                @if(item.TREGS == 1)
+                                {
+                                    <i class="fa fa-times" style=" color: #ff0000;"></i>
+
+                                }
+                                else
+                                {
                                 <i class="fa fa-times" style="color:#ff870f"></i>
+
+                                }
                             </a>
                         }
                         else

@@ -106,7 +106,7 @@
         $.ajax({
             type: "POST",
             url: config.GET_MAY,
-            data: { WorkSiteID: $('#cboDiaDiem').val() },
+            data: { WorkSiteID: $('#cboDiaDiem').val(), coall : 1 },
             success: function (data) {
                 $('#cboMay').html('');
                 var s = '';
