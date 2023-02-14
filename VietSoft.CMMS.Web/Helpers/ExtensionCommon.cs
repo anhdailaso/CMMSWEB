@@ -72,5 +72,17 @@ namespace VietSoft.CMMS.Web.Helpers
 
             return result;
         }
+
+        public static string ToBase64StringImage(this string path)
+        {
+            string result = string.Empty;
+            if (string.IsNullOrEmpty(path)) return result;
+            
+            var extension = Path.GetExtension(path);
+            var base64 = Convert.ToBase64String(System.IO.File.ReadAllBytes(path));
+            result = string.Format($"{"data:image/{0};base64"}{base64}", extension);
+
+            return result;
+        }
     }
 }

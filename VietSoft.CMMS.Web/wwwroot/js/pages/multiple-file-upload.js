@@ -58,6 +58,22 @@
             $(this).closest('.image-model').remove();
         })
 
+        $(document).on("click", '.image-model', function () {
+            let img = $(this).find('img').prop('src')
+
+            $.ajax({
+                type: "POST",
+                data: {
+                    image: img
+                },
+                url: "/Home/ViewImageModal",
+                success: function (response) {
+                    $('#modal .modal-content').html(response);
+                    $('#modal').modal('show');
+                }
+            });
+        });
+
     }
 
     return {

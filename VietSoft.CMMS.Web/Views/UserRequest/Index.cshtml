@@ -72,6 +72,7 @@
         }
         <div class="row detail-page-emp-info">
             <div class="col-12 d-flex justify-content-left gap-2 ">
+                @Html.HiddenFor(x => x.NGUOI_YEU_CAU)
                 <span class="emp-name">@Model.NGUOI_YEU_CAU</span>
             </div>
         </div>
@@ -84,7 +85,7 @@
             <a class="btn btn-outline-dark m-1" role="button" href="@Url.Action("Index","Home")">
                 <i class="fa fa-home fs-7" aria-hidden="true"></i>
             </a>
-
+            @Html.HiddenFor(x => x.DUYET)
             <!-- Twitter -->
             @if (Model.DUYET == 1)
             {
