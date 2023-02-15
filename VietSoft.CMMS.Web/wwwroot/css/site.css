@@ -1685,3 +1685,8 @@ ul {
 .table-normal tbody tr td {
     font-size: 0.95rem !important;
 }
+
+.table-normal-padding tr td {
+    font-size: 0.95rem !important;
+    padding: 0.6rem 0.3rem !important;
+}
