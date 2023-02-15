@@ -135,4 +135,7 @@
   <data name="TEMPLATE_CREATE_NEW_PASS" xml:space="preserve">
     <value>MailTemplate/CreateNewPasswordTemplate.html</value>
   </data>
+  <data name="UPLOAD_FOLDER" xml:space="preserve">
+    <value>D:\\Content\\Images\\</value>
+  </data>
 </root>

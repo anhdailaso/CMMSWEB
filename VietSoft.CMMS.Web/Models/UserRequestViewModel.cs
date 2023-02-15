@@ -15,6 +15,7 @@ namespace VietSoft.CMMS.Web.Models
         public int STT_VAN_DE { get; set; }
         public DateTime? NGAY { get; set; }
         public DateTime? NGAY_XAY_RA { get; set; }
+        public string NGAY_XAY_RA_STR { get; set; }
         public DateTime? GIO_YEU_CAU { get; set; }
         public string NGUOI_YEU_CAU { get; set; }
         public int DUYET { get; set; }

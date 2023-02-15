@@ -1681,3 +1681,7 @@ ul {
     width:50px;
     text-align:end;
 }
+
+.table-normal tbody tr td {
+    font-size: 0.95rem !important;
+}
