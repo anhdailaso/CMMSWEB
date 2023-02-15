@@ -76,18 +76,18 @@
     });
 
         $('#btnLPBT').on('click', function () {
-            //$.ajax({
-            //    url: config.CREAT_WORKORDER,
-            //    type: "GET",
-            //    data: {
-            //        msmay: $('.emp-name').attr('data-ms'),
-            //        tenmay: $('.emp-code').attr('data-ten'),
-            //        flag: 0,
-            //        ttmay: $('#MO_TA_TINH_TRANG').val()
-            //    },
-            //    success: function (response) {
-            //    }
-            //});
+            $.ajax({
+                url: config.CREAT_WORKORDER,
+                type: "GET",
+                data: {
+                    msmay: $('.emp-name').attr('data-ms'),
+                    tenmay: $('.emp-code').attr('data-ten'),
+                    flag: 0,
+                    ttmay: $('#MO_TA_TINH_TRANG').val()
+                },
+                success: function (response) {
+                }
+            });
             var msmay = $('.emp-name').attr('data-ms');
             var tenmay= $('.emp-code').attr('data-ten');
             var flag= 0;
@@ -102,14 +102,14 @@
         var obj = {
             MS_MAY: $('#MS_MAY').val(),
             DUYET: $('#DUYET').val(),
-            MS_UU_TIEN: $('#MS_UU_TIEN').val(),
-            STT_VAN_DE: $('#STT_VAN_DE').val(),
+            MS_UU_TIEN: $('#cboMucdo').val(),
+            STT_VAN_DE: $('#cboNguyennhan').val(),
             MO_TA_TINH_TRANG: $('#MO_TA_TINH_TRANG').val(),
             YEU_CAU: $('#YEU_CAU').val(),
             STT: $('#STT_VAN_DE').val(),
             NGAY_XAY_RA_STR: $('#NGAY_XAY_RA').val(),
             NGUOI_YEU_CAU: $('#NGUOI_YEU_CAU').val(),
-            HONG: $('#HONG').val()
+            HONG: $('#HONG').is(':checked')
         };
      
         return obj;

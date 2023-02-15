@@ -7,36 +7,24 @@
 
 <div class="row">
     <div class="col-md-6 offset-md-3 col-xs-12">
-        <div class="accordion" id="accordionPanelsStayOpenExample">
-            <div class="accordion-item border-0">
-                <p class="accordion" id="panelsStayOpen-headingOne">
-                    <button class="accordion-button collapsed w-50" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                    </button>
-                </p>
-                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
-                    <div class="accordion-body">
-                        <div class="form-floating break-line">
-                            <select id="cboDiaDiem" name="cboDiaDiem" asp-items="@ViewBag.ListNhaXuong" class="form-control form-select form-select-sm">
-                            </select>
-                            <label for="cboDiaDiem">Nơi chuyển đi</label>
-                            <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
-                                <img src="~/images/barcode.png" alt="image" class="icon-barcode">
-                            </a>
-                        </div>
-                      
-                        <div class="form-floating break-line">
-                            <select id="cboMay" name="cboMay" asp-items="@ViewBag.ListMAY" class="form-control form-select form-select-sm">
-                            </select>
-                            <label for="cboMay">@ViewText.TXT_THIET_BI</label>
-                            <div id="cboMay-error"></div>
-                            <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
-                                <img src="~/images/barcode.png" alt="image" class="icon-barcode">
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            <div class="form-floating break-line">
+                <select id="cboDiaDiem" name="cboDiaDiem" asp-items="@ViewBag.ListNhaXuong" class="form-control form-select form-select-sm">
+                </select>
+                <label for="cboDiaDiem">Địa điểm</label>
+                <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
+                    <img src="~/images/barcode.png" alt="image" class="icon-barcode">
+                </a>
             </div>
-        </div>
+
+            <div class="form-floating break-line">
+                <select id="cboMay" name="cboMay" asp-items="@ViewBag.ListMAY" class="form-control form-select form-select-sm">
+                </select>
+                <label for="cboMay">@ViewText.TXT_THIET_BI</label>
+                <div id="cboMay-error"></div>
+                <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
+                    <img src="~/images/barcode.png" alt="image" class="icon-barcode">
+                </a>
+            </div>
         <div class="row mb-2">
             <div class="col-md-12 offset-md-12 col-xs-12  px-0">
                 <div id="GetIndentoryDevice">

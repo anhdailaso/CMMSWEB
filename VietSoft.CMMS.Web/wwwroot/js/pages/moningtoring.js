@@ -97,6 +97,13 @@
             GetMoningToring();
         });
 
+        $('#cboLoaiBaoTri').val($('#MS_LOAI_BT').val()).change();
+        $('#cboUuTien').val($('#MS_UU_TIEN').val()).change();
+        if ($('#flag').val() == 1) {
+            $("#cboLoaiBaoTri").prop("disabled", true);
+            $('span [role=combobox]').css('background-color', '#FFFFFF');
+        }
+
         bload = true;
         GetMoningToring();
 
@@ -764,9 +771,11 @@
 
     function CalculatePlanDate() {
         let songay = $('#cboUuTien').find(":selected").data('songay')
-        let date = moment($('#currentDate').val(), _formatDate).toDate();
-        let a = date.setDate(date.getDate() + songay)
-        $('#NGAY_KT_KH').text(moment(a).format(_formatDate))
+        if (songay != undefined) {
+            let date = moment($('#currentDate').val(), _formatDate).toDate();
+            let a = date.setDate(date.getDate() + songay)
+            $('#NGAY_KT_KH').text(moment(a).format(_formatDate))
+        }
     }
 
     return {

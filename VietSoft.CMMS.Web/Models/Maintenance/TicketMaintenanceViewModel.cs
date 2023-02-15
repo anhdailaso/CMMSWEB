@@ -7,7 +7,7 @@
         public string S_NGAY_KT_KH { get; set; }
         public int MS_LOAI_BT { get; set; }
         public int MS_UU_TIEN { get; set; }
-        public string TINH_TRANG_MAY { get; set; }
+        public string? TINH_TRANG_MAY { get; set; }
 
     }
 }

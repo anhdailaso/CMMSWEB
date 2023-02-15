@@ -80,7 +80,10 @@ namespace VietSoft.HRM.Web.Controllers
             ViewBag.FLAG = flag;
 
             var ticketMaintenance = _maintenanceService.GetTicketMaintenanceByDevice(SessionManager.CurrentUser.UserName, msmay, flag == 1 ? false : true);
-            ticketMaintenance.TINH_TRANG_MAY = ttmay;
+            if(flag != 1)
+            {
+                ticketMaintenance.TINH_TRANG_MAY = ttmay;
+            }
             ViewBag.LoaiBaoTri = _combobox.GetMaintenanceCategoy();
             ViewBag.UuTien = _combobox.GetPriorityCategory(0);
             return View("~/Views/WorkOrder/Index.cshtml", ticketMaintenance);
@@ -254,7 +257,14 @@ namespace VietSoft.HRM.Web.Controllers
                 var uploadedFiles = await SaveUploadFile(files);
 
                 model.NGUOI_YEU_CAU = SessionManager.CurrentUser.FullName;
-                model.NGAY_XAY_RA = DateTime.ParseExact(model.NGAY_XAY_RA_STR, Setting.FORMAT_DATE, null);
+                if (model.HONG == true)
+                {
+                    model.NGAY_XAY_RA = DateTime.ParseExact(model.NGAY_XAY_RA_STR, Setting.FORMAT_DATE, null);
+                }
+                else
+                {
+                    model.NGAY_XAY_RA = null;
+                }    
                 BaseResponseModel? res = _homeService.SaveUserRequest(SessionManager.CurrentUser.UserName, model);
                 if (res.MA == 1)
                 {

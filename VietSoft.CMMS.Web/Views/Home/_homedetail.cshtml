@@ -31,17 +31,31 @@
                     <td>
                         @item.MS_MAY
                         <div class="tooltip-action">
-                                <a>
-                                    @*<img src="@string.Format(Setting.MENU_ICON_FOLDER, "timesheet-white-sm.png")" class="icon-tooltip">*@
-                                    <span >@item.TEN_MAY</span>
-                                </a>
+                            <a>
+                                @*<img src="@string.Format(Setting.MENU_ICON_FOLDER, "timesheet-white-sm.png")" class="icon-tooltip">*@
+                                <span>@item.TEN_MAY</span>
+                            </a>
                         </div>
                     </td>
                     <td>
                         @if (item.YC == 1)
                         {
                             <a href="/Home/UserRequest?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=1">
-                                <i class="fa fa-times" style="color:#ff870f"></i>
+                                @if(@item.TREYC == 1)
+                                {
+                                <i class="fa fa-times" style="color:#ff0000"></i>
+                                }
+                                else
+                                {
+                                    @if(@item.TREYC == 2)
+                                    {
+                                        <i class="fa fa-times" style="color:#13079b"></i>
+                                    }
+                                    else
+                                    {
+                                <i class="fa fa-times" style="color:#008001"></i>
+                                    }
+                                }
                             </a>
                         }
                         else
@@ -56,14 +70,14 @@
                         @if (item.PBT == 1)
                         {
                             <a href="/Home/WorkOrder?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=1&ttmay=''">
-                                @if(item.TREBT == 1)
+                                @if (item.TREBT == 1)
                                 {
                                     <i class="fa fa-times" style=" color: #ff0000;"></i>
 
                                 }
                                 else
                                 {
-                                <i class="fa fa-times" style="color:#ff870f"></i>
+                                    <i class="fa fa-times" style="color:#13079b"></i>
 
                                 }
                             </a>
@@ -73,22 +87,22 @@
                         {
                             <a href="/Home/WorkOrder?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=0">
                                 <i class="fa fa-times" style="color:#fff0"></i>
-                            </a>                            
+                            </a>
                         }
                     </td>
                     <td>
                         @if (item.GSTT == 1)
                         {
                             <a href="/Home/Moningtoring?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=1">
-                                
-                                @if(item.TREGS == 1)
+
+                                @if (item.TREGS == 1)
                                 {
                                     <i class="fa fa-times" style=" color: #ff0000;"></i>
 
                                 }
                                 else
                                 {
-                                <i class="fa fa-times" style="color:#ff870f"></i>
+                                    <i class="fa fa-times" style="color:#13079b"></i>
 
                                 }
                             </a>
