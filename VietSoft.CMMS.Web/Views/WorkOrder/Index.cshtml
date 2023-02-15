@@ -37,11 +37,11 @@
             <div><span id="NGAY_KT_KH">@Model.NGAY_KT_KH.ToString(Setting.FORMAT_DATE)</span></div>
         </div>
 
-        <div class="form-floating break-line">
-            <select id="cboLoaiBaoTri" name="cboLoaiBaoTri" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
-                @foreach (var item in maintenanceCategories)
+        <div class="form-floating break-line @(ViewBag.FLAG == 1 ? "disabled" : null)">
+                <select id="cboLoaiBaoTri" asp-for="@Model.MS_LOAI_BT" name="cboLoaiBaoTri" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+                    @foreach(var item in maintenanceCategories)
                 {
-                    <option value="@item.MS_LOAI_BT" data-huhong=@item.HU_HONG>@item.TEN_LOAI_BT</option>
+                        <option value="@item.MS_LOAI_BT" data-huhong=@item.HU_HONG >@item.TEN_LOAI_BT</option>
                 }
             </select>
             <label for="cboLoaiBaoTri">Loại bảo trì</label>
@@ -52,10 +52,10 @@
         </div>
 
         <div class="form-floating break-line @(ViewBag.FLAG == 1 ? "disabled" : null)">
-            <select id="cboUuTien" name="cboMay" class="form-select form-select-sm">
-                @foreach (var item in priorityCategories)
+                <select id="cboUuTien" name="cboMay"  class="form-select form-select-sm" asp-for="@Model.MS_UU_TIEN">
+                  @foreach(var item in priorityCategories)
                 {
-                    <option value="@item.MS_UU_TIEN" data-songay=@item.SO_NGAY>@item.TEN_UU_TIEN</option>
+                        <option value="@item.MS_UU_TIEN" data-songay=@item.SO_NGAY>@item.TEN_UU_TIEN</option>
                 }
             </select>
             <label for="cboUuTien">Mức ưu tiên</label>
