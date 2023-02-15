@@ -15,7 +15,7 @@
                           <div class="col-4 pl-2 pr-2 pt-2 image-model" style="max-width:200px;">
                                 <div class="remove-image" data-image-name="`+ file.name + `"><i class="fa fa-times" aria-hidden="true"></i></div>
                                 
-                                <div class="ratio-box text-center" data-type="image-ratio-box">
+                                <div class="ratio-box text-center image-ratio-box" data-type="image-ratio-box">
                                     <div data-type="loading" class="img-loading" style="color:#218838; display:none;">
                                       <span class="fa fa-2x fa-spin fa-spinner"></span>
                                     </div>
@@ -58,7 +58,7 @@
             $(this).closest('.image-model').remove();
         })
 
-        $(document).on("click", '.image-model', function () {
+        $(document).on("click", '.image-ratio-box', function () {
             let img = $(this).find('img').prop('src')
 
             $.ajax({

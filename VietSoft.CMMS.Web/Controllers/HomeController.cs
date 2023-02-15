@@ -304,7 +304,9 @@ namespace VietSoft.HRM.Web.Controllers
                 if (!exists)
                     System.IO.Directory.CreateDirectory(rootPath);
 
-                var fullFilePath = rootPath + fileName + DateTime.Now.Date.ToShortDateString().Replace('/', '_');
+               
+                var extension = Path.GetExtension(rootPath + fileName);
+                var fullFilePath = rootPath + fileName ;
 
                 if (System.IO.File.Exists(fullFilePath)) continue;
                 using (var stream = System.IO.File.Create(fullFilePath))
