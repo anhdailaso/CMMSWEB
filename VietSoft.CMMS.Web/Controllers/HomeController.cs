@@ -70,6 +70,13 @@ namespace VietSoft.HRM.Web.Controllers
             }
             ViewBag.NguyenNhan = _combobox.DanhSachNguyenNhan();
             ViewBag.UuTien = _combobox.LoadListUuTien(0);
+            var lst = new List<string>() { @"D:\\Content\\Images\\others.png" };
+            var lstBase64 = new List<string>();
+            foreach(var item in lst)
+            {
+                lstBase64.Add(item.ToBase64StringImage());
+            }
+            ViewBag.DanhSachHinhAnh = lstBase64;
             return View("~/Views/UserRequest/Index.cshtml", userequest);
         }
         public IActionResult WorkOrder(string msmay, string tenmay, int flag,string ttmay)

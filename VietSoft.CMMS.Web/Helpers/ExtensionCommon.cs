@@ -80,7 +80,7 @@ namespace VietSoft.CMMS.Web.Helpers
             
             var extension = Path.GetExtension(path);
             var base64 = Convert.ToBase64String(System.IO.File.ReadAllBytes(path));
-            result = string.Format($"{"data:image/{0};base64"}{base64}", extension);
+            result = string.Format($"{"data:image/{0};base64,"}{base64}", extension.Remove(0, 1));
 
             return result;
         }

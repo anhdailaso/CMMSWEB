@@ -4,6 +4,7 @@
 @{
     ViewBag.Title = "YÊU CẦU BẢO TRÌ";
     ViewBag.BackUrl = @Url.Action("Index", "Home", new { });
+    var imageList = ViewBag.DanhSachHinhAnh != null ? (List<string>)ViewBag.DanhSachHinhAnh : new List<string>();
 }
 @using (Html.BeginForm("Home", "SaveUserRequest", FormMethod.Post, new { id = "UserRequestForm", name = "UserRequestForm" }))
 {
@@ -110,16 +111,28 @@
     <div class="col-md-6 offset-md-3 col-xs-12">
         <input style="display:none;" id="files" type="file" name="files[]" data-button="" multiple="" accept="image/jpeg, image/png, image/gif,">
         <div class="row mt-3 mb-2">
-            @if(@ViewBag.FLAG == 0)
+            @if (@ViewBag.FLAG == 0)
             {
-            <div class="add-image">
-                <i class="fa fa-camera-retro" aria-hidden="true" style="font-size:20px"></i>
-                <span>Thêm hình</span>
-            </div>
+                <div class="add-image">
+                    <i class="fa fa-camera-retro" aria-hidden="true" style="font-size:20px"></i>
+                    <span>Thêm hình</span>
+                </div>
             }
         </div>
         <div id="filesContent">
-            <div class="row"></div>
+            <div class="row">
+                @foreach (var item in imageList)
+                {
+                    <div class="col-4 pl-2 pr-2 pt-2 image-model" style="max-width:200px;">
+                        <div class="ratio-box text-center image-ratio-box" data-type="image-ratio-box">
+                            <div data-type="loading" class="img-loading" style="color:#218838; display:none;">
+                                <span class="fa fa-2x fa-spin fa-spinner"></span>
+                            </div>
+                            <img data-type="preview" class="btn btn-light ratio-img img-fluid p-2 image border dashed rounded" src=@item style="cursor: default;">
+                        </div>
+                    </div>
+                }
+            </div>
         </div>
     </div>
 </div>
@@ -133,13 +146,13 @@
             PAGE_SIZE: 10,
             SAVE_USERREQUEST: '@Url.Action("SaveUserRequest", "Home")',
             CREAT_WORKORDER: '@Url.Action("WorkOrder", "Home")',
-            MyEcomaint: '@Url.Action("Index", "Home")',
+            MyEcomaint: '@Url.Action("Index", "Home")'
         }
     </script>
     <script src="~/js/pages/userequest.js" asp-append-version="true"></script>
     <script src="~/js/pages/multiple-file-upload.js" asp-append-version="true"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             UserRequestModule.init();
             MultipleFileUploadModule.init();
         });
