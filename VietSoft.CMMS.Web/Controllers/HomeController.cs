@@ -67,16 +67,17 @@ namespace VietSoft.HRM.Web.Controllers
             if (flag == 1)
             {
                 userequest = _homeService.GetUserRequest(msmay);
+                var files = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImageFiles>>(userequest.Files);
+                var lst = files != null ? files.Select(x => x.DUONG_DAN).ToList() : new List<string>();
+                var lstBase64 = new List<string>();
+                foreach (var item in lst)
+                {
+                    lstBase64.Add(item.ToBase64StringImage());
+                }
+                ViewBag.DanhSachHinhAnh = lstBase64;
             }
             ViewBag.NguyenNhan = _combobox.DanhSachNguyenNhan();
             ViewBag.UuTien = _combobox.LoadListUuTien(0);
-            var lst = new List<string>() { @"D:\\Content\\Images\\others.png" };
-            var lstBase64 = new List<string>();
-            foreach(var item in lst)
-            {
-                lstBase64.Add(item.ToBase64StringImage());
-            }
-            ViewBag.DanhSachHinhAnh = lstBase64;
             return View("~/Views/UserRequest/Index.cshtml", userequest);
         }
         public IActionResult WorkOrder(string msmay, string tenmay, int flag,string ttmay)

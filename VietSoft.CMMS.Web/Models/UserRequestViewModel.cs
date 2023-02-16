@@ -20,7 +20,11 @@ namespace VietSoft.CMMS.Web.Models
         public string NGUOI_YEU_CAU { get; set; }
         public int DUYET { get; set; }
         public bool HONG { get; set; }
-        public IEnumerable<string> Files { get; set; }
+        public string Files { get; set; }
+    }
 
+    public class ImageFiles 
+    {
+        public string DUONG_DAN { get; set; }
     }
 }
