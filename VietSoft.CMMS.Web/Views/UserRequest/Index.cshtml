@@ -3,7 +3,6 @@
 @model UserRequestViewModel
 @{
     ViewBag.Title = "YÊU CẦU BẢO TRÌ";
-    ViewBag.BackUrl = @Url.Action("Index", "Home", new { });
 }
 @using (Html.BeginForm("Home", "SaveUserRequest", FormMethod.Post, new { id = "UserRequestForm", name = "UserRequestForm" }))
 {

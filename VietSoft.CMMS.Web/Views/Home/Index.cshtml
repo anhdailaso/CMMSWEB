@@ -2,7 +2,6 @@
 @using VietSoft.CMMS.Web.Helpers
 @{
     ViewBag.Title = @ViewText.TITLE_MY_ECOMAIN;
-    ViewBag.BackUrl = @Url.Action("Index", "Home", new { });
     ViewData["RemoveTitle"] = false;
 }
 @Html.Hidden("RequestId", ViewBag.RequestId, null)

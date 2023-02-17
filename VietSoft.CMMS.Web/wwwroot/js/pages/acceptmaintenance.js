@@ -33,21 +33,59 @@
     }
 
     function nghiemthuPBT(e) {
+    //    $.ajax({
+    //        type: "POST",
+    //        url: config.urlSaveAcceptMaintenance,
+    //        data: { mspbt: $(e).attr('data-src') },
+    //        success: function (response) {
+    //            if (response.responseCode == 1) {
+    //                showSuccess(response.responseMessage);
+    //                GetListAcceptMaintenance(1);
+    //            }
+    //            else {
+    //                showWarning(response.responseMessage);
+    //            }
+    //        }
+    //    });
         $.ajax({
-            type: "POST",
-            url: config.urlSaveAcceptMaintenance,
-            data: { mspbt: $(e).attr('data-src') },
+            type: "GET",
+            data: {
+                mspbt: $(e).attr('data-src'),
+                msmay: $(e).attr('data-msmay'),
+            },
+            url: config.urlAcceptMaintenance,
             success: function (response) {
-                if (response.responseCode == 1) {
-                    showSuccess(response.responseMessage);
-                    GetListAcceptMaintenance(1);
-                }
-                else {
-                    showWarning(response.responseMessage);
-                }
+                $('#modal .modal-content').html(response);
+                $('#modal').modal('show');
             }
         });
     }
+
+    $(document).on('click', '#btnYes', function () {
+        console.log($('#AcceptWorkOrderForm'));
+        if ($('#AcceptWorkOrderForm').valid()) {
+            $.ajax({
+                url: config.urlSaveAcceptMaintenance,
+                type: "POST",
+                data: $('#AcceptWorkOrderForm').serialize(),
+                success: function (response) {
+                    if (response.responseCode == 1) {
+                        showSuccess(response.responseMessage);
+                        $('#modal').modal('hide');
+                        GetListAcceptMaintenance(1);
+                    }
+                    else {
+                        showWarning(response.responseMessage)
+                    }
+                }
+
+            });
+        }
+    })
+
+    $(document).on('click', '#btnNo', function () {
+        $('#modal').modal('hide');
+    })
 
 
     function GetListAcceptMaintenance(pageIndex) {

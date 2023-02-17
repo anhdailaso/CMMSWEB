@@ -6,6 +6,7 @@ using VietSoft.CMMS.Web.Helpers;
 using VietSoft.CMMS.Web.IServices;
 using VietSoft.CMMS.Web.Models;
 using VietSoft.CMMS.Web.Resources;
+using VietSoft.CMMS.Web.Services;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace VietSoft.CMMS.Web.Controllers
@@ -85,11 +86,24 @@ namespace VietSoft.CMMS.Web.Controllers
             }
             return PartialView("_acceptDetail", resulst);
         }
+
+        public ActionResult ShowConfirmAccept(string mspbt,string msmay)
+        {
+            AcceptWorkOrderModel model = new AcceptWorkOrderModel();
+            model.MS_PHIEU_BAO_TRI = mspbt;
+            model.MS_MAY = msmay;
+            model.TT_SAU_BT = "";
+
+            return PartialView("_ConfirmAccept",model);
+        }
+
+   
+
         [HttpPost]
-        public ActionResult SaveAcceptMaintenance(string mspbt)
+        public ActionResult SaveAcceptMaintenance(AcceptWorkOrderModel data)
         {
             //List<MonitoringParametersByDevice> lstParameter = Newtonsoft.Json.JsonConvert.DeserializeObject<List<MonitoringParametersByDevice>>(data);
-            BaseResponseModel? res = _maintenance.SaveAcceptMaintenance(SessionManager.CurrentUser.UserName,mspbt);
+            BaseResponseModel? res = _maintenance.SaveAcceptMaintenance(SessionManager.CurrentUser.UserName, data);
             if (res.MA == 1)
             {
                 return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });

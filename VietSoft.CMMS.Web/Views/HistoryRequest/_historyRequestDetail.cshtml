@@ -2,43 +2,59 @@
 @using VietSoft.CMMS.Web.Helpers;
 @using VietSoft.CMMS.Web.Extensions;
 @model PagedList<VietSoft.CMMS.Web.Models.HistoryRequestViewModel>
-@if(Model != null && Model.Data.Count > 0) {
-    @foreach(var item in Model.Data)
+@if (Model != null && Model.Data.Count > 0)
+{
+    @foreach (var item in Model.Data)
     {
         <div class="card card-list card-hover">
-            <div class="card-header gap-2">
-                <span>Ngày yêu cầu: </span>
-                <span class="card-value">@item.NGAY_YC</span>
-                <div class="separate-line"></div>
-            </div>
-            <div class="card-body">
-                   <div class="row detail-page-emp-info">
-                            <div class="col-12 d-flex justify-content-left gap-2 ">
-                                <span class="emp-name">@item.MS_MAY</span>
-                                <span class="emp-code">@item.TEN_MAY</span>
-                            </div>
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex flex-column w-50 fs-sm">
+                        <span>Ngày YC:<b> @item.NGAY_YC</b></span>
+                    </div>
+                    @if (@item.NGAY_KT_PBT != null)
+                    {
+                        <div class="d-flex flex-column">
+                            <span class="fs-sm">Ngày KT: <b> @item.NGAY_KT_PBT</b></span>
                         </div>
+                    }
+
+                </div>
+            </div>
+            <div class="separate-line"></div>
+            <div class="card-body">
+                <div class="row detail-page-emp-info">
+                    <div class="col-12 d-flex justify-content-left gap-2 ">
+                        <span class="emp-name">@item.MS_MAY</span>
+                        <span class="emp-code">@item.TEN_MAY</span>
+                    </div>
+                </div>
                 <div style="padding-bottom:0.3rem; justify-content:space-between" class="d-flex mt-1">
+
                     <div class="d-flex gap-2 ">
                         <span>Tình trạng:</span>
                         <span class="card-value">@item.TINH_TRANG_MAY</span>
                     </div>
-                    <div class="d-flex gap-2">
-                        <span>Ngày kết thúc:</span>
-                        <span class="card-value">@item.NGAY_KT_PBT</span>
-                    </div>
+                    @if (@item.NGAY_KT_PBT != null)
+                    {
+                        <div class="d-flex gap-2">
+                            <span>PBT:</span>
+                            <a style="color:#113186;" href="/Home/WorkOrderRQ?mspbt=@item.MS_PHIEU_BAO_TRI&msmay=@item.MS_MAY&tenmay=@item.TEN_MAY" class="card-value">@item.MS_PHIEU_BAO_TRI</a>
+                        </div>
+                    }
                 </div>
-                @*<div class="d-flex gap-2">
-                    <span>Số lượng thay thế:</span>
-                    <span class="card-value">@item.SL_THAY_THE</span>
-                </div>*@
+
+
+
+
             </div>
         </div>
     }
     <input type="hidden" id="hfTotalPage" value="@Model.TotalPages" data-total-rows="@Model.TotalItems">
     <div id="paggingResult"></div>
 }
-else {
+else
+{
     <div class="col-12">
         <div class="no-data">
             <span>@ViewText.TXT_KHONGCO_DULIEU</span>

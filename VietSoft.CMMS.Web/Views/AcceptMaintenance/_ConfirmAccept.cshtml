@@ -1,0 +1,46 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@using VietSoft.CMMS.Web.Helpers
+@model AcceptWorkOrderModel
+@using (Html.BeginForm("ShowConfirmAccept", "SaveAcceptWorkOrder", FormMethod.Post, new { id = "AcceptWorkOrderForm", name = "AcceptWorkOrderForm", autocomplete = "on" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model=>model.MS_PHIEU_BAO_TRI)
+    <div class="modal-header">
+        <h5>Nghiệm thu PBT</h5>
+        <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+    </div>
+    <div class="modal-body">
+
+        <div class="row detail-page-emp-info break-line">
+            <div class="col-12 d-flex justify-content-left gap-2 ">
+                <span class="emp-name">@Model.MS_PHIEU_BAO_TRI</span>
+                <span class="emp-code">(@Model.MS_MAY)</span>
+            </div>
+        </div>
+
+        <div class="form-floating  break-line">
+            @Html.TextAreaFor(model=>model.TT_SAU_BT,new {@class = "form-control", maxlength = 250, autocomplete = "off" , placeholder="Tình trạng sau bảo trì" })
+            @Html.ValidationMessageFor(model=>model.TT_SAU_BT)
+            <label for="TT_SAU_BT">Tình trạng sau bảo trì</label>
+        </div>
+
+        <div class="form-floating  break-line">
+            @*@Html.TextBoxFor(model => model.CHI_PHI_KHAC, new { @class = "form-control", @type = "number", @step = "0.01", @value = String.Format("{0:C}", Model.CHI_PHI_KHAC) })*@
+            @Html.TextBoxFor(model=>model.CHI_PHI_KHAC,new {@class = "form-control", autocomplete = "off" , placeholder="Chi phí khác" })
+            <label for="CHI_PHI_KHAC">Chi phí khác</label>
+        </div>
+
+    </div>
+}
+<div class="modal-footer justify-content-center">
+    <button type="button" class="btn btn-outline-danger w-25" id="btnNo">@ViewText.BTN_NO</button>
+    <button type="submit" class="btn btn-primary w-25" id="btnYes">@ViewText.BTN_YES</button>
+</div>
+
+<script>
+    $("#CHI_PHI_KHAC").on("input", function () {
+        var value = $(this).val().replace(/\D/g, "");
+        value = value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        $(this).val(value);
+    });
+</script>
