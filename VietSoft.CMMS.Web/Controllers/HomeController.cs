@@ -118,7 +118,6 @@ namespace VietSoft.HRM.Web.Controllers
             SelectList lst = _combobox.GetCbbMay(WorkSiteID, -1, SessionManager.CurrentUser.UserName, 0, coall);
             return Json(lst);
         }
-
         private static void GetListMenu(int menuSelected)
         {
             List<MenuViewModel> menus = new();

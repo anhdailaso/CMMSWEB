@@ -60,9 +60,11 @@
             }
         });
     }
-
+    //form-control input-validation-error
+    //aria-invalid="true"
+    //span class="field-validation-error"
     $(document).on('click', '#btnYes', function () {
-        console.log($('#AcceptWorkOrderForm'));
+        console.log($("#TT_SAU_BT").is(":invalid"));
         if ($('#AcceptWorkOrderForm').valid()) {
             $.ajax({
                 url: config.urlSaveAcceptMaintenance,

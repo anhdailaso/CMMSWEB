@@ -383,7 +383,7 @@
                               <p class="text-orange mt-3 hours"> 0</p>
                             </td>
                              <td style="width:5%"> 
-                               <p class="mt-3"><a class="remove-row" ><i class="bi bi-trash icon-danger"></i></a></p>
+                               <p class="mt-3"><a class="remove-row" ><i class="fa fa-trash-o fa-lg icon-danger"></i></a></p>
                             </td>
                         </tr>`
            

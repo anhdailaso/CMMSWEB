@@ -19,7 +19,7 @@
         </div>
 
         <div class="form-floating  break-line">
-            @Html.TextAreaFor(model=>model.TT_SAU_BT,new {@class = "form-control", maxlength = 250, autocomplete = "off" , placeholder="Tình trạng sau bảo trì" })
+            @Html.TextAreaFor(model=>model.TT_SAU_BT,new {@class = "form-control", maxlength = 250, autocomplete = "off" , placeholder="Tình trạng sau bảo trì", required ="required",title="Không được để trống." })
             @Html.ValidationMessageFor(model=>model.TT_SAU_BT)
             <label for="TT_SAU_BT">Tình trạng sau bảo trì</label>
         </div>
