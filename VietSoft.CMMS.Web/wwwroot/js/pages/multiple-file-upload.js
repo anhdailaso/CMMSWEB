@@ -1,7 +1,6 @@
 ﻿var MultipleFileUploadModule = MultipleFileUploadModule || (function () {
     function init() {
         $('#files').change(function (e) {
-           console.log( e.target.files)
             $(e.target.files).each(function () {
                 var file = this
                 var fileReader = new FileReader();
