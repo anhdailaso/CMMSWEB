@@ -7,6 +7,7 @@ namespace VietSoft.CMMS.Web.IServices
     public interface IMaintenanceService
     {
         TicketMaintenanceViewModel GetTicketMaintenanceByDevice(string userName, string deviceId, bool isNewTicket);
+        TicketMaintenanceViewModel GetTicketMaintenanceByDevice(string mspbt);
         IEnumerable<WorkOrdersViewModel> GetWorkOrderList(string userName, string deviceId, string ticketId);
         IEnumerable<WorkOrderDetailViewModel> GetJobList(string userName, string deviceId, string ticketId);
         IEnumerable<SuppliesViewModel> GetSuppliesList(string userName, string deviceId, string deptId, string ticketId);
@@ -22,6 +23,6 @@ namespace VietSoft.CMMS.Web.IServices
 
         
         List<AcceptMaintenanceModel> GetListAcceptMaintenance(string username, int languages, DateTime? tngay, DateTime? dngay);
-        BaseResponseModel SaveAcceptMaintenance(string username, string mspbt);
+        BaseResponseModel SaveAcceptMaintenance(string username, AcceptWorkOrderModel model);
     }
 }

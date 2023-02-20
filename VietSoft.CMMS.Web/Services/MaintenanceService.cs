@@ -55,6 +55,25 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
+        public TicketMaintenanceViewModel GetTicketMaintenanceByDevice(string mspbt)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "GET_WORDORDER_BY_MSBT");
+                p.Add("@sCot1", mspbt);
+                var res = _dapper.Execute<TicketMaintenanceViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+
+                return res ?? new TicketMaintenanceViewModel();
+
+            }
+            catch (Exception ex)
+            {
+                return new TicketMaintenanceViewModel();
+            }
+        }
+
+
         public IEnumerable<WorkOrdersViewModel> GetWorkOrderList(string userName, string deviceId, string ticketId)
         {
             try
@@ -408,14 +427,16 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public BaseResponseModel SaveAcceptMaintenance(string username, string mspbt)
+        public BaseResponseModel SaveAcceptMaintenance(string username, AcceptWorkOrderModel model)
         {
             try
             {
                 var p = new DynamicParameters();
                 p.Add("@sDanhMuc", "ACCEPTANCE_WORDORDER");
                 p.Add("@UserName", username);
-                p.Add("@sCot1", mspbt);
+                p.Add("@sCot1", model.MS_PHIEU_BAO_TRI);
+                p.Add("@sCot2", model.TT_SAU_BT);
+                p.Add("@fCot1", model.CHI_PHI_KHAC);
                 var res = _dapper.Execute<BaseResponseModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 return res;
             }

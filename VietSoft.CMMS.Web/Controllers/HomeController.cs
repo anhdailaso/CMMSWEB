@@ -48,6 +48,20 @@ namespace VietSoft.HRM.Web.Controllers
             return View();
         }
 
+        public ActionResult GoBack()
+        {
+            var refererUrl = Request.Headers["Referer"].ToString();
+
+            if (!string.IsNullOrEmpty(refererUrl))
+            {
+                return Redirect(refererUrl);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
         public IActionResult Moningtoring(string msmay, string tenmay, int flag)
         {
             res = null;
@@ -96,12 +110,22 @@ namespace VietSoft.HRM.Web.Controllers
             ViewBag.UuTien = _combobox.GetPriorityCategory(0);
             return View("~/Views/WorkOrder/Index.cshtml", ticketMaintenance);
         }
+
+        public IActionResult WorkOrderRQ(string mspbt,string msmay,string tenmay)
+        {
+            ViewBag.MS_MAY = msmay;
+            ViewBag.TEN_MAY = tenmay;
+            ViewBag.FLAG = 2;
+            var ticketMaintenance = _maintenanceService.GetTicketMaintenanceByDevice(mspbt);
+            ViewBag.LoaiBaoTri = _combobox.GetMaintenanceCategoy();
+            ViewBag.UuTien = _combobox.GetPriorityCategory(0);
+            return View("~/Views/WorkOrder/Index.cshtml", ticketMaintenance);
+        }
         public ActionResult getDevices(string WorkSiteID,int coall)
         {
             SelectList lst = _combobox.GetCbbMay(WorkSiteID, -1, SessionManager.CurrentUser.UserName, 0, coall);
             return Json(lst);
         }
-
         private static void GetListMenu(int menuSelected)
         {
             List<MenuViewModel> menus = new();

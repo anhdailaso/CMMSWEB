@@ -45,7 +45,7 @@
         <div class="container-fluid">
             @if (ViewData["RemoveTitle"] == null)
             {
-                <a id="btn-back" class="btn-back" href="@(ViewBag.BackUrl == null ? "/Home/Index" : ViewBag.BackUrl)">
+                <a id="btn-back" class="btn-back" onclick= "history.go(-1)">
                     <img class="arror-left-icon" src="/images/icons/arrow-left.png" alt="arrow left">
                 </a>
                 <div class="row page-title">@ViewData["Title"] </div>

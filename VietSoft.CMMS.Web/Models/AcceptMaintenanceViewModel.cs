@@ -19,6 +19,15 @@ namespace VietSoft.CMMS.Web.Models
         public float SL_TT { get; set; }
 
     }
+    public class AcceptWorkOrderModel
+    {
+        public string MS_MAY { get; set; }
+        public string MS_PHIEU_BAO_TRI { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Message), ErrorMessageResourceName = "FIELD_REQUIRED")]
+        public string TT_SAU_BT { get; set; }
+        public float? CHI_PHI_KHAC { get; set; }
+    }
+
     public class SParePartViewModel
     {
         public string MS_PHIEU_BAO_TRI { get; set; }
