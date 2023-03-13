@@ -82,21 +82,17 @@ namespace VietSoft.HRM.Web.Controllers
             if (flag == 1)
             {
                 userequest = _homeService.GetUserRequest(msmay);
-                List<ImageFiles> files = null;
-                try
+                if(userequest != null && !string.IsNullOrEmpty(userequest.Files))
                 {
-                     files = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImageFiles>>(userequest.Files);
+                    var files = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImageFiles>>(userequest.Files);
+                    var lst = files != null ? files.Select(x => x.DUONG_DAN).ToList() : new List<string>();
+                    var lstBase64 = new List<string>();
+                    foreach (var item in lst)
+                    {
+                        lstBase64.Add(item.ToBase64StringImage());
+                    }
+                    ViewBag.DanhSachHinhAnh = lstBase64;
                 }
-                catch
-                {
-                }
-                var lst = files != null ? files.Select(x => x.DUONG_DAN).ToList() : new List<string>();
-                var lstBase64 = new List<string>();
-                foreach (var item in lst)
-                {
-                    lstBase64.Add(item.ToBase64StringImage());
-                }
-                ViewBag.DanhSachHinhAnh = lstBase64;
             }
             ViewBag.NguyenNhan = _combobox.DanhSachNguyenNhan();
             ViewBag.UuTien = _combobox.LoadListUuTien(0);
