@@ -103,10 +103,10 @@
             MS_MAY: $('#MS_MAY').val(),
             DUYET: $('#DUYET').val(),
             MS_UU_TIEN: $('#cboMucdo').val(),
-            STT_VAN_DE: $('#cboNguyennhan').val(),
+            MS_NGUYEN_NHAN: $('#cboNguyennhan').val(),
             MO_TA_TINH_TRANG: $('#MO_TA_TINH_TRANG').val(),
             YEU_CAU: $('#YEU_CAU').val(),
-            STT: $('#STT_VAN_DE').val(),
+            STT: $('#STT').val(),
             NGAY_XAY_RA_STR: $('#NGAY_XAY_RA').val(),
             NGUOI_YEU_CAU: $('#NGUOI_YEU_CAU').val(),
             HONG: $('#HONG').is(':checked')

@@ -10,6 +10,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.Hidden("MS_MAY", (object)ViewBag.MS_MAY)
+    @Html.Hidden("STT", Model.STT)
     <input type="hidden" id="flag" name="flag" value="@ViewBag.FLAG">
     <div class="col-md-6 offset-md-3 col-xs-12">
         <div class="row detail-page-emp-info">
@@ -38,9 +39,9 @@
         </div>
 
         <div class="form-floating break-line">
-            @Html.DropDownListFor(model => model.STT_VAN_DE,(IEnumerable<SelectListItem>)@ViewBag.NguyenNhan, new { id="cboNguyennhan",name="cboNguyennhan", @class = "form-select form-select-sm"})
-            @Html.ValidationMessageFor(model=>model.STT_VAN_DE)
-            <label for="STT_VAN_DE">Nguyên nhân</label>
+            @Html.DropDownListFor(model => model.MS_NGUYEN_NHAN,(IEnumerable<SelectListItem>)@ViewBag.NguyenNhan, new { id="cboNguyennhan",name="cboNguyennhan", @class = "form-select form-select-sm"})
+            @Html.ValidationMessageFor(model=>model.MS_NGUYEN_NHAN)
+            <label for="MS_NGUYEN_NHAN">Nguyên nhân</label>
         </div>
 
         <div class="form-check text-nowrap break-line">

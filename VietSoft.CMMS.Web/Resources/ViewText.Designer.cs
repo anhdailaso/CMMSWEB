@@ -295,7 +295,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CÔNG TY TNHH THÉP VINAONE.
+        ///   Looks up a localized string similar to VietSoft.
         /// </summary>
         public static string TITLE_CONGTY {
             get {

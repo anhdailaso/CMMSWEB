@@ -10,6 +10,7 @@ using VietSoft.CMMS.Web.IServices;
 using System.Data;
 using VietSoft.CMMS.Core.Models;
 using System.Globalization;
+using Newtonsoft.Json;
 
 namespace VietSoft.HRM.Web.Controllers
 {
@@ -81,7 +82,14 @@ namespace VietSoft.HRM.Web.Controllers
             if (flag == 1)
             {
                 userequest = _homeService.GetUserRequest(msmay);
-                var files = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImageFiles>>(userequest.Files);
+                List<ImageFiles> files = null;
+                try
+                {
+                     files = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImageFiles>>(userequest.Files);
+                }
+                catch
+                {
+                }
                 var lst = files != null ? files.Select(x => x.DUONG_DAN).ToList() : new List<string>();
                 var lstBase64 = new List<string>();
                 foreach (var item in lst)
@@ -236,8 +244,6 @@ namespace VietSoft.HRM.Web.Controllers
             List<MonitoringViewModel> resulst = new List<MonitoringViewModel>();
             try
             {
-
-
                 foreach (var modelItem in model)
                 {
                     //kiểm tra có trong resulst không
@@ -286,9 +292,9 @@ namespace VietSoft.HRM.Web.Controllers
             UserRequestViewModel? model = string.IsNullOrEmpty(data) ? new UserRequestViewModel() : Newtonsoft.Json.JsonConvert.DeserializeObject<UserRequestViewModel>(data);
             if(model != null)
             {
-                var uploadedFiles = await SaveUploadFile(files);
+                var uploadedFiles = await SaveUploadFile(files,model.MS_MAY);
 
-                model.NGUOI_YEU_CAU = SessionManager.CurrentUser.FullName;
+                model.NGUOI_YEU_CAU = SessionManager.ThongTinChung.HO_TEN;
                 if (model.HONG == true)
                 {
                     model.NGAY_XAY_RA = DateTime.ParseExact(model.NGAY_XAY_RA_STR, Setting.FORMAT_DATE, null);
@@ -296,7 +302,15 @@ namespace VietSoft.HRM.Web.Controllers
                 else
                 {
                     model.NGAY_XAY_RA = null;
-                }    
+                }
+                model.ListImage = new List<ImageFiles>();
+                foreach (var item in uploadedFiles)
+                {
+                    ImageFiles iamge = new ImageFiles();
+                    iamge.DUONG_DAN = item;
+                    model.ListImage.Add(iamge);
+                }
+                model.Files = JsonConvert.SerializeObject(model.ListImage).ToString();
                 BaseResponseModel? res = _homeService.SaveUserRequest(SessionManager.CurrentUser.UserName, model);
                 if (res.MA == 1)
                 {
@@ -322,24 +336,34 @@ namespace VietSoft.HRM.Web.Controllers
             ViewBag.Image = image;
             return PartialView("~/Views/Home/_viewImageModal.cshtml");
         }
+        public string LayDuoiFile(string strFile)
+        {
+            string[] FILE_NAMEArr, arr;
+            string FILE_NAME = "";
+            string str = "";
+            FILE_NAMEArr = strFile.Split(@"\");
+            FILE_NAME = FILE_NAMEArr[FILE_NAMEArr.Length - 1];
+            arr = FILE_NAME.Split(".");
+            return "." + arr[arr.Length - 1];
+        }
 
-        public async Task<List<string>> SaveUploadFile(IList<IFormFile> files)
+
+        public async Task<List<string>> SaveUploadFile(IList<IFormFile> files,string msmay)
         {
             var uploadedFiles = new List<string>();
+            int stt = 1;
             foreach(var dataSource in files)
             {
-                var fileName = dataSource.FileName;
-                string rootPath = Setting.UPLOAD_FOLDER;
+                string fullFilePath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year + "\\" + "YCNSD" + "_" +msmay + "_" + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "_" + stt.ToString() + LayDuoiFile(dataSource.FileName);
+                stt++;
+                var fileName = "\\" + "YCNSD" + "_" + msmay + "_" + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "_" + stt.ToString() + LayDuoiFile(dataSource.FileName);
+                string rootPath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year;
 
                 bool exists = System.IO.Directory.Exists(rootPath);
 
                 if (!exists)
                     System.IO.Directory.CreateDirectory(rootPath);
-
-               
                 var extension = Path.GetExtension(rootPath + fileName);
-                var fullFilePath = rootPath + fileName ;
-
                 if (System.IO.File.Exists(fullFilePath)) continue;
                 using (var stream = System.IO.File.Create(fullFilePath))
                 {

@@ -12,7 +12,7 @@ namespace VietSoft.CMMS.Web.Models
         [Required(ErrorMessageResourceType = typeof(Message), ErrorMessageResourceName = "FIELD_REQUIRED")]
         public string YEU_CAU { get; set; }
         public int MS_UU_TIEN { get; set; }
-        public int STT_VAN_DE { get; set; }
+        public int MS_NGUYEN_NHAN { get; set; }
         public DateTime? NGAY { get; set; }
         public DateTime? NGAY_XAY_RA { get; set; }
         public string NGAY_XAY_RA_STR { get; set; }
@@ -21,6 +21,7 @@ namespace VietSoft.CMMS.Web.Models
         public int DUYET { get; set; }
         public bool HONG { get; set; }
         public string Files { get; set; }
+        public List<ImageFiles> ListImage { get; set; }
     }
 
     public class ImageFiles 

@@ -93,7 +93,6 @@ namespace VietSoft.CMMS.Web.Services
                 return new UserRequestViewModel();
             }
         }
-
         public BaseResponseModel SaveMonitoring(string username,string data)
         {
             try
@@ -120,7 +119,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@deviceID", request.MS_MAY);
                 p.Add("@icot1", request.DUYET);
                 p.Add("@icot2", request.MS_UU_TIEN);
-                p.Add("@icot3", request.STT_VAN_DE);
+                p.Add("@icot3", request.MS_NGUYEN_NHAN);
                 p.Add("@scot1", request.MO_TA_TINH_TRANG);
                 p.Add("@scot2", request.YEU_CAU);
                 p.Add("@scot3", request.NGUOI_YEU_CAU);
@@ -128,6 +127,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@dCot1", request.NGAY_XAY_RA);
                 p.Add("@bCot1", request.HONG);
                 p.Add("@UserName", username);
+                p.Add("@json", request.Files);
                 var res = _dapper.Execute<BaseResponseModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 return res;
             }

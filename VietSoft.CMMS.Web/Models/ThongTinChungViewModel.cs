@@ -10,6 +10,7 @@ namespace VietSoft.CMMS.Web.Models
         public string TEN_TO { get; set; }
         public string TEN_DV { get; set; }
         public string HO_TEN { get; set; }
+        public string DUONG_DAN_TL { get; set; }
 
     }
 }
