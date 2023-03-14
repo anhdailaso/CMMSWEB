@@ -43,6 +43,7 @@
         $('#btnsave').on('click', function () {
             var input = document.getElementById('files');
             var files = input.files;
+            console.log(files)
             var formData = new FormData();
 
             for (var i = 0; i != files.length; i++) {
