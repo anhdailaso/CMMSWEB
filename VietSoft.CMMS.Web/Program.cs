@@ -5,9 +5,6 @@ using VietSoft.CMMS.Web.Helpers;
 using VietSoft.CMMS.Web.IServices;
 using VietSoft.CMMS.Web.Serilog;
 using VietSoft.CMMS.Web.Services;
-using VietSoft.CMMS.Web.Extensions;
-using VietSoft.CMMS.Web.Helpers;
-using VietSoft.CMMS.Web.Serilog;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 

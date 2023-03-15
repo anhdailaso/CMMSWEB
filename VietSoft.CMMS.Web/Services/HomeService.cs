@@ -20,7 +20,7 @@ namespace VietSoft.CMMS.Web.Services
         {
             _dapper = dapper;
         }
-        public List<MyEcomaintViewModel> GetMyEcomain(string username, int languages, DateTime? dngay, string ms_nx, string may,bool xuly,int pageIndex, int pageSize)
+        public List<MyEcomaintViewModel> GetMyEcomain(string username, int languages, DateTime? dngay, string ms_nx, string mslmay, bool xuly,int pageIndex, int pageSize)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@DNgay", dngay);
                 p.Add("@UserName", username);
                 p.Add("@MsNXuong", ms_nx);
-                p.Add("@deviceID", may == "" ? "-1" : may);
+                p.Add("@sCot1", mslmay);
                 p.Add("@NNgu", languages);
                 p.Add("@bcot1", xuly);
                 //int TotalRows = p.Get<int>("@TotalRows");

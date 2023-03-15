@@ -36,6 +36,7 @@
                     lstParameter[cur_length].ValueParamID = $(obj).attr('data-id');
                     lstParameter[cur_length].Measurement = 1;
                     lstParameter[cur_length].Note = $(obj).closest('tr').find('#note').val();
+                    lstParameter[cur_length].DUONG_DAN = $(obj).closest('#accordionFlushExample').find('[data-bs-toggle=modal]').attr('data-pat');
                     cur_length = cur_length + 1;
                 })
 
@@ -57,6 +58,7 @@
                         }
                         lstParameter[cur_length].Measurement = $(obj).val();
                         lstParameter[cur_length].Note = $(obj).closest('tr').find('#note').val();
+                        lstParameter[cur_length].DUONG_DAN = $(obj).closest('#accordionFlushExample').find('[data-bs-toggle=modal]').attr('data-pat');
                         cur_length = cur_length + 1;
                     }
                 })

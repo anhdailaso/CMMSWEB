@@ -610,6 +610,15 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loại thiết bị.
+        /// </summary>
+        public static string TXT_LOAI_MAY {
+            get {
+                return ResourceManager.GetString("TXT_LOAI_MAY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lương cơ bản.
         /// </summary>
         public static string TXT_LUONG_COBAN {

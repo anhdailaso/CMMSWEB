@@ -25,7 +25,16 @@
                                     <img src="~/images/barcode.png" alt="image" class="icon-barcode">
                                 </a>
                             </div>
-                            <div class="form-floating break-line">
+                             <div class="form-floating break-line">
+                                <select id="cboLMay" name="cboLMay" asp-items="@ViewBag.ListLoaiMAY" class="form-control form-select form-select-sm">
+                                </select>
+                                <label for="cboLMay">@ViewText.TXT_LOAI_MAY</label>
+                                <div id="cboLMay-error"></div>
+                                <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
+                                    <img src="~/images/barcode.png" alt="image" class="icon-barcode">
+                                </a>
+                            </div>
+                           @* <div class="form-floating break-line">
                                 <select id="cboMay" name="cboMay" asp-items="@ViewBag.ListMAY" class="form-control form-select form-select-sm">
                                 </select>
                                 <label for="cboMay">@ViewText.TXT_THIET_BI</label>
@@ -33,7 +42,7 @@
                                 <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
                                     <img src="~/images/barcode.png" alt="image" class="icon-barcode">
                                 </a>
-                            </div>
+                            </div>*@
                             <div class="form-floating input-group break-line date" id="toDateContainer">
                                 <input type="text" class="form-control" id="toDate" name="toDate" autocomplete="off" />
                                 <span class="input-group-append d-flex align-items-center">

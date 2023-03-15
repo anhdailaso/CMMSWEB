@@ -75,6 +75,20 @@ namespace VietSoft.CMMS.Web.Services
              });
             return new SelectList(listItem, "Value", "Text", null);
         }
+
+        public SelectList GetLoaiMayAll(string Username, int NNgu, int CoAll)
+        {
+            DataTable tb = new DataTable();
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "GetLoaiMayAll", CoAll,Username,NNgu));
+            var listItem = tb.AsEnumerable().Select(
+             x => new SelectListItem
+             {
+                 Text = x.Field<string>("TEN_LOAI_MAY"),
+                 Value = x.Field<string>("MS_LOAI_MAY")
+             });
+            return new SelectList(listItem, "Value", "Text", null);
+        }
+
         public SelectList GetCbbHeThong(string Username, int NNgu, int CoAll)
         {
             DataTable tb = new DataTable();

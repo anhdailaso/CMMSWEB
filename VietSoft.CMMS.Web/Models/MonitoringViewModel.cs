@@ -19,7 +19,7 @@ namespace VietSoft.CMMS.Web.Models
         public int ValueParamID { get; set; }
         public int ID { get; set; }
         public string Path { get; set; }
-        public byte[] ImageGS { get; set; }
+        public string DUONG_DAN { get; set; }
     }
 
     public class MonitoringViewModel
@@ -31,9 +31,13 @@ namespace VietSoft.CMMS.Web.Models
         public string ComponentName { get; set; }
         public string MeasurementUnitName { get; set; }
         public bool TypeOfParam { get; set; }
-        public byte[] ImageGS { get; set; }
-
+        public string DUONG_DAN { get; set; }
         public List<MonitoringParametersByDevice> MonitoringParameters { get;set; }
 
+    }
+    public class Imagemodel
+    {
+        public string Path { get; set; }
+        public string Path64 { get; set; }
     }
 }
