@@ -10,6 +10,7 @@ namespace VietSoft.CMMS.Web.IServices
         SelectList DanhSachNguyenNhan();
         SelectList DanhSachLoaiBT();
         SelectList GetCbbDiaDiem(string UserName, int NNgu, int CoAll);
+        SelectList GetLoaiMayAll(string UserName, int NNgu, int CoAll);
         SelectList GetCbbHeThong(string UserName, int NNgu, int CoAll);
         SelectList GetCbbLoaiMay(string UserName, int NNgu, int CoAll);
         SelectList GetCbbMay(string DD, int DC, string Username, int NNgu, int CoAll);

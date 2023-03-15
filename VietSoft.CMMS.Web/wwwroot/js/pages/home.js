@@ -8,7 +8,7 @@
 
         //setDatePicker("#toDate", null, moment($("#toDate").val(), 'DD/MM/YYYY').toDate())
         $('#cboDiaDiem').val('-1').change();
-        $('#cboMay').val('-1').change();
+        $('#cboLMay').val('-1').change();
         $('#search').on('keyup', function () {
             clearTimeout(delayTimer)
             delayTimer = setTimeout(function () {
@@ -25,12 +25,12 @@
 
 
         $('#cboDiaDiem').on('change', function () {
-            LoadMay();
+            GetMyEcomaint(1);
         })
         $('#chkxuly').on('change', function () {
             GetMyEcomaint(1);
         })
-        $('#cboMay').on('change', function () {
+        $('#cboLMay').on('change', function () {
             GetMyEcomaint(1);
         })
 
@@ -86,7 +86,7 @@
                 pageIndex: pageIndex ?? 1,
                 pageSize: config.PAGE_SIZE,
                 msnx: $('#cboDiaDiem').val(),
-                msmay: $('#cboMay').val(),
+                mslmay: $('#cboLMay').val(),
                 denngay: $('#toDate').val(),
                 xuly: $('#chkxuly').is(":checked"), 
             },

@@ -20,7 +20,13 @@
                             </a>
                         </div>
                     </button>
-                    <a class="d-flex accordion-right-icon" data-bs-toggle="modal" data-bs-target="#exampleModal" data-mor="@item.MonitoringParamsID" data-com="@item.ComponentID" data-src="" onclick="loadhinh(this)">
+                    @if(item.DUONG_DAN != null)
+                    {
+                        <a class="d-flex accordion-right-icon" target="_blank" href="@Url.Action("OpenFile", "Home", new { filePath = @item.DUONG_DAN })" style="padding-right:0.5rem" data-patfile="@item.MonitoringParamsID">
+                            <i class="fa fa-file-pdf-o"></i>
+                        </a>
+                    }
+                    <a class="d-flex accordion-right-icon" data-bs-toggle="modal" data-bs-target="#exampleModal" data-mor="@item.MonitoringParamsID" data-dev="@item.DeviceID" data-com="@item.ComponentID" data-src="" data-pat="" onclick="loadhinh(this)">
                         <i class="fa fa-camera-retro"></i>
                     </a>
                 </h2>
@@ -37,7 +43,7 @@
                                         <tr>
                                             <td style="line-height:2.3rem">@item1.ValueParamName</td>
                                             <td data-pass="@item1.Pass">
-                                                <input class="form-check-input" id="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" style="margin-top:0.8rem" data-id="@item1.ValueParamID" data-msbophan="@item1.ComponentID" data-msthongso="@item1.MonitoringParamsID" type="checkbox">
+                                                <input class="form-check-input" id="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" style="margin-top:0.8rem" data-pass="@item1.Pass" data-id="@item1.ValueParamID" data-msbophan="@item1.ComponentID" data-msthongso="@item1.MonitoringParamsID" type="checkbox">
                                             </td>
                                             <td> <input class="form-control" style="font-size:0.8rem;" type="text" id="note" placeholder="ghi chú" aria-label="default input example" value="@item1.Note" /></td>
                                         </tr>
@@ -108,10 +114,11 @@ else
 
     var modalImg = document.getElementById("img01");
     var file;
-    var obj;
+    var dev;
     function loadhinh(e) {
         file = null;
         obj = e;
+        dev = $(e).attr('data-dev');
         console.log($(e).attr('data-src'));
         modalImg.src = '';
         $('#exampleModal').modal('show');
@@ -122,16 +129,40 @@ else
         //})
     };
 
-
     var importfile = $('#fileToUpload');
     $('#btnXoaHinh').click(function () {
         file = null;
         $('#img01').attr('src', '');
+        $('#img01').attr('pat', '');
     });
     $('#btnLuuHinh').click(function () {
         $('#exampleModal').modal('hide');
-        $(obj).attr('data-src', $('#img01').attr('src'));
-
+        var fd = new FormData();
+        fd.append('image', file);
+        fd.append('dev', dev);
+        console.log($('#MS_MAY').val());
+        $.ajax({
+            type: "POST",
+            data: fd,
+            processData: false,
+            contentType: false,
+            url: '@Url.Action("SaveImage", "Home")',
+            success: function (response) {
+                if (response.responseCode == 1) {
+                    showSuccess(response.responseMessage);
+                    console.log(response.data);
+                    console.log(response.data.path);
+                    $(obj).attr('data-src', response.data.path64);
+                    $(obj).attr('data-pat', response.data.path);
+                }
+                else {
+                    showWarning(response.responseMessage)
+                }
+            },
+            error: function (response) {
+            }
+        });
+        //$(obj).attr('data-src', $('#img01').attr('src'));
     });
     $('#btnChonHinh').click(function () {
         importfile.click();
@@ -167,19 +198,26 @@ else
     $('.form-check-input').on('change', function () {
         var idcheck = ($(this).attr('data-id'));
         var id = ($(this).attr('id'));
-        console.log(idcheck);
+        var dat = ($(this).attr('data-pass'));
+        console.log(dat);
         if ($("input[id=" + id + "]").is(':checked')) {
-            $(this).closest('tbody').find("tr input[id=" + id + "]").prop("checked", false);
+            if(dat == 1)
+            {
+                console.log($(this).closest('tbody').find('tr input[data-pass ="0"]'));
+                $(this).closest('tbody').find('tr input[data-pass ="0"]').prop("checked", false);
+            }
+            else
+            {
+                $(this).closest('tbody').find('tr input[data-pass ="1"]').prop("checked", false);
+            }
             $('#title-' + id).css("color", "#ff870f");
-            $("input[data-id=" + idcheck + "]").prop("checked", true);
-            //anh đổi cái màu lại dùm em
+            //$("input[data-id=" + idcheck + "]").prop("checked", true);
         }
         else {
             $('#title-' + id).css("color", "#113186");
         }
-
-
     });
+
     $('.form-control').on('change', function () {
         var id_input = ($(this).attr('name'));
         var id = ($(this).attr('id'));

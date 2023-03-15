@@ -22,7 +22,6 @@ namespace VietSoft.HRM.Web.Controllers
         private readonly IComboboxService _combobox;
         private readonly IHomeService _homeService;
         private readonly IMaintenanceService _maintenanceService;
-
         public HomeController(ILogger<HomeController> logger, IAccountService accountService, IHomeService homeService, IComboboxService combobox,
             IMaintenanceService maintenanceService, IHostEnvironment hostEnvironment)
         {
@@ -45,7 +44,7 @@ namespace VietSoft.HRM.Web.Controllers
             GetListMenu(0);
             SessionManager.ThongTinChung = _accountService.GetThongTinChung(SessionManager.CurrentUser.UserName);
             ViewBag.ListNhaXuong = _combobox.GetCbbDiaDiem(SessionManager.CurrentUser.UserName, 0, 1);
-            ViewBag.ListMAY = _combobox.GetCbbMay("-1", -1, SessionManager.CurrentUser.UserName, 0, 1);
+            ViewBag.ListLoaiMAY = _combobox.GetLoaiMayAll(SessionManager.CurrentUser.UserName, 0, 1);
             return View();
         }
 
@@ -85,7 +84,7 @@ namespace VietSoft.HRM.Web.Controllers
                 List<ImageFiles> files = null;
                 try
                 {
-                     files = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImageFiles>>(userequest.Files);
+                    files = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImageFiles>>(userequest.Files);
                 }
                 catch
                 {
@@ -102,7 +101,7 @@ namespace VietSoft.HRM.Web.Controllers
             ViewBag.UuTien = _combobox.LoadListUuTien(0);
             return View("~/Views/UserRequest/Index.cshtml", userequest);
         }
-        public IActionResult WorkOrder(string msmay, string tenmay, int flag,string ttmay)
+        public IActionResult WorkOrder(string msmay, string tenmay, int flag, string ttmay)
         {
             res = null;
             ViewBag.MS_MAY = msmay;
@@ -110,7 +109,7 @@ namespace VietSoft.HRM.Web.Controllers
             ViewBag.FLAG = flag;
 
             var ticketMaintenance = _maintenanceService.GetTicketMaintenanceByDevice(SessionManager.CurrentUser.UserName, msmay, flag == 1 ? false : true);
-            if(flag != 1)
+            if (flag != 1)
             {
                 ticketMaintenance.TINH_TRANG_MAY = ttmay;
             }
@@ -119,7 +118,7 @@ namespace VietSoft.HRM.Web.Controllers
             return View("~/Views/WorkOrder/Index.cshtml", ticketMaintenance);
         }
 
-        public IActionResult WorkOrderRQ(string mspbt,string msmay,string tenmay)
+        public IActionResult WorkOrderRQ(string mspbt, string msmay, string tenmay)
         {
             ViewBag.MS_MAY = msmay;
             ViewBag.TEN_MAY = tenmay;
@@ -129,7 +128,7 @@ namespace VietSoft.HRM.Web.Controllers
             ViewBag.UuTien = _combobox.GetPriorityCategory(0);
             return View("~/Views/WorkOrder/Index.cshtml", ticketMaintenance);
         }
-        public ActionResult getDevices(string WorkSiteID,int coall)
+        public ActionResult getDevices(string WorkSiteID, int coall)
         {
             SelectList lst = _combobox.GetCbbMay(WorkSiteID, -1, SessionManager.CurrentUser.UserName, 0, coall);
             return Json(lst);
@@ -214,21 +213,21 @@ namespace VietSoft.HRM.Web.Controllers
             }
         }
         public static List<MyEcomaintViewModel>? res;
-        public IActionResult GetMyEcomain(string keyword, int pageIndex, int pageSize, string msnx, string msmay, string denngay, bool xuly)
+        public IActionResult GetMyEcomain(string keyword, int pageIndex, int pageSize, string msnx, string mslmay, string denngay, bool xuly)
         {
             PagedList<MyEcomaintViewModel>? result = null;
             if (pageIndex == 1 && keyword == null)
             {
                 var user = SessionManager.CurrentUser.UserName;
                 DateTime? endDate = DateTime.ParseExact(denngay, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                res = _homeService.GetMyEcomain(user, 0, endDate, msnx, msmay, xuly, pageIndex, pageSize);
+                res = _homeService.GetMyEcomain(user, 0, endDate, msnx, mslmay, xuly, pageIndex, pageSize);
                 result = new PagedList<MyEcomaintViewModel>(res, res.Count, pageIndex, pageSize);
             }
             else
             {
                 if (keyword != null)
                 {
-                    result = new PagedList<MyEcomaintViewModel>(res.Where(x => x.MS_MAY.Contains(keyword)).ToList(), res.Count(x => x.MS_MAY.Contains(keyword)), pageIndex, pageSize);
+                    result = new PagedList<MyEcomaintViewModel>(res.Where(x => x.MS_MAY.ToLower().Contains(keyword.ToLower())).ToList(), res.Count(x => x.MS_MAY.ToLower().Contains(keyword.ToLower())), pageIndex, pageSize);
                 }
                 else
                 {
@@ -257,7 +256,7 @@ namespace VietSoft.HRM.Web.Controllers
                         item.ComponentName = modelItem.ComponentName;
                         item.MeasurementUnitName = modelItem.MeasurementUnitName;
                         item.TypeOfParam = modelItem.TypeOfParam;
-                        item.ImageGS = modelItem.ImageGS;
+                        item.DUONG_DAN = modelItem.DUONG_DAN;
                         item.MonitoringParameters = model.Where(x1 => x1.ComponentID.Equals(modelItem.ComponentID) && x1.MonitoringParamsID.Equals(modelItem.MonitoringParamsID)).ToList();
                         resulst.Add(item);
                     }
@@ -271,10 +270,32 @@ namespace VietSoft.HRM.Web.Controllers
             return PartialView("~/Views/Moningtoring/_moningtoringdetail.cshtml", resulst);
 
         }
+
         [HttpPost]
-        public ActionResult SaveMonitoring(string jsonData)
+        public async Task<ActionResult> SaveImage(IFormFile image, string dev)
         {
-            //List<MonitoringParametersByDevice> lstParameter = Newtonsoft.Json.JsonConvert.DeserializeObject<List<MonitoringParametersByDevice>>(data);
+            try
+            {
+                string uploadedFiles = SaveUploadFile(image, dev);
+                return Json(new JsonResponseViewModel { Data = new Imagemodel { Path = uploadedFiles, Path64 = uploadedFiles.ToBase64StringImage() }, ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            catch (Exception ex)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+            }
+        }
+        public ActionResult OpenFile(string filePath)
+        {
+            //filePath = @"\\192.168.1.6\TaiLieu\Tai_Lieu_May\GSTT\GSTT_10.docx";
+            byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+            string fileName = Path.GetFileName(filePath);
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveMonitoring(string jsonData)
+        {
+            //List<MonitoringParametersByDevice> lstParameter = Newtonsoft.Json.JsonConvert.DeserializeObject<List<MonitoringParametersByDevice>>(jsonData);
             BaseResponseModel? res = _homeService.SaveMonitoring(SessionManager.CurrentUser.UserName, jsonData);
             if (res.MA == 1)
             {
@@ -290,9 +311,9 @@ namespace VietSoft.HRM.Web.Controllers
         public async Task<ActionResult> SaveUserRequest(IList<IFormFile> files, string data)
         {
             UserRequestViewModel? model = string.IsNullOrEmpty(data) ? new UserRequestViewModel() : Newtonsoft.Json.JsonConvert.DeserializeObject<UserRequestViewModel>(data);
-            if(model != null)
+            if (model != null)
             {
-                var uploadedFiles = await SaveUploadFile(files,model.MS_MAY);
+                var uploadedFiles = await SaveUploadFile(files, model.MS_MAY);
 
                 model.NGUOI_YEU_CAU = SessionManager.ThongTinChung.HO_TEN;
                 if (model.HONG == true)
@@ -346,15 +367,36 @@ namespace VietSoft.HRM.Web.Controllers
             arr = FILE_NAME.Split(".");
             return "." + arr[arr.Length - 1];
         }
-
-
-        public async Task<List<string>> SaveUploadFile(IList<IFormFile> files,string msmay)
+        public string SaveUploadFile(IFormFile dataSource, string msmay)
+        {
+            try
+            {
+                int stt = 1;
+                string fullFilePath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year + "\\" + "GSTT" + "_" + msmay + "_" + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "_" + stt.ToString() + LayDuoiFile(dataSource.FileName);
+                string rootPath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year;
+                bool exists = System.IO.Directory.Exists(rootPath);
+                if (!exists)
+                    System.IO.Directory.CreateDirectory(rootPath);
+                var extension = Path.GetExtension(rootPath + dataSource.FileName);
+                if (System.IO.File.Exists(fullFilePath)) return fullFilePath;
+                using (var stream = System.IO.File.Create(fullFilePath))
+                {
+                    dataSource.CopyToAsync(stream);
+                }
+                return fullFilePath;
+            }
+            catch
+            {
+                return "";
+            }
+        }
+        public async Task<List<string>> SaveUploadFile(IList<IFormFile> files, string msmay)
         {
             var uploadedFiles = new List<string>();
             int stt = 1;
-            foreach(var dataSource in files)
+            foreach (var dataSource in files)
             {
-                string fullFilePath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year + "\\" + "YCNSD" + "_" +msmay + "_" + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "_" + stt.ToString() + LayDuoiFile(dataSource.FileName);
+                string fullFilePath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year + "\\" + "YCNSD" + "_" + msmay + "_" + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "_" + stt.ToString() + LayDuoiFile(dataSource.FileName);
                 stt++;
                 var fileName = "\\" + "YCNSD" + "_" + msmay + "_" + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "_" + stt.ToString() + LayDuoiFile(dataSource.FileName);
                 string rootPath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year;
