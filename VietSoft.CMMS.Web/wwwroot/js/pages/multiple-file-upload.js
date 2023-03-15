@@ -59,16 +59,18 @@
 
         $(document).on("click", '.image-ratio-box', function () {
             let img = $(this).find('img').prop('src')
+            var formdata = new FormData();
+            formdata.append("image", img);
 
             $.ajax({
                 type: "POST",
-                data: {
-                    image: img
-                },
+                data: formdata,
+                processData: false,
                 url: "/Home/ViewImageModal",
+                contentType: false,
                 success: function (response) {
                     $('#modal .modal-content').html(response);
-                    $('#modal').modal('show');
+                    $('#modal').modal('show');                
                 }
             });
         });
