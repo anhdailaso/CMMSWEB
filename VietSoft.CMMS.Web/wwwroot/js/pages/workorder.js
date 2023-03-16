@@ -550,7 +550,7 @@
             <i class="` + icon + `"></i>
             <span>`+ (parent.itemCode ? parent.itemCode : '') + `</span>
             <span class=`+ color +`>`+ parent.itemName + `</span>
-            <span> &emsp;`+ (parent.amount ? parent.amount : '') +`</span>
+            <span> &emsp;`+ parent.amount +`</span>
             </div>`;
         tparent.appendChild(sib);
         if (!childs) return;

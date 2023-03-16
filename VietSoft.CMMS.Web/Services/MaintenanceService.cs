@@ -189,23 +189,26 @@ namespace VietSoft.CMMS.Web.Services
                     || x.PROBLEM_NAME.Contains(keyWork) || x.PROBLEM_CODE.Contains(keyWork) || x.PROBLEM_ID.Contains(keyWork));
 
                     var lst = query.GroupBy(
-                        x => (x.MS_BO_PHAN, x.PROBLEM_CODE, x.PROBLEM_ID, x.PROBLEM_NAME),
+                        x => (x.MS_BO_PHAN, x.PROBLEM_CODE, x.PROBLEM_ID, x.PROBLEM_NAME, x.GR_PROLEM),
                         (key, data) => new TreeViewModel
                         { 
                             ItemCode = key.MS_BO_PHAN, 
                             Id = key.PROBLEM_ID, 
                             ItemName = key.PROBLEM_NAME,
-                            Childs = data.GroupBy(c => (c.MS_BO_PHAN, c.PROBLEM_CODE, c.PROBLEM_ID, c.PROBLEM_NAME, c.CAUSE_ID, c.CAUSE_NAME, c.CAUSE_CODE), (key, data) => new
+                            Amount = key.GR_PROLEM,
+                            Childs = data.GroupBy(c => (c.MS_BO_PHAN, c.PROBLEM_CODE, c.PROBLEM_ID, c.PROBLEM_NAME, c.CAUSE_ID, c.CAUSE_NAME, c.CAUSE_CODE, c.GR_CAUSE), (key, data) => new
                             {
                                 Id = key.CAUSE_ID,
                                 ItemCode = key.CAUSE_CODE,
                                 ItemName = key.CAUSE_NAME,
+                                Amount = key.GR_CAUSE,
                                 Childs = data.Select(r => new
                                 {
                                     ItemCode = r.REMEDY_CODE,
                                     Id = r.REMEDY_ID,
                                     ItemName = r.REMEDY_NAME,
-                                    Key = $"{r.MS_MAY}|{r.MS_BO_PHAN}|{r.CLASS_ID}|{r.PROBLEM_ID}|{r.CAUSE_ID}|{r.REMEDY_ID}"
+                                    Key = $"{r.MS_MAY}|{r.MS_BO_PHAN}|{r.CLASS_ID}|{r.PROBLEM_ID}|{r.CAUSE_ID}|{r.REMEDY_ID}",
+                                    Amount = r.GR_REMEDY,
                                 })
                             }).Distinct().ToList()
                         }).ToList();
