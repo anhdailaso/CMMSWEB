@@ -11,6 +11,7 @@ using System.Data;
 using VietSoft.CMMS.Core.Models;
 using System.Globalization;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace VietSoft.HRM.Web.Controllers
 {
@@ -285,7 +286,7 @@ namespace VietSoft.HRM.Web.Controllers
         {
             try
             {
-                string uploadedFiles = SaveUploadFile(image, dev);
+                string uploadedFiles = await SaveUploadFile(image, dev);
                 return Json(new JsonResponseViewModel { Data = new Imagemodel { Path = uploadedFiles, Path64 = uploadedFiles.ToBase64StringImage() }, ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
             }
             catch (Exception ex)
@@ -376,13 +377,24 @@ namespace VietSoft.HRM.Web.Controllers
             arr = FILE_NAME.Split(".");
             return "." + arr[arr.Length - 1];
         }
-        public string SaveUploadFile(IFormFile dataSource, string msmay)
+        public async Task<string> SaveUploadFile(IFormFile dataSource, string msmay)
         {
             try
             {
                 int stt = 1;
-                string fullFilePath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year + "\\" + "GSTT" + "_" + msmay + "_" + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "_" + stt.ToString() + LayDuoiFile(dataSource.FileName);
+
+                //\\192.168.1.6\TaiLieu\Hinh_May\AIC-0002\15_3_2023\GSTT_AIC-0002_20230315_9.png
                 string rootPath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year;
+                try
+                {
+                    string[] files = Directory.GetFiles(rootPath).Where(x=>x.Contains("GSTT")).ToArray();
+                    stt = files.Length + 1;
+                }
+                catch
+                {
+                    stt = 1;
+                }
+                string fullFilePath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year + "\\" + "GSTT" + "_" + msmay + "_" + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "_" + stt.ToString() + LayDuoiFile(dataSource.FileName);
                 bool exists = System.IO.Directory.Exists(rootPath);
                 if (!exists)
                     System.IO.Directory.CreateDirectory(rootPath);
@@ -390,7 +402,7 @@ namespace VietSoft.HRM.Web.Controllers
                 if (System.IO.File.Exists(fullFilePath)) return fullFilePath;
                 using (var stream = System.IO.File.Create(fullFilePath))
                 {
-                    dataSource.CopyToAsync(stream);
+                    await dataSource.CopyToAsync(stream);
                 }
                 return fullFilePath;
             }

@@ -36,10 +36,10 @@
                     lstParameter[cur_length].ValueParamID = $(obj).attr('data-id');
                     lstParameter[cur_length].Measurement = 1;
                     lstParameter[cur_length].Note = $(obj).closest('tr').find('#note').val();
-                    lstParameter[cur_length].DUONG_DAN = $(obj).closest('#accordionFlushExample').find('[data-bs-toggle=modal]').attr('data-pat');
+                    lstParameter[cur_length].DUONG_DAN = $(obj).closest('.accordion-item.border-0.break-line').find('[data-com=' + $(obj).attr('data-msbophan') + '][data-mor=' + $(obj).attr('data-msthongso') + ']').attr('data-pat');
+                    
                     cur_length = cur_length + 1;
                 })
-
                 $(this).find('tr input[type=text]:not([value=""])').each(function (i, obj) {
                     if ($(obj).val() !== '') {
                         lstParameter[cur_length] = new Object();
@@ -59,13 +59,12 @@
                         lstParameter[cur_length].Measurement = $(obj).val();
                         lstParameter[cur_length].Note = $(obj).closest('tr').find('#note').val();
                         lstParameter[cur_length].DUONG_DAN = $(obj).closest('#accordionFlushExample').find('[data-bs-toggle=modal]').attr('data-pat');
+                        lstParameter[cur_length].DUONG_DAN = $(obj).closest('.accordion-item.border-0.break-line').find('[data-com=' + $(obj).attr('data-msbophan') + '][data-mor=' + $(obj).attr('data-msthongso') + ']').attr('data-pat');
                         cur_length = cur_length + 1;
                     }
                 })
-
             }
             )
-            console.log(lstParameter);
             if (cur_length === 0) {
                 showWarning("Vui lòng chọn dữ liệu");
                 return;
