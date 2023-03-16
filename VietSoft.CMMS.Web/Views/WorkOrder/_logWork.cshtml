@@ -11,7 +11,7 @@
             <div class="col-2" id="btnAddRowLogWork">
                 <i class="fa fa-plus fs-7 mx-3" aria-hidden="true"></i>
             </div>
-            <div style="height:380px; overflow: auto;">
+            <div style="height:380px;">
                   <table id="tblLogWork" class="table table-responsive table-borderless cuscess" >
                 <tbody>
                     @foreach (var item in Model)
@@ -48,6 +48,14 @@
 </div>
 
 <script>
-    setDateTimePicker('.fromDate', moment($(".fromDate").val(), _formatDateTime).toDate())
-    setDateTimePicker('.toDate', moment($(".toDate").val(), _formatDateTime).toDate())
+    setDateTimePicker('.fromDate', moment($(".fromDate").val(), _formatDateTime).toDate());
+    //setDateTimePicker('.toDate', moment($(".toDate").val(), _formatDateTime).toDate())
+    $('.toDate').datetimepicker({
+        locale: 'vi',
+        useCurrent: false,
+        defaultDate: moment(new Date(), _formatDateTime),
+        widgetPositioning: {
+            horizontal: 'right'
+        }
+    });
 </script>

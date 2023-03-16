@@ -125,13 +125,13 @@
                 let sl = $(this).closest('tr').find("td").eq(2).text()
                 let rowId = `#flush-collapse-` + $('#MS_CV').val()
                 
-                let html = ` <tr class="d-flex align-items-center" style="min-width: 300px;">
-                                    <td class="flex-fill">`+ mspt +`</td>
-                                    <td class="flex-fill">`+ msvt +`</td>
-                                    <td class="flex-fill w-25"> <input class="form-control" type="text" value="`+ sl +`" placeholder="số lượng" /></td>
-                                    <td class="flex-fill">
-                                        <p><a class="remove-row"><i class="fa fa-trash-o fa-lg icon-danger"></i></a></p>
-                                    </td>
+                let html = ` <tr>
+                                <td width="30%" style="line-height:2.3rem">`+ mspt +`</td>
+                                <td width="30%" style="line-height:2.3rem">`+ msvt +`</td>
+                                <td width="30%"> <input class="form-control" type="text" value="`+ sl +`" placeholder="số lượng" /></td>
+                                <td width="10%">
+                                    <p style="margin-top: 10px;"><a class="remove-row"><i class="fa fa-trash-o fa-lg icon-danger"></i></a></p>
+                                </td>
                             </tr>`
                 $(rowId).find('table tbody').append(html)
             });
