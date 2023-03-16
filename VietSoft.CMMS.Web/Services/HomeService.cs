@@ -102,7 +102,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@UserName", username);
                 p.Add("@json", data);
                 var res = _dapper.Execute<BaseResponseModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
-                return res;
+                return new BaseResponseModel();
             }
             catch (Exception ex)
             {
