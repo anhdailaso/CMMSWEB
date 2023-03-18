@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Diagnostics;
 using System.Globalization;
 using VietSoft.CMMS.Web.Helpers;
 using VietSoft.CMMS.Web.IServices;
@@ -29,6 +30,10 @@ namespace VietSoft.CMMS.Web.Controllers
 
         [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
         public IActionResult HistoryIndex()
         {
             SelectList listMAY = _combobox.GetCbbMay("-1", -1, SessionManager.CurrentUser.UserName, 0, 1);
@@ -52,6 +57,12 @@ namespace VietSoft.CMMS.Web.Controllers
             return Json(lst);
         }
 
+        public ActionResult getTuNgay(string msmay)
+        {
+            DateTime tnngay = _historyService.GetNgayLapDat(msmay);
+            return Json(tnngay.ToString("dd/MM/yyyy"));
+        }
+
         public static List<HistoryViewModel>? res;
         public IActionResult GetListHistory(string keySeach, int pageIndex, int pageSize, string msmay, string tungay, string denngay, bool ttphutung, string mabp, string mapt)
         {
@@ -68,7 +79,7 @@ namespace VietSoft.CMMS.Web.Controllers
             {
                 if (keySeach != null)
                 {
-                    result = new PagedList<HistoryViewModel>(res.Where(x => x.MA_BP.Contains(keySeach) || x.NGAY.Contains(keySeach) || x.MA_PT.Contains(keySeach)).ToList(), res.Count(x => x.MA_BP.Contains(keySeach)), pageIndex, pageSize);
+                    result = new PagedList<HistoryViewModel>(res.Where(x => x.MA_BP.ToLower().Contains(keySeach.ToLower()) || x.NGAY.ToLower().Contains(keySeach.ToLower()) || x.MA_PT.ToLower().Contains(keySeach.ToLower())).ToList(), res.Count(x => x.MA_BP.ToLower().Contains(keySeach.ToLower()) || x.NGAY.ToLower().Contains(keySeach.ToLower()) || x.MA_PT.ToLower().Contains(keySeach.ToLower())), pageIndex, pageSize);
                 }
                 else
                 {

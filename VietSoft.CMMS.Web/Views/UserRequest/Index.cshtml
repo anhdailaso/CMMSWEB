@@ -11,6 +11,8 @@
     @Html.AntiForgeryToken()
     @Html.Hidden("MS_MAY", (object)ViewBag.MS_MAY)
     @Html.Hidden("STT", Model.STT)
+    @Html.Hidden("EDIT",(Model.USERNAME == SessionManager.CurrentUser.UserName? (Model.DUYET == 0) ? 1 : 0 : 0))
+
     <input type="hidden" id="flag" name="flag" value="@ViewBag.FLAG">
     <div class="col-md-6 offset-md-3 col-xs-12">
         <div class="row detail-page-emp-info">
@@ -91,19 +93,35 @@
             <!-- Twitter -->
             @if (Model.DUYET == 1)
             {
-                <a class="btn btn-outline-primary m-1" id='btnLPBT' role="button">
-                    <i class="fa fa-cogs fs-7"></i>
-                </a>
+                if (Model.QUYEN == 1)
+                {
+                    <a class="btn btn-outline-primary m-1" id='btnLPBT' role="button">
+                        <i class="fa fa-cogs fs-7"></i>
+                    </a>
+                }
             }
             else
             {
-                <a class="btn btn-outline-primary m-1" id='btnsave' role="button">
-                    <i class="fa fa-floppy-o fs-7"></i>
-                </a>
+                if (Model.QUYEN == 1)
+                {
+                    <a class="btn btn-outline-primary m-1" id='btnsave' role="button">
+                        <i class="fa fa-floppy-o fs-7"></i>
+                    </a>
+                }
+                else
+                {
+                    @if (Model.USERNAME == SessionManager.CurrentUser.UserName || Model.USERNAME == null)
+                    {
+                        <a class="btn btn-outline-primary m-1" id='btnsave' role="button">
+                            <i class="fa fa-floppy-o fs-7"></i>
+                        </a>
 
-                <a class="btn btn-outline-warning m-1" id='btnhuy' role="button">
-                    <i class="fa fa-times fs-7"></i>
-                </a>
+                        <a class="btn btn-outline-warning m-1" id='btnhuy' role="button">
+                            <i class="fa fa-times fs-7"></i>
+                        </a>
+                    }
+                }
+
             }
         </div>
     </div>
@@ -147,13 +165,14 @@
             PAGE_SIZE: 10,
             SAVE_USERREQUEST: '@Url.Action("SaveUserRequest", "Home")',
             CREAT_WORKORDER: '@Url.Action("WorkOrder", "Home")',
+            DELETE_USER_REQUEST: '@Url.Action("DeleteUserRequest", "Home")',
             MyEcomaint: '@Url.Action("Index", "Home")'
         }
     </script>
     <script src="~/js/pages/userequest.js" asp-append-version="true"></script>
     <script src="~/js/pages/multiple-file-upload.js" asp-append-version="true"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             UserRequestModule.init();
             MultipleFileUploadModule.init();
         });

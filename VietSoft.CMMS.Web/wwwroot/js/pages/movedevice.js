@@ -49,7 +49,7 @@
 
 
         $('#cboMay').on('change', function () {
-            if ($('input[type=radio][name=inlineRadioOptions]').val() == 'false') {
+            if ($('input[type=radio]#inlineRadio1').is(":checked")) {
                 if ($('#cboDiaDiemDi').val() == "-1") {
                     showWarning("Bạn chưa chọn nơi chuyển đi!");
                     $('#cboDiaDiemDi').focus();

@@ -37,7 +37,7 @@ namespace VietSoft.CMMS.Web.Controllers
             item.Text = "";
             ViewBag.ListNhaXuong = listDD;
 
-            SelectList listMAY = _combobox.GetCbbDiaDiem(SessionManager.CurrentUser.UserName, 0, 1);
+            SelectList listMAY = _combobox.GetCbbMay("-1", -1, SessionManager.CurrentUser.UserName, 0,1);
             SelectListItem itemMay = listMAY.Where(x => x.Value.ToString() == "-1").FirstOrDefault();
             itemMay.Text = "";
             ViewBag.ListMAY = listMAY;
@@ -126,7 +126,7 @@ namespace VietSoft.CMMS.Web.Controllers
             var listItem = res.Select(
              x => new SelectListItem
              {
-                 Text = x.TEN_MAY,
+                 Text = x.MS_MAY,
                  Value = x.MS_MAY
              }).Distinct().ToList();
             listItem.Add(new SelectListItem() { Value = "-1", Text = "" });
