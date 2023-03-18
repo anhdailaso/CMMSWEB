@@ -33,7 +33,6 @@ namespace VietSoft.CMMS.Web.Services
                 return null;
             }
         }
-
         public TicketMaintenanceViewModel GetTicketMaintenanceByDevice(string userName, string deviceId, bool isNewTicket)
         {
             try

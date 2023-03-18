@@ -20,7 +20,7 @@
                             </a>
                         </div>
                     </button>
-                    @if(item.DUONG_DAN != null)
+                    @if (item.DUONG_DAN != null)
                     {
                         <a class="d-flex accordion-right-icon" target="_blank" href="@Url.Action("OpenFile", "Home", new { filePath = @item.DUONG_DAN })" style="padding-right:0.5rem" data-patfile="@item.MonitoringParamsID">
                             <i class="fa fa-file-pdf-o"></i>
@@ -52,7 +52,7 @@
                                     {
                                         <tr class="parentCell odd">
                                             <td>
-                                                <input onfocusout="myfunction(this)" class="form-control" data-range="@item1.ValueParamName.Split('!')[1]" data-msbophan="@item1.ComponentID" id="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" data-msthongso="@item1.MonitoringParamsID" style="font-size:0.8rem;" type="text" placeholder="Kết quả" aria-label="default input example" value="@item1.Measurement" name="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" />
+                                                <input onfocusout="myfunction(this)" class="form-control form-input" data-range="@item1.ValueParamName.Split('!')[1]" data-msbophan="@item1.ComponentID" id="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" data-msthongso="@item1.MonitoringParamsID" style="font-size:0.8rem;" type="text" placeholder="Kết quả" aria-label="default input example" value="@item1.Measurement" name="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" />
                                                 <div class="tooltip-action">
                                                     <a>
                                                         <span>@Html.Raw(@item1.ValueParamName.Split('!')[0])</span>
@@ -85,11 +85,15 @@ else
 <input type="file" id="fileToUpload" style="display: none;" />
 <script>
     function myfunction(e) {
+        var id_input = ($(e).attr('name'));
+        var id = ($(e).attr('id'));
+        var x = document.getElementById(id_input).value;
         if (!$.isNumeric($(e).val()) && $(e).val() !== '') {
             if ($(e).val() == '') return false;
             $(e).focus();
-            $(e).val('');
             showWarning("Chỉ được nhập số!");
+            $(e).val('');
+            $('#title-' + id).css("color", "#113186");
             return false;
         }
         if ($(e).val() !== '') {
@@ -104,6 +108,8 @@ else
             if (flag == 0) {
                 $(e).focus();
                 showWarning("Giá trị nhập không phù hợp!");
+                $(e).val('');
+                $('#title-' + id).css("color", "#113186");
                 return false;
             }
             else {
@@ -119,7 +125,6 @@ else
         file = null;
         obj = e;
         dev = $(e).attr('data-dev');
-        console.log($(e).attr('data-src'));
         modalImg.src = '';
         $('#exampleModal').modal('show');
         modalImg.src = $(e).attr('data-src');
@@ -140,7 +145,6 @@ else
         var fd = new FormData();
         fd.append('image', file);
         fd.append('dev', dev);
-        console.log($('#MS_MAY').val());
         $.ajax({
             type: "POST",
             data: fd,
@@ -150,8 +154,6 @@ else
             success: function (response) {
                 if (response.responseCode == 1) {
                     showSuccess(response.responseMessage);
-                    console.log(response.data);
-                    console.log(response.data.path);
                     $(obj).attr('data-src', response.data.path64);
                     $(obj).attr('data-pat', response.data.path);
                 }
@@ -199,15 +201,11 @@ else
         var idcheck = ($(this).attr('data-id'));
         var id = ($(this).attr('id'));
         var dat = ($(this).attr('data-pass'));
-        console.log(dat);
         if ($("input[id=" + id + "]").is(':checked')) {
-            if(dat == 1)
-            {
-                console.log($(this).closest('tbody').find('tr input[data-pass ="0"]'));
+            if (dat == 1) {
                 $(this).closest('tbody').find('tr input[data-pass ="0"]').prop("checked", false);
             }
-            else
-            {
+            else {
                 $(this).closest('tbody').find('tr input[data-pass ="1"]').prop("checked", false);
             }
             $('#title-' + id).css("color", "#ff870f");
@@ -218,14 +216,11 @@ else
         }
     });
 
-    $('.form-control').on('change', function () {
+    $('.form-control.form-input').on('change', function () {
         var id_input = ($(this).attr('name'));
         var id = ($(this).attr('id'));
-        console.log(id_input)
         var x = document.getElementById(id_input).value;
-
         if (x != "") {
-            console.log('#title-' + id)
             $('#title-' + id).css("color", "#ff870f");
         }
         else {

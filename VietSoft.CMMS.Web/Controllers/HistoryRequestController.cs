@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using System.Globalization;
 using VietSoft.CMMS.Web.Helpers;
 using VietSoft.CMMS.Web.IServices;
@@ -26,6 +27,10 @@ namespace VietSoft.CMMS.Web.Controllers
 
         [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
         public IActionResult HistoryRequestIndex()
         {
             ViewBag.ListMAY = _combobox.GetCbbMay("-1", -1, SessionManager.CurrentUser.UserName, 0, 1);
@@ -49,7 +54,7 @@ namespace VietSoft.CMMS.Web.Controllers
             {
                 if (keySeach != null)
                 {
-                    result = new PagedList<HistoryRequestViewModel>(res.Where(x => x.TINH_TRANG_MAY.Contains(keySeach) || x.NGAY_KT_PBT.Contains(keySeach) || x.TINH_TRANG_MAY.Contains(keySeach)).ToList(), res.Count(x => x.TINH_TRANG_MAY.Contains(keySeach)), pageIndex, pageSize);
+                    result = new PagedList<HistoryRequestViewModel>(res.Where(x => x.MS_MAY.ToLower().Contains(keySeach.ToLower()) || x.TINH_TRANG_MAY.ToLower().Contains(keySeach.ToLower()) || x.NGAY_YC.ToLower().Contains(keySeach.ToLower()) || x.TINH_TRANG_MAY.ToLower().Contains(keySeach.ToLower())).ToList(), res.Count(x => x.MS_MAY.ToLower().Contains(keySeach.ToLower()) || x.TINH_TRANG_MAY.ToLower().Contains(keySeach.ToLower()) || x.NGAY_YC.ToLower().Contains(keySeach.ToLower()) || x.TINH_TRANG_MAY.ToLower().Contains(keySeach.ToLower())) , pageIndex, pageSize);
                 }
                 else
                 {
