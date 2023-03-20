@@ -13,5 +13,8 @@ namespace VietSoft.CMMS.Web.Models
         public int TREYC { get; set; }
         public int TREBT { get; set; }
         public int TREGS { get; set; }
+        public int MUC_YC { get; set; }
+        public int MUC_BT { get; set; }
+        public int MUC_GS { get; set; }
     }
 }

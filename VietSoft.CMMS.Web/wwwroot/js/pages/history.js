@@ -17,15 +17,18 @@
             clearTimeout(delayTimer)
             delayTimer = setTimeout(function () {
                 GetListHistory(1);
-            }, 1000)
+            }, 600)
         })
 
         $('#cboMaThietBi').on('change', function () {
+            bload = false;
+            LoadTuNgay();
             LoadBoPhan();
             LoadPhuTung();
         })
 
         $('#cboMaBoPhan').on('change', function () {
+
             LoadPhuTung();
         })
 
@@ -66,7 +69,7 @@
                 }
                 $("#cboMaBoPhan").html(s);
             }
-        });
+        },600);
     }
 
     function LoadPhuTung() {
@@ -82,15 +85,28 @@
                     s += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
                 }
                 $("#cboMaPhuTung").html(s);
+                bload = true;
                 GetListHistory(1);
+            }
+        }, 600);
+    }
+
+    function LoadTuNgay() {
+        $.ajax({
+            type: "POST",
+            url: config.GET_TU_NGAY,
+            data: { msmay: $('#cboMaThietBi').val() },
+            success: function (data) {
+                console.log(data);
+                $("#fromDate").val(data);
             }
         });
     }
 
     function GetListHistory(pageIndex) {
+        if (bload == false) return;
         var currenpage = pageIndex || 1;
         showLoadingOverlay("#GetHistory");
-
         $.ajax({
             type: "GET",
             url: config.GET_LIST_HISTORY,
@@ -113,7 +129,7 @@
             complete: function () {
                 hideLoadingOverlay("#GetHistory");
             }
-        });
+        },2000);
     }
 
     function renderPagination(totalPages, divRender, currentPage) {

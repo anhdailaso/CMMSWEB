@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.ApplicationBlocks.Data;
 using System.Data;
 using VietSoft.CMMS.Core.Models;
 using VietSoft.CMMS.Web.Helpers;
@@ -49,7 +50,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-
+      
         public List<IventoryDeviceModel> GetListIventoryDecice(string username)
         {
             try

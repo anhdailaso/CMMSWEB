@@ -12,6 +12,7 @@ using VietSoft.CMMS.Core.Models;
 using System.Globalization;
 using Newtonsoft.Json;
 using System.IO;
+using System.Reflection;
 
 namespace VietSoft.HRM.Web.Controllers
 {
@@ -79,34 +80,32 @@ namespace VietSoft.HRM.Web.Controllers
             ViewBag.TEN_MAY = tenmay;
             ViewBag.FLAG = flag;
             UserRequestViewModel userequest = new UserRequestViewModel();
-            if (flag == 1)
+            try
             {
-                userequest = _homeService.GetUserRequest(msmay);
-                if(userequest != null && !string.IsNullOrEmpty(userequest.Files))
+                if (flag == 1)
                 {
-                    var files = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImageFiles>>(userequest.Files);
-                    var lst = files != null ? files.Select(x => x.DUONG_DAN).ToList() : new List<string>();
-                    var lstBase64 = new List<string>();
-                    foreach (var item in lst)
+                    userequest = _homeService.GetUserRequest(msmay, SessionManager.CurrentUser.UserName);
+                    if (userequest != null && !string.IsNullOrEmpty(userequest.Files))
                     {
-                        lstBase64.Add(item.ToBase64StringImage());
+                        var files = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImageFiles>>(userequest.Files);
+                        var lst = files != null ? files.Select(x => x.DUONG_DAN).ToList() : new List<string>();
+                        var lstBase64 = new List<string>();
+                        foreach (var item in lst)
+                        {
+                            lstBase64.Add(item.ToBase64StringImage());
+                        }
+                        ViewBag.DanhSachHinhAnh = lstBase64;
                     }
-                    ViewBag.DanhSachHinhAnh = lstBase64;
+                }
+                else
+                {
+                    userequest.STT = -1;
+                    userequest.USERNAME = SessionManager.CurrentUser.UserName;
                 }
             }
-            //        files = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImageFiles>>(userequest.Files);
-            //    }
-            //    catch
-            //    {
-            //    }
-            //    var lst = files != null ? files.Select(x => x.DUONG_DAN).ToList() : new List<string>();
-            //    var lstBase64 = new List<string>();
-            //    foreach (var item in lst)
-            //    {
-            //        lstBase64.Add(item.ToBase64StringImage());
-            //    }
-            //    ViewBag.DanhSachHinhAnh = lstBase64;
-            //}
+            catch
+            {
+            }
             ViewBag.NguyenNhan = _combobox.DanhSachNguyenNhan();
             ViewBag.UuTien = _combobox.LoadListUuTien(0);
             return View("~/Views/UserRequest/Index.cshtml", userequest);
@@ -355,6 +354,20 @@ namespace VietSoft.HRM.Web.Controllers
             return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
         }
 
+        [HttpPost]
+        public async Task<ActionResult> DeleteUserRequest(int stt)
+        {
+            BaseResponseModel? res = _homeService.DeleteUserRequest(stt);
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+            }
+        }
+
         public ActionResult ShowConfirmModal(string message)
         {
             ViewBag.Message = message;
@@ -387,7 +400,7 @@ namespace VietSoft.HRM.Web.Controllers
                 string rootPath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year;
                 try
                 {
-                    string[] files = Directory.GetFiles(rootPath).Where(x=>x.Contains("GSTT")).ToArray();
+                    string[] files = Directory.GetFiles(rootPath).Where(x => x.Contains("GSTT")).ToArray();
                     stt = files.Length + 1;
                 }
                 catch

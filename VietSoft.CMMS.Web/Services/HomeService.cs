@@ -78,13 +78,14 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public UserRequestViewModel GetUserRequest(string msmay)
+        public UserRequestViewModel GetUserRequest(string msmay, string username)
         {
             try
             {
                 var p = new DynamicParameters();
                 p.Add("@sDanhMuc", "GetUserRequest");
                 p.Add("@deviceID", msmay);
+                p.Add("@UserName", username);
                 var res = _dapper.Execute<UserRequestViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 return res;
             }
@@ -93,6 +94,7 @@ namespace VietSoft.CMMS.Web.Services
                 return new UserRequestViewModel();
             }
         }
+
         public BaseResponseModel SaveMonitoring(string username,string data)
         {
             try
@@ -102,7 +104,23 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@UserName", username);
                 p.Add("@json", data);
                 var res = _dapper.Execute<BaseResponseModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
                 return new BaseResponseModel();
+            }
+        }
+
+        public BaseResponseModel DeleteUserRequest(int stt)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "DELETE_USEREQUEST");
+                p.Add("@stt", stt);
+                var res = _dapper.Execute<BaseResponseModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
             }
             catch (Exception ex)
             {
