@@ -1690,3 +1690,12 @@ ul {
     font-size: 0.95rem !important;
     padding: 0.6rem 0.3rem !important;
 }
+.accordion-button::after{
+    margin-left:20%;
+}
+.viewGuid {
+    margin-top: -1.25rem;
+}
+.accordion-header {
+    display: flex;
+}

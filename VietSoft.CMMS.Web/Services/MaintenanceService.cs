@@ -88,8 +88,8 @@ namespace VietSoft.CMMS.Web.Services
                 if (res != null)
                 {
                     var lst = res.GroupBy(
-                        x => (x.MS_CV, x.MO_TA_CV, x.MS_BO_PHAN),
-                        (key, data) => new { MS_CV = key.MS_CV, MO_TA_CV = key.MO_TA_CV, MS_BO_PHAN = key.MS_BO_PHAN, WorkOrderDetailViewModels = data }).ToList();
+                        x => (x.MS_CV, x.MO_TA_CV, x.MS_BO_PHAN, x.PATH_HD),
+                        (key, data) => new { MS_CV = key.MS_CV, MO_TA_CV = key.MO_TA_CV, PATH_HD = key.PATH_HD, MS_BO_PHAN = key.MS_BO_PHAN, WorkOrderDetailViewModels = data }).ToList();
 
                     var workOrders = lst.Select(x =>
                     new WorkOrdersViewModel()
@@ -97,6 +97,7 @@ namespace VietSoft.CMMS.Web.Services
                         MS_BO_PHAN = x.MS_BO_PHAN,
                         MS_CV = x.MS_CV,
                         MO_TA_CV = x.MO_TA_CV,
+                        PATH_HD = x.PATH_HD,
                         WorkOrderDetailViewModels = x.WorkOrderDetailViewModels.Where(x => !string.IsNullOrEmpty(x.MS_PT)).Select(x => new WorkOrderDetailViewModel()
                         {
                            MS_PT = x.MS_PT,
