@@ -11,9 +11,14 @@
                 </button>
                 @if (!string.IsNullOrEmpty(item.PATH_HD))
                 {
-                    <a class="viewGuide" href="@string.Format("file:///{0}", @item.PATH_HD)">
+                    @*@item.PATH_HD*@
+                    <a class="viewGuide" href="@Url.Action("DownloadFile","WorkOrder", new{filepath = @"\\DESKTOP-4AU066C\SharedTest\1.docx"})">
                         <i class="fa fa-info-circle" aria-hidden="true" style="font-size:20px; color:#fd7e14"></i>
                     </a>
+                }
+                else
+                {
+                    <a style="width: 17.15px"></a>
                 }
             </h2>
             

@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 using System.Globalization;
+using System.IO;
+using System.Net.Mime;
 using System.Text.Json;
 using VietSoft.CMMS.Web.Helpers;
 using VietSoft.CMMS.Web.IServices;
@@ -54,6 +57,35 @@ namespace VietSoft.CMMS.Web.Controllers
         {
             var res = _maintenanceService.GetWorkOrderList(userName, deviceId, ticketId);
             return PartialView("_workList", res);
+        }
+
+        public FileResult DownloadFile(string filepath)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(filepath))
+                    return File(Array.Empty<byte>(), "application/octet-stream");
+
+                string filename = Path.GetFileName(filepath);
+                byte[] filedata = System.IO.File.ReadAllBytes(filepath);
+
+                string contentType;
+                new FileExtensionContentTypeProvider().TryGetContentType(filename, out contentType);
+                contentType = contentType ?? "application/octet-stream";
+
+                var cd = new ContentDisposition
+                {
+                    FileName = filename,
+                    Inline = true,
+                };
+
+                Response.Headers.Add("Content-Disposition", cd.ToString());
+                return File(filedata, contentType);
+            }
+            catch(Exception ex)
+            {
+                return File(Array.Empty<byte>(), "application/octet-stream");
+            }
         }
 
         public IActionResult AddSupplies(string suppliesSelectedJson, string deviceId, string dept, int workId, string ticketId)
