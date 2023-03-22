@@ -22,6 +22,33 @@ namespace VietSoft.CMMS.Web.Services
         {
             _dapper = dapper;
         }
+
+        public SelectList DanhSachKho(string Username)
+        {
+            DataTable tb = new DataTable();
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "SP_Y_GET_KHO_DON_HANG_NHAP", Username));
+            var listItem = tb.AsEnumerable().Select(
+             x => new SelectListItem
+             {
+                 Text = x.Field<string>("TEN_KHO"),
+                 Value = x.Field<int>("MS_KHO").ToString()
+             });
+            return new SelectList(listItem, "Value", "Text", null);
+        }
+
+        public SelectList DanhSachDangNhap()
+        {
+            DataTable tb = new DataTable();
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "SP_Y_GET_DANG_NHAP_KHO"));
+            var listItem = tb.AsEnumerable().Select(
+             x => new SelectListItem
+             {
+                 Text = x.Field<string>("MS_DANG_NHAP"),
+                 Value = x.Field<string>("TEN_DANG_NHAP")
+             });
+            return new SelectList(listItem, "Value", "Text", null);
+        }
+
         public SelectList DanhSachNguyenNhan()
         {
             DataTable tb = new DataTable();
@@ -52,7 +79,7 @@ namespace VietSoft.CMMS.Web.Services
         {
             try
             {
-                string sql = "SELECT MS_LOAI_BT, TEN_LOAI_BT, HU_HONG FROM LOAI_BAO_TRI ORDER BY TEN_LOAI_BT";
+                string sql = "SELECT MS_LOAI_BT, TEN_LOAI_BT, HU_HONG FROM LOAI_BAO_TRI WHERE MS_HT_BT = 2 ORDER BY TEN_LOAI_BT";
                 var res = _dapper.GetAll<MaintenanceCategoryViewModel>(sql, null, System.Data.CommandType.Text);
                
                 return res ?? new List<MaintenanceCategoryViewModel>();
@@ -116,7 +143,7 @@ namespace VietSoft.CMMS.Web.Services
         public SelectList GetCbbMay(string DD,int DC,string Username, int NNgu, int CoAll)
         {
             DataTable tb = new DataTable();
-            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "SP_Y_GET_MAY", Username, NNgu, "-1", DD, DC, "-1", "-1", "-1"));
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "SP_Y_GET_MAY_WEB", Username, NNgu, "-1", DD, DC, "-1", "-1", "-1"));
             if (CoAll == 1)
             {
                 tb.Rows.Add("-1", " < ALL > ", "-1");
@@ -125,7 +152,7 @@ namespace VietSoft.CMMS.Web.Services
             {
                 tb.Rows.Add("-1", "", "-1");
             }    
-            tb.DefaultView.Sort = "MS_MAY";
+            tb.DefaultView.Sort = "TEN_MAY";
             tb = tb.DefaultView.ToTable();
             var listItem = tb.AsEnumerable().Select(
              x => new SelectListItem

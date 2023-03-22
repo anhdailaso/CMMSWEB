@@ -12,6 +12,8 @@ using VietSoft.CMMS.Core.Models;
 using System.Globalization;
 using Newtonsoft.Json;
 using System.IO;
+using System.Reflection;
+using System.Drawing;
 
 namespace VietSoft.HRM.Web.Controllers
 {
@@ -79,34 +81,32 @@ namespace VietSoft.HRM.Web.Controllers
             ViewBag.TEN_MAY = tenmay;
             ViewBag.FLAG = flag;
             UserRequestViewModel userequest = new UserRequestViewModel();
-            if (flag == 1)
+            try
             {
-                userequest = _homeService.GetUserRequest(msmay);
-                if(userequest != null && !string.IsNullOrEmpty(userequest.Files))
+                if (flag == 1)
                 {
-                    var files = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImageFiles>>(userequest.Files);
-                    var lst = files != null ? files.Select(x => x.DUONG_DAN).ToList() : new List<string>();
-                    var lstBase64 = new List<string>();
-                    foreach (var item in lst)
+                    userequest = _homeService.GetUserRequest(msmay, SessionManager.CurrentUser.UserName);
+                    if (userequest != null && !string.IsNullOrEmpty(userequest.Files))
                     {
-                        lstBase64.Add(item.ToBase64StringImage());
+                        var files = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImageFiles>>(userequest.Files);
+                        var lst = files != null ? files.Select(x => x.DUONG_DAN).ToList() : new List<string>();
+                        var lstBase64 = new List<string>();
+                        foreach (var item in lst)
+                        {
+                            lstBase64.Add(item.ToBase64StringImage());
+                        }
+                        ViewBag.DanhSachHinhAnh = lstBase64;
                     }
-                    ViewBag.DanhSachHinhAnh = lstBase64;
+                }
+                else
+                {
+                    userequest.STT = -1;
+                    userequest.USERNAME = SessionManager.CurrentUser.UserName;
                 }
             }
-            //        files = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImageFiles>>(userequest.Files);
-            //    }
-            //    catch
-            //    {
-            //    }
-            //    var lst = files != null ? files.Select(x => x.DUONG_DAN).ToList() : new List<string>();
-            //    var lstBase64 = new List<string>();
-            //    foreach (var item in lst)
-            //    {
-            //        lstBase64.Add(item.ToBase64StringImage());
-            //    }
-            //    ViewBag.DanhSachHinhAnh = lstBase64;
-            //}
+            catch
+            {
+            }
             ViewBag.NguyenNhan = _combobox.DanhSachNguyenNhan();
             ViewBag.UuTien = _combobox.LoadListUuTien(0);
             return View("~/Views/UserRequest/Index.cshtml", userequest);
@@ -147,11 +147,14 @@ namespace VietSoft.HRM.Web.Controllers
         {
             List<MenuViewModel> menus = new();
             menus.Add(GetMenuItem(Menu.MyEcomaint));
-            menus.Add(GetMenuItem(Menu.DiChuyenTB));
+            //menus.Add(GetMenuItem(Menu.DiChuyenTB));
             menus.Add(GetMenuItem(Menu.NghiemThuPBT));
             menus.Add(GetMenuItem(Menu.KiemKeTB));
             menus.Add(GetMenuItem(Menu.History));
             menus.Add(GetMenuItem(Menu.TheoDoiYCBT));
+            //menus.Add(GetMenuItem(Menu.NhapKho));
+            //menus.Add(GetMenuItem(Menu.XuatKho));
+            //menus.Add(GetMenuItem(Menu.BCXuatNhapTon));
             menus.Add(GetMenuItem(Menu.Dashboard));
             SessionManager.Menus = menus;
         }
@@ -209,6 +212,32 @@ namespace VietSoft.HRM.Web.Controllers
                         MenuIcon = "Theodoi.png",
                         MenuUrl = "/HistoryRequest/HistoryRequestIndex",
                     };
+                case Menu.NhapKho:
+                    return new MenuViewModel
+                    {
+                        MenuId = (int)Menu.NhapKho,
+                        MenuName = "Nhập kho",
+                        MenuIcon = "import.png",
+                        MenuUrl = "/GoodReceipt/Index",
+                    };
+                case Menu.XuatKho:
+                    return new MenuViewModel
+                    {
+                        MenuId = (int)Menu.XuatKho,
+                        //MenuName = ViewText.TITLE_DANGKY_NGHI,
+                        MenuName = "Xuất kho",
+                        MenuIcon = "export.png",
+                        MenuUrl = "/HistoryRequest/HistoryRequestIndex",
+                    };
+                case Menu.BCXuatNhapTon:
+                    return new MenuViewModel
+                    {
+                        MenuId = (int)Menu.BCXuatNhapTon,
+                        //MenuName = ViewText.TITLE_DANGKY_NGHI,
+                        MenuName = "Báo cáo xuất nhập tồn",
+                        MenuIcon = "Theodoi.png",
+                        MenuUrl = "/baocao/HistoryRequestIndex",
+                    };
                 case Menu.Dashboard:
                     return new MenuViewModel
                     {
@@ -247,6 +276,25 @@ namespace VietSoft.HRM.Web.Controllers
             return PartialView("_homedetail", result);
         }
 
+        private byte[] imgToByteConverter(byte[] imgConvert)
+        {
+            byte[] currentByteImageArray = imgConvert;
+            double scale = 1f;
+            MemoryStream inputMemoryStream = new MemoryStream(imgConvert);
+            Image fullsizeImage = Image.FromStream(inputMemoryStream);
+            while (currentByteImageArray.Length > 60000)
+            {
+                Bitmap fullSizeBitmap = new Bitmap(fullsizeImage, new Size((int)(fullsizeImage.Width * scale), (int)(fullsizeImage.Height * scale)));
+                MemoryStream resultStream = new MemoryStream();
+                fullSizeBitmap.Save(resultStream, fullsizeImage.RawFormat);
+                currentByteImageArray = resultStream.ToArray();
+                resultStream.Dispose();
+                resultStream.Close();
+                scale -= 0.05f;
+            }
+
+            return currentByteImageArray;
+        }
         public IActionResult GetMonitoringParametersByDevice(string msmay, int isDue)
         {
             List<MonitoringParametersByDevice> model = _homeService.GetMonitoringParametersByDevice(SessionManager.CurrentUser.UserName, 0, msmay, isDue, -1);
@@ -328,7 +376,7 @@ namespace VietSoft.HRM.Web.Controllers
                 model.NGUOI_YEU_CAU = SessionManager.ThongTinChung.HO_TEN;
                 if (model.HONG == true)
                 {
-                    model.NGAY_XAY_RA = DateTime.ParseExact(model.NGAY_XAY_RA_STR, Setting.FORMAT_DATE, null);
+                    model.NGAY_XAY_RA = DateTime.ParseExact(model.NGAY_XAY_RA_STR, Setting.FORMAT_DATETIME, null);
                 }
                 else
                 {
@@ -353,6 +401,20 @@ namespace VietSoft.HRM.Web.Controllers
                 }
             }
             return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteUserRequest(int stt)
+        {
+            BaseResponseModel? res = _homeService.DeleteUserRequest(stt);
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+            }
         }
 
         public ActionResult ShowConfirmModal(string message)
@@ -387,7 +449,7 @@ namespace VietSoft.HRM.Web.Controllers
                 string rootPath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year;
                 try
                 {
-                    string[] files = Directory.GetFiles(rootPath).Where(x=>x.Contains("GSTT")).ToArray();
+                    string[] files = Directory.GetFiles(rootPath).Where(x => x.Contains("GSTT")).ToArray();
                     stt = files.Length + 1;
                 }
                 catch

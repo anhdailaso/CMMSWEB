@@ -7,6 +7,8 @@ namespace VietSoft.CMMS.Web.IServices
 {
     public interface IComboboxService
     {
+        SelectList DanhSachKho(string Username);
+        SelectList DanhSachDangNhap();
         SelectList DanhSachNguyenNhan();
         SelectList DanhSachLoaiBT();
         SelectList GetCbbDiaDiem(string UserName, int NNgu, int CoAll);
@@ -16,15 +18,15 @@ namespace VietSoft.CMMS.Web.IServices
         SelectList GetCbbMay(string DD, int DC, string Username, int NNgu, int CoAll);
         SelectList GetCbbLoaiCV(string UserName, int NNgu, int CoAll);
 
-     
+
         SelectList LoadListThietBi();
         SelectList LoadListNguyenNhan();
         SelectList LoadListLoaiYC();
         SelectList LoadListUuTien(int NN);
 
         //Đạt sửa 10101999
-        SelectList GetCbbBoPhan(string msmay,string Username, int NNgu, int CoAll);
-        SelectList GetCbbPhuTung(string msmay,string msbp,string Username, int NNgu, int CoAll);
+        SelectList GetCbbBoPhan(string msmay, string Username, int NNgu, int CoAll);
+        SelectList GetCbbPhuTung(string msmay, string msbp, string Username, int NNgu, int CoAll);
 
         //Đạt sửa 26122022
         SelectList GetCbbNYC(string Username, int NNgu, int CoAll);

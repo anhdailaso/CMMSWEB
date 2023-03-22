@@ -1,14 +1,22 @@
 ﻿@model IEnumerable<VietSoft.CMMS.Web.Models.Maintenance.WorkOrdersViewModel>
 @using System.Text.Json;
-    @foreach (var item in Model)
-    {
-        <div class="accordion border-0 break-line" id="accordionFlushExample-@item.MS_CV">
+@foreach (var item in Model)
+{
+    <div class="accordion border-0 break-line" id="accordionFlushExample-@item.MS_CV">
         <div class="accordion-item border-0 break-line">
-            <h2 class="accordion-header" id="flush-heading-@item.MS_CV">
+           
+            <h2 class="accordion-header mx-3" id="flush-heading-@item.MS_CV">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-@item.MS_CV" aria-expanded="false" aria-controls="flush-collapse-@item.MS_CV" title="Bạc đạn">
                     + @item.MS_BO_PHAN  @item.MO_TA_CV
                 </button>
+                @if (!string.IsNullOrEmpty(item.PATH_HD))
+                {
+                    <a class="viewGuide" href="@string.Format("file:///{0}", @item.PATH_HD)">
+                        <i class="fa fa-info-circle" aria-hidden="true" style="font-size:20px; color:#fd7e14"></i>
+                    </a>
+                }
             </h2>
+            
             <div id="flush-collapse-@item.MS_CV" class="accordion-collapse collapse" aria-labelledby="flush-heading-@item.MS_CV" data-bs-parent="#accordionFlushExample-@item.MS_CV">
                 <div class="table-responsive">
                     <table class="table table-responsive table-borderless tbl-supplies">
@@ -46,10 +54,8 @@
 
 
                 </div>
-
-
             </div>
         </div>
-        </div>
-    }
+    </div>
+}
 

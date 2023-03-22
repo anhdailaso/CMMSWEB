@@ -691,7 +691,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mã số nhân viên.
+        ///   Looks up a localized string similar to Tên đăng nhập.
         /// </summary>
         public static string TXT_MASO_NHANVIEN {
             get {

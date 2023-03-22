@@ -8,8 +8,9 @@
                 , imagesToLoad: auctionImages
             });
         });
+        console.log($('#EDIT').val());
 
-        if ($('#flag').val() == 1) {
+        if ($('#flag').val() == 1 && $('#EDIT').val() == 0) {
             $("#MO_TA_TINH_TRANG").prop("disabled", true);
             $("#MO_TA_TINH_TRANG").css('background-color', '#FFFFFF');
             $("#YEU_CAU").prop("disabled", true);
@@ -26,11 +27,12 @@
             $('span [role=combobox]').css('background-color', '#FFFFFF');
 
         }
-        setDatePicker("#NGAY_XAY_RA", null, null, null);
+        //setDatePicker("#NGAY_XAY_RA", null, null, null);
+        setDateTimePicker('#NGAY_XAY_RA', moment(new Date(), _formatDateTime).toDate())
 
         $('#HONG').on('change', function () {
             if ($(this).is(":checked")) {
-                $('#NGAY_XAY_RA').val(moment().format('DD/MM/YYYY'));
+                //$('#NGAY_XAY_RA').val(moment().format('DD/MM/YYYY HH:mm'));
                 $("#NGAY_XAY_RA").parent().prop("hidden", false);
             }
             else {
@@ -96,6 +98,26 @@
 
             window.location.href = "WorkOrder?msmay=" + msmay + "&tenmay=" + tenmay+"&flag=0&ttmay=" + ttmay;
 
+        });
+
+        //xóa phiếu bảo trì
+        $('#btnhuy').on('click', function () {
+            $.ajax({
+                url: config.DELETE_USER_REQUEST,
+                type: "POST",
+                data: {
+                    stt: $('#STT').val()
+                },
+                success: function (response) {
+                    if (response.responseCode == 1) {
+                        showSuccess(response.responseMessage)
+                        window.location.href = config.MyEcomaint;
+                    }
+                    else {
+                        showWarning(response.responseMessage)
+                    }
+                }
+            });
         });
     }
 

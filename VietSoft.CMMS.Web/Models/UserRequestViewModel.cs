@@ -22,6 +22,8 @@ namespace VietSoft.CMMS.Web.Models
         public bool HONG { get; set; }
         public string Files { get; set; }
         public List<ImageFiles> ListImage { get; set; }
+        public string USERNAME { get; set; }
+        public int QUYEN { get; set; }
     }
 
     public class ImageFiles 

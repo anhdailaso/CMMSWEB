@@ -1,0 +1,60 @@
+﻿@using VietSoft.CMMS.Web.Resources;
+@using VietSoft.CMMS.Web.Helpers;
+@model PagedList<VietSoft.CMMS.Web.Models.GoodReceiptViewModel>
+
+@if (Model != null && Model.Data.Count > 0)
+{
+    <table class="table table-striped" cellspacing="0" id="tbGetGoodReceipt" style="width:100% !important">
+        <thead>
+            <tr>
+                <td width="25%" class="col-grid-table">
+                    MS phiếu nhập
+                </td>
+                <td width="20%">
+                    Dạng nhập
+                </td>
+                <td width="20%">
+                    Ngày nhập
+                </td>
+                <td width="30%">
+                    Người nhập
+                </td>
+                <td width="5%">
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Data)
+            {
+                <tr style="color:@(item.LOCK == true ? "#008001" : "black")">
+                    <td>
+                        @item.MS_DH_NHAP_PT
+                    </td>
+                     <td>
+                        @item.DANG_NHAP
+                    </td>
+                    <td>
+                        @item.NGAY.ToString(Setting.FORMAT_DATE)
+                    </td>
+                      <td>
+                        @item.TEN
+                    </td>
+
+                    <td>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <input type="hidden" id="hfTotalPage" value="@Model.TotalPages" data-total-rows="@Model.TotalItems">
+    <div id="paggingResult"></div>
+}
+else
+{
+    <div class="col-12">
+        <div class="no-data">
+            <span>@ViewText.TXT_KHONGCO_DULIEU</span>
+        </div>
+    </div>
+}

@@ -1,0 +1,86 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@using VietSoft.CMMS.Web.Helpers
+@{
+    ViewBag.Title = "DANH SÁCH PHIẾU NHẬP KHO";
+}
+
+<div class="row">
+    <div class="col-md-6 offset-md-3 col-xs-12">
+        <div class="accordion" id="accordionPanelsStayOpenExample">
+            <div class="accordion-item border-0">
+                <p class="accordion" id="panelsStayOpen-headingOne">
+                    <button class="accordion-button collapsed w-50" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                    </button>
+                </p>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="accordion-body">
+                        <form id="formSubmitRequest">
+                            <div class="form-floating break-line">
+                                <select id="cbokho" name="cbokho" asp-items="@ViewBag.ListKho" class="form-control form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+                                </select>
+                                <label for="cbokho">Kho</label>
+                            </div>
+                            <div class="d-flex justify-content-between gap-2">
+                                <div class="form-floating input-group break-line date" id="toDateContainer">
+                                    <input type="text" class="form-control" id="fromDate" name="fromDate" autocomplete="off" />
+                                    <span class="input-group-append d-flex align-items-center">
+                                        <i class="bi bi-calendar4-week date-icon "></i>
+                                    </span>
+                                    <label for="from">@ViewText.TXT_TUNGAY</label>
+                                    <div id="from-error"></div>
+                                </div>
+
+                                <div class="form-floating input-group break-line date" id="toDateContainer">
+                                    <input type="text" class="form-control" id="toDate" name="toDate" autocomplete="off" />
+                                    <span class="input-group-append d-flex align-items-center">
+                                        <i class="bi bi-calendar4-week date-icon"></i>
+                                    </span>
+                                    <label for="toDate">@ViewText.TXT_DENNGAY</label>
+                                    <div id="toDate-error"></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="form-floating position-relative">
+                @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder=@ViewText.TXT_SEARCH})
+                <i class="bi bi-search icon-obsolute"></i>
+            </div>
+            <div class="col-md-12 offset-md-12 col-xs-12  px-0">
+                <div id="GetGoodReceipt">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<nav class="fixed-bottom">
+    <div class="navbar-button  text-center text-white">
+        <div id="button-container" class="btn-group">
+            <a id="btnAddMaintenanceWork" class="btn btn-outline-primary m-1">
+                <i class="fa fa-plus fs-7" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+</nav>
+
+
+@section scripts {
+    <script src="~/lib/jquery.twbsPagination/jquery.twbsPagination.min.js"></script>
+    <script>
+        var config = {
+            GET_GOODRECEIPT: '@Url.Action("GetListGoodReceipt", "GoodReceipt")',
+            PAGE_SIZE: 10
+        }
+    </script>
+    <script src="~/js/pages/goodreceipt.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            GoodReceiptModule.init();
+        });
+    </script>
+}
