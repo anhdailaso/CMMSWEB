@@ -27,11 +27,12 @@
             $('span [role=combobox]').css('background-color', '#FFFFFF');
 
         }
-        setDatePicker("#NGAY_XAY_RA", null, null, null);
+        //setDatePicker("#NGAY_XAY_RA", null, null, null);
+        setDateTimePicker('#NGAY_XAY_RA', moment(new Date(), _formatDateTime).toDate())
 
         $('#HONG').on('change', function () {
             if ($(this).is(":checked")) {
-                $('#NGAY_XAY_RA').val(moment().format('DD/MM/YYYY'));
+                //$('#NGAY_XAY_RA').val(moment().format('DD/MM/YYYY HH:mm'));
                 $("#NGAY_XAY_RA").parent().prop("hidden", false);
             }
             else {

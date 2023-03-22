@@ -22,6 +22,33 @@ namespace VietSoft.CMMS.Web.Services
         {
             _dapper = dapper;
         }
+
+        public SelectList DanhSachKho(string Username)
+        {
+            DataTable tb = new DataTable();
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "SP_Y_GET_KHO_DON_HANG_NHAP", Username));
+            var listItem = tb.AsEnumerable().Select(
+             x => new SelectListItem
+             {
+                 Text = x.Field<string>("TEN_KHO"),
+                 Value = x.Field<int>("MS_KHO").ToString()
+             });
+            return new SelectList(listItem, "Value", "Text", null);
+        }
+
+        public SelectList DanhSachDangNhap()
+        {
+            DataTable tb = new DataTable();
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "SP_Y_GET_DANG_NHAP_KHO"));
+            var listItem = tb.AsEnumerable().Select(
+             x => new SelectListItem
+             {
+                 Text = x.Field<string>("MS_DANG_NHAP"),
+                 Value = x.Field<string>("TEN_DANG_NHAP")
+             });
+            return new SelectList(listItem, "Value", "Text", null);
+        }
+
         public SelectList DanhSachNguyenNhan()
         {
             DataTable tb = new DataTable();

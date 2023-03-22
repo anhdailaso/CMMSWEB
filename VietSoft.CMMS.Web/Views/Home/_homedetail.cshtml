@@ -25,6 +25,10 @@
             </tr>
         </thead>
         <tbody>
+            @*--fa fa-times đậm
+                <i class="fa fa-times"></i>
+                <i class="fa-solid fa-circle"></i>
+            *@
             @foreach (var item in Model.Data)
             {
                 <tr class="parentCell odd">
@@ -73,21 +77,24 @@
                                 @if (item.MUC_BT == 1)
                                 {
                                     //cao
-                                    <i class="@(item.TREBT == 1 ? "fa fa-times-circle-o" : "fa fa-times")" style="color:#ff0000"></i>
+                                    <i class="@(item.TREBT == 1 ? "fa-solid fa-circle" : "fa fa-times")" style="color:#ff0000"></i>
                                 }
                                 else
                                 {
                                     @if (item.MUC_BT == 2)
                                     {
                                         //trung bình
-                                        <i class="@(item.TREBT == 1 ? "fa fa-times-circle-o" : "fa fa-times")" style="color:#13079b"></i>
+                                        <i class="@(item.TREBT == 1 ? "fa-solid fa-circle" : "fa fa-times")" style="color:#13079b"></i>
                                     }
                                     else
                                     {
-                                        <i class="@(item.TREBT == 1 ? "fa fa-times-circle-o" : "fa fa-times")" style="color:#008001"></i>
+                                        <i class="@(item.TREBT == 1 ? "fa-solid fa-circle" : "fa fa-times")" style="color:#008001"></i>
                                     }
                                 }
 
+
+                                @*                                <i class="fa-solid fa-circle"></i>
+*@
                             </a>
                         }
                         else
@@ -102,7 +109,7 @@
                         {
                             <a href="/Home/Moningtoring?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=1">
 
-                                <i class="@(item.TREGS == 1 ? "fa fa-times-circle-o" : "fa fa-times")" style="color:#13079b"></i>
+                                <i class="@(item.TREGS == 1 ? "fa-solid fa-circle" : "fa fa-times")" style="color:#13079b"></i>
 
                             </a>
                         }

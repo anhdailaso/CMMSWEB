@@ -41,6 +41,9 @@
         KiemKeTB,
         History,
         TheoDoiYCBT,
+        NhapKho,
+        XuatKho,
+        BCXuatNhapTon,
         Dashboard
     }
     public enum UserType

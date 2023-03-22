@@ -265,7 +265,7 @@
     <value>Mã hàng</value>
   </data>
   <data name="TXT_MASO_NHANVIEN" xml:space="preserve">
-    <value>Mã số nhân viên</value>
+    <value>Tên đăng nhập</value>
   </data>
   <data name="TXT_MATKHAU" xml:space="preserve">
     <value>Mật khẩu</value>

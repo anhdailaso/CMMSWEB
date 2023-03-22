@@ -55,7 +55,7 @@
         @if (Model.HONG == true)
         {
             <div class="form-floating input-group break-line date">
-                @Html.TextBoxFor(model => model.NGAY_XAY_RA,new{ @class="form-control",autocomplete="off"})
+                @Html.TextBoxFor(model => model.NGAY_XAY_RA,"{0:dd/MM/yyyy HH:mm}",new{ @class="form-control",autocomplete="off"})
                 @Html.ValidationMessageFor(model=>model.NGAY_XAY_RA)
                 <span class="input-group-append d-flex align-items-center">
                     <i class="bi bi-calendar4-week date-icon"></i>
@@ -66,7 +66,7 @@
         else
         {
             <div class="form-floating input-group  date" hidden>
-                @Html.TextBoxFor(model => model.NGAY_XAY_RA,new{ @class="form-control",autocomplete="off"})
+                @Html.TextBoxFor(model => model.NGAY_XAY_RA,"{0:dd/MM/yyyy HH:mm}",new{ @class="form-control",autocomplete="off"})
                 @Html.ValidationMessageFor(model=>model.NGAY_XAY_RA)
                 <span class="input-group-append d-flex align-items-center">
                     <i class="bi bi-calendar4-week date-icon"></i>
@@ -98,6 +98,12 @@
                     <a class="btn btn-outline-primary m-1" id='btnLPBT' role="button">
                         <i class="fa fa-cogs fs-7"></i>
                     </a>
+                    @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() || Model.USERNAME == null)
+                    {
+                        <a class="btn btn-outline-warning m-1" id='btnhuy' role="button">
+                            <i class="fa fa-times fs-7"></i>
+                        </a>
+                    }
                 }
             }
             else
@@ -107,10 +113,16 @@
                     <a class="btn btn-outline-primary m-1" id='btnsave' role="button">
                         <i class="fa fa-floppy-o fs-7"></i>
                     </a>
+                    @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() || Model.USERNAME == null)
+                    {
+                        <a class="btn btn-outline-warning m-1" id='btnhuy' role="button">
+                            <i class="fa fa-times fs-7"></i>
+                        </a>
+                    }
                 }
                 else
                 {
-                    @if (Model.USERNAME == SessionManager.CurrentUser.UserName || Model.USERNAME == null)
+                    @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() || Model.USERNAME == null)
                     {
                         <a class="btn btn-outline-primary m-1" id='btnsave' role="button">
                             <i class="fa fa-floppy-o fs-7"></i>
