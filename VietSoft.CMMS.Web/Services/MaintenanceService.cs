@@ -96,7 +96,7 @@ namespace VietSoft.CMMS.Web.Services
                         MS_BO_PHAN = x.MS_BO_PHAN,
                         MS_CV = x.MS_CV,
                         MO_TA_CV = x.MO_TA_CV,
-                        PATH_HD = x.PATH_HD,
+                        PATH_HD = @x.PATH_HD,
                         WorkOrderDetailViewModels = x.WorkOrderDetailViewModels.Where(x => !string.IsNullOrEmpty(x.MS_PT)).Select(x => new WorkOrderDetailViewModel()
                         {
                            MS_PT = x.MS_PT,

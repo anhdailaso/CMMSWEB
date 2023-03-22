@@ -1693,8 +1693,8 @@ ul {
 .accordion-button::after{
     margin-left:20%;
 }
-.viewGuid {
-    margin-top: -1.25rem;
+.viewGuide {
+    margin-top: -1.65rem;
 }
 .accordion-header {
     display: flex;
