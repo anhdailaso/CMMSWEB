@@ -13,6 +13,7 @@ using System.Globalization;
 using Newtonsoft.Json;
 using System.IO;
 using System.Reflection;
+using System.Drawing;
 
 namespace VietSoft.HRM.Web.Controllers
 {
@@ -146,11 +147,14 @@ namespace VietSoft.HRM.Web.Controllers
         {
             List<MenuViewModel> menus = new();
             menus.Add(GetMenuItem(Menu.MyEcomaint));
-            menus.Add(GetMenuItem(Menu.DiChuyenTB));
+            //menus.Add(GetMenuItem(Menu.DiChuyenTB));
             menus.Add(GetMenuItem(Menu.NghiemThuPBT));
             menus.Add(GetMenuItem(Menu.KiemKeTB));
             menus.Add(GetMenuItem(Menu.History));
             menus.Add(GetMenuItem(Menu.TheoDoiYCBT));
+            //menus.Add(GetMenuItem(Menu.NhapKho));
+            //menus.Add(GetMenuItem(Menu.XuatKho));
+            //menus.Add(GetMenuItem(Menu.BCXuatNhapTon));
             menus.Add(GetMenuItem(Menu.Dashboard));
             SessionManager.Menus = menus;
         }
@@ -208,6 +212,32 @@ namespace VietSoft.HRM.Web.Controllers
                         MenuIcon = "Theodoi.png",
                         MenuUrl = "/HistoryRequest/HistoryRequestIndex",
                     };
+                case Menu.NhapKho:
+                    return new MenuViewModel
+                    {
+                        MenuId = (int)Menu.NhapKho,
+                        MenuName = "Nhập kho",
+                        MenuIcon = "import.png",
+                        MenuUrl = "/GoodReceipt/Index",
+                    };
+                case Menu.XuatKho:
+                    return new MenuViewModel
+                    {
+                        MenuId = (int)Menu.XuatKho,
+                        //MenuName = ViewText.TITLE_DANGKY_NGHI,
+                        MenuName = "Xuất kho",
+                        MenuIcon = "export.png",
+                        MenuUrl = "/HistoryRequest/HistoryRequestIndex",
+                    };
+                case Menu.BCXuatNhapTon:
+                    return new MenuViewModel
+                    {
+                        MenuId = (int)Menu.BCXuatNhapTon,
+                        //MenuName = ViewText.TITLE_DANGKY_NGHI,
+                        MenuName = "Báo cáo xuất nhập tồn",
+                        MenuIcon = "Theodoi.png",
+                        MenuUrl = "/baocao/HistoryRequestIndex",
+                    };
                 case Menu.Dashboard:
                     return new MenuViewModel
                     {
@@ -246,6 +276,25 @@ namespace VietSoft.HRM.Web.Controllers
             return PartialView("_homedetail", result);
         }
 
+        private byte[] imgToByteConverter(byte[] imgConvert)
+        {
+            byte[] currentByteImageArray = imgConvert;
+            double scale = 1f;
+            MemoryStream inputMemoryStream = new MemoryStream(imgConvert);
+            Image fullsizeImage = Image.FromStream(inputMemoryStream);
+            while (currentByteImageArray.Length > 60000)
+            {
+                Bitmap fullSizeBitmap = new Bitmap(fullsizeImage, new Size((int)(fullsizeImage.Width * scale), (int)(fullsizeImage.Height * scale)));
+                MemoryStream resultStream = new MemoryStream();
+                fullSizeBitmap.Save(resultStream, fullsizeImage.RawFormat);
+                currentByteImageArray = resultStream.ToArray();
+                resultStream.Dispose();
+                resultStream.Close();
+                scale -= 0.05f;
+            }
+
+            return currentByteImageArray;
+        }
         public IActionResult GetMonitoringParametersByDevice(string msmay, int isDue)
         {
             List<MonitoringParametersByDevice> model = _homeService.GetMonitoringParametersByDevice(SessionManager.CurrentUser.UserName, 0, msmay, isDue, -1);
@@ -327,7 +376,7 @@ namespace VietSoft.HRM.Web.Controllers
                 model.NGUOI_YEU_CAU = SessionManager.ThongTinChung.HO_TEN;
                 if (model.HONG == true)
                 {
-                    model.NGAY_XAY_RA = DateTime.ParseExact(model.NGAY_XAY_RA_STR, Setting.FORMAT_DATE, null);
+                    model.NGAY_XAY_RA = DateTime.ParseExact(model.NGAY_XAY_RA_STR, Setting.FORMAT_DATETIME, null);
                 }
                 else
                 {

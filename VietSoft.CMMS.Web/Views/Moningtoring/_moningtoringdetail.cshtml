@@ -45,14 +45,14 @@
                                             <td data-pass="@item1.Pass">
                                                 <input class="form-check-input" id="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" style="margin-top:0.8rem" data-pass="@item1.Pass" data-id="@item1.ValueParamID" data-msbophan="@item1.ComponentID" data-msthongso="@item1.MonitoringParamsID" type="checkbox">
                                             </td>
-                                            <td> <input class="form-control" style="font-size:0.8rem;" type="text" id="note" placeholder="ghi chú" aria-label="default input example" value="@item1.Note" /></td>
+                                            <td> <input class="form-control" style="font-size:0.8rem;" type="text" id="note" placeholder="ghi chú" aria-label="default input example" value="" /></td>
                                         </tr>
                                     }
                                     else
                                     {
-                                        <tr class="parentCell odd">
-                                            <td>
-                                                <input onfocusout="myfunction(this)" class="form-control form-input" data-range="@item1.ValueParamName.Split('!')[1]" data-msbophan="@item1.ComponentID" id="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" data-msthongso="@item1.MonitoringParamsID" style="font-size:0.8rem;" type="text" placeholder="Kết quả" aria-label="default input example" value="@item1.Measurement" name="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" />
+                                        <tr >
+                                            <td class="parentCell odd">
+                                                <input onfocusout="myfunction(this)" class="form-control form-input" data-range="@item1.ValueParamName.Split('!')[1]" data-msbophan="@item1.ComponentID" id="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" data-msthongso="@item1.MonitoringParamsID" style="font-size:0.8rem;" type="text" placeholder="Kết quả" aria-label="default input example" value="" name="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" />
                                                 <div class="tooltip-action">
                                                     <a>
                                                         <span>@Html.Raw(@item1.ValueParamName.Split('!')[0])</span>
@@ -60,7 +60,7 @@
                                                 </div>
                                             </td>
                                             <td style="line-height:2.5rem!important;width:40px;">@item1.MeasurementUnitName</td>
-                                            <td> <input class="form-control" style="font-size:0.8rem;" type="text" id="note" placeholder="ghi chú" aria-label="default input example" value="@item1.Note" /></td>
+                                            <td> <input class="form-control" style="font-size:0.8rem;" type="text" id="note" placeholder="ghi chú" aria-label="default input example" value="" /></td>
                                         </tr>
                                     }
                                 }
