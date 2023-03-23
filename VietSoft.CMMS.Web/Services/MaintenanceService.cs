@@ -173,6 +173,22 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
+        public IEnumerable<InventoryViewModel> GetListInventory(string ticketId, string mskho)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@PBT", ticketId);
+                p.Add("@MSKho", mskho);
+                var res = _dapper.GetAll<InventoryViewModel>("MTonKhoTheoPBT", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         public IEnumerable<TreeViewModel> GetViewCauseOfDamageList(string deviceId, string keyWork)
         {
             try
@@ -295,6 +311,34 @@ namespace VietSoft.CMMS.Web.Services
                 };
             }
         }
+
+
+        public ResponseViewModel Backlog(string ticketId, string userName, int workId, string dept)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "");
+                p.Add("@sCot1", ticketId);
+                p.Add("@UserName", userName);
+                p.Add("@iCot1", workId);
+                p.Add("@sCot2", dept);
+                var res = _dapper.Execute<ResponseViewModel>("BACK_LOG", p, System.Data.CommandType.StoredProcedure);
+
+                return res != null ? res : new ResponseViewModel()
+                {
+                    MA = 0
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseViewModel()
+                {
+                    MA = -1
+                };
+            }
+        }
+
 
         public ResponseViewModel SaveMaintenanceWork(string deviceId, string ticketId, string userName, string json)
         {

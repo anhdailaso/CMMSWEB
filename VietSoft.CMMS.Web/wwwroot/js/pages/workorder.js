@@ -27,6 +27,8 @@
         bload = true;
 
         initEvent();
+
+
     }
 
 
@@ -36,6 +38,12 @@
         $(document).on("change", '#cboUuTien', function () {
             CalculatePlanDate();
         })
+
+        $(document).on("change", '#cbokho', function () {
+            Inventory();
+
+        })
+
         WorkList();
         if ($("#cboLoaiBaoTri :selected").data('huhong') == 1) {
             $('#btnViewCauseOfDamage').show();
@@ -360,6 +368,10 @@
             LogWork();
         });
 
+        $('#btnXemtonkho').on('click', function () {
+            XemTonKho();
+        });
+
         $(document).on("click", '#btnAddMaintenanceWork', function () {
             AddMaintenanceWork()
         });
@@ -391,6 +403,8 @@
             setDateTimePicker('.fromDate', moment(new Date(), _formatDateTime).toDate())
             setDateTimePicker('.toDate', moment(new Date(), _formatDateTime).toDate())
         });
+
+
 
         $(document).on("dp.change", '.fromDate, .toDate', function () {
             let valFromDate = $(this).closest('tr').find('input.fromDate').val();
@@ -616,6 +630,32 @@
         });
     }
 
+    function XemTonKho() {
+        $.ajax({
+            type: "GET",
+            url: config.VIEW_INVENTORY,
+            data: {
+                ticketId: $('#MS_PHIEU_BAO_TRI').val()
+            },
+            success: function (response) {
+                $('#modalLarge .modal-content').html(response);
+                $('#modalLarge').modal('show');
+
+                $("#cbokho").select2({
+                    theme: "bootstrap-5",
+                    width: "100%",
+                    selectionCssClass: "select2--small",
+                    dropdownCssClass: "select2--small",
+                    minimumResultsForSearch: -1 
+                });
+
+
+                Inventory();
+            }
+        });
+    }
+    
+
     function WorkList() {
         showLoadingOverlay("#workListContent");
         $.ajax({
@@ -630,6 +670,24 @@
             },
             complete: function () {
                 hideLoadingOverlay("#workListContent");
+            }
+        });
+    }
+
+    function Inventory() {
+        showLoadingOverlay("#GetListInventory");
+        $.ajax({
+            type: "GET",
+            url: config.GET_INVENTORY,
+            data: {
+                mskho: $('#cbokho').val(),
+                ticketId: $('#MS_PHIEU_BAO_TRI').val()
+            },
+            success: function (response) {
+                $('#GetListInventory').html(response);
+            },
+            complete: function () {
+                hideLoadingOverlay("#GetListInventory");
             }
         });
     }
