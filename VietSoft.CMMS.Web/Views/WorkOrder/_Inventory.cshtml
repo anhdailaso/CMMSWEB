@@ -1,0 +1,41 @@
+﻿@using VietSoft.CMMS.Web.Resources;
+@using VietSoft.CMMS.Web.Helpers;
+@model IEnumerable<VietSoft.CMMS.Web.Models.InventoryViewModel>
+
+@if (Model != null)
+{
+    <table class="table table-normal-padding tblAddSuppliesSeleced">
+        <thead>
+            <tr>
+                <td width="40%" class="col-grid-table ">
+                    Mã phụ tùng
+                </td>
+                <td width="20%">
+                    SL trên PBT
+                </td>
+                <td width="20%">
+                    SL tồn kho
+                </td>
+                <td width="20%">
+                    SL khả dụng
+                </td>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="tr-supplies" style="color:@(item.SL_TON >= item.SL_TREN_PBT ? "#008001" : "#ff0000")">
+                    <td>@item.MS_PT</td>
+                    <td>@item.SL_TREN_PBT</td>
+                    <td>@item.SL_TON</td>
+                    <td>@item.SL_HUU_DUNG</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <span>@ViewText.TXT_KHONGCO_DULIEU</span>
+}

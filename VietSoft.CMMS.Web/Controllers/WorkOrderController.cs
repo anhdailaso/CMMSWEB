@@ -13,10 +13,12 @@ namespace VietSoft.CMMS.Web.Controllers
     public class WorkOrderController : Controller
     {
         private readonly IMaintenanceService _maintenanceService;
+        private readonly IComboboxService _combobox;
         private readonly string userName;
-        public WorkOrderController(IMaintenanceService maintenanceService)
+        public WorkOrderController(IMaintenanceService maintenanceService, IComboboxService combobox)
         {
             _maintenanceService = maintenanceService;
+            _combobox = combobox;
             userName = SessionManager.CurrentUser.UserName;
         }
 
@@ -48,6 +50,19 @@ namespace VietSoft.CMMS.Web.Controllers
         {
             var res = _maintenanceService.GetLogWorkList(ticketId, userName);
             return PartialView("_logWork", res);
+        }
+
+        public IActionResult ViewInventory(string ticketId)
+        {
+            ViewBag.ListKho = _combobox.DanhSachKho(SessionManager.CurrentUser.UserName);
+            //var res = _maintenanceService.GetListInventory(ticketId, "-1");
+            return PartialView("_viewInventory");
+        }
+
+        public IActionResult GetInventory(string mskho, string ticketId)
+        {
+            var res = _maintenanceService.GetListInventory(ticketId, mskho);
+            return PartialView("_Inventory", res);
         }
 
         public IActionResult GetWorkList(string deviceId, string ticketId)
@@ -103,6 +118,22 @@ namespace VietSoft.CMMS.Web.Controllers
                 return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
             }
         }
+
+        [HttpPost]
+        public IActionResult BackLog(SaveSuppliesModel model)
+        {
+            var res = _maintenanceService.Backlog(model.MS_PHIEU_BAO_TRI, userName, model.MS_CV, model.MS_BO_PHAN);
+
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+            }
+        }
+
 
         [HttpPost]
         public IActionResult SaveLogWork(SaveLogWorkModel model)

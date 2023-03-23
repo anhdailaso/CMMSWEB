@@ -239,7 +239,6 @@
     <script src="~/lib/jquery/dist/moment-with-locales.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap-datetimepicker.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
-
     <script type="text/javascript">
         var msg = @Html.Raw(Json.Serialize(@SessionManager.Message));
         $(function () {

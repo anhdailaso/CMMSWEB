@@ -37,10 +37,10 @@
         </div>
 
         <div class="form-floating break-line">
-                <select id="cboLoaiBaoTri" asp-for="@Model.MS_LOAI_BT" name="cboLoaiBaoTri" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
-                    @foreach(var item in maintenanceCategories)
+            <select id="cboLoaiBaoTri" asp-for="@Model.MS_LOAI_BT" name="cboLoaiBaoTri" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+                @foreach (var item in maintenanceCategories)
                 {
-                        <option value="@item.MS_LOAI_BT" data-huhong=@item.HU_HONG >@item.TEN_LOAI_BT</option>
+                    <option value="@item.MS_LOAI_BT" data-huhong=@item.HU_HONG>@item.TEN_LOAI_BT</option>
                 }
             </select>
             <label for="cboLoaiBaoTri">Loại bảo trì</label>
@@ -51,10 +51,10 @@
         </div>
 
         <div class="form-floating break-line @(ViewBag.FLAG == 1 ? "disabled" : null)">
-                <select id="cboUuTien" name="cboMay"  class="form-select form-select-sm" asp-for="@Model.MS_UU_TIEN">
-                  @foreach(var item in priorityCategories)
+            <select id="cboUuTien" name="cboMay" class="form-select form-select-sm" asp-for="@Model.MS_UU_TIEN">
+                @foreach (var item in priorityCategories)
                 {
-                        <option value="@item.MS_UU_TIEN" data-songay=@item.SO_NGAY>@item.TEN_UU_TIEN</option>
+                    <option value="@item.MS_UU_TIEN" data-songay=@item.SO_NGAY>@item.TEN_UU_TIEN</option>
                 }
             </select>
             <label for="cboUuTien">Mức ưu tiên</label>
@@ -72,7 +72,7 @@
         else
         {
             <div class="break-line">
-                @if(Model.TINH_TRANG_MAY!= null)
+                @if (Model.TINH_TRANG_MAY != null)
                 {
                     <p id="TINH_TRANG_MAY">@Model.TINH_TRANG_MAY</p>
                 }
@@ -95,13 +95,16 @@
                 <a id="btnAddMaintenanceWork" class="btn btn-outline-primary m-1">
                     <i class="fa fa-plus fs-7" aria-hidden="true"></i>
                 </a>
+
+                <!-- Twitter -->
+                <a id="btnXemtonkho" class="btn btn-outline-secondary m-1">
+                    <i class="fa fa-cogs fs-7"></i>
+                </a>
+
                 <a id="logWork" class="btn btn-outline-dark m-1">
                     <i class="fa fa-clock-o fs-7"></i>
                 </a>
-                <!-- Twitter -->
-                @*   <a class="btn btn-outline-secondary m-1" href="#!" role="button">
-            <i class="fa fa-cogs fs-7"></i>
-            </a>*@
+
 
                 <!-- Google -->
                 <a id="btnCompletePBT" class="btn btn-outline-success m-1">
@@ -126,12 +129,15 @@
             GET_INPUT_CAUSE_OF_DAMAGE: '@Url.Action("InputCauseOfDamage", "WorkOrder")',
             GET_INPUT_CAUSE_OF_DAMAGE_LIST: '@Url.Action("GetInputCauseOfDamageList", "WorkOrder")',
             LOG_WORK: '@Url.Action("LogWork","WorkOrder")',
+            VIEW_INVENTORY: '@Url.Action("ViewInventory","WorkOrder")',
+            GET_INVENTORY: '@Url.Action("GetInventory","WorkOrder")',
             GET_WORK_LIST: '@Url.Action("GetWorkList","WorkOrder")',
             ADD_SUPPLIES: '@Url.Action("AddSupplies","WorkOrder")',
             ADD_MAINTENANCE_WORK: '@Url.Action("AddMaintenanceWork","WorkOrder")',
             SAVE_MAINTENANCE_WORK: '@Url.Action("SaveMaintenanceWork","WorkOrder")',
             SAVE_LOG_WORK: '@Url.Action("SaveLogWork","WorkOrder")',
             SAVE_SUPPLIES: '@Url.Action("SaveSupplies","WorkOrder")',
+            BACK_LOG: '@Url.Action("BackLog","WorkOrder")',
             KHONGCO_DULIEU: '@ViewText.TXT_KHONGCO_DULIEU',
             SAVE_WORK_ORDER: '@Url.Action("SaveWorkOrder","WorkOrder")',
             COMPLETED_WORK_ORDER: '@Url.Action("CompletedWorkOrder","WorkOrder")',

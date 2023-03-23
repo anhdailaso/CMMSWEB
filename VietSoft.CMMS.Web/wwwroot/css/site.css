@@ -1691,7 +1691,7 @@ ul {
     padding: 0.6rem 0.3rem !important;
 }
 .accordion-button::after{
-    margin-left:20%;
+    /*margin-left:20%;*/
 }
 .viewGuid {
     margin-top: -1.25rem;

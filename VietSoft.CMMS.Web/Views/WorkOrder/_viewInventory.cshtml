@@ -1,0 +1,23 @@
+﻿@using VietSoft.CMMS.Web.Resources;
+@using VietSoft.CMMS.Web.Helpers;
+<div class="modal-header">
+    <h5>Xem tồn kho</h5>
+    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body modal-confirm">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-floating">
+                <select id="cbokho" name="cbokho" asp-items="@ViewBag.ListKho" class="form-control">
+            </select>
+            <label for="cbokho">Kho</label>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-12 offset-md-12 col-xs-12  px-0">
+                <div id="GetListInventory">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
