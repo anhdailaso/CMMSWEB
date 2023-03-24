@@ -136,7 +136,7 @@
                 let html = ` <tr>
                                 <td width="30%" style="line-height:2.3rem">`+ mspt +`</td>
                                 <td width="30%" style="line-height:2.3rem">`+ msvt +`</td>
-                                <td width="30%"> <input class="form-control" type="text" value="`+ sl +`" placeholder="số lượng" /></td>
+                                <td width="30%"> <input class="form-control" style="font-size:0.8rem;" type="number" value="`+ sl +`" placeholder="số lượng" /></td>
                                 <td width="10%">
                                     <p style="margin-top: 10px;"><a class="remove-row"><i class="fa fa-trash-o fa-lg icon-danger"></i></a></p>
                                 </td>

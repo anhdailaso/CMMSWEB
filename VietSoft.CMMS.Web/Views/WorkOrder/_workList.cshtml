@@ -6,13 +6,12 @@
         <div class="accordion-item border-0 break-line">
            
             <h2 class="accordion-header mx-3" id="flush-heading-@item.MS_CV">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-@item.MS_CV" aria-expanded="false" aria-controls="flush-collapse-@item.MS_CV" title="Bạc đạn">
+                <button class="accordion-button collapsed @(item.WorkOrderDetailViewModels.Any() ? "has-children" : "")" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-@item.MS_CV" aria-expanded="false" aria-controls="flush-collapse-@item.MS_CV" title="Bạc đạn">
                     + @item.MS_BO_PHAN  @item.MO_TA_CV
                 </button>
                 @if (!string.IsNullOrEmpty(item.PATH_HD))
                 {
-                    @*@item.PATH_HD*@
-                    <a class="viewGuide" href="@Url.Action("DownloadFile","WorkOrder", new{filepath = @"\\DESKTOP-4AU066C\SharedTest\1.docx"})">
+                    <a class="viewGuide" href="@Url.Action("DownloadFile","WorkOrder", new{filepath = @item.PATH_HD})">
                         <i class="fa fa-info-circle" aria-hidden="true" style="font-size:20px; color:#fd7e14"></i>
                     </a>
                 }
@@ -31,7 +30,7 @@
                                 <tr>
                                     <td width="30%" style="line-height:2.3rem">@wd.MS_PT</td>
                                     <td width="30%" style="line-height:2.3rem">@wd.MS_VI_TRI_PT</td>
-                                    <td width="30%"> <input class="form-control" style="font-size:0.8rem;" type="text" value="@wd.SL_TT" placeholder="số lượng" /></td>
+                                    <td width="30%"> <input class="form-control" style="font-size:0.8rem;" type="number" value="@wd.SL_TT" placeholder="số lượng" /></td>
                                     <td class="d-none">@item.MS_BO_PHAN</td>
                                     <td class="d-none">@item.MS_CV</td>
                                 </tr>

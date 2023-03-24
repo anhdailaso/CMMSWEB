@@ -630,7 +630,7 @@ td, th {
 }
 
 .icon-danger {
-    color: var(--danger-color);
+    color: var(--danger-color) !important;
 }
 
 /*custom select2*/
@@ -1698,4 +1698,8 @@ ul {
 }
 .accordion-header {
     display: flex;
+}
+.has-children {
+    color: var(--primary-color);
+    font-weight: 500;
 }
