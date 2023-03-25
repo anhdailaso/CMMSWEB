@@ -14,6 +14,8 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Reflection;
 using System.Drawing;
+using Microsoft.AspNetCore.StaticFiles;
+using System.Net.Mime;
 
 namespace VietSoft.HRM.Web.Controllers
 {
@@ -342,6 +344,36 @@ namespace VietSoft.HRM.Web.Controllers
                 return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
             }
         }
+
+        public FileResult DownloadFile(string filepath)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(filepath))
+                    return File(Array.Empty<byte>(), "application/octet-stream");
+
+                string filename = Path.GetFileName(filepath);
+                byte[] filedata = System.IO.File.ReadAllBytes(filepath);
+
+                string contentType;
+                new FileExtensionContentTypeProvider().TryGetContentType(filename, out contentType);
+                contentType = contentType ?? "application/octet-stream";
+
+                var cd = new ContentDisposition
+                {
+                    FileName = filename,
+                    Inline = true,
+                };
+
+                Response.Headers.Add("Content-Disposition", cd.ToString());
+                return File(filedata, contentType);
+            }
+            catch (Exception ex)
+            {
+                return File(Array.Empty<byte>(), "application/octet-stream");
+            }
+        }
+
         public ActionResult OpenFile(string filePath)
         {
             //filePath = @"\\192.168.1.6\TaiLieu\Tai_Lieu_May\GSTT\GSTT_10.docx";
