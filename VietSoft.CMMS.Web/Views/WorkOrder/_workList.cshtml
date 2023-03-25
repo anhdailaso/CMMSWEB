@@ -1,28 +1,34 @@
 ﻿@model IEnumerable<VietSoft.CMMS.Web.Models.Maintenance.WorkOrdersViewModel>
 @using System.Text.Json;
+<div class="accordion border-0 break-line" id="accordionFlushExample">
 @foreach (var item in Model)
 {
-    <div class="accordion border-0 break-line" id="accordionFlushExample-@item.MS_CV">
         <div class="accordion-item border-0 break-line">
-           
-            <h2 class="accordion-header mx-3" id="flush-heading-@item.MS_CV">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-@item.MS_CV" aria-expanded="false" aria-controls="flush-collapse-@item.MS_CV" title="Bạc đạn">
+            <h2 class="accordion-header d-flex" id="flush-heading-@item.MS_CV">
+                <button class="accordion-button collapsed parentCell" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-@item.MS_CV" aria-expanded="false" aria-controls="flush-collapse-@item.MS_CV" title="Bạc đạn">
                     + @item.MS_BO_PHAN  @item.MO_TA_CV
+                    <div class="tooltip-action" style="margin-top:-5.2rem">
+                        <a>
+                            <span>@item.TEN_BO_PHAN</span>
+                        </a>
+                    </div>
                 </button>
                 @if (!string.IsNullOrEmpty(item.PATH_HD))
                 {
                     @*@item.PATH_HD*@
-                    <a class="viewGuide" href="@Url.Action("DownloadFile","WorkOrder", new{filepath = @"\\DESKTOP-4AU066C\SharedTest\1.docx"})">
-                        <i class="fa fa-info-circle" aria-hidden="true" style="font-size:20px; color:#fd7e14"></i>
+                    <a target="_blank" class="d-flex accordion-right-icon" style="padding-right:0.5rem" href="@Url.Action("DownloadFile","WorkOrder", new{filepath = item.PATH_HD})">
+                        <i class="fa fa-file-pdf-o"></i>
                     </a>
                 }
-                else
-                {
-                    <a style="width: 17.15px"></a>
-                }
+                <a class="d-flex accordion-right-icon btnBackLog" style="padding-right:0.5rem;color:#113186">
+                    <i class="fa fa-arrows"></i>
+                </a>
+                <a class="d-flex accordion-right-icon btnDeleteWork">
+                    <i class="fa fa-trash-o text-danger"></i>
+                </a>
             </h2>
-            
-            <div id="flush-collapse-@item.MS_CV" class="accordion-collapse collapse" aria-labelledby="flush-heading-@item.MS_CV" data-bs-parent="#accordionFlushExample-@item.MS_CV">
+
+            <div id="flush-collapse-@item.MS_CV" class="accordion-collapse collapse" aria-labelledby="flush-heading-@item.MS_CV" data-bs-parent="#accordionFlushExample">
                 <div class="table-responsive">
                     <table class="table table-responsive table-borderless tbl-supplies">
                         <tbody>
@@ -31,7 +37,7 @@
                                 <tr>
                                     <td width="30%" style="line-height:2.3rem">@wd.MS_PT</td>
                                     <td width="30%" style="line-height:2.3rem">@wd.MS_VI_TRI_PT</td>
-                                    <td width="30%"> <input class="form-control" style="font-size:0.8rem;" type="text" value="@wd.SL_TT" placeholder="số lượng" /></td>
+                                    <td width="30%"> <input class="form-control SoLuongTT" style="font-size:0.8rem;" type="text" value="@wd.SL_TT" placeholder="số lượng" /></td>
                                     <td class="d-none">@item.MS_BO_PHAN</td>
                                     <td class="d-none">@item.MS_CV</td>
                                 </tr>
@@ -61,6 +67,5 @@
                 </div>
             </div>
         </div>
-    </div>
 }
-
+</div>

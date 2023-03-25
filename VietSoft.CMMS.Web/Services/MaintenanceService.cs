@@ -87,13 +87,14 @@ namespace VietSoft.CMMS.Web.Services
                 if (res != null)
                 {
                     var lst = res.GroupBy(
-                        x => (x.MS_CV, x.MO_TA_CV, x.MS_BO_PHAN, x.PATH_HD),
-                        (key, data) => new { MS_CV = key.MS_CV, MO_TA_CV = key.MO_TA_CV, PATH_HD = key.PATH_HD, MS_BO_PHAN = key.MS_BO_PHAN, WorkOrderDetailViewModels = data }).ToList();
+                        x => (x.MS_CV, x.MO_TA_CV, x.MS_BO_PHAN, x.TEN_BO_PHAN, x.PATH_HD),
+                        (key, data) => new { MS_CV = key.MS_CV, MO_TA_CV = key.MO_TA_CV, PATH_HD = key.PATH_HD, MS_BO_PHAN = key.MS_BO_PHAN, TEN_BO_PHAN = key.TEN_BO_PHAN, WorkOrderDetailViewModels = data }).ToList();
 
                     var workOrders = lst.Select(x =>
                     new WorkOrdersViewModel()
                     {
                         MS_BO_PHAN = x.MS_BO_PHAN,
+                        TEN_BO_PHAN = x.TEN_BO_PHAN,
                         MS_CV = x.MS_CV,
                         MO_TA_CV = x.MO_TA_CV,
                         PATH_HD = @x.PATH_HD,
@@ -318,13 +319,61 @@ namespace VietSoft.CMMS.Web.Services
             try
             {
                 var p = new DynamicParameters();
-                p.Add("@sDanhMuc", "");
+                p.Add("@sDanhMuc", "BACK_LOG");
                 p.Add("@sCot1", ticketId);
                 p.Add("@UserName", userName);
                 p.Add("@iCot1", workId);
                 p.Add("@sCot2", dept);
-                var res = _dapper.Execute<ResponseViewModel>("BACK_LOG", p, System.Data.CommandType.StoredProcedure);
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
 
+                return res != null ? res : new ResponseViewModel()
+                {
+                    MA = 0
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseViewModel()
+                {
+                    MA = -1
+                };
+            }
+        }
+
+        public ResponseViewModel DeleteWork(string ticketId, string userName, int workId, string dept)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "DELETE_WORK");
+                p.Add("@sCot1", ticketId);
+                p.Add("@UserName", userName);
+                p.Add("@iCot1", workId);
+                p.Add("@sCot2", dept);
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res != null ? res : new ResponseViewModel()
+                {
+                    MA = 0
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseViewModel()
+                {
+                    MA = -1
+                };
+            }
+        }
+
+        public ResponseViewModel DeleteWorkOrder(string ticketId, string userName)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "DELETE_WORK_ORDER");
+                p.Add("@sCot1", ticketId);
+                p.Add("@UserName", userName);
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 return res != null ? res : new ResponseViewModel()
                 {
                     MA = 0

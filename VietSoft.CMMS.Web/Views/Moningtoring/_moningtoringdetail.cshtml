@@ -9,7 +9,7 @@
         @foreach (var item in Model.OrderBy(x => x.ComponentID))
         {
             <div class="accordion-item border-0 break-line">
-                <h2 class="accordion-header d-flex" id="heading-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID">
+                <h2  class="accordion-header d-flex" id="heading-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID">
                     <button class="accordion-button collapsed parentCell" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" aria-expanded="false" aria-controls="collapse-@item.ComponentID@item.MonitoringParamsID">
                         <div class="d-flex justify-content-between w-100">
                             <span id="title-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID">+ @item.ComponentID  @item.MonitoringParamsName</span>
@@ -22,7 +22,7 @@
                     </button>
                     @if (item.DUONG_DAN != null)
                     {
-                        <a class="d-flex accordion-right-icon" target="_blank" href="@Url.Action("OpenFile", "Home", new { filePath = @item.DUONG_DAN })" style="padding-right:0.5rem" data-patfile="@item.MonitoringParamsID">
+                        <a class="d-flex accordion-right-icon" target="_blank" href="@Url.Action("DownloadFile", "Home", new { filepath = @item.DUONG_DAN })" style="padding-right:0.5rem" data-patfile="@item.MonitoringParamsID">
                             <i class="fa fa-file-pdf-o"></i>
                         </a>
                     }
@@ -30,8 +30,7 @@
                         <i class="fa fa-camera-retro"></i>
                     </a>
                 </h2>
-
-                <div id="collapse-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" class="accordion-collapse collapse" aria-labelledby="heading-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" data-bs-parent="#accordionFlushExample">
+                <div style="z-index:100;position:relative" id="collapse-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" class="accordion-collapse collapse" aria-labelledby="heading-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" data-bs-parent="#accordionFlushExample">
                     <div class="table-responsive">
                         <table class="table table-responsive table-borderless cuscess" data-root="@item.ComponentID.Replace('.','_')!@item.MonitoringParamsID">
                             <tbody>
@@ -50,10 +49,10 @@
                                     }
                                     else
                                     {
-                                        <tr >
+                                        <tr  >
                                             <td class="parentCell odd">
                                                 <input onfocusout="myfunction(this)" class="form-control form-input" data-range="@item1.ValueParamName.Split('!')[1]" data-msbophan="@item1.ComponentID" id="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" data-msthongso="@item1.MonitoringParamsID" style="font-size:0.8rem;" type="text" placeholder="Kết quả" aria-label="default input example" value="" name="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" />
-                                                <div class="tooltip-action">
+                                                <div class="tooltip-action position-absolute">
                                                     <a>
                                                         <span>@Html.Raw(@item1.ValueParamName.Split('!')[0])</span>
                                                     </a>

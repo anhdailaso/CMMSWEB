@@ -1,6 +1,7 @@
 ﻿var WorkOrderModule = WorkOrderModule || (function (window, $, config) {
     var contentDataList = "#GetWorkOrder";
     var delayTimer;
+    var validate = false;
     var bload = false;
     function init() {
         //$(document).ready(function () {
@@ -85,18 +86,23 @@
         });
 
         // confirm save workorder
-        $(document).on('click', '#btnYes', function () {
-            saveCompleteWorkOrder();
-            $('#modal').modal('hide');
-        })
-        $(document).on('click', '#btnNo', function () {
-            $('#modal').modal('hide');
-        })
+        //$(document).on('click', '#btnYes', function () {
+        //    saveCompleteWorkOrder();
+        //    $('#modal').modal('hide');
+        //})
+        //$(document).on('click', '#btnNo', function () {
+        //    $('#modal').modal('hide');
+        //})
 
         $(document).on("click", '#btnCompletePBT', function () {
-            ShowConfirmModal(config.MESS_XACNHAN_HOANTHANH_PHIEUBAOTRI);           
+            //ShowConfirmModal(config.MESS_XACNHAN_HOANTHANH_PHIEUBAOTRI);
+            ShowConfirm(config.MESS_XACNHAN_HOANTHANH_PHIEUBAOTRI, 'warning', '', function (result) {
+                if (result == true) {
+                    saveCompleteWorkOrder();
+                }
+            });
         });
-        
+
 
         $(document).on("click", '.expand', function () {
             $('ul', $(this).parent()).eq(0).toggle();
@@ -113,32 +119,74 @@
             $(this).closest('li').find('ul input:checkbox').prop('checked', isChecked)
         })
 
+        //$(document).on("change", '.SoLuongTT', function () {
+        //    if (!$.isNumeric($(this).val()) && $(this).val() !== '') {
+        //        if ($(this).val() == '') return false;
+        //        $(this).focus();
+        //        showWarning("Chỉ được nhập số!");
+        //        return false;
+        //    }
+
+
+            //let dept = $(this).data('dept')
+            //let mscv = $(this).data('mscv');
+            //kiểm tra không lớn hơn số lượng trong cấu trúc
+        //    else {
+
+        //        $.ajax({
+        //            type: "POST",
+        //            url: config.SAVE_WORK_ORDER,
+        //            data: {
+        //                model: model,
+        //                deviceId: $('#MS_MAY').val(),
+        //            },
+        //            success: function (response) {
+        //                if (response.responseCode == 1) {
+        //                    showSuccess(response.responseMessage)
+        //                    setTimeout(function () {
+        //                        //window.history.back(1)
+        //                        window.location.href = config.MyEcomaint;
+        //                    }, 600)
+
+        //                }
+        //                else {
+        //                    showWarning(response.responseMessage)
+        //                }
+        //            },
+        //            complete: function () {
+        //            }
+        //        });
+
+
+        //    }
+        //})
+
         $(document).on("click", '.btnAddSupplies', function () {
             let suppliesSelected = [];
             $(this).closest('.table-responsive').find('table.tbl-supplies tbody tr').each(function () {
                 let mspt = $(this).find('td').eq(0).text();
-                suppliesSelected.push(mspt) 
+                suppliesSelected.push(mspt)
             })
             let dept = $(this).data('dept')
             let mscv = $(this).data('mscv')
-            AddSupplies(dept, suppliesSelected , mscv);
+            AddSupplies(dept, suppliesSelected, mscv);
         });
-        
+
         $(document).on("click", '#btnAddSupplies', function () {
             let rowdata = $(this).closest('.modal-content').find('.modal-body table.tblAddSuppliesSeleced tbody tr.tr-supplies')
-            
+
             $(rowdata).find('input:checkbox:checked').each(function () {
                 let mspt = $(this).closest('tr').find("td").eq(0).text();
                 let msvt = $(this).closest('tr').find("td").eq(1).text()
                 let sl = $(this).closest('tr').find("td").eq(2).text()
                 let rowId = `#flush-collapse-` + $('#MS_CV').val()
-                
+
                 let html = ` <tr>
-                                <td width="30%" style="line-height:2.3rem">`+ mspt +`</td>
-                                <td width="30%" style="line-height:2.3rem">`+ msvt +`</td>
-                                <td width="30%"> <input class="form-control" type="text" value="`+ sl +`" placeholder="số lượng" /></td>
+                                <td width="30%" style="line-height:2.3rem">`+ mspt + `</td>
+                                <td width="30%" style="line-height:2.3rem">`+ msvt + `</td>
+                                <td width="30%"> <input class="form-control SoLuongTT" type="text" value="`+ sl + `" placeholder="số lượng" /></td>
                                 <td width="10%">
-                                    <p style="margin-top: 10px;"><a class="remove-row"><i class="fa fa-trash-o fa-lg icon-danger"></i></a></p>
+                                    <p style="margin-top: 10px;"><a class="remove-row"><i class="fa fa-trash-o fa-lg text-danger"></i></a></p>
                                 </td>
                             </tr>`
                 $(rowId).find('table tbody').append(html)
@@ -169,7 +217,7 @@
                             //window.history.back(1)
                             window.location.href = config.MyEcomaint;
                         }, 600)
-                        
+
                     }
                     else {
                         showWarning(response.responseMessage)
@@ -178,9 +226,9 @@
                 complete: function () {
                 }
             });
-            
+
         })
-        
+
         $(document).on("click", '#btnAddWorkList', function () {
             let workList = [];
             $('input:checkbox.input-add-work:checked').each(function () {
@@ -201,7 +249,7 @@
                 //        <div class="table-responsive">
                 //            <table class="table table-responsive table-borderless">
                 //                <tbody>
-                           
+
                 //                </tbody>
                 //            </table>
 
@@ -285,7 +333,7 @@
                 let mspt = $(this).find('td').eq(0).text()
                 let msvt = $(this).find('td').eq(1).text()
                 let sl = $(this).find('td').eq(2).find('input').val()
-               
+
                 let obj = {
                     MS_PT: mspt,
                     MS_VI_TRI_PT: msvt,
@@ -324,12 +372,111 @@
             });
         });
 
+        $(document).on('click', '.btnBackLog', function () {
+            let msbp = $(this).closest('div').find('input.MS_BO_PHAN').val();
+            let mscv = $(this).closest('div').find('input.MS_CV').val();
+            let model = {
+                MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),
+                MS_CV: mscv,
+                MS_BO_PHAN: msbp
+            }
+            ShowConfirm("Bạn có muốn chuyển công việc qua kế hoạch tổng thể?", 'warning', '', function (result) {
+                if (result == true) {
+                    $.ajax({
+                        type: "POST",
+                        url: config.BACK_LOG,
+                        data: {
+                            model: model
+                        },
+                        success: function (response) {
+                            if (response.responseCode == 1) {
+                                showSuccess(response.responseMessage)
+                                WorkList();
+                            }
+                            else {
+                                showWarning(response.responseMessage)
+                            }
+                        },
+                        complete: function () {
+                        }
+                    });
+
+                }
+            });
+
+        });
+
+        $(document).on('click', '.btnDeleteWork', function () {
+            let msbp = $(this).closest('div').find('input.MS_BO_PHAN').val();
+            let mscv = $(this).closest('div').find('input.MS_CV').val();
+            let model = {
+                MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),
+                MS_CV: mscv,
+                MS_BO_PHAN: msbp
+            }
+            ShowConfirm("Bạn có muốn xóa công việc này?", 'warning', '', function (result) {
+                if (result == true) {
+                    $.ajax({
+                        type: "POST",
+                        url: config.DELETE_WORK,
+                        data: {
+                            model: model
+                        },
+                        success: function (response) {
+                            if (response.responseCode == 1) {
+                                showSuccess(response.responseMessage)
+                                WorkList();
+                            }
+                            else {
+                                showWarning(response.responseMessage)
+                            }
+                        },
+                        complete: function () {
+                        }
+                    });
+
+                }
+            });
+
+        });
+
+        $(document).on('click', '#btnhuyBT', function () {
+            let model = {
+                MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),
+            }
+            ShowConfirm("Bạn có muốn xóa phiếu bảo trì này?", 'warning', '', function (result) {
+                if (result == true) {
+                    $.ajax({
+                        type: "POST",
+                        url: config.DELETE_WORKORDER,
+                        data: {
+                            model: model
+                        },
+                        success: function (response) {
+                            if (response.responseCode == 1) {
+                                showSuccess(response.responseMessage)
+                                window.location.href = config.MyEcomaint;
+                            }
+                            else {
+                                showWarning(response.responseMessage);
+                            }
+                        },
+                        complete: function () {
+                        }
+                    });
+
+                }
+            });
+
+        });
+
+
         $(document).on('click', '#btnSaveLogWork', function () {
             let logworkList = []
             $(this).closest('.modal').find('.modal-body table#tblLogWork tr').each(function () {
                 let valFromDate = $(this).find('input.fromDate').val();
                 let valToDate = $(this).find('input.toDate').val();
-              
+
                 let times = $(this).find('td').eq(2).find('p').text()
                 let mscn = $(this).find('td').eq(3).text()
                 let obj = {
@@ -363,7 +510,7 @@
                 }
             });
         });
-        
+
         $('#logWork').on('click', function () {
             LogWork();
         });
@@ -378,7 +525,7 @@
         $(document).on("click", '.remove-row', function () {
             $(this).closest("tr").remove();
         });
-        
+
         $(document).on("click", '#btnAddRowLogWork', function () {
             let html = `<tr >
                             <td style="width:45%">
@@ -395,10 +542,10 @@
                               <p class="text-orange mt-3 hours"> 0</p>
                             </td>
                              <td style="width:5%"> 
-                               <p class="mt-3"><a class="remove-row" ><i class="fa fa-trash-o fa-lg icon-danger"></i></a></p>
+                               <p class="mt-3"><a class="remove-row" ><i class="fa fa-trash-o fa-lg text-danger"></i></a></p>
                             </td>
                         </tr>`
-           
+
             $('#tblLogWork tbody').prepend(html)
             setDateTimePicker('.fromDate', moment(new Date(), _formatDateTime).toDate())
             setDateTimePicker('.toDate', moment(new Date(), _formatDateTime).toDate())
@@ -409,7 +556,7 @@
         $(document).on("dp.change", '.fromDate, .toDate', function () {
             let valFromDate = $(this).closest('tr').find('input.fromDate').val();
             let valToDate = $(this).closest('tr').find('input.toDate').val();
-           
+
             let fromDate = moment(valFromDate, _formatDateTime).toDate();
             let toDate = moment(valToDate, _formatDateTime).toDate();
 
@@ -417,7 +564,7 @@
             let hours = diffTime > 0 ? diffTime : 0
             $(this).closest('tr').find("p.hours").text(Math.round(hours * 100) / 100)
         });
-    }   
+    }
 
     function saveCompleteWorkOrder() {
         showLoadingOverlay("#inputCauseOfDamageContent");
@@ -543,7 +690,7 @@
                         })
                     }
                     else {
-                        let html = `<span>` + config.KHONGCO_DULIEU +`</span>`
+                        let html = `<span>` + config.KHONGCO_DULIEU + `</span>`
                         $('#resultContent').append(html)
                     }
                 }
@@ -563,8 +710,8 @@
         sib.innerHTML = `<div class="expand pt-2 flex-fill" ` + (childs ? 'style="cursor: pointer"' : '') + `>
             <i class="` + icon + `"></i>
             <span>`+ (parent.itemCode ? parent.itemCode : '') + `</span>
-            <span class=`+ color +`>`+ parent.itemName + `</span>
-            <span> &emsp;`+ parent.amount +`</span>
+            <span class=`+ color + `>` + parent.itemName + `</span>
+            <span> &emsp;`+ parent.amount + `</span>
             </div>`;
         tparent.appendChild(sib);
         if (!childs) return;
@@ -572,7 +719,7 @@
         var nextRoot = document.createElement("ul");
 
         insertAfter(nextRoot, sib);
-        
+
         for (var i = 0; i < childs.length; i++) {
             treeMenu(childs[i], nextRoot, level + 1);
         }
@@ -590,7 +737,7 @@
             <span>`+ (parent.itemCode ? parent.itemCode : '') + `</span>
             <span class=`+ color + `>` + parent.itemName + `</span>
             </div>
-                <div class="mx-3 my-1"><input class="form-check-input" type="checkbox" data-key=`+ parent.key+`></div>
+                <div class="mx-3 my-1"><input class="form-check-input" type="checkbox" data-key=`+ parent.key + `></div>
             </div>`;
         tparent.appendChild(sib);
         if (!childs) return;
@@ -610,7 +757,7 @@
             success: function (response) {
                 $('#modalLarge .modal-content').html(response);
                 $('#modalLarge').modal('show');
-              
+
                 GetCauseOfDamageList()
             }
         });
@@ -646,7 +793,7 @@
                     width: "100%",
                     selectionCssClass: "select2--small",
                     dropdownCssClass: "select2--small",
-                    minimumResultsForSearch: -1 
+                    minimumResultsForSearch: -1
                 });
 
 
@@ -654,7 +801,7 @@
             }
         });
     }
-    
+
 
     function WorkList() {
         showLoadingOverlay("#workListContent");

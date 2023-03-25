@@ -166,6 +166,32 @@ namespace VietSoft.CMMS.Web.Controllers
             }
         }
 
+        [HttpPost]
+        public IActionResult DeleteWork(SaveSuppliesModel model)
+        {
+            var res = _maintenanceService.DeleteWork(model.MS_PHIEU_BAO_TRI, userName, model.MS_CV, model.MS_BO_PHAN);
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = res.NAME });
+            }
+        }
+        public IActionResult DeleteWorkOrder(SaveSuppliesModel model)
+        {
+            var res = _maintenanceService.DeleteWorkOrder(model.MS_PHIEU_BAO_TRI, userName);
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = res.NAME });
+            }
+        }
+
 
         [HttpPost]
         public IActionResult SaveLogWork(SaveLogWorkModel model)
@@ -236,7 +262,7 @@ namespace VietSoft.CMMS.Web.Controllers
             }
             else
             {
-                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = res.NAME });
             }
         }
 

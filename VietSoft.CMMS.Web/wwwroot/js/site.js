@@ -374,6 +374,31 @@ function ClosePopup(element) {
     $(element).parents('.modal').modal('hide')
 }
 
+var p = new DynamicParameters();
+
+function goBack() {
+    window.location.href = document.referrer;
+}
+
+function ShowConfirm (message, type = Type.error, title = '', callback) {
+    swal({
+        title: title,
+        text: message,
+        type: type,
+        showCancelButton: true,
+        confirmButtonColor: '#ea8a1f',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'OK',
+        allowOutsideClick: false,
+        reverseButtons: true
+    }).then(function () {
+        callback(true);
+    }, function (dismiss) {
+        callback(false);
+    }).catch(swal.noop);
+}
+
+
 function ShowConfirmModal(message) {
     $.ajax({
         type: "GET",
