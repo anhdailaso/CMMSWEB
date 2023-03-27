@@ -4,9 +4,9 @@
 
 @if (Model != null && Model.Data.Count > 0)
 {
-    <table class="table table-striped" cellspacing="0" id="tbGetGoodReceipt" style="width:100% !important">
+    <table class="table table-striped" cellspacing="0" id="tbGoodReceipt" style="width:100% !important">
         <thead>
-            <tr>
+            <tr >
                 <td width="25%" class="col-grid-table">
                     MS phiếu nhập
                 </td>
@@ -39,8 +39,8 @@
                       <td>
                         @item.TEN
                     </td>
-
-                    <td>
+                    <td >
+                        <p style=""><a class="remove-row"><i class="fa fa-trash-o text-danger"></i></a></p>
                     </td>
                 </tr>
             }

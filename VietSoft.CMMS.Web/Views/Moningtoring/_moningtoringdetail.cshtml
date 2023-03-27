@@ -23,7 +23,8 @@
                     @if (item.DUONG_DAN != null)
                     {
                         <a class="d-flex accordion-right-icon" target="_blank" href="@Url.Action("DownloadFile", "Home", new { filepath = @item.DUONG_DAN })" style="padding-right:0.5rem" data-patfile="@item.MonitoringParamsID">
-                            <i class="fa fa-file-pdf-o"></i>
+                            @*<i class="fa fa-file-pdf-o"></i>*@
+                            <i class="fa fa-paperclip" style="transform: rotate(45deg);"></i>
                         </a>
                     }
                     <a class="d-flex accordion-right-icon" data-bs-toggle="modal" data-bs-target="#exampleModal" data-mor="@item.MonitoringParamsID" data-dev="@item.DeviceID" data-com="@item.ComponentID" data-src="" data-pat="" onclick="loadhinh(this)">

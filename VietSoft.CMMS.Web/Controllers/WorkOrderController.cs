@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.StaticFiles;
 using System.Globalization;
 using System.IO;
 using System.Net.Mime;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using VietSoft.CMMS.Web.Helpers;
 using VietSoft.CMMS.Web.IServices;

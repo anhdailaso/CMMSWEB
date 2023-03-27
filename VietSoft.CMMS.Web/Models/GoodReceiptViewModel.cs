@@ -9,6 +9,8 @@ namespace VietSoft.CMMS.Web.Models
         public string DANG_NHAP { get; set; }
         public DateTime NGAY { get; set; }
         public string TEN { get; set; }
+        
         public bool LOCK { get; set; }
+        public string USER_LAP { get; set; }
     }
 }

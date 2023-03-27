@@ -18,7 +18,8 @@
                 {
                     @*@item.PATH_HD*@
                     <a target="_blank" class="d-flex accordion-right-icon" style="padding-right:0.5rem" href="@Url.Action("DownloadFile","WorkOrder", new{filepath = item.PATH_HD})">
-                        <i class="fa fa-file-pdf-o"></i>
+                        @*<i class="fa fa-file-pdf-o"></i>*@
+                        <i class="fa fa-paperclip" style="transform: rotate(45deg);"></i>
                     </a>
                 }
                 <a class="d-flex accordion-right-icon btnBackLog" style="padding-right:0.5rem;color:#113186">
@@ -38,7 +39,7 @@
                                 <tr>
                                     <td width="30%" style="line-height:2.3rem">@wd.MS_PT</td>
                                     <td width="30%" style="line-height:2.3rem">@wd.MS_VI_TRI_PT</td>
-                                    <td width="30%"> <input class="form-control" style="font-size:0.8rem;" type="number" value="@wd.SL_TT" placeholder="số lượng" /></td>
+                                    <td width="30%"> <input class="form-control SoLuongTT" style="font-size:0.8rem;" type="number" min="0" max="@(@wd.SL_KH == 0 ? 9999: @wd.SL_KH)" value="@wd.SL_TT" placeholder="số lượng" /></td>
                                     <td class="d-none">@item.MS_BO_PHAN</td>
                                     <td class="d-none">@item.MS_CV</td>
                                 </tr>

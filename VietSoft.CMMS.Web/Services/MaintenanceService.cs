@@ -103,7 +103,9 @@ namespace VietSoft.CMMS.Web.Services
                            MS_PT = x.MS_PT,
                            MS_VI_TRI_PT = x.MS_VI_TRI_PT,
                            TEN_PT = x.TEN_PT,
+                           SL_KH = x.SL_KH,
                            SL_TT = x.SL_TT
+
                         })
                     }).AsEnumerable();
                     return workOrders;

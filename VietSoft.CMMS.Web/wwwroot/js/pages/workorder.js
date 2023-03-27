@@ -119,18 +119,20 @@
             $(this).closest('li').find('ul input:checkbox').prop('checked', isChecked)
         })
 
-        //$(document).on("change", '.SoLuongTT', function () {
-        //    if (!$.isNumeric($(this).val()) && $(this).val() !== '') {
-        //        if ($(this).val() == '') return false;
-        //        $(this).focus();
-        //        showWarning("Chỉ được nhập số!");
-        //        return false;
-        //    }
-
-
-            //let dept = $(this).data('dept')
-            //let mscv = $(this).data('mscv');
-            //kiểm tra không lớn hơn số lượng trong cấu trúc
+        $(document).on("blur", '.SoLuongTT', function () {
+            var maxvalue = parseFloat($(this).attr("max"));
+            if (maxvalue > 0) {
+                if (parseFloat($(this).val()) > maxvalue) {
+                    $(this).val(maxvalue);
+                    $(this).focus();
+                    return false;
+                }
+            }
+          
+        })
+        //let dept = $(this).data('dept')
+        //let mscv = $(this).data('mscv');
+        //kiểm tra không lớn hơn số lượng trong cấu trúc
         //    else {
 
         //        $.ajax({
@@ -184,7 +186,7 @@
                 let html = ` <tr>
                                 <td width="30%" style="line-height:2.3rem">`+ mspt +`</td>
                                 <td width="30%" style="line-height:2.3rem">`+ msvt +`</td>
-                                <td width="30%"> <input class="form-control" style="font-size:0.8rem;" type="number" value="`+ sl +`" placeholder="số lượng" /></td>
+                                <td width="30%"> <input class="form-control SoLuongTT" style="font-size:0.8rem;" type="number" min="0" max="`+ (msvt == '' ? 9999 : sl) +`" value="`+ sl +`" placeholder="số lượng" /></td>
                                 <td width="10%">
                                     <p style="margin-top: 10px;"><a class="remove-row"><i class="fa fa-trash-o fa-lg text-danger"></i></a></p>
                                 </td>

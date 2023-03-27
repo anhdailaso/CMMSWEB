@@ -44,6 +44,14 @@ namespace VietSoft.CMMS.Web.Controllers
             ViewBag.ListKho = _combobox.DanhSachKho(SessionManager.CurrentUser.UserName);
             return View();
         }
+
+        public IActionResult AddPhieuNhap(string msp, string mskho)
+        {
+            ViewBag.ListKho = _combobox.DanhSachKho(SessionManager.CurrentUser.UserName);
+            return View("~/Views/ GoodReceipt/AddphieuNhap.cshtml");
+
+        }
+
         //keyword: $('#search').val(),
         //        pageIndex: pageIndex ?? 1,
         //        pageSize: config.PAGE_SIZE,
@@ -52,16 +60,17 @@ namespace VietSoft.CMMS.Web.Controllers
         //        tungay: $('#fromDate').val(),
         //        denngay: $('#toDate').val(),
         public static List<GoodReceiptViewModel>? res;
-        public IActionResult GetListGoodReceipt(string keyword,int pageIndex, int pageSize, int reset,string mskho,string tungay,string denngay)
+        public IActionResult GetListGoodReceipt(string keyword, int pageIndex, int pageSize, string mskho, string tungay, string denngay)
         {
             PagedList<GoodReceiptViewModel>? result = null;
             if (pageIndex == 1 && keyword == null)
             {
-                res = _goodreceipt.GetListGoodReceipt(SessionManager.CurrentUser.UserName,0, DateTime.ParseExact(tungay, "dd/MM/yyyy", CultureInfo.InvariantCulture), DateTime.ParseExact(denngay, "dd/MM/yyyy", CultureInfo.InvariantCulture),mskho);
+                res = _goodreceipt.GetListGoodReceipt(SessionManager.CurrentUser.UserName, 0, DateTime.ParseExact(tungay, "dd/MM/yyyy", CultureInfo.InvariantCulture), DateTime.ParseExact(denngay, "dd/MM/yyyy", CultureInfo.InvariantCulture), mskho);
                 result = new PagedList<GoodReceiptViewModel>(res, res.Count, pageIndex, pageSize);
             }
-            if (res == null)
+            else
             {
+
                 if (keyword != null)
                 {
                     result = new PagedList<GoodReceiptViewModel>(res.Where(x => x.MS_DH_NHAP_PT.ToLower().Contains(keyword.ToLower())).ToList(), res.Count(x => x.MS_DH_NHAP_PT.ToLower().Contains(keyword.ToLower())), pageIndex, pageSize);
@@ -71,6 +80,7 @@ namespace VietSoft.CMMS.Web.Controllers
                     result = new PagedList<GoodReceiptViewModel>(res, res.Count, pageIndex, pageSize);
                 }
             }
+
             return PartialView("_goodreceiptDetail", result);
         }
 

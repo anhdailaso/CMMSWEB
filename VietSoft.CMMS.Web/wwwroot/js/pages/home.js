@@ -15,15 +15,12 @@
                 GetMyEcomaint(1)
             }, 1000)
         })
-
         $('#search').on('change', function () {
             clearTimeout(delayTimer)
             delayTimer = setTimeout(function () {
                 GetMyEcomaint(1)
             }, 1000)
         })
-
-
         $('#cboDiaDiem').on('change', function () {
             GetMyEcomaint(1);
         })

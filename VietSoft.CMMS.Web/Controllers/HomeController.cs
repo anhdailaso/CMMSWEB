@@ -154,9 +154,9 @@ namespace VietSoft.HRM.Web.Controllers
             menus.Add(GetMenuItem(Menu.KiemKeTB));
             menus.Add(GetMenuItem(Menu.History));
             menus.Add(GetMenuItem(Menu.TheoDoiYCBT));
-            //menus.Add(GetMenuItem(Menu.NhapKho));
-            //menus.Add(GetMenuItem(Menu.XuatKho));
-            //menus.Add(GetMenuItem(Menu.BCXuatNhapTon));
+            menus.Add(GetMenuItem(Menu.NhapKho));
+            menus.Add(GetMenuItem(Menu.XuatKho));
+            menus.Add(GetMenuItem(Menu.BCXuatNhapTon));
             menus.Add(GetMenuItem(Menu.Dashboard));
             SessionManager.Menus = menus;
         }

@@ -10,12 +10,59 @@
         TNgay.setFullYear(TNgay.getFullYear() - 1);
         setDatePicker("#fromDate", TNgay, null, null);
 
+        $(document).on("dp.change", '#toDate', function () {
+            GetGoodReceipt(1);
+        })
+        $(document).on("dp.change", '#fromDate', function () {
+            GetGoodReceipt(1);
+        })
+        $('#search').on('keyup', function () {
+            clearTimeout(delayTimer)
+            delayTimer = setTimeout(function () {
+                GetGoodReceipt(1)
+            }, 1000)
+        })
+     
+        $('#search').on('change', function () {
+            clearTimeout(delayTimer)
+            delayTimer = setTimeout(function () {
+                GetGoodReceipt(1)
+            }, 1000)
+        })
+
+        $(document).on('mouseover', '#tbGoodReceipt tbody tr', function () {
+            let tr = $(this);
+            $('#tbGoodReceipt tbody').find('tr.row-selected').each(function () {
+                //if (!$(this).is(tr)) {
+                $(this).removeClass("row-selected")
+                //}
+            })
+
+            tr.addClass("row-selected")
+        })
+        $(document).on('mouseout', '#tbGoodReceipt tbody tr', function () {
+            $(this).removeClass("row-selected")
+        })
+        $(document).on('touchstart', '#tbGoodReceipt tbody tr', function () {
+            let tr = $(this);
+            $('#tbGoodReceipt tbody').find('tr.row-selected').each(function () {
+                //if (!$(this).is(tr)) {
+                $(this).removeClass("row-selected")
+                //}
+            })
+
+            tr.addClass("row-selected")
+        })
+        $(document).on('touchend', '#tbGoodReceipt tbody tr', function () {
+            $(this).removeClass("row-selected")
+        })
+
         $('#cbokho').on('change', function () {
-            GetGoodReceipt(1,0);
+            GetGoodReceipt(1);
         });
-        GetGoodReceipt(1,0);
+        GetGoodReceipt(1);
     }
-    function GetGoodReceipt(pageIndex, reset) {
+    function GetGoodReceipt(pageIndex) {
         var currenpage = pageIndex || 1;
         showLoadingOverlay(contentDataList);
         $.ajax({
@@ -25,7 +72,6 @@
                 keyword: $('#search').val(),
                 pageIndex: pageIndex ?? 1,
                 pageSize: config.PAGE_SIZE,
-                reset: reset,
                 mskho: $('#cbokho').val(),
                 tungay: $('#fromDate').val(),
                 denngay: $('#toDate').val(),
@@ -48,7 +94,7 @@
         pagination.html('<div id="' + divPagingId + '"></div>');
         if (totalPages > 0) {
             initTwbsPagination("#" + divPagingId, currentPage, totalPages, function (page) {
-                GetGoodReceipt(1);
+                GetGoodReceipt(page)
             });
         }
     }
