@@ -1,0 +1,32 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@model VietSoft.CMMS.Web.Models.BaoCaoXuatNhapTonViewModel
+
+<table class="table table-striped">
+    <tbody>
+        <tr class="tr-supplies">
+            <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">Đơn vị tính</td>
+            <td class="w-50">@Model.TEN_DVT</td>
+        </tr>
+
+        <tr class="tr-supplies">
+            <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">Tồn đầu kỳ</td>
+            <td class="w-50">@Model.TON_DAU_KY</td>
+        </tr>
+
+        <tr class="tr-supplies">
+            <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">Nhập trong kỳ</td>
+            <td class="w-50">@Model.NHAP_TRONG_KY</td>
+        </tr>
+
+        <tr class="tr-supplies">
+            <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">Xuất trong kỳ</td>
+            <td class="w-50">@Model.XUAT_TRONG_KY</td>
+        </tr>
+
+        <tr class="tr-supplies">
+            <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">Tồn cuối kỳ</td>
+            <td class="w-50">@Model.TON_CUOI_KY</td>
+        </tr>
+
+    </tbody>
+</table>

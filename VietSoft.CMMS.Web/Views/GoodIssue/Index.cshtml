@@ -1,7 +1,7 @@
 ﻿@using VietSoft.CMMS.Web.Resources
 @using VietSoft.CMMS.Web.Helpers
 @{
-    ViewBag.Title = "DANH SÁCH PHIẾU NHẬP KHO";
+    ViewBag.Title = "DANH SÁCH PHIẾU XUẤT KHO";
 }
 
 <div class="row">
@@ -51,7 +51,7 @@
                 <i class="bi bi-search icon-obsolute"></i>
             </div>
             <div class="col-md-12 offset-md-12 col-xs-12  px-0">
-                <div id="GetGoodReceipt">
+                <div id="GetGoodIssue">
                 </div>
             </div>
         </div>
@@ -62,7 +62,7 @@
 <nav class="fixed-bottom">
     <div class="navbar-button  text-center text-white">
         <div id="button-container" class="btn-group">
-            <a id="btnAddGoodReceipt" class="btn btn-outline-primary m-1" role="button">
+            <a id="btnAddGoodIssue" class="btn btn-outline-primary m-1" role="button">
                 <i class="fa fa-plus fs-7" aria-hidden="true"></i>
             </a>
         </div>
@@ -76,15 +76,15 @@
     <script src="~/lib/jquery.twbsPagination/jquery.twbsPagination.min.js"></script>
     <script>
         var config = {
-            GET_GOODRECEIPT: '@Url.Action("GetListGoodReceipt", "GoodReceipt")',
-            ADD_GOODRECEIPT: '@Url.Action("AddGoodReceipt", "GoodReceipt")',
+            GET_GOODISSUE: '@Url.Action("GetListGoodIssue", "GoodIssue")',
+            ADD_GOODISSUE: '@Url.Action("AddGoodIssue", "GoodIssue")',
             PAGE_SIZE: 10
         }
     </script>
-    <script src="~/js/pages/goodreceipt.js" asp-append-version="true"></script>
+    <script src="~/js/pages/goodissue.js" asp-append-version="true"></script>
     <script>
         $(document).ready(function () {
-            GoodReceiptModule.init();
+            GoodIssueModule.init();
         });
     </script>
 }

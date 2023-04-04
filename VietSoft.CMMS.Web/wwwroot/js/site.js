@@ -374,7 +374,6 @@ function ClosePopup(element) {
     $(element).parents('.modal').modal('hide')
 }
 
-var p = new DynamicParameters();
 
 function goBack() {
     window.location.href = document.referrer;

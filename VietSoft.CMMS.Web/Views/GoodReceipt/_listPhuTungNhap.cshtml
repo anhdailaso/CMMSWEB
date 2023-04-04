@@ -1,0 +1,83 @@
+﻿@using System.Globalization;
+@using VietSoft.CMMS.Web.Resources;
+@using VietSoft.CMMS.Web.Helpers;
+@model IEnumerable<VietSoft.CMMS.Web.Models.DanhSachPhuTungNhapKhoModel>
+@if (@Model.Count() > 0)
+{
+    <table class="table table-striped" cellspacing="0" id="tbGoodReceipt" style="width:100% !important">
+        <thead>
+            <tr>
+                <td width="20%" class="col-grid-table">
+                    Vật tư phụ tùng
+                </td>
+                <td width="15%">
+                    Số lượng
+                </td>
+                <td width="15%">
+                    Đơn giá
+                </td>
+                <td width="15%">
+                    % VAT
+                </td>
+                <td width="15%">
+                    Tiền tệ
+                </td>
+                @if (@Model.Select(x => x.XOA).FirstOrDefault() == true)
+                {
+                    <td width="15%">
+                        Vị trí
+                    </td>
+                    <td width="5%">
+                    </td>
+                }
+                else
+                {
+                    <td width="20%">
+                        Vị trí
+                    </td>
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a style="color:#113186;" data-mspt="@item.MS_PT.Trim()" class="card-value PhuTungDetail">@item.MS_PT</a>
+                    </td>
+                    <td>
+                        @item.SO_LUONG
+                    </td>
+                    <td>
+                        @item.DON_GIA.ToString("N2")
+                    </td>
+                    <td>
+                        @item.VAT
+                    </td>
+                    <td>
+                        @item.NGOAI_TE
+                    </td>
+                    <td>
+                        <a style="color:#113186;" data-mspt="@item.MS_PT.Trim()" class="card-value vitri">@item.VI_TRI</a>
+                    </td>
+
+                    @if (@item.XOA == true)
+                    {
+                        <td>
+                            <p style=""><a class="remove-row"><i class="fa fa-trash-o text-danger"></i></a></p>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="col-12">
+        <div class="no-data">
+            <span>@ViewText.TXT_KHONGCO_DULIEU</span>
+        </div>
+    </div>
+}

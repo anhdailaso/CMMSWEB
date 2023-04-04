@@ -229,7 +229,7 @@ namespace VietSoft.HRM.Web.Controllers
                         //MenuName = ViewText.TITLE_DANGKY_NGHI,
                         MenuName = "Xuất kho",
                         MenuIcon = "export.png",
-                        MenuUrl = "/HistoryRequest/HistoryRequestIndex",
+                        MenuUrl = "/GoodIssue/Index",
                     };
                 case Menu.BCXuatNhapTon:
                     return new MenuViewModel
@@ -238,7 +238,7 @@ namespace VietSoft.HRM.Web.Controllers
                         //MenuName = ViewText.TITLE_DANGKY_NGHI,
                         MenuName = "Báo cáo xuất nhập tồn",
                         MenuIcon = "Theodoi.png",
-                        MenuUrl = "/baocao/HistoryRequestIndex",
+                        MenuUrl = "/BCNhapXuatTon/Index",
                     };
                 case Menu.Dashboard:
                     return new MenuViewModel

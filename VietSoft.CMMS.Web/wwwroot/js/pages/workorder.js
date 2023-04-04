@@ -759,7 +759,6 @@
             success: function (response) {
                 $('#modalLarge .modal-content').html(response);
                 $('#modalLarge').modal('show');
-
                 GetCauseOfDamageList()
             }
         });

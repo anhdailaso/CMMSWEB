@@ -1,0 +1,53 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@model IEnumerable<VietSoft.CMMS.Web.Models.ViTriNhapKhoModel>
+<div class="modal-header">
+    <h5>Nhập vị trí VTPT</h5>
+    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body modal-confirm">
+    <div class="row mb-2">
+        <div class="col-12">
+            @if (Model != null && Model.Count() > 0)
+            {
+                <table class="table table-striped" cellspacing="0" style="width:100% !important">
+                    <thead>
+                        <tr>
+                            <td width="50%" class="col-grid-table ">
+                                Vị trí
+                                <span class="tooltip">Tooltip</span>
+                            </td>
+                            <td width="50%">
+                                Số lượng
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td data-id="@item.MS_VI_TRI">
+                                    @item.TEN_VI_TRI
+                                </td>
+                                <td>
+                                    @item.SL_VT
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="col-12">
+                    <div class="no-data">
+                        <span>@ViewText.TXT_KHONGCO_DULIEU</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="modal-footer justify-content-between gap-1 flex-nowrap">
+    <button type="button" class="btn btn-outline-danger w-50" onclick="ClosePopup(this)" id="btnCancel">@ViewText.BTN_DONG</button>
+    <button type="button" class="btn btn-primary w-50" id="btnAddSupplies">@ViewText.BTN_LUU</button>
+</div>

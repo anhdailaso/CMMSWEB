@@ -1,0 +1,33 @@
+﻿@using VietSoft.CMMS.Web.Resources
+<div class="modal-header">
+    <h5>@ViewText.TXT_THEM_PHUTUNG</h5>
+    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+</div>
+@Html.Hidden("DANG_XUAT",@ViewBag.DangXuat, null)
+<div class="modal-body modal-confirm" id="modalResultContent">
+    <div class="row mb-2">
+        <div class="col-12">
+            @if(@ViewBag.DangXuat == 1)
+            {
+            <div class="form-check text-nowrap">
+                <input class="form-check-input" type="checkbox" value="" checked id="chkBT">
+                    <label class="form-check-label" for="chkBT">
+                    Những máy cần xử lý
+                </label>
+            </div>
+            }
+
+            <div class="position-relative">
+                @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder=@ViewText.TXT_SEARCH})
+                <i class="bi bi-search icon-obsolute"></i>
+            </div>
+            <div id="resultContent">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer justify-content-between gap-1 flex-nowrap">
+    <button type="button" class="btn btn-outline-danger w-50" onclick="ClosePopup(this)" id="btnCancel">@ViewText.BTN_DONG</button>
+    <button type="button" class="btn btn-primary w-50" id="btnAddSupplies">@ViewText.BTN_LUU</button>
+</div>

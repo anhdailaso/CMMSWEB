@@ -15,12 +15,24 @@ using VietSoft.CMMS.Web.Models.Maintenance;
 
 namespace VietSoft.CMMS.Web.Services
 {
-    public class ComboboxService :  IComboboxService
+    public class ComboboxService : IComboboxService
     {
         private readonly IDapperService _dapper;
         public ComboboxService(IDapperService dapper)
         {
             _dapper = dapper;
+        }
+        public SelectList DangPhanBo()
+        {
+            DataTable tb = new DataTable();
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString,CommandType.Text, "SELECT CONVERT(INT,1) AS DANG_PB,(SELECT VIETNAM FROM dbo.LANGUAGES WHERE KEYWORD ='cmbPhanBoTheoSoLuong')  AS TEN_PB UNION SELECT 2 AS DANG_PB,(SELECT VIETNAM FROM dbo.LANGUAGES WHERE KEYWORD ='cmbPhanBoTheoGiatri')  AS TEN_PB ORDER BY DANG_PB"));
+            var listItem = tb.AsEnumerable().Select(
+             x => new SelectListItem
+             {
+                 Text = x.Field<string>("TEN_PB"),
+                 Value = x.Field<int>("DANG_PB").ToString()
+             });
+            return new SelectList(listItem, "Value", "Text", null);
         }
 
         public SelectList DanhSachKho(string Username)
@@ -36,18 +48,7 @@ namespace VietSoft.CMMS.Web.Services
             return new SelectList(listItem, "Value", "Text", null);
         }
 
-        public SelectList DanhSachDangNhap()
-        {
-            DataTable tb = new DataTable();
-            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "SP_Y_GET_DANG_NHAP_KHO"));
-            var listItem = tb.AsEnumerable().Select(
-             x => new SelectListItem
-             {
-                 Text = x.Field<string>("MS_DANG_NHAP"),
-                 Value = x.Field<string>("TEN_DANG_NHAP")
-             });
-            return new SelectList(listItem, "Value", "Text", null);
-        }
+
 
         public SelectList DanhSachNguyenNhan()
         {
@@ -58,7 +59,7 @@ namespace VietSoft.CMMS.Web.Services
                   {
                       Text = x.Field<string>("Text"),
                       Value = x.Field<int>("Value").ToString()
-                  });
+                  }).OrderBy(x => x.Text);
             return new SelectList(listItem, "Value", "Text", null);
         }
 
@@ -71,6 +72,19 @@ namespace VietSoft.CMMS.Web.Services
                   {
                       Text = x.Field<string>("Text"),
                       Value = x.Field<int>("Value").ToString()
+                  }).OrderBy(x => x.Text);
+            return new SelectList(listItem, "Value", "Text", null);
+        }
+
+        public SelectList DanhSachPhuTung()
+        {
+            DataTable tb = new DataTable();
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, System.Data.CommandType.Text, "SELECT '-1' AS MS_PT,'' AS TEN_PT UNION SELECT MS_PT,TEN_PT FROM dbo.IC_PHU_TUNG WHERE ACTIVE_PT = 1"));
+            var listItem = tb.AsEnumerable().Select(
+                  x => new SelectListItem
+                  {
+                      Text = x.Field<string>("TEN_PT"),
+                      Value = x.Field<string>("MS_PT")
                   });
             return new SelectList(listItem, "Value", "Text", null);
         }
@@ -81,7 +95,7 @@ namespace VietSoft.CMMS.Web.Services
             {
                 string sql = "SELECT MS_LOAI_BT, TEN_LOAI_BT, HU_HONG FROM LOAI_BAO_TRI WHERE MS_HT_BT = 2 ORDER BY TEN_LOAI_BT";
                 var res = _dapper.GetAll<MaintenanceCategoryViewModel>(sql, null, System.Data.CommandType.Text);
-               
+
                 return res ?? new List<MaintenanceCategoryViewModel>();
             }
             catch (Exception ex)
@@ -106,7 +120,7 @@ namespace VietSoft.CMMS.Web.Services
         public SelectList GetLoaiMayAll(string Username, int NNgu, int CoAll)
         {
             DataTable tb = new DataTable();
-            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "GetLoaiMayAll", CoAll,Username,NNgu));
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "GetLoaiMayAll", CoAll, Username, NNgu));
             var listItem = tb.AsEnumerable().Select(
              x => new SelectListItem
              {
@@ -128,6 +142,198 @@ namespace VietSoft.CMMS.Web.Services
              });
             return new SelectList(listItem, "Value", "Text", null);
         }
+
+        public SelectList GetCbbDangNhap(string Username, int NNgu, int CoAll)
+        {
+            DataTable tb = new DataTable();
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "SP_Y_GET_DANG_NHAP_KHO"));
+
+            if (CoAll == 1)
+            {
+            }
+            else
+            {
+                tb = tb.AsEnumerable().Where(x => Convert.ToInt32(x["MS_DANG_NHAP"]) < 9).CopyToDataTable();
+                tb.Rows.Add(-1, "");
+            }
+            var listItem = tb.AsEnumerable().Select(
+             x => new SelectListItem
+             {
+                 Text = x.Field<string>("TEN_DANG_NHAP"),
+                 Value = x.Field<int>("MS_DANG_NHAP").ToString()
+             }).OrderBy(x => x.Value);
+            return new SelectList(listItem, "Value", "Text", null);
+        }
+
+        public SelectList GetCbbTrong()
+        {
+            DataTable tb = new DataTable();
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString,CommandType.Text," SELECT -1 as MA, '' as TEN "));
+            var listItem = tb.AsEnumerable().Select(
+             x => new SelectListItem
+             {
+                 Text = x.Field<string>("TEN"),
+                 Value = x.Field<int>("MA").ToString()
+             });
+            return new SelectList(listItem, "Value", "Text", null);
+        }
+
+        public SelectList GetCbbDangxuat(string Username, int NNgu, int CoAll)
+        {
+            DataTable tb = new DataTable();
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "GetDANG_XUATALL",NNgu));
+
+            if (CoAll == 1)
+            {
+            }
+            else
+            {
+                tb = tb.AsEnumerable().Where(x => Convert.ToInt32(x["MS_DANG_XUAT"]) < 9).CopyToDataTable();
+                tb.Rows.Add(-1, "");
+            }
+            var listItem = tb.AsEnumerable().Select(
+             x => new SelectListItem
+             {
+                 Text = x.Field<string>("DANG_XUAT"),
+                 Value = x.Field<int>("MS_DANG_XUAT").ToString()
+             }).OrderBy(x => x.Value);
+            return new SelectList(listItem, "Value", "Text", null);
+        }
+
+        //Phiếu bảo trì xuất
+        public SelectList GetCbbPhieuBaoTriXuat()
+        {
+            DataTable tb = new DataTable();
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "QL_LIST_PHIEU_BAO_TRI"));
+            DataRow newRow = tb.NewRow();
+            newRow[0] = "-1";
+            newRow[1] = "";
+            tb.Rows.InsertAt(newRow,0);
+            var listItem = tb.AsEnumerable().Select(
+             x => new SelectListItem
+             {
+                 Text = x.Field<string>("TEN"),
+                 Value = x.Field<string>("MA")
+             });
+            return new SelectList(listItem, "Value", "Text", null);
+        }
+        //bộ phận chịu phí
+        public SelectList GetCbbBoPhanChiuPhi(string Username)
+        {
+            DataTable tb = new DataTable();
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "GetBPCPhiAll",0,Username));
+            DataRow newRow = tb.NewRow();
+            newRow[0] = "-1";
+            newRow[1] = "";
+            tb.Rows.InsertAt(newRow, 0);
+            var listItem = tb.AsEnumerable().Select(
+             x => new SelectListItem
+             {
+                 Text = x.Field<string>("TEN_BP_CHIU_PHI"),
+                 Value = x.Field<int>("MS_BP_CHIU_PHI").ToString()
+             }).OrderBy(x => x.Value);
+            return new SelectList(listItem, "Value", "Text", null);
+        }
+
+        public SelectList GetCbbDDH(string Username, int NNgu, int CoAll, int dexuat)
+        {
+            DataTable tb = new DataTable();
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "SP_Y_GET_DON_DAT_HANG_NHAP_KHO_1",Username));
+            if (dexuat != -1)
+            {
+           
+                tb = tb.AsEnumerable().Where(x => x["DON_HANG"].ToString() == dexuat.ToString()).Take(100).CopyToDataTable();
+            }
+            if (CoAll == 1)
+            {
+                DataRow newRow = tb.NewRow();
+                newRow[0] = "-1";
+                newRow[1] = " <ALL> ";
+                newRow[2] = 0;
+                tb.Rows.InsertAt(newRow, 0);
+            }
+            else
+            {
+                DataRow newRow = tb.NewRow();
+                newRow[0] = "-1"; // Gán giá trị cho cột 1
+                newRow[1] = ""; // Gán giá trị cho cột 2
+                newRow[2] = 0; // Gán giá trị cho cột 3
+                tb.Rows.InsertAt(newRow, 0);
+            }
+            var listItem = tb.AsEnumerable().Select(
+             x => new SelectListItem
+             {
+                 Text = x.Field<string>("TEN_DON_DAT_HANG"),
+                 Value = x.Field<string>("MS_DON_DAT_HANG")
+             });
+            return new SelectList(listItem, "Value", "Text", null);
+        }
+
+
+        public SelectList GetCbbNguoiNhap(string Username, int NNgu, int CoAll, int khachhang, int vaitro)
+        {
+            DataTable tb = new DataTable();
+
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "SP_Y_GET_NGUOI_NHAP_KHO",Username));
+            if(vaitro == -1)
+            {
+
+                tb = tb.AsEnumerable().Where(x =>Convert.ToInt32(x["VTRO"]) == vaitro).CopyToDataTable();
+            }
+            else
+            {
+                tb = tb.AsEnumerable().Where(x => (Convert.ToInt32(x["KHACH_HANG"]) == khachhang || khachhang == -1) && Convert.ToInt32(x["VTRO"]) == vaitro).CopyToDataTable();
+            }
+
+            if (CoAll == 1)
+            {
+                tb.Rows.Add("-1", " < ALL > ",1,-1);
+            }
+            else
+            {
+                tb.Rows.Add("-1", "", 1, -1);
+            }
+            var listItem = tb.AsEnumerable().Select(
+             x => new SelectListItem
+             {
+                 Text = x.Field<string>("TEN_NGUOI_NHAP"),
+                 Value = x.Field<string>("MS_NGUOI_NHAP")
+             }).OrderBy(x => x.Text);
+            return new SelectList(listItem.Distinct(), "Value", "Text", null);
+        }
+
+        public SelectList GetCbbNguoiXuat(string Username, int NNgu, int CoAll, int khachhang, int vaitro)
+        {
+            DataTable tb = new DataTable();
+
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "SP_Y_GET_NGUOI_XUAT_KHOT_KHO", Username));
+            if (vaitro == -1)
+            {
+
+                tb = tb.AsEnumerable().Where(x => Convert.ToInt32(x["VTRO"]) == vaitro).CopyToDataTable();
+            }
+            else
+            {
+                tb = tb.AsEnumerable().Where(x => (Convert.ToInt32(x["KHACH_HANG"]) == khachhang || khachhang == -1) && Convert.ToInt32(x["VTRO"]) == vaitro).CopyToDataTable();
+            }
+
+            if (CoAll == 1)
+            {
+                tb.Rows.Add("-1", " < ALL > ", 1, -1);
+            }
+            else
+            {
+                tb.Rows.Add("-1", "", 1, -1);
+            }
+            var listItem = tb.AsEnumerable().Select(
+             x => new SelectListItem
+             {
+                 Text = x.Field<string>("TEN_NGUOI_NHAP"),
+                 Value = x.Field<string>("MS_NGUOI_NHAP")
+             }).OrderBy(x => x.Text);
+            return new SelectList(listItem.Distinct(), "Value", "Text", null);
+        }
+
         public SelectList GetCbbLoaiMay(string Username, int NNgu, int CoAll)
         {
             DataTable tb = new DataTable();
@@ -140,7 +346,7 @@ namespace VietSoft.CMMS.Web.Services
              });
             return new SelectList(listItem, "Value", "Text", null);
         }
-        public SelectList GetCbbMay(string DD,int DC,string Username, int NNgu, int CoAll)
+        public SelectList GetCbbMay(string DD, int DC, string Username, int NNgu, int CoAll)
         {
             DataTable tb = new DataTable();
             tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "SP_Y_GET_MAY_WEB", Username, NNgu, "-1", DD, DC, "-1", "-1", "-1"));
@@ -151,7 +357,7 @@ namespace VietSoft.CMMS.Web.Services
             else
             {
                 tb.Rows.Add("-1", "", "-1");
-            }    
+            }
             tb.DefaultView.Sort = "TEN_MAY";
             tb = tb.DefaultView.ToTable();
             var listItem = tb.AsEnumerable().Select(
@@ -162,6 +368,7 @@ namespace VietSoft.CMMS.Web.Services
              });
             return new SelectList(listItem, "Value", "Text", null);
         }
+
         public SelectList GetCbbLoaiCV(string Username, int NNgu, int CoAll)
         {
             DataTable dtTmp = new DataTable();
@@ -180,7 +387,7 @@ namespace VietSoft.CMMS.Web.Services
             return new SelectList(listItem, "Value", "Text", null);
         }
 
-     
+
         public SelectList LoadListThietBi()
         {
             DataTable dtTmp = new DataTable();
@@ -271,7 +478,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
         // Đạt sửa 10101999
-        public SelectList GetCbbBoPhan(string msmay,string Username, int NNgu, int CoAll)
+        public SelectList GetCbbBoPhan(string msmay, string Username, int NNgu, int CoAll)
         {
             DataTable dtTmp = new DataTable();
             SqlCommand sqlcom = new SqlCommand();
@@ -299,7 +506,7 @@ namespace VietSoft.CMMS.Web.Services
             return new SelectList(listItem, "Value", "Text", null);
         }
 
-        public SelectList GetCbbPhuTung(string msmay,string msbp, string Username, int NNgu, int CoAll)
+        public SelectList GetCbbPhuTung(string msmay, string msbp, string Username, int NNgu, int CoAll)
         {
             DataTable dtTmp = new DataTable();
             SqlCommand sqlcom = new SqlCommand();

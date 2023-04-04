@@ -1,10 +1,10 @@
 ﻿@using VietSoft.CMMS.Web.Resources;
 @using VietSoft.CMMS.Web.Helpers;
-@model PagedList<VietSoft.CMMS.Web.Models.GoodReceiptViewModel>
+@model PagedList<VietSoft.CMMS.Web.Models.GoodIssueViewModel>
 
 @if (Model != null && Model.Data.Count > 0)
 {
-    <table class="table table-striped" cellspacing="0" id="tbGoodReceipt" style="width:100% !important">
+    <table class="table table-striped" cellspacing="0" id="tbGoodIssue" style="width:100% !important">
         <thead>
             <tr>
                 <td width="25%" class="col-grid-table">
@@ -28,11 +28,11 @@
             {
                 <tr style="color:@(item.LOCK == true ? "#008001" : "black")">
                     <td>
-                        <a style="color:#113186;" href="/GoodReceipt/EditGoodReceipt?mspn=@item.MS_DH_NHAP_PT" class="card-value">@item.MS_DH_NHAP_PT</a>
+                        <a style="color:#113186;" href="/GoodIssue/EditGoodIssue?mspx=@item.MS_DH_XUAT_PT" class="card-value">@item.SO_PHIEU_XN</a>
                         @*@item.MS_DH_NHAP_PT*@
                     </td>
                     <td>
-                        @item.DANG_NHAP
+                        @item.DANG_XUAT
                     </td>
                     <td>
                         @item.NGAY.ToString(Setting.FORMAT_DATE)

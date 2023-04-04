@@ -1,7 +1,7 @@
 ﻿@using VietSoft.CMMS.Web.Resources
 @using VietSoft.CMMS.Web.Helpers
 @{
-    ViewBag.Title = "DANH SÁCH PHIẾU NHẬP KHO";
+    ViewBag.Title = "BÁO CÁO XUẤT NHẬP TỒN";
 }
 
 <div class="row">
@@ -12,7 +12,7 @@
                     <button class="accordion-button collapsed w-50" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
                     </button>
                 </p>
-                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                     <div class="accordion-body">
                         <form id="formSubmitRequest">
                             <div class="form-floating break-line">
@@ -46,45 +46,36 @@
         </div>
       
         <div class="row mb-2">
-            <div class="form-floating position-relative">
-                @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder=@ViewText.TXT_SEARCH})
-                <i class="bi bi-search icon-obsolute"></i>
+            <div class="form-floating break-line">
+                <select id="cboPhuTung" name="cboPhuTung" asp-items="@ViewBag.ListPhuTung" class="form-control form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+                </select>
+                <label for="cboPhuTung">Scan phụ tùng</label>
+                <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
+                    <img src="~/images/barcode.png" alt="image" style="margin-right: 1rem;" class="icon-barcode">
+                </a>
             </div>
+
             <div class="col-md-12 offset-md-12 col-xs-12  px-0">
-                <div id="GetGoodReceipt">
+                <div id="GetNhapXuatTon">
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-
-<nav class="fixed-bottom">
-    <div class="navbar-button  text-center text-white">
-        <div id="button-container" class="btn-group">
-            <a id="btnAddGoodReceipt" class="btn btn-outline-primary m-1" role="button">
-                <i class="fa fa-plus fs-7" aria-hidden="true"></i>
-            </a>
-        </div>
-    </div>
-</nav>
-
 <br />
 <br />
 
 @section scripts {
-    <script src="~/lib/jquery.twbsPagination/jquery.twbsPagination.min.js"></script>
     <script>
         var config = {
-            GET_GOODRECEIPT: '@Url.Action("GetListGoodReceipt", "GoodReceipt")',
-            ADD_GOODRECEIPT: '@Url.Action("AddGoodReceipt", "GoodReceipt")',
-            PAGE_SIZE: 10
+            GET_NHAPXUATTON: '@Url.Action("GetBaoCaoNhapXuatTon", "BCNhapXuatTon")',
         }
     </script>
-    <script src="~/js/pages/goodreceipt.js" asp-append-version="true"></script>
+    <script src="~/js/pages/nhapxuaton.js" asp-append-version="true"></script>
     <script>
         $(document).ready(function () {
-            GoodReceiptModule.init();
+            NhapXuatTonModule.init();
         });
     </script>
 }

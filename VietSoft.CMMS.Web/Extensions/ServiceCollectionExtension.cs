@@ -17,6 +17,7 @@ namespace VietSoft.CMMS.Web.Extensions
             services.TryAddScoped<IMaintenanceService, MaintenanceService>();
             services.TryAddScoped<IDeviceService, DeviceService>();
             services.TryAddScoped<IGoodReceiptService, GoodReceiptService>();
+            services.TryAddScoped<IGoodIssueService, GoodIssueService>();
         }
     }
 }
