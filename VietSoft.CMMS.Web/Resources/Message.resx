@@ -129,6 +129,9 @@
   <data name="CHANGE_PASS_SUCCESS" xml:space="preserve">
     <value>Đổi mật khẩu thành công.</value>
   </data>
+  <data name="CHUYEN_CONGVIEC_QUA_KEHOACH" xml:space="preserve">
+    <value>Bạn có muốn chuyển công việc qua kế hoạch tổng thể?</value>
+  </data>
   <data name="COLOI_XAYRA" xml:space="preserve">
     <value>Đã có lỗi xảy ra.</value>
   </data>
@@ -138,11 +141,23 @@
   <data name="FIELD_REQUIRED" xml:space="preserve">
     <value>Không được để trống.</value>
   </data>
+  <data name="KHOA_PHIEU_NHAP" xml:space="preserve">
+    <value>Bạn có muốn khóa phiếu nhập kho này không?</value>
+  </data>
+  <data name="KHOA_PHIEU_XUAT" xml:space="preserve">
+    <value>Bạn có muốn khóa phiếu xuất kho này không?</value>
+  </data>
   <data name="LINK_FORGOT_PASS_EXPIRED" xml:space="preserve">
     <value>Link đã hết hạn. Vui lòng gửi lại yêu cầu thay đổi mật khẩu và truy cập vào link mới.</value>
   </data>
   <data name="LOGIN_FAILED" xml:space="preserve">
     <value>Tên đăng nhập hoặc mật khẩu không đúng.</value>
+  </data>
+  <data name="MESS_CHUA_CO_PHU_TUNG" xml:space="preserve">
+    <value>Chưa có phụ tùng cho phiếu bảo trì</value>
+  </data>
+  <data name="MESS_TU_GIO_KHONG_LON_HON_DEN_GIO" xml:space="preserve">
+    <value>Từ giờ không được lớn hơn đến giờ</value>
   </data>
   <data name="NHAPLAI_MK_KHONGDUNG" xml:space="preserve">
     <value>Nhập lại mật khẩu không đúng.</value>
@@ -158,5 +173,26 @@
   </data>
   <data name="XACNHAN_HOANTHANH_PHIEUBAOTRI" xml:space="preserve">
     <value>Bạn có muốn hoàn thành khai báo phiếu bảo trì?</value>
+  </data>
+  <data name="XOA_CONG_VIEC" xml:space="preserve">
+    <value>Bạn có muốn xóa công việc này không?</value>
+  </data>
+  <data name="XOA_NHAP_KHO" xml:space="preserve">
+    <value>Bạn có muốn xóa phiếu nhập kho này không?</value>
+  </data>
+  <data name="XOA_PHIEU_BAO_TRI" xml:space="preserve">
+    <value>Bạn có muốn xóa phiếu bảo trì này không?</value>
+  </data>
+  <data name="XOA_PHIEU_XUAT" xml:space="preserve">
+    <value>Bạn có muốn xóa phiếu xuất kho này không?</value>
+  </data>
+  <data name="XOA_PHU_TUNG_NHAP" xml:space="preserve">
+    <value>Bạn có muốn xóa phụ tùng cho phiếu nhập kho này?</value>
+  </data>
+  <data name="XOA_PHU_TUNG_XUAT" xml:space="preserve">
+    <value>Bạn có muốn xóa phụ tùng cho phiếu xuất kho này không?</value>
+  </data>
+  <data name="XOA_YEU_CAU" xml:space="preserve">
+    <value>Bạn có muốn xóa yêu cầu này không?</value>
   </data>
 </root>

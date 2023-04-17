@@ -7,12 +7,13 @@ namespace VietSoft.CMMS.Web.IServices
 {
     public interface IComboboxService
     {
-        SelectList DangPhanBo();
+        SelectList DangPhanBo(int NNgu);
+        SelectList CboNgoaiTe();
         SelectList DanhSachKho(string Username);
         //SelectList DanhSachDangNhap();
-        SelectList DanhSachNguyenNhan();
+        SelectList DanhSachNguyenNhan(int NNgu);
         SelectList DanhSachLoaiBT();
-        SelectList DanhSachPhuTung();
+        SelectList DanhSachPhuTung(int NNgu);
         SelectList GetCbbDiaDiem(string UserName, int NNgu, int CoAll);
         SelectList GetLoaiMayAll(string UserName, int NNgu, int CoAll);
         SelectList GetCbbHeThong(string UserName, int NNgu, int CoAll);
@@ -43,7 +44,7 @@ namespace VietSoft.CMMS.Web.IServices
         //Đạt sửa 26122022
         SelectList GetCbbNYC(string Username, int NNgu, int CoAll);
 
-        IEnumerable<MaintenanceCategoryViewModel> GetMaintenanceCategoy();
+        IEnumerable<MaintenanceCategoryViewModel> GetMaintenanceCategoy(int msHT);
         IEnumerable<PriorityCategoryViewModel> GetPriorityCategory(int NN);
     }
 }

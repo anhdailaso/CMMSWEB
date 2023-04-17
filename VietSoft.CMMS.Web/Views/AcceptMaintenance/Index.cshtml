@@ -1,7 +1,7 @@
 ﻿@using VietSoft.CMMS.Web.Resources
 @using VietSoft.CMMS.Web.Helpers
 @{
-    ViewBag.Title = "NGHIỆM THU PHIẾU BẢO TRÌ";
+    ViewBag.Title = @ViewText.TITLE_NGHIEM_THU_PBT;
     ViewBag.BackUrl = @Url.Action("Index", "Home", new { });
 }
 <style>
@@ -39,7 +39,7 @@
                     <span class="input-group-append d-flex align-items-center">
                         <i class="bi bi-calendar4-week date-icon "></i>
                     </span>
-                    <label for="from">@ViewText.TXT_TUNGAY</label>
+                    <label for="from">@ViewText.LBL_TUNGAY</label>
                     <div id="from-error"></div>
                 </div>
 
@@ -48,7 +48,7 @@
                     <span class="input-group-append d-flex align-items-center">
                         <i class="bi bi-calendar4-week date-icon"></i>
                     </span>
-                    <label for="toDate">@ViewText.TXT_DENNGAY</label>
+                    <label for="toDate">@ViewText.LBL_DENNGAY</label>
                     <div id="toDate-error"></div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
             @*<div style="border-bottom:1px solid gray" class="break-line"></div>*@
         </form>
         <div class="position-relative">
-            @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder=@ViewText.TXT_SEARCH})
+            @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder=@ViewText.LBL_SEARCH})
             <i class="bi bi-search icon-obsolute"></i>
         </div>
         <div class="col-md-12 offset-md-12 col-xs-12  px-0">

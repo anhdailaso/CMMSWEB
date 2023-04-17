@@ -1,7 +1,6 @@
 ﻿var WorkOrderModule = WorkOrderModule || (function (window, $, config) {
     var contentDataList = "#GetWorkOrder";
     var delayTimer;
-    var validate = false;
     var bload = false;
     function init() {
         //$(document).ready(function () {
@@ -20,19 +19,16 @@
         });
 
         $('#cboLoaiBaoTri').val($('#MS_LOAI_BT').val()).change();
-        $('#cboUuTien').val($('#MS_UU_TIEN').val()).change();
+        //$('#cboUuTien').val($('#MS_UU_TIEN').val()).change();
         if ($('#flag').val() != 0) {
             $("#cboLoaiBaoTri").prop("disabled", true);
+            $("#cboUuTien").prop("disabled", true);
             $('span [role=combobox]').css('background-color', '#FFFFFF');
         }
         bload = true;
 
         initEvent();
-
-
     }
-
-
     function initEvent() {
         CalculatePlanDate()
 
@@ -128,7 +124,18 @@
                     return false;
                 }
             }
-          
+
+        })
+        $(document).on("blur", '.SoLuongKH', function () {
+            var maxvalue = parseFloat($(this).attr("max"));
+            if (maxvalue > 0) {
+                if (parseFloat($(this).val()) > maxvalue) {
+                    $(this).val(maxvalue);
+                    $(this).focus();
+                    return false;
+                }
+            }
+
         })
         //let dept = $(this).data('dept')
         //let mscv = $(this).data('mscv');
@@ -184,9 +191,10 @@
                 let rowId = `#flush-collapse-` + $('#MS_CV').val()
 
                 let html = ` <tr>
-                                <td width="30%" style="line-height:2.3rem">`+ mspt +`</td>
-                                <td width="30%" style="line-height:2.3rem">`+ msvt +`</td>
-                                <td width="30%"> <input class="form-control SoLuongTT" style="font-size:0.8rem;" type="number" min="0" max="`+ (msvt == '' ? 9999 : sl) +`" value="`+ sl +`" placeholder="số lượng" /></td>
+                                <td width="30%" style="line-height:2.3rem">`+ mspt + `</td>
+                                <td width="30%" style="line-height:2.3rem">`+ msvt + `</td>
+ <td width="15%"> <input class="form-control SoLuongKH" style="font-size:0.8rem;color:#198754 !important;border-color:#198754 !important;" type="number" min="0" max="`+ (msvt == '' ? 9999 : sl) + `" value="` + sl + `" placeholder="` + config.LBL_SO_LUONG + `" /></td>
+<td width="15%"> <input class="form-control SoLuongTT" style="font-size:0.8rem;" type="number" min="0" max="`+ (msvt == '' ? 9999 : sl) + `" value="` + sl + `" placeholder="` + config.LBL_SO_LUONG + `" /></td>
                                 <td width="10%">
                                     <p style="margin-top: 10px;"><a class="remove-row"><i class="fa fa-trash-o fa-lg text-danger"></i></a></p>
                                 </td>
@@ -217,7 +225,9 @@
                         showSuccess(response.responseMessage)
                         setTimeout(function () {
                             //window.history.back(1)
-                            window.location.href = config.MyEcomaint;
+                            //window.location.href = config.MyEcomaint;
+                            window.location.href = "/Home/WorkOrder?msmay=" + $('#MS_MAY').val() + "&tenmay=" + $('#emp-code').text() + "&flag=1";
+
                         }, 600)
 
                     }
@@ -335,11 +345,13 @@
                 let mspt = $(this).find('td').eq(0).text()
                 let msvt = $(this).find('td').eq(1).text()
                 let sl = $(this).find('td').eq(2).find('input').val()
+                let sltt = $(this).find('td').eq(3).find('input').val()
 
                 let obj = {
                     MS_PT: mspt,
                     MS_VI_TRI_PT: msvt,
                     SL_KH: sl,
+                    SL_TT: sltt,
                     MS_BO_PHAN: msbp,
                     MS_CV: mscv
                 }
@@ -382,7 +394,7 @@
                 MS_CV: mscv,
                 MS_BO_PHAN: msbp
             }
-            ShowConfirm("Bạn có muốn chuyển công việc qua kế hoạch tổng thể?", 'warning', '', function (result) {
+            ShowConfirm(config.MESS_CHUYEN_CONGVIEC_QUA_KEHOACH, 'warning', '', function (result) {
                 if (result == true) {
                     $.ajax({
                         type: "POST",
@@ -416,7 +428,7 @@
                 MS_CV: mscv,
                 MS_BO_PHAN: msbp
             }
-            ShowConfirm("Bạn có muốn xóa công việc này?", 'warning', '', function (result) {
+            ShowConfirm(config.MESS_XOA_CONG_VIEC, 'warning', '', function (result) {
                 if (result == true) {
                     $.ajax({
                         type: "POST",
@@ -446,7 +458,7 @@
             let model = {
                 MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),
             }
-            ShowConfirm("Bạn có muốn xóa phiếu bảo trì này?", 'warning', '', function (result) {
+            ShowConfirm(config.MESS_XOA_PHIEU_BAO_TRI, 'warning', '', function (result) {
                 if (result == true) {
                     $.ajax({
                         type: "POST",
@@ -479,6 +491,12 @@
                 let valFromDate = $(this).find('input.fromDate').val();
                 let valToDate = $(this).find('input.toDate').val();
 
+                let fromDate = moment(valFromDate, _formatDateTime).toDate();
+                let toDate = moment(valToDate, _formatDateTime).toDate();
+                if (fromDate >= toDate) {
+                    showWarning(config.MESS_TU_GIO_KHONG_LON_HON_DEN_GIO);
+                    return;
+                }
                 let times = $(this).find('td').eq(2).find('p').text()
                 let mscn = $(this).find('td').eq(3).text()
                 let obj = {
@@ -518,7 +536,21 @@
         });
 
         $('#btnXemtonkho').on('click', function () {
-            XemTonKho();
+            $.ajax({
+                type: "POST",
+                url: config.CHECK_TON_KHO,
+                data: { ticketId: $('#MS_PHIEU_BAO_TRI').val(), },
+                success: function (response) {
+                    if (response.responseCode == 1) {
+                        XemTonKho();
+                    }
+                    else {
+                        showWarning(response.responseMessage)
+                    }
+                },
+                complete: function () {
+                }
+            });
         });
 
         $(document).on("click", '#btnAddMaintenanceWork', function () {
@@ -549,7 +581,8 @@
                         </tr>`
 
             $('#tblLogWork tbody').prepend(html)
-            setDateTimePicker('.fromDate', moment(new Date(), _formatDateTime).toDate())
+
+            setDateTimePicker('.fromDate', moment(new Date(), _formatDateTime).subtract(1, 'hour').toDate())
             setDateTimePicker('.toDate', moment(new Date(), _formatDateTime).toDate())
         });
 
@@ -562,9 +595,15 @@
             let fromDate = moment(valFromDate, _formatDateTime).toDate();
             let toDate = moment(valToDate, _formatDateTime).toDate();
 
-            let diffTime = getDiffTimes(fromDate, toDate)
-            let hours = diffTime > 0 ? diffTime : 0
-            $(this).closest('tr').find("p.hours").text(Math.round(hours * 100) / 100)
+            let hoursDiff = Math.floor((toDate - fromDate) / 60000);
+            if (hoursDiff <= 0) {
+                showWarning(config.MESS_TU_GIO_KHONG_LON_HON_DEN_GIO);
+                $(this).closest('tr').find('input.fromDate').focus();
+            }
+            //let diffTime = getDiffTimes(fromDate, toDate)
+            //let hours = diffTime > 0 ? diffTime : 0
+            //$(this).closest('tr').find("p.hours").text(Math.round(hours * 100) / 100)
+            $(this).closest('tr').find("p.hours").text(getHoursAndMinusText(hoursDiff / 60))
         });
     }
 

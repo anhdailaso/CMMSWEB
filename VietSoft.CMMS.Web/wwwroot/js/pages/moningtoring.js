@@ -39,7 +39,6 @@
                     lstParameter[cur_length].DUONG_DAN = $(obj).closest('.accordion-item.border-0.break-line').find('[data-com="' + $(obj).attr('data-msbophan') + '"][data-mor="' + $(obj).attr('data-msthongso') + '"]').attr('data-pat');
                     cur_length = cur_length + 1;
                 })
-
                 $(this).find('tr input[type=text]:not([value=""])').each(function (i, obj) {
                     if ($(obj).val() !== '') {
                         lstParameter[cur_length] = new Object();

@@ -24,6 +24,9 @@ namespace VietSoft.CMMS.Web.Models
         public string MS_DHX { get; set; }
         public string NGUOI_NHAP { get; set; }
         public string SO_CHUNG_TU { get; set; }
+        //[DisplayFormat(DataFormatString = "{dd/mm/yyyy}")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? NGAY_CHUNG_TU { get; set; }
         public string GHI_CHU { get; set; }
         public bool LOCK { get; set; }
@@ -75,6 +78,8 @@ namespace VietSoft.CMMS.Web.Models
         public string MS_DH_NHAP_PT { get; set; }
         public string MS_PT { get; set; }
         public string XUAT_XU { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? BAO_HANH_DEN_NGAY { get; set; }
         [DisplayFormat(DataFormatString = "{0:N5}", ApplyFormatInEditMode = true)]
         public float TY_GIA { get; set; }

@@ -4,7 +4,9 @@
     <h5>Nhập thêm thông tin VTPT</h5>
     <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
 </div>
-
+<form id="myFormNhapMore">
+   @Html.HiddenFor(x=>x.MS_DH_NHAP_PT)
+    @Html.HiddenFor(x=>x.MS_PT)
 <div class="modal-body">
     <div class="form-floating  break-line">
         @Html.TextBoxFor(model=>model.XUAT_XU,new {@class = "form-control", autocomplete = "off" , placeholder="Xuất xứ" })
@@ -23,13 +25,13 @@
         @Html.TextBoxFor(model => model.TY_GIA, new {@class = "form-control", @autocomplete = "off", @placeholder = "Tỷ giá" })
         <label for="TY_GIA">Tỷ giá</label>
     </div>
-
 </div>
+</form>
 
 
 <div class="modal-footer justify-content-between gap-1 flex-nowrap">
     <button type="button" class="btn btn-outline-danger w-50" onclick="ClosePopup(this)" id="btnCancel">@ViewText.BTN_DONG</button>
-    <button type="button" class="btn btn-primary w-50" id="btnAddSupplies">@ViewText.BTN_LUU</button>
+    <button type="button" class="btn btn-primary w-50" id="btnSuaThongTinPhuTung">@ViewText.BTN_LUU</button>
 </div>
 
 
@@ -45,6 +47,7 @@
         }
         $(this).val(value);
     });
+
     $('#BAO_HANH_DEN_NGAY').datetimepicker({
         locale: 'vi',
         useCurrent: false,
@@ -54,6 +57,8 @@
             vertical: 'bottom'
         }
     });
+
+
 </script>
 
 

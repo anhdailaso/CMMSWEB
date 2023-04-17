@@ -36,24 +36,24 @@ namespace VietSoft.CMMS.Web.Controllers
         }
         public IActionResult HistoryIndex()
         {
-            SelectList listMAY = _combobox.GetCbbMay("-1", -1, SessionManager.CurrentUser.UserName, 0, 1);
+            SelectList listMAY = _combobox.GetCbbMay("-1", -1, SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1);
             SelectListItem itemMay = listMAY.Where(x => x.Value.ToString() == "-1").FirstOrDefault();
             itemMay.Text = "";
             ViewBag.ListMAY = listMAY;
 
-            ViewBag.ListBoPhan = _combobox.GetCbbBoPhan("-1",SessionManager.CurrentUser.UserName, 0, 1);
-            ViewBag.ListPhuTung = _combobox.GetCbbPhuTung("-1","-1",SessionManager.CurrentUser.UserName, 0, 1);
+            ViewBag.ListBoPhan = _combobox.GetCbbBoPhan("-1",SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1);
+            ViewBag.ListPhuTung = _combobox.GetCbbPhuTung("-1","-1",SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1);
             return View();
         }
         public ActionResult getBoPhan(string msmay)
         {
-            SelectList lst = _combobox.GetCbbBoPhan(msmay, SessionManager.CurrentUser.UserName, 0, 1);
+            SelectList lst = _combobox.GetCbbBoPhan(msmay, SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1);
             return Json(lst);
         }
 
         public ActionResult getPhuTung(string msmay,string msbp)
         {
-            SelectList lst = _combobox.GetCbbPhuTung(msmay, msbp, SessionManager.CurrentUser.UserName, 0, 1);
+            SelectList lst = _combobox.GetCbbPhuTung(msmay, msbp, SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1);
             return Json(lst);
         }
 
@@ -72,7 +72,7 @@ namespace VietSoft.CMMS.Web.Controllers
             {
                 DateTime? toDate = DateTime.ParseExact(tungay, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 DateTime? fromDate = DateTime.ParseExact(denngay, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                res = _historyService.GetListHistory(user, 0, toDate, fromDate, msmay, ttphutung, mabp, mapt, pageIndex, pageSize);
+                res = _historyService.GetListHistory(user, SessionManager.CurrentUser.TypeLangue, toDate, fromDate, msmay, ttphutung, mabp, mapt, pageIndex, pageSize);
                 result = new PagedList<HistoryViewModel>(res, res.Count, pageIndex, pageSize);
             }
             else

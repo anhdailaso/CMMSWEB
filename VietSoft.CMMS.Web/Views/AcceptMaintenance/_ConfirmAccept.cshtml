@@ -19,15 +19,15 @@
         </div>
 
         <div class="form-floating  break-line">
-            @Html.TextAreaFor(model=>model.TT_SAU_BT,new {@class = "form-control", maxlength = 250, autocomplete = "off" , placeholder="Tình trạng sau bảo trì", required ="required",title="Không được để trống." })
+            @Html.TextAreaFor(model=>model.TT_SAU_BT,new {@class = "form-control", maxlength = 250, autocomplete = "off" , placeholder=@ViewText.LBL_TT_SAU_BT, required ="required",title="Không được để trống." })
             @Html.ValidationMessageFor(model=>model.TT_SAU_BT)
-            <label for="TT_SAU_BT">Tình trạng sau bảo trì</label>
+            <label for="TT_SAU_BT">@ViewText.LBL_TT_SAU_BT</label>
         </div>
 
         <div class="form-floating  break-line">
             @*@Html.TextBoxFor(model => model.CHI_PHI_KHAC, new { @class = "form-control", @type = "number", @step = "0.01", @value = String.Format("{0:C}", Model.CHI_PHI_KHAC) })*@
-            @Html.TextBoxFor(model=>model.CHI_PHI_KHAC,new {@class = "form-control", autocomplete = "off" , placeholder="Chi phí khác" })
-            <label for="CHI_PHI_KHAC">Chi phí khác</label>
+            @Html.TextBoxFor(model=>model.CHI_PHI_KHAC,new {@class = "form-control", autocomplete = "off" , placeholder= @ViewText.LBL_CHI_PHI_KHAC })
+            <label for="CHI_PHI_KHAC">@ViewText.LBL_CHI_PHI_KHAC</label>
         </div>
 
     </div>

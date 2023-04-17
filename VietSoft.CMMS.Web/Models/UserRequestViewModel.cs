@@ -22,10 +22,20 @@ namespace VietSoft.CMMS.Web.Models
         public bool HONG { get; set; }
         public string Files { get; set; }
         public List<ImageFiles> ListImage { get; set; }
-        public string USERNAME { get; set; }
+        public string? USERNAME { get; set; }
         public int QUYEN { get; set; }
     }
 
+    public class AcceptUserRequest
+    {
+        public Int64 STT { get; set; }
+        public string MS_MAY { get; set; }
+        public int LOAI { get; set; }
+        public string TEN_MAY { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Message), ErrorMessageResourceName = "FIELD_REQUIRED")]
+        public string GHI_CHU { get; set; }
+
+    }
     public class ImageFiles 
     {
         public string DUONG_DAN { get; set; }

@@ -1,7 +1,7 @@
 ﻿@using VietSoft.CMMS.Web.Resources
 @using VietSoft.CMMS.Web.Helpers
 @{
-    ViewBag.Title = "Dashboard";
+    ViewBag.Title = ViewText.TITLE_DASH_BOARD;
     ViewBag.BackUrl = @Url.Action("Index", "Home", new { });
     ViewData["RemoveTitle"] = false;
 }
@@ -20,8 +20,8 @@
     <!-- User PROFILE BLOCK -->
     <div class="col-sm-4 col-lg-4">
         <div class="dash-unit">
-            <dtitle data-lang="lblUserProfile">
-                Thông Tin Người Dùng
+            <dtitle>
+                    @ViewText.LBL_THONG_TIN_NGUOI_DUNG
             </dtitle>
             <hr>
             @*<div class="thumbnail ">
@@ -43,7 +43,7 @@
     </div>
     <div class="col-sm-8 col-lg-8">
         <div class="dash-unit">
-            <dtitle data-lang="lblTinhTrangPBT">Tình Trạng Phiếu Bảo Trì</dtitle>
+            <dtitle >@ViewText.LBL_TINH_TRANG_PBT</dtitle>
             <hr>
             <div class="section-graph">
                 <div id="importantchart"></div>
@@ -54,7 +54,7 @@
 <div class="row">
     <div class="col-sm-6 col-lg-6">
         <div class="dash-unit">
-            <dtitle data-lang="lblHienTrangSuDungMay">Hiện Trạng Sử Dụng Máy</dtitle>
+            <dtitle data-lang="lblHienTrangSuDungMay">@ViewText.LBL_HIEN_TRANG_SD_MAY</dtitle>
             <hr>
             <div class="section-graph-all">
                 <div id="load"></div>
@@ -63,7 +63,7 @@
     </div>
     <div class="col-sm-6 col-lg-6">
         <div class="dash-unit">
-            <dtitle data-lang="lblTinhTrangTB">Tình Trang Thiết Bị</dtitle>
+            <dtitle data-lang="lblTinhTrangTB">@ViewText.LBL_TINH_TRANG_THIET_BI</dtitle>
             <hr>
             <div class="section-graph-all">
                 <div id="space"></div>

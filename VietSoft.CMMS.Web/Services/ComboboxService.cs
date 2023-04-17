@@ -22,15 +22,28 @@ namespace VietSoft.CMMS.Web.Services
         {
             _dapper = dapper;
         }
-        public SelectList DangPhanBo()
+        public SelectList DangPhanBo(int NNgu)
         {
             DataTable tb = new DataTable();
-            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString,CommandType.Text, "SELECT CONVERT(INT,1) AS DANG_PB,(SELECT VIETNAM FROM dbo.LANGUAGES WHERE KEYWORD ='cmbPhanBoTheoSoLuong')  AS TEN_PB UNION SELECT 2 AS DANG_PB,(SELECT VIETNAM FROM dbo.LANGUAGES WHERE KEYWORD ='cmbPhanBoTheoGiatri')  AS TEN_PB ORDER BY DANG_PB"));
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString,CommandType.Text, "SELECT CONVERT(INT,1) AS DANG_PB,(SELECT (CASE "+ NNgu +" WHEN 0 THEN VIETNAM WHEN 1 THEN ISNULL(NULLIF(ENGLISH,''),VIETNAM) END)  FROM dbo.LANGUAGES WHERE KEYWORD ='cmbPhanBoTheoSoLuong')  AS TEN_PB UNION SELECT 2 AS DANG_PB,(SELECT (CASE "+ NNgu + " WHEN 0 THEN VIETNAM WHEN 1 THEN ISNULL(NULLIF(ENGLISH,''),VIETNAM) END) FROM dbo.LANGUAGES WHERE KEYWORD ='cmbPhanBoTheoGiatri')  AS TEN_PB ORDER BY DANG_PB"));
             var listItem = tb.AsEnumerable().Select(
              x => new SelectListItem
              {
                  Text = x.Field<string>("TEN_PB"),
                  Value = x.Field<int>("DANG_PB").ToString()
+             });
+            return new SelectList(listItem, "Value", "Text", null);
+        }
+
+        public SelectList CboNgoaiTe()
+        {
+            DataTable tb = new DataTable();
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, CommandType.Text, "SELECT NGOAI_TE,TEN_NGOAI_TE FROM dbo.NGOAI_TE ORDER BY MAC_DINH DESC,NGOAI_TE"));
+            var listItem = tb.AsEnumerable().Select(
+             x => new SelectListItem
+             {
+                 Text = x.Field<string>("NGOAI_TE"),
+                 Value = x.Field<string>("TEN_NGOAI_TE")
              });
             return new SelectList(listItem, "Value", "Text", null);
         }
@@ -50,10 +63,10 @@ namespace VietSoft.CMMS.Web.Services
 
 
 
-        public SelectList DanhSachNguyenNhan()
+        public SelectList DanhSachNguyenNhan(int NNgu)
         {
             DataTable tb = new DataTable();
-            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, System.Data.CommandType.Text, "SELECT MS_NGUYEN_NHAN AS 'Value',TEN_NGUYEN_NHAN AS 'Text' FROM NGUYEN_NHAN_DUNG_MAY ORDER BY TEN_NGUYEN_NHAN"));
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, System.Data.CommandType.Text, "SELECT MS_NGUYEN_NHAN AS 'Value',CASE "+ NNgu + " WHEN 0 THEN TEN_NGUYEN_NHAN ELSE ISNULL(NULLIF(TEN_NGUYEN_NHAN_ANH,''),TEN_NGUYEN_NHAN)  END  AS 'Text' FROM NGUYEN_NHAN_DUNG_MAY ORDER BY TEN_NGUYEN_NHAN"));
             var listItem = tb.AsEnumerable().Select(
                   x => new SelectListItem
                   {
@@ -76,10 +89,10 @@ namespace VietSoft.CMMS.Web.Services
             return new SelectList(listItem, "Value", "Text", null);
         }
 
-        public SelectList DanhSachPhuTung()
+        public SelectList DanhSachPhuTung(int NNgu)
         {
             DataTable tb = new DataTable();
-            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, System.Data.CommandType.Text, "SELECT '-1' AS MS_PT,'' AS TEN_PT UNION SELECT MS_PT,TEN_PT FROM dbo.IC_PHU_TUNG WHERE ACTIVE_PT = 1"));
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, System.Data.CommandType.Text, "SELECT '-1' AS MS_PT,'' AS TEN_PT UNION SELECT MS_PT,CASE "+ NNgu + " WHEN 0 THEN TEN_PT WHEN 1 THEN ISNULL(NULLIF(TEN_PT_ANH,''),TEN_PT) ELSE ISNULL(NULLIF(TEN_PT_HOA,''),TEN_PT) END TEN_PT FROM dbo.IC_PHU_TUNG WHERE ACTIVE_PT = 1"));
             var listItem = tb.AsEnumerable().Select(
                   x => new SelectListItem
                   {
@@ -89,11 +102,11 @@ namespace VietSoft.CMMS.Web.Services
             return new SelectList(listItem, "Value", "Text", null);
         }
 
-        public IEnumerable<MaintenanceCategoryViewModel> GetMaintenanceCategoy()
+        public IEnumerable<MaintenanceCategoryViewModel> GetMaintenanceCategoy(int msHTBT)
         {
             try
             {
-                string sql = "SELECT MS_LOAI_BT, TEN_LOAI_BT, HU_HONG FROM LOAI_BAO_TRI WHERE MS_HT_BT = 2 ORDER BY TEN_LOAI_BT";
+                string sql = "SELECT MS_LOAI_BT, TEN_LOAI_BT, HU_HONG FROM LOAI_BAO_TRI WHERE (MS_HT_BT = "+ msHTBT + " OR "+ msHTBT + " = -1 ) ORDER BY TEN_LOAI_BT";
                 var res = _dapper.GetAll<MaintenanceCategoryViewModel>(sql, null, System.Data.CommandType.Text);
 
                 return res ?? new List<MaintenanceCategoryViewModel>();
@@ -146,8 +159,7 @@ namespace VietSoft.CMMS.Web.Services
         public SelectList GetCbbDangNhap(string Username, int NNgu, int CoAll)
         {
             DataTable tb = new DataTable();
-            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "SP_Y_GET_DANG_NHAP_KHO"));
-
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "SP_Y_GET_DANG_NHAP_KHO",NNgu));
             if (CoAll == 1)
             {
             }

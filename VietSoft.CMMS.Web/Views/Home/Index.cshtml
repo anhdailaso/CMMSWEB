@@ -16,9 +16,9 @@
                     <div class="accordion-body">
                         <form id="formSubmitRequest">
                             <div class="form-floating break-line">
-                                <select id="cboDiaDiem" name="cboDiaDiem" asp-items="@ViewBag.ListNhaXuong" class="form-control form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+                                <select id="cboDiaDiem" name="cboDiaDiem" asp-items="@ViewBag.ListNhaXuong" class="form-control form-select form-select-sm" placeholder=@ViewText.LBL_DIA_DIEM>
                                 </select>
-                                <label for="cboDiaDiem">@ViewText.TXT_DIA_DIEM</label>
+                                <label for="cboDiaDiem">@ViewText.LBL_DIA_DIEM</label>
                                 <div id="cboDiaDiem-error"></div>
                                 <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
                                     <img src="~/images/barcode.png" alt="image" class="icon-barcode">
@@ -27,7 +27,7 @@
                              <div class="form-floating break-line">
                                 <select id="cboLMay" name="cboLMay" asp-items="@ViewBag.ListLoaiMAY" class="form-control form-select form-select-sm">
                                 </select>
-                                <label for="cboLMay">@ViewText.TXT_LOAI_MAY</label>
+                                <label for="cboLMay">@ViewText.LBL_LOAI_MAY</label>
                                 <div id="cboLMay-error"></div>
                                 <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
                                     <img src="~/images/barcode.png" alt="image" class="icon-barcode">
@@ -47,13 +47,13 @@
                                 <span class="input-group-append d-flex align-items-center">
                                     <i class="bi bi-calendar4-week date-icon"></i>
                                 </span>
-                                <label for="toDate">@ViewText.TXT_DENNGAY</label>
+                                <label for="toDate">@ViewText.LBL_DENNGAY</label>
                                 <div id="toDate-error"></div>
                             </div>
                             <div class="form-check text-nowrap">
                                 <input class="form-check-input" type="checkbox" value="" checked id="chkxuly">
                                 <label class="form-check-label" for="chkAll">
-                                    Những máy cần xử lý
+                                    @ViewText.LBL_MAY_CAN_XL
                                 </label>
                             </div>
 
@@ -64,7 +64,7 @@
         </div>
         <div class="row mb-2">
             <div class="form-floating position-relative">
-                @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder=@ViewText.TXT_SEARCH})
+                @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder=@ViewText.LBL_SEARCH})
                 <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
                     <img src="~/images/barcode.png" alt="image" class="icon-barcode" style="margin-right: 1.1rem;">
                 </a>

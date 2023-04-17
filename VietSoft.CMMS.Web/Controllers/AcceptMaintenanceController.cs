@@ -40,7 +40,7 @@ namespace VietSoft.CMMS.Web.Controllers
             var user = SessionManager.CurrentUser.UserName;
             DateTime? toDate = DateTime.ParseExact(tungay, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             DateTime? fromDate = DateTime.ParseExact(denngay, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            List<AcceptMaintenanceModel> model = _maintenance.GetListAcceptMaintenance(user, 0, toDate, fromDate);
+            List<AcceptMaintenanceModel> model = _maintenance.GetListAcceptMaintenance(user, 0, toDate, fromDate , SessionManager.CurrentUser.TypeLangue);
 
             List<AcceptMaintenanceViewModel> res = new List<AcceptMaintenanceViewModel>();
             foreach (var modelItem in model)
@@ -93,7 +93,6 @@ namespace VietSoft.CMMS.Web.Controllers
             model.MS_PHIEU_BAO_TRI = mspbt;
             model.MS_MAY = msmay;
             model.TT_SAU_BT = "";
-
             return PartialView("_ConfirmAccept",model);
         }
 
@@ -103,7 +102,7 @@ namespace VietSoft.CMMS.Web.Controllers
         public ActionResult SaveAcceptMaintenance(AcceptWorkOrderModel data)
         {
             //List<MonitoringParametersByDevice> lstParameter = Newtonsoft.Json.JsonConvert.DeserializeObject<List<MonitoringParametersByDevice>>(data);
-            BaseResponseModel? res = _maintenance.SaveAcceptMaintenance(SessionManager.CurrentUser.UserName, data);
+            BaseResponseModel? res = _maintenance.SaveAcceptMaintenance(SessionManager.CurrentUser.UserName, data, SessionManager.CurrentUser.TypeLangue);
             if (res.MA == 1)
             {
                 return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });

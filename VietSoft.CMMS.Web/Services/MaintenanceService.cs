@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.ApplicationBlocks.Data;
 using System.Data;
 using VietSoft.CMMS.Core.Models;
 using VietSoft.CMMS.Web.Helpers;
@@ -15,7 +16,7 @@ namespace VietSoft.CMMS.Web.Services
         {
             _dapper = dapper;
         }
-        public List<AcceptMaintenanceModel> GetListAcceptMaintenance(string username, int languages, DateTime? tngay, DateTime? dngay)
+        public List<AcceptMaintenanceModel> GetListAcceptMaintenance(string username, int languages, DateTime? tngay, DateTime? dngay, int NNgu)
         {
             try
             {
@@ -24,11 +25,12 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@UserName", username);
                 p.Add("@dCot1", tngay);
                 p.Add("@dCot2", dngay);
+                p.Add("@NNgu", NNgu);
                 //int TotalRows = p.Get<int>("@TotalRows");
                 List<AcceptMaintenanceModel>? res = _dapper.GetAll<AcceptMaintenanceModel>("spCMMSWEB", p, CommandType.StoredProcedure);
                 return res;
             }
-            catch
+            catch(Exception ex)
             {
                 return null;
             }
@@ -73,7 +75,7 @@ namespace VietSoft.CMMS.Web.Services
         }
 
 
-        public IEnumerable<WorkOrdersViewModel> GetWorkOrderList(string userName, string deviceId, string ticketId)
+        public IEnumerable<WorkOrdersViewModel> GetWorkOrderList(string userName, string deviceId, string ticketId,int languages)
         {
             try
             {
@@ -82,6 +84,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@sCot1", ticketId);
                 p.Add("@deviceID", deviceId);
                 p.Add("@UserName", userName);
+                p.Add("@NNgu", languages);
 
                 var res = _dapper.GetAll<WorkOrderDetailViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 if (res != null)
@@ -103,6 +106,7 @@ namespace VietSoft.CMMS.Web.Services
                            MS_PT = x.MS_PT,
                            MS_VI_TRI_PT = x.MS_VI_TRI_PT,
                            TEN_PT = x.TEN_PT,
+                           SL_CT = x.SL_CT,
                            SL_KH = x.SL_KH,
                            SL_TT = x.SL_TT
 
@@ -119,7 +123,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public IEnumerable<WorkOrderDetailViewModel> GetJobList(string userName, string deviceId, string ticketId)
+        public IEnumerable<WorkOrderDetailViewModel> GetJobList(string userName, string deviceId, string ticketId , int languages)
         {
             try
             {
@@ -128,7 +132,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@sCot1", ticketId);
                 p.Add("@deviceID", deviceId);
                 p.Add("@UserName", userName);
-
+                p.Add("@NNgu", languages);
                 var res = _dapper.GetAll<WorkOrderDetailViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 return res;
             }
@@ -138,7 +142,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public IEnumerable<SuppliesViewModel> GetSuppliesList(string userName, string deviceId, string deptId, string ticketId)
+        public IEnumerable<SuppliesViewModel> GetSuppliesList(string userName, string deviceId, string deptId, string ticketId, int languages)
         {
             try
             {
@@ -148,6 +152,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@sCot1", ticketId);
                 p.Add("@sCot2", deptId);
                 p.Add("@UserName", userName);
+                p.Add("@NNgu", languages);
 
                 var res = _dapper.GetAll<SuppliesViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 return res;
@@ -298,9 +303,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@iCot1", workId);
                 p.Add("@sCot2", dept);
                 p.Add("@json", json);
-
                 var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
-             
                 return res != null ? res  : new ResponseViewModel()
                 {
                     MA = 0
@@ -342,7 +345,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public ResponseViewModel DeleteWork(string ticketId, string userName, int workId, string dept)
+        public ResponseViewModel DeleteWork(string ticketId, string userName, int workId, string dept, int languages)
         {
             try
             {
@@ -352,6 +355,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@UserName", userName);
                 p.Add("@iCot1", workId);
                 p.Add("@sCot2", dept);
+                p.Add("@NNgu", languages);
                 var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 return res != null ? res : new ResponseViewModel()
                 {
@@ -367,7 +371,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public ResponseViewModel DeleteWorkOrder(string ticketId, string userName)
+        public ResponseViewModel DeleteWorkOrder(string ticketId, string userName, int languages)
         {
             try
             {
@@ -375,6 +379,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@sDanhMuc", "DELETE_WORK_ORDER");
                 p.Add("@sCot1", ticketId);
                 p.Add("@UserName", userName);
+                p.Add("@NNgu", languages);
                 var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 return res != null ? res : new ResponseViewModel()
                 {
@@ -476,7 +481,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public ResponseViewModel CompletedWorkOrder(string ticketId, string userName, string deviceId)
+        public ResponseViewModel CompletedWorkOrder(string ticketId, string userName, string deviceId, int languages)
         {
             try
             {
@@ -485,7 +490,6 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@sCot1", ticketId);
                 p.Add("@UserName", userName);
                 p.Add("@deviceID", deviceId);
-
                 var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 return res != null ? res : new ResponseViewModel()
                 {
@@ -525,7 +529,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public BaseResponseModel SaveAcceptMaintenance(string username, AcceptWorkOrderModel model)
+        public BaseResponseModel SaveAcceptMaintenance(string username, AcceptWorkOrderModel model,int languages )
         {
             try
             {
@@ -535,6 +539,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@sCot1", model.MS_PHIEU_BAO_TRI);
                 p.Add("@sCot2", model.TT_SAU_BT);
                 p.Add("@fCot1", model.CHI_PHI_KHAC);
+                p.Add("@NNgu", languages);
                 var res = _dapper.Execute<BaseResponseModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 return res;
             }
@@ -543,5 +548,19 @@ namespace VietSoft.CMMS.Web.Services
                 return new BaseResponseModel();
             }
         }
+
+        public bool CheckPhuTung(string ticketId)
+        {
+            int n = Convert.ToInt32(SqlHelper.ExecuteScalar(_dapper.GetDbconnection().ConnectionString, CommandType.Text, "SELECT COUNT(*) FROM dbo.PHIEU_BAO_TRI_CONG_VIEC_PHU_TUNG WHERE MS_PHIEU_BAO_TRI ='" + ticketId + "'"));
+            if(n == 0)
+            {
+                return false;
+            }    
+            else
+            {
+                return true;
+            }    
+        }    
+
     }
 }

@@ -97,6 +97,15 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bạn có muốn chuyển công việc qua kế hoạch tổng thể?.
+        /// </summary>
+        public static string CHUYEN_CONGVIEC_QUA_KEHOACH {
+            get {
+                return ResourceManager.GetString("CHUYEN_CONGVIEC_QUA_KEHOACH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Đã có lỗi xảy ra..
         /// </summary>
         public static string COLOI_XAYRA {
@@ -124,6 +133,24 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bạn có muốn khóa phiếu nhập kho này không?.
+        /// </summary>
+        public static string KHOA_PHIEU_NHAP {
+            get {
+                return ResourceManager.GetString("KHOA_PHIEU_NHAP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bạn có muốn khóa phiếu xuất kho này không?.
+        /// </summary>
+        public static string KHOA_PHIEU_XUAT {
+            get {
+                return ResourceManager.GetString("KHOA_PHIEU_XUAT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Link đã hết hạn. Vui lòng gửi lại yêu cầu thay đổi mật khẩu và truy cập vào link mới..
         /// </summary>
         public static string LINK_FORGOT_PASS_EXPIRED {
@@ -138,6 +165,24 @@ namespace VietSoft.CMMS.Web.Resources {
         public static string LOGIN_FAILED {
             get {
                 return ResourceManager.GetString("LOGIN_FAILED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chưa có phụ tùng cho phiếu bảo trì.
+        /// </summary>
+        public static string MESS_CHUA_CO_PHU_TUNG {
+            get {
+                return ResourceManager.GetString("MESS_CHUA_CO_PHU_TUNG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Từ giờ không được lớn hơn đến giờ.
+        /// </summary>
+        public static string MESS_TU_GIO_KHONG_LON_HON_DEN_GIO {
+            get {
+                return ResourceManager.GetString("MESS_TU_GIO_KHONG_LON_HON_DEN_GIO", resourceCulture);
             }
         }
         
@@ -183,6 +228,69 @@ namespace VietSoft.CMMS.Web.Resources {
         public static string XACNHAN_HOANTHANH_PHIEUBAOTRI {
             get {
                 return ResourceManager.GetString("XACNHAN_HOANTHANH_PHIEUBAOTRI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bạn có muốn xóa công việc này không?.
+        /// </summary>
+        public static string XOA_CONG_VIEC {
+            get {
+                return ResourceManager.GetString("XOA_CONG_VIEC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bạn có muốn xóa phiếu nhập kho này không?.
+        /// </summary>
+        public static string XOA_NHAP_KHO {
+            get {
+                return ResourceManager.GetString("XOA_NHAP_KHO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bạn có muốn xóa phiếu bảo trì này không?.
+        /// </summary>
+        public static string XOA_PHIEU_BAO_TRI {
+            get {
+                return ResourceManager.GetString("XOA_PHIEU_BAO_TRI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bạn có muốn xóa phiếu xuất kho này không?.
+        /// </summary>
+        public static string XOA_PHIEU_XUAT {
+            get {
+                return ResourceManager.GetString("XOA_PHIEU_XUAT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bạn có muốn xóa phụ tùng cho phiếu nhập kho này?.
+        /// </summary>
+        public static string XOA_PHU_TUNG_NHAP {
+            get {
+                return ResourceManager.GetString("XOA_PHU_TUNG_NHAP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bạn có muốn xóa phụ tùng cho phiếu xuất kho này không?.
+        /// </summary>
+        public static string XOA_PHU_TUNG_XUAT {
+            get {
+                return ResourceManager.GetString("XOA_PHU_TUNG_XUAT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bạn có muốn xóa yêu cầu này không?.
+        /// </summary>
+        public static string XOA_YEU_CAU {
+            get {
+                return ResourceManager.GetString("XOA_YEU_CAU", resourceCulture);
             }
         }
     }

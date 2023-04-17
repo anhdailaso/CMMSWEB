@@ -28,9 +28,12 @@ namespace VietSoft.CMMS.Web.Controllers
             {
                 string? userNameEncrypt = Request.Cookies[CookieKey.UserName.ToString()];
                 string? userName = MaHoamd5.MaHoamd5.Decrypt(userNameEncrypt, true);
+                //string? TypeLangue = Request.Cookies[CookieKey.TypeLangue.ToString()];
+
                 // init session
-                UserModel? user = new() { UserName = userName, RememberMe = true };
-                SessionManager.CurrentUser = _accountService.GetProfile(userName);
+                UserModel? user = _accountService.GetProfile(userName);
+                user.TypeLangue = 0;
+                SessionManager.CurrentUser = user;
                 return RedirectToAction("Index", "Home");
             }
 
@@ -58,6 +61,7 @@ namespace VietSoft.CMMS.Web.Controllers
                 {
                     user.UserName = userViewModel.UserName;
                     user.RememberMe = userViewModel.RememberMe;
+                    user.TypeLangue = 0;
                     SessionManager.CurrentUser = user;
 
                     // save cookie
@@ -75,6 +79,7 @@ namespace VietSoft.CMMS.Web.Controllers
 
                         Response.Cookies.Append(CookieKey.IsRememberMe.ToString(), rememberMeEncrypt, cookieOptions);
                         Response.Cookies.Append(CookieKey.UserName.ToString(), userNameEncrypt, cookieOptions);
+                        Response.Cookies.Append(CookieKey.TypeLangue.ToString(), "0", cookieOptions);
                     }
                 }
                 else

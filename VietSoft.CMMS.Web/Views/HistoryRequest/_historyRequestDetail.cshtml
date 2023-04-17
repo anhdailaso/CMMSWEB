@@ -10,12 +10,12 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div class="d-flex flex-column w-50 fs-sm">
-                        <span>Ngày YC:<b> @item.NGAY_YC</b></span>
+                        <span>@ViewText.LBL_NGAY_YC:<b> @item.NGAY_YC</b></span>
                     </div>
                     @if (@item.NGAY_KT_PBT != null)
                     {
                         <div class="d-flex flex-column">
-                            <span class="fs-sm">Ngày KT: <b> @item.NGAY_KT_PBT</b></span>
+                            <span class="fs-sm">@ViewText.LBL_NGAY_KT: <b> @item.NGAY_KT_PBT</b></span>
                         </div>
                     }
 
@@ -32,13 +32,13 @@
                 <div style="padding-bottom:0.3rem; justify-content:space-between" class="d-flex mt-1">
 
                     <div class="d-flex gap-2 ">
-                        <span>Tình trạng:</span>
+                        <span>@ViewText.LBL_TINH_TRANG:</span>
                         <span class="card-value">@item.TINH_TRANG_MAY</span>
                     </div>
                     @if (@item.NGAY_KT_PBT != null)
                     {
                         <div class="d-flex gap-2">
-                            <span>PBT:</span>
+                            <span>@ViewText.LBL_PHIEU_BAO_TRI:</span>
                             <a style="color:#113186;" href="/Home/WorkOrderRQ?mspbt=@item.MS_PHIEU_BAO_TRI&msmay=@item.MS_MAY&tenmay=@item.TEN_MAY" class="card-value">@item.MS_PHIEU_BAO_TRI</a>
                         </div>
                     }
@@ -57,7 +57,7 @@ else
 {
     <div class="col-12">
         <div class="no-data">
-            <span>@ViewText.TXT_KHONGCO_DULIEU</span>
+            <span>@ViewText.LBL_KHONGCO_DULIEU</span>
         </div>
     </div>
 }

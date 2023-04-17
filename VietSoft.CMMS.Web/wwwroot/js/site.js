@@ -113,6 +113,7 @@ function initBootstrapDialog() {
     });
 }
 
+
 function SetActive(e) {
     $(e).closest('.form-floating').find('select').addClass('scanner-input-active');
     $(e).closest('.form-floating').find('input').addClass('scanner-input-active');
@@ -284,20 +285,9 @@ function getHoursAndMinusText(hours) {
     if (!hours || hours <= 0) {
         return result
     }
-    
     let hoursInt = Math.floor(hours);
     let minus = Math.ceil((hours - hoursInt) * 60)
-    
-    if (hoursInt) {
-        result = hoursInt + ' giờ'
-    }
-    if (minus) {
-        if (result.length > 0) {
-            result += ' '
-        }
-        result += minus + ' phút'
-    }
-
+    result = hoursInt + ':' + minus;
     return result
 }
 
@@ -318,7 +308,7 @@ function setDatePicker(idInput, options, minDate, maxDate) {
     options = options || {};
     options.locale = 'vi';
     options.useCurrent = false;
-    options.defaultDate = options === null ? moment(new Date(), 'dd/MM/yyyy') : moment(options);
+    options.defaultDate = moment(options);
     options.format = 'DD/MM/YYYY';
     if (minDate !== null) {
         options.minDate = minDate;

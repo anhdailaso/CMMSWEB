@@ -1,0 +1,36 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@using VietSoft.CMMS.Web.Helpers
+@model AcceptUserRequest
+@using (Html.BeginForm("ShowConfirmAccept", "SaveAcceptWorkOrder", FormMethod.Post,new { id = "AcceptUserRequest", name = "AcceptUserRequest", autocomplete = "on" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model=>model.STT);
+    @Html.HiddenFor(model=>model.LOAI);
+    @Html.HiddenFor(model=>model.MS_MAY);
+
+    <div class="modal-header">
+        <h5>@ViewBag.TITLE</h5>
+        <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+    </div>
+    <div class="modal-body">
+
+        <div class="row detail-page-emp-info break-line">
+            <div class="col-12 d-flex justify-content-left gap-2 ">
+                <span class="emp-name">@Model.MS_MAY</span>
+                <span class="emp-code">@Model.TEN_MAY</span>
+            </div>
+        </div>
+
+        <div class="form-floating  break-line">
+            @Html.TextAreaFor(model=>model.GHI_CHU,new {@class = "form-control", maxlength = 250, autocomplete = "off" , placeholder=@ViewText.LBL_GHI_CHU, required ="required",title="Không được để trống." })
+            @Html.ValidationMessageFor(model=>model.GHI_CHU)
+            <label for="TT_SAU_BT">@ViewText.LBL_GHI_CHU</label>
+        </div>
+
+    </div>
+}
+<div class="modal-footer justify-content-center">
+    <button type="button" class="btn btn-outline-danger w-25" id="btnNo">@ViewText.BTN_NO</button>
+    <button type="submit" class="btn btn-primary w-25" id="btnYes">@ViewText.BTN_YES</button>
+</div>

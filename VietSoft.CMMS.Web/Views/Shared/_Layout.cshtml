@@ -24,8 +24,10 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/select2-bootstrap-5-theme.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-datetimepicker.min.css" />
     <link href="~/css/highcharts.css" rel="stylesheet" />
-   <link href="~/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="~/font-awesome/css/all.min.css" rel="stylesheet" />
     <link href="~/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css">
+    <link href="~/font-awesome/css/fontawesome6.css" rel="stylesheet" />
     <style>
         a {
             color: #ced4da;
@@ -56,22 +58,24 @@
             {
                 <div class="dropdown">
                     <a href="#" class="@*dropdown-toggle*@" data-toggle="dropdown">
-                        <i class="fa fa-user"></i> @user.UserName</a>
-@*                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li>
-                            <a href="#" id="LanguageMenuItem">
-                                <i class="fa fa-fw fa-language"></i> <span style=" padding-right: 18px;" data-lang="lblNgonNgu">Ngôn ngữ</span>
-                                <i class="fa fa-caret-right" aria-hidden="true"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href=""><i style="color:#113186" class="fa fa-fw fa-language"></i> <span style=" padding-right: 18px;">Đổi NN</span></a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("LogOut", "Account")"><i style="color:#113186" class="fa fa-fw fa-power-off"></i> <span style=" padding-right: 18px;">Đăng xuất</span></a>
-                        </li>
-                    </ul>
-*@                </div>
+                        <i class="fa fa-user"></i> @user.UserName
+                    </a>
+                    @*                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li>
+                <a href="#" id="LanguageMenuItem">
+                <i class="fa fa-fw fa-language"></i> <span style=" padding-right: 18px;" data-lang="lblNgonNgu">Ngôn ngữ</span>
+                <i class="fa fa-caret-right" aria-hidden="true"></i>
+                </a>
+                </li>
+                <li>
+                <a href=""><i style="color:#113186" class="fa fa-fw fa-language"></i> <span style=" padding-right: 18px;">Đổi NN</span></a>
+                </li>
+                <li>
+                <a href="@Url.Action("LogOut", "Account")"><i style="color:#113186" class="fa fa-fw fa-power-off"></i> <span style=" padding-right: 18px;">Đăng xuất</span></a>
+                </li>
+                </ul>
+                *@
+                </div>
                 <div class="row page-title">@ViewData["Title"] </div>
             }
 
@@ -99,9 +103,9 @@
 
                             </div>
                             <div class="ms-3 mt-2 d-flex flex-column">
-                                <span class="text-secondary">Đơn vị: <span class="text-primaryll">@TTC.TEN_DV</span> </span>
+                                <span class="text-secondary">@ViewText.LBL_DON_VI: <span class="text-primaryll">@TTC.TEN_DV</span> </span>
                                 @*<span class="text-secondary">Xí nghiệp: <span class="text-primaryll">Xí nghiệp 1</span> </span>*@
-                                <span class="text-secondary">Phòng ban: <span class="text-primaryll">@TTC.TEN_TO</span> </span>
+                                <span class="text-secondary">@ViewText.LBL_PHONG_BAN: <span class="text-primaryll">@TTC.TEN_TO</span> </span>
                             </div>
                         </div>
                     </div>
@@ -241,6 +245,18 @@
     <script src="~/lib/jquery/dist/loadingoverlay.min.js"></script>
     <script src="~/lib/jquery/dist/moment-with-locales.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap-datetimepicker.min.js"></script>
+    @*<script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>*@
+    <script src="~/lib/print/print.min.js"></script>
+    <!-- jQuery -->
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+
+    <!-- DataTables JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+
+
+
     @await RenderSectionAsync("Scripts", required: false)
     <script type="text/javascript">
         var msg = @Html.Raw(Json.Serialize(@SessionManager.Message));

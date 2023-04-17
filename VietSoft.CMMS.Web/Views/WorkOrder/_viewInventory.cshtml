@@ -1,7 +1,7 @@
 ﻿@using VietSoft.CMMS.Web.Resources;
 @using VietSoft.CMMS.Web.Helpers;
 <div class="modal-header">
-    <h5>Xem tồn kho</h5>
+    <h5>@ViewText.LBL_XEM_TON_KHO</h5>
     <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
 </div>
 <div class="modal-body modal-confirm">
@@ -10,7 +10,7 @@
             <div class="form-floating">
                 <select id="cbokho" name="cbokho" asp-items="@ViewBag.ListKho" class="form-control">
             </select>
-            <label for="cbokho">Kho</label>
+            <label for="cbokho">@ViewText.LBL_KHO</label>
             </div>
         </div>
         <div class="row mb-2">

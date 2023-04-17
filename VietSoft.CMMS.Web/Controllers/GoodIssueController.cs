@@ -3,9 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 using System.Globalization;
+using System.Reflection;
+using VietSoft.CMMS.Core.Models;
 using VietSoft.CMMS.Web.Helpers;
 using VietSoft.CMMS.Web.IServices;
 using VietSoft.CMMS.Web.Models;
+using VietSoft.CMMS.Web.Resources;
+using VietSoft.CMMS.Web.Services;
 
 namespace VietSoft.CMMS.Web.Controllers
 {
@@ -45,11 +49,11 @@ namespace VietSoft.CMMS.Web.Controllers
 
 
             //dạng nhập
-            ViewBag.DangXuat = _combobox.GetCbbDangxuat(SessionManager.CurrentUser.UserName, 0, 0);
+            ViewBag.DangXuat = _combobox.GetCbbDangxuat(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 0);
             ViewBag.PBT = _combobox.GetCbbTrong();
             ViewBag.BPCP = _combobox.GetCbbTrong();
             ViewBag.NguoiNhap = _combobox.GetCbbTrong();
-            var ListGoodRIssueDetails = _goodissue.GetGoodIssueDetails(SessionManager.CurrentUser.UserName, 0, mspx, mskho);
+            var ListGoodRIssueDetails = _goodissue.GetGoodIssueDetails(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, mspx, mskho);
             ListGoodRIssueDetails.QUYEN = true;
             ListGoodRIssueDetails.SO_PHIEU_XN = ListGoodRIssueDetails.MS_DH_XUAT_PT;
             return View("~/Views/GoodIssue/AddGoodIssue.cshtml", ListGoodRIssueDetails);
@@ -57,13 +61,13 @@ namespace VietSoft.CMMS.Web.Controllers
 
         public IActionResult EditGoodIssue(string mspx)
         {
-            var ListGoodReceiptDetails = _goodissue.GetGoodIssueDetails(SessionManager.CurrentUser.UserName, 0, mspx, -1);
+            var ListGoodReceiptDetails = _goodissue.GetGoodIssueDetails(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, mspx, -1);
             //dạng nhập
-            ViewBag.DangXuat = _combobox.GetCbbDangxuat(SessionManager.CurrentUser.UserName, 0, 0);
+            ViewBag.DangXuat = _combobox.GetCbbDangxuat(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 0);
             //người nhập
-            ViewBag.NguoiNhap = _combobox.GetCbbNguoiXuat(SessionManager.CurrentUser.UserName, 0, 0, -1, -1);
+            ViewBag.NguoiNhap = _combobox.GetCbbNguoiXuat(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 0, -1, -1);
 
-            if (ListGoodReceiptDetails.THEM == true || (SessionManager.CurrentUser.UserName.ToLower() == ListGoodReceiptDetails.USER_LAP && ListGoodReceiptDetails.LOCK == false))
+            if (ListGoodReceiptDetails.THEM == true || (SessionManager.CurrentUser.UserName.ToLower() == ListGoodReceiptDetails.USER_LAP.ToLower() && ListGoodReceiptDetails.LOCK == false))
             {
                 ListGoodReceiptDetails.QUYEN = true;
             }
@@ -95,7 +99,7 @@ namespace VietSoft.CMMS.Web.Controllers
 
         public ActionResult getNguoiNhap(int khachhang, int vaitro)
         {
-            SelectList lst = _combobox.GetCbbNguoiXuat(SessionManager.CurrentUser.UserName, 0, 0, khachhang, vaitro);
+            SelectList lst = _combobox.GetCbbNguoiXuat(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 0, khachhang, vaitro);
             return Json(lst);
         }
 
@@ -106,7 +110,7 @@ namespace VietSoft.CMMS.Web.Controllers
             PagedList<GoodIssueViewModel>? result = null;
             if (pageIndex == 1 && keyword == null)
             {
-                res = _goodissue.GetListGoodIssue(SessionManager.CurrentUser.UserName, 0, DateTime.ParseExact(tungay, "dd/MM/yyyy", CultureInfo.InvariantCulture), DateTime.ParseExact(denngay, "dd/MM/yyyy", CultureInfo.InvariantCulture), mskho);
+                res = _goodissue.GetListGoodIssue(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, DateTime.ParseExact(tungay, "dd/MM/yyyy", CultureInfo.InvariantCulture), DateTime.ParseExact(denngay, "dd/MM/yyyy", CultureInfo.InvariantCulture), mskho);
                 result = new PagedList<GoodIssueViewModel>(res, res.Count, pageIndex, pageSize);
             }
             else
@@ -125,10 +129,28 @@ namespace VietSoft.CMMS.Web.Controllers
             return PartialView("_goodissueDetail", result);
         }
 
+
+        [HttpPost]
+        public async Task<ActionResult> AddPhuTungXuat(string jsonData,string mspx)
+        {
+            //List<MonitoringParametersByDevice> lstParameter = Newtonsoft.Json.JsonConvert.DeserializeObject<List<MonitoringParametersByDevice>>(jsonData);
+
+            ResponseViewModel res = _goodissue.AddPhuTungXuat(SessionManager.CurrentUser.UserName, jsonData, mspx,SessionManager.CurrentUser.TypeLangue);
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+            }
+        }
+
+
         public IActionResult GetDSPhuTungXuat(string mspx)
         {
             List<DanhSachPhuTungXuatKhoModel>? result = null;
-            result = _goodissue.GetListPhuTungXuat(SessionManager.CurrentUser.UserName, 0, mspx);
+            result = _goodissue.GetListPhuTungXuat(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, mspx);
             return PartialView("_listPhuTungXuat", result);
         }
 
@@ -143,7 +165,7 @@ namespace VietSoft.CMMS.Web.Controllers
             List<ChonDanhSachPhuTungXuatModel> res = new List<ChonDanhSachPhuTungXuatModel>();
             try
             {
-                res = _goodissue.GetListChonPhuTungXuat(theoBT, SessionManager.CurrentUser.UserName, 0, mspx);
+                res = _goodissue.GetListChonPhuTungXuat(theoBT, SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, mspx);
             }
             catch
             {
@@ -152,5 +174,73 @@ namespace VietSoft.CMMS.Web.Controllers
             return PartialView("_chonPhuTungXuat", res);
         }
 
+
+        public IActionResult DeletePhieuXuatKho(string mspx)
+        {
+            var res = _goodissue.DeletePhieuXuatKho(mspx, SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue);
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = res.NAME });
+            }
+        }
+
+        public IActionResult DeletePhuTungXuatXuatKho(string mspt,string mspn, string mspx)
+        {
+            var res = _goodissue.DeletePhuTungXuatXuatKho(mspt,mspn,mspx, SessionManager.CurrentUser.TypeLangue);
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = res.NAME });
+            }
+        }
+
+        public IActionResult ScanPhuTung(string macode, string mspx)
+        {
+            var res = _goodissue.ScanPhuTung(macode ,mspx, SessionManager.CurrentUser.TypeLangue);
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = res.NAME });
+            }
+        }
+
+
+        public IActionResult LockPhieuXuatKho(string mspx)
+        {
+            var res = _goodissue.LockPhieuXuatKho(mspx);
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = res.NAME });
+            }
+        }
+
+
+        [HttpPost]
+        public IActionResult SavePhieuXuatKho(GoodIssueDetailsModel model)
+        {
+            ResponseViewModel res = _goodissue.SavePhieuXuatKho(model, SessionManager.CurrentUser.UserName);
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = res.NAME });
+            }
+        }
     }
 }

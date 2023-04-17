@@ -1,7 +1,8 @@
 ﻿@using VietSoft.CMMS.Web.Resources
 @using VietSoft.CMMS.Web.Helpers
 @{
-    ViewBag.Title = "DANH SÁCH PHIẾU XUẤT KHO";
+    ViewBag.Title = "";
+    ViewBag.Title = ViewText.TITLE_DS_PHIEU_XUAT_KHO;
 }
 
 <div class="row">
@@ -16,9 +17,9 @@
                     <div class="accordion-body">
                         <form id="formSubmitRequest">
                             <div class="form-floating break-line">
-                                <select id="cbokho" name="cbokho" asp-items="@ViewBag.ListKho" class="form-control form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+                                <select id="cbokho" name="cbokho" asp-items="@ViewBag.ListKho" class="form-control form-select form-select-sm" placeholder=@ViewText.LBL_KHO>
                                 </select>
-                                <label for="cbokho">Kho</label>
+                                <label for="cbokho">@ViewText.LBL_KHO</label>
                             </div>
                             <div class="d-flex justify-content-between gap-2">
                                 <div class="form-floating input-group break-line date" id="toDateContainer">
@@ -26,7 +27,7 @@
                                     <span class="input-group-append d-flex align-items-center">
                                         <i class="bi bi-calendar4-week date-icon "></i>
                                     </span>
-                                    <label for="from">@ViewText.TXT_TUNGAY</label>
+                                    <label for="from">@ViewText.LBL_TUNGAY</label>
                                     <div id="from-error"></div>
                                 </div>
 
@@ -35,7 +36,7 @@
                                     <span class="input-group-append d-flex align-items-center">
                                         <i class="bi bi-calendar4-week date-icon"></i>
                                     </span>
-                                    <label for="toDate">@ViewText.TXT_DENNGAY</label>
+                                    <label for="toDate">@ViewText.LBL_DENNGAY</label>
                                     <div id="toDate-error"></div>
                                 </div>
                             </div>
@@ -44,10 +45,10 @@
                 </div>
             </div>
         </div>
-      
+
         <div class="row mb-2">
             <div class="form-floating position-relative">
-                @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder=@ViewText.TXT_SEARCH})
+                @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder=@ViewText.LBL_SEARCH})
                 <i class="bi bi-search icon-obsolute"></i>
             </div>
             <div class="col-md-12 offset-md-12 col-xs-12  px-0">
@@ -78,6 +79,10 @@
         var config = {
             GET_GOODISSUE: '@Url.Action("GetListGoodIssue", "GoodIssue")',
             ADD_GOODISSUE: '@Url.Action("AddGoodIssue", "GoodIssue")',
+            DELETE_PHIEUXUATKHO: '@Url.Action("DeletePhieuXuatKho","GoodIssue")',
+            MESS_XOA_PHIEU_XUAT: '@Html.Raw(Message.XOA_PHIEU_XUAT)',
+            MESS_XOA_PHU_TUNG_XUAT: '@Html.Raw(Message.XOA_PHU_TUNG_XUAT)',
+            MESS_KHOA_PHIEU_XUAT: '@Html.Raw(Message.KHOA_PHIEU_XUAT)',
             PAGE_SIZE: 10
         }
     </script>

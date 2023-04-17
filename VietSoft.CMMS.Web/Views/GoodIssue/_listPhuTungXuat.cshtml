@@ -4,25 +4,25 @@
 @model IEnumerable<VietSoft.CMMS.Web.Models.DanhSachPhuTungXuatKhoModel>
 @if (@Model.Count() > 0)
 {
-    <table class="table table-striped" cellspacing="0" style="width:100% !important">
+    <table class="table table-striped tbPhuTungXuat" cellspacing="0" style="width:100% !important">
         <thead>
             <tr>
                 <td width="15%" class="col-grid-table">
-                    Mã VTPT
+                    @ViewText.LBL_MS_PT
                 </td>
                 <td width="30%">
-                    Tên VTPT
+                    @ViewText.LBL_TEN_PT
                 </td>
                 <td width="15%">
-                    Số lượng
+                    @ViewText.LBL_SO_LUONG
                 </td>
                 <td width="20%">
-                    MS ĐH nhập
+                    @ViewText.LBL_MS_PHIEU_NHAP
                 </td>
                 @if (@Model.Select(x => x.XOA).FirstOrDefault() == true)
                 {
                     <td width="15%">
-                        Vị trí
+                        @ViewText.LBL_VI_TRI
                     </td>
                     <td width="5%">
                     </td>
@@ -30,7 +30,7 @@
                 else
                 {
                     <td width="20%">
-                        Vị trí
+                        @ViewText.LBL_VI_TRI
                     </td>
                 }
 
@@ -40,25 +40,28 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
-                        <a style="color:#113186;" data-mspt="@item.MS_PT.Trim()" class="card-value PhuTungDetail">@item.MS_PT</a>
-                    </td>
+                    <td>@item.MS_PT</td>
                     <td>
                         @item.TEN_PT
                     </td>
                     <td>
-                        @item.SO_LUONG
+                        @if (@item.XOA == true)
+                        {
+                            <input class="form-control form-control-sm SoLuong" style="height:0.5rem!important;min-height:0.5rem!important;font-size: 0.8rem;padding: 11px 3px!important;" data-msvt="@item.MS_VI_TRI" data-mspt="@item.MS_PT.Trim()" type="number" min="0" max="@item.SL_TON" value="@item.SO_LUONG" placeholder="số lượng" />
+                        }
+                        else
+                        {
+                            @item.SO_LUONG
+                        }
                     </td>
-                    <td>
-                        @item.MS_DH_NHAP_PT
-                    </td>
+                    <td>@item.MS_DH_NHAP_PT</td>
                     <td>
                         @item.VI_TRI
                     </td>
                     @if (@item.XOA == true)
                     {
                         <td>
-                            <p style=""><a class="remove-row"><i class="fa fa-trash-o text-danger"></i></a></p>
+                            <p style=""><a class="remove-row btnDeleteVatTuXuatKho" data-mspt="@item.MS_PT.Trim()" data-mspn="@item.MS_DH_NHAP_PT.Trim()"><i class="fa fa-trash-o text-danger"></i></a></p>
                         </td>
                     }
                 </tr>
@@ -70,7 +73,7 @@ else
 {
     <div class="col-12">
         <div class="no-data">
-            <span>@ViewText.TXT_KHONGCO_DULIEU</span>
+            <span>@ViewText.LBL_KHONGCO_DULIEU</span>
         </div>
     </div>
 }

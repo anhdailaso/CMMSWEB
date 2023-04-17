@@ -37,7 +37,7 @@ namespace VietSoft.CMMS.Web.Controllers
         public IActionResult Index()
         {
             ViewBag.ListKho = _combobox.DanhSachKho(SessionManager.CurrentUser.UserName);
-            ViewBag.ListPhuTung = _combobox.DanhSachPhuTung();
+            ViewBag.ListPhuTung = _combobox.DanhSachPhuTung(SessionManager.CurrentUser.TypeLangue);
 
             return View();
         }
@@ -46,7 +46,7 @@ namespace VietSoft.CMMS.Web.Controllers
         {
             //dạng nhập
           
-            var ListBaoCao = _goodissue.GetBaoCaoNhapXuatTon(SessionManager.CurrentUser.UserName, 0, DateTime.ParseExact(tungay, "dd/MM/yyyy", CultureInfo.InvariantCulture), DateTime.ParseExact(denngay, "dd/MM/yyyy", CultureInfo.InvariantCulture), mskho, mspt);
+            var ListBaoCao = _goodissue.GetBaoCaoNhapXuatTon(SessionManager.CurrentUser.UserName,SessionManager.CurrentUser.TypeLangue, DateTime.ParseExact(tungay, "dd/MM/yyyy", CultureInfo.InvariantCulture), DateTime.ParseExact(denngay, "dd/MM/yyyy", CultureInfo.InvariantCulture), mskho, mspt);
             return PartialView("_Detail", ListBaoCao);
         }
 

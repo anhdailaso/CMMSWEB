@@ -9,26 +9,26 @@
         <thead>
             <tr>
                 <td width="40%" class="col-grid-table ">
-                    Mã thiết bị
+                    @ViewText.LBL_MA_THIET_BI
                     <span class="tooltip">Tooltip</span>
                 </td>
                 <td width="20%">
-                    Yêu cầu
+                    @ViewText.LBL_YEU_CAU
                 </td>
                 <td width="20%">
-                    Bảo trì
+                    @ViewText.LBL_BAO_TRI
                 </td>
                 <td width="20%">
-                    Giám sát
+                    @ViewText.LBL_GIAM_SAT
                 </td>
 
             </tr>
         </thead>
         <tbody>
             @*--fa fa-times đậm
-                <i class="fa fa-times"></i>
-                <i class="fa-solid fa-circle"></i>
-            *@
+        <i class="fa fa-times"></i>
+        <i class="fa-solid fa-circle"></i>
+        *@
             @foreach (var item in Model.Data)
             {
                 <tr class="parentCell odd">
@@ -45,19 +45,19 @@
                         @if (item.YC == 1)
                         {
                             <a href="/Home/UserRequest?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=1">
-                                @if(@item.MUC_YC == 1)
+                                @if (@item.MUC_YC == 1)
                                 {
-                                   <i class="fa fa-times" style="color:#ff0000"></i>
+                                    <i class="@(item.TREYC == 1 ? (item.HH_YC == 1 ? "fa-regular fa-circle-a" : "fa-regular fa-circle-n") : (item.HH_YC == 1 ? "fa-solid fa-a" : "fa-solid fa-n"))" style="color:#ff0000"></i>
                                 }
                                 else
                                 {
-                                    @if (@item.MUC_YC  == 2)
+                                    @if (@item.MUC_YC == 2)
                                     {
-                                        <i class="fa fa-times" style="color:#13079b"></i>
+                                        <i class="@(item.TREYC == 1 ? (item.HH_YC == 1 ? "fa-regular fa-circle-a" : "fa-regular fa-circle-n") : (item.HH_YC == 1 ? "fa-solid fa-a" : "fa-solid fa-n"))" style="color:#13079b"></i>
                                     }
                                     else
                                     {
-                                <i class="fa fa-times" style="color:#008001"></i>
+                                        <i class="@(item.TREYC == 1 ? (item.HH_YC == 1 ? "fa-regular fa-circle-a" : "fa-regular fa-circle-n") : (item.HH_YC == 1 ? "fa-solid fa-a" : "fa-solid fa-n"))" style="color:#008001"></i>
                                     }
                                 }
                             </a>
@@ -70,31 +70,27 @@
                         }
                     </td>
                     <td>
-
                         @if (item.PBT == 1)
                         {
                             <a href="/Home/WorkOrder?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=1&ttmay=''">
                                 @if (item.MUC_BT == 1)
                                 {
-                                    //cao
-                                    <i class="@(item.TREBT == 1 ? "fa-solid fa-circle" : "fa fa-times")" style="color:#ff0000"></i>
+                                    //cao<i class="fa-solid fa-p"></i>
+                                    <i class="@(item.TREBT == 1 ? (item.HH_BT == 1 ? "fa-regular fa-circle-c" : "fa-regular fa-circle-p") : (item.HH_BT == 1 ? "fa-solid fa-c" : "fa-solid fa-p"))" style="color:#ff0000"></i>
                                 }
                                 else
                                 {
                                     @if (item.MUC_BT == 2)
                                     {
                                         //trung bình
-                                        <i class="@(item.TREBT == 1 ? "fa-solid fa-circle" : "fa fa-times")" style="color:#13079b"></i>
+                                        <i class="@(item.TREBT == 1 ? (item.HH_BT == 1 ? "fa-regular fa-circle-c" : "fa-regular fa-circle-p") : (item.HH_BT == 1 ? "fa-solid fa-c" : "fa-solid fa-p"))" style="color:#13079b"></i>
+
                                     }
                                     else
                                     {
-                                        <i class="@(item.TREBT == 1 ? "fa-solid fa-circle" : "fa fa-times")" style="color:#008001"></i>
+                                        <i class="@(item.TREBT == 1 ? (item.HH_BT == 1 ? "fa-regular fa-circle-c" : "fa-regular fa-circle-p") : (item.HH_BT == 1 ? "fa-solid fa-c" : "fa-solid fa-p"))" style="color:#008001"></i>
                                     }
                                 }
-
-
-                                @*                                <i class="fa-solid fa-circle"></i>
-*@
                             </a>
                         }
                         else
@@ -131,7 +127,7 @@ else
 {
     <div class="col-12">
         <div class="no-data">
-            <span>@ViewText.TXT_KHONGCO_DULIEU</span>
+            <span>@ViewText.LBL_KHONGCO_DULIEU</span>
         </div>
     </div>
 }

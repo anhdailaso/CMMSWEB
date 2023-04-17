@@ -33,8 +33,8 @@ namespace VietSoft.CMMS.Web.Controllers
         }
         public IActionResult HistoryRequestIndex()
         {
-            ViewBag.ListMAY = _combobox.GetCbbMay("-1", -1, SessionManager.CurrentUser.UserName, 0, 1);
-            ViewBag.ListNYC = _combobox.GetCbbNYC(SessionManager.CurrentUser.UserName, 0, 1);
+            ViewBag.ListMAY = _combobox.GetCbbMay("-1", -1, SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1);
+            ViewBag.ListNYC = _combobox.GetCbbNYC(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1);
             return View();
         }
 
@@ -47,7 +47,7 @@ namespace VietSoft.CMMS.Web.Controllers
             {
                 DateTime? toDate = DateTime.ParseExact(tungay, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 DateTime? fromDate = DateTime.ParseExact(denngay, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                res = _historyRequestService.GetListHistoryRequest(user, 0, toDate, fromDate, msmay, nguoiyc);
+                res = _historyRequestService.GetListHistoryRequest(user, SessionManager.CurrentUser.TypeLangue, toDate, fromDate, msmay, nguoiyc);
                 result = new PagedList<HistoryRequestViewModel>(res, res.Count, pageIndex, pageSize);
             }
             else

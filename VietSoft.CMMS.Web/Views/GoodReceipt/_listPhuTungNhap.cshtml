@@ -4,28 +4,28 @@
 @model IEnumerable<VietSoft.CMMS.Web.Models.DanhSachPhuTungNhapKhoModel>
 @if (@Model.Count() > 0)
 {
-    <table class="table table-striped" cellspacing="0" id="tbGoodReceipt" style="width:100% !important">
+    <table class="table table-striped tbPhuTungNhap" cellspacing="0" style="width:100% !important">
         <thead>
             <tr>
                 <td width="20%" class="col-grid-table">
-                    Vật tư phụ tùng
+                    @ViewText.LBL_MS_PT
                 </td>
                 <td width="15%">
-                    Số lượng
+                    @ViewText.LBL_SO_LUONG
+                </td>
+                <td width="20%">
+                    @ViewText.LBL_DON_GIA
+                </td>
+                <td width="10%">
+                    @ViewText.LBL_VAT
                 </td>
                 <td width="15%">
-                    Đơn giá
-                </td>
-                <td width="15%">
-                    % VAT
-                </td>
-                <td width="15%">
-                    Tiền tệ
+                    @ViewText.LBL_TIEN_TE
                 </td>
                 @if (@Model.Select(x => x.XOA).FirstOrDefault() == true)
                 {
                     <td width="15%">
-                        Vị trí
+                        @ViewText.LBL_VI_TRI
                     </td>
                     <td width="5%">
                     </td>
@@ -33,7 +33,7 @@
                 else
                 {
                     <td width="20%">
-                        Vị trí
+                        @ViewText.LBL_VI_TRI
                     </td>
                 }
 
@@ -42,33 +42,57 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        <a style="color:#113186;" data-mspt="@item.MS_PT.Trim()" class="card-value PhuTungDetail">@item.MS_PT</a>
-                    </td>
-                    <td>
-                        @item.SO_LUONG
-                    </td>
-                    <td>
-                        @item.DON_GIA.ToString("N2")
-                    </td>
-                    <td>
-                        @item.VAT
-                    </td>
-                    <td>
-                        @item.NGOAI_TE
-                    </td>
-                    <td>
-                        <a style="color:#113186;" data-mspt="@item.MS_PT.Trim()" class="card-value vitri">@item.VI_TRI</a>
-                    </td>
-
-                    @if (@item.XOA == true)
-                    {
-                        <td>
-                            <p style=""><a class="remove-row"><i class="fa fa-trash-o text-danger"></i></a></p>
+                if (item.XOA == false)
+                {
+                    <tr>
+                        <td><a style="color:#113186;" data-mspt="@item.MS_PT.Trim()" class="card-value PhuTungDetail">@item.MS_PT</a>
                         </td>
-                    }
-                </tr>
+                        <td>
+                            @item.SO_LUONG
+                        </td>
+                        <td>
+                            @item.DON_GIA.ToString("N2")
+                        </td>
+                        <td>
+                            @item.VAT
+                        </td>
+                        <td>
+                            @item.NGOAI_TE
+                        </td>
+                        <td>
+                            <a style="color:#113186;" data-mspt="@item.MS_PT.Trim()" data-xoa="@item.XOA" class="card-value vitri">@item.VI_TRI</a>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            <a style="color:#113186;" data-mspt="@item.MS_PT.Trim()" class="card-value PhuTungDetail">@item.MS_PT</a>
+                        </td>
+                        <td>
+                            @*@item.SO_LUONG*@
+                            <input class="form-control form-control-sm" style="height:0.5rem!important;min-height:0.5rem!important;font-size: 0.8rem;padding: 11px 3px!important;" type="number" min="0" max="99999" value="@item.SO_LUONG" placeholder="số lượng" />
+                        </td>
+                        <td>
+                            @*@item.DON_GIA.ToString("N2")*@
+                            <input class="form-control form-control-sm DON_GIA" style="height:0.5rem!important;min-height:0.5rem!important;font-size: 0.8rem;padding: 11px 3px!important;" type="text" value="@item.DON_GIA.ToString("N2")" placeholder="số lượng" />
+                        </td>
+                        <td>
+                            <input class="form-control form-control-sm" style="height:0.5rem!important;min-height:0.5rem!important;font-size: 0.8rem;padding: 11px 3px!important;" type="number" min="0" max="99999" value="@item.VAT" placeholder="số lượng" />
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(modelItem => item.NGOAI_TE,(IEnumerable<SelectListItem>)@ViewBag.NgoaiTe, new {  @class = "form-select-sm",@style="height:1.6rem!important;min-height:0.5rem!important;font-size: 0.8rem!important;padding: 0px 3px!important;"})
+                        </td>
+                        <td>
+                            <a style="color:#113186;" data-mspt="@item.MS_PT.Trim()" data-xoa="@item.XOA" class="card-value vitri">@item.VI_TRI</a>
+                        </td>
+
+                        <td>
+                            <p style=""><a class="remove-row btnDeleteVatTuNhapKho" data-mspt="@item.MS_PT.Trim()"><i class="fa fa-trash-o text-danger"></i></a></p>
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     </table>
@@ -77,7 +101,19 @@ else
 {
     <div class="col-12">
         <div class="no-data">
-            <span>@ViewText.TXT_KHONGCO_DULIEU</span>
+            <span>@ViewText.LBL_KHONGCO_DULIEU</span>
         </div>
     </div>
 }
+<script>
+    $(".DON_GIA").on("input", function () {
+        var value = $(this).val().replace(/[^\d.]/g, ''); // Xóa tất cả ký tự không phải số và dấu chấm
+        value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'); // Thêm dấu phẩy phân cách phần ngàn
+        var parts = value.split('.');
+        if (parts.length > 1) {
+            parts[1] = parts[1].slice(0, 6); // Giới hạn số chữ số sau dấu thập phân là 6
+            value = parts.join('.'); // Gộp lại thành số
+        }
+        $(this).val(value);
+    });
+</script>

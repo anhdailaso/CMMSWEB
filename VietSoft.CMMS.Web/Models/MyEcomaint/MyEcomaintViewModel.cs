@@ -16,5 +16,8 @@ namespace VietSoft.CMMS.Web.Models
         public int MUC_YC { get; set; }
         public int MUC_BT { get; set; }
         public int MUC_GS { get; set; }
+        public int HH_YC { get; set; }
+        public int HH_BT { get; set; }
+        public int HH_GS { get; set; }
     }
 }

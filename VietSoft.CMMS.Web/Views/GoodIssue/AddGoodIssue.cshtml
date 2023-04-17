@@ -1,13 +1,10 @@
 ﻿@using VietSoft.CMMS.Web.Resources
 @using VietSoft.CMMS.Web.Helpers
 @model VietSoft.CMMS.Web.Models.GoodIssueDetailsModel;
-
 @{
-    ViewBag.Title = "Phiếu xuất kho";
+    ViewBag.Title = ViewText.TITLE_PHIEU_XUAT_KHO;
 }
-@Html.Hidden("THEM", @Model.THEM, null)
-@Html.Hidden("LOCK", @Model.LOCK, null)
-@Html.Hidden("QUYEN", @Model.QUYEN, null)
+
 <div class="row">
     <div class="col-md-6 offset-md-3 col-xs-12">
         <div class="accordion" id="accordionPanelsStayOpenExample">
@@ -18,108 +15,120 @@
                 </p>
                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                     <div class="accordion-body">
-                        <div class="form-floating break-line">
-
-                            <div class="d-flex justify-content-between mb-3">
-                                @Html.Hidden("MS_DH_XUAT_PT", @Model.MS_DH_XUAT_PT, null)
-                                <div><span>@Model.SO_PHIEU_XN</span></div>
-                                <div><span>@Model.NGAY.ToString(Setting.FORMAT_DATE)</span></div>
-                            </div>
-
+                        <form id="myFormXuat">
+                            @Html.HiddenFor(model => model.THEM,null)
+                            @Html.Hidden("LOCK", @Model.LOCK, null)
+                            @Html.Hidden("QUYEN", @Model.QUYEN, null)
+                            @Html.Hidden("MS_KHO", @Model.MS_KHO, null)
                             <div class="form-floating break-line">
-                                @Html.DropDownListFor(model => model.MS_DANG_XUAT,(IEnumerable<SelectListItem>)@ViewBag.DangXuat, new { id="CboDangXuat",name="CboDangXuat", @class = "form-select form-select-sm"})
-                                @Html.ValidationMessageFor(model=>model.MS_DANG_XUAT)
-                                <label for="MS_DANG_XUAT">Dạng xuất</label>
-                            </div>
+                                <div class="d-flex justify-content-between mb-3">
+                                    @Html.Hidden("MS_DH_XUAT_PT", @Model.MS_DH_XUAT_PT, null)
+                                    <div><span>@Model.SO_PHIEU_XN</span></div>
+                                    <div><span>@Model.NGAY.ToString(Setting.FORMAT_DATE)</span></div>
+                                </div>
 
-                            <div class="d-flex justify-content-between gap-2 d-none">
-                                <div class="form-floating input-group break-line">
+                                <div class="form-floating break-line">
+                                    @Html.DropDownListFor(model => model.MS_DANG_XUAT,(IEnumerable<SelectListItem>)@ViewBag.DangXuat, new { id="CboDangXuat",name="CboDangXuat", @class = "form-select form-select-sm"})
+                                    <label for="MS_DANG_XUAT">@ViewText.LBL_DANG_XUAT</label>
+                                    <div id="CboDangXuat-error"></div>
+                                </div>
+
+                                <div class="d-flex justify-content-between gap-2 d-none">
+                                    <div class="form-floating input-group break-line">
+                                        @if (Model.THEM == true)
+                                        {
+                                            @Html.DropDownListFor(model => model.MS_PHIEU_BAO_TRI,(IEnumerable<SelectListItem>)@ViewBag.PBT, new { id="CboPBT",name="CboPBT", @class = "form-select form-select-sm"})
+                                            <label for="MS_PHIEU_BAO_TRI">@ViewText.LBL_PHIEU_BAO_TRI</label>
+                                            <div id="CboPBT-error"></div>
+
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(model => model.MS_PHIEU_BAO_TRI,new {@readonly = "readonly",style = "background-color: white;" , id="CboPBT",name="CboPBT", @class = "form-control"})
+                                            <label for="MS_PHIEU_BAO_TRI">@ViewText.LBL_PHIEU_BAO_TRI</label>
+
+                                        }
+                                    </div>
+                                    <div class="form-floating input-group break-line">
+                                        @Html.Label("MS_MAY","",new {id="txtMay",name="txtMay",@class = "form-control"})
+                                    </div>
+                                </div>
+
+                                <div class="form-floating break-line d-none">
                                     @if (Model.THEM == true)
                                     {
-                                        @Html.DropDownListFor(model => model.MS_PHIEU_BAO_TRI,(IEnumerable<SelectListItem>)@ViewBag.PBT, new { id="CboPBT",name="CboPBT", @class = "form-select form-select-sm"})
-                                        @Html.ValidationMessageFor(model=>model.MS_BP_CHIU_PHI)
+                                        @Html.DropDownListFor(model => model.MS_BP_CHIU_PHI,(IEnumerable<SelectListItem>)@ViewBag.BPCP, new { id="CboBPCP",name="CboBPCP", @class = "form-select form-select-sm"})
+                                        <label for="MS_BP_CHIU_PHI">@ViewText.LBL_BO_PHAN_CHIEU_PHI</label>
+                                        <div id="CboBPCP-error"></div>
+
                                     }
                                     else
                                     {
-                                        @Html.TextBoxFor(model => model.MS_PHIEU_BAO_TRI,new {@readonly = "readonly",style = "background-color: white;" , id="CboPBT",name="CboPBT", @class = "form-control"})
+                                        @Html.TextBoxFor(model => model.TEN_BP_CHIU_PHI,new {@readonly = "readonly",style = "background-color: white;", id="CboBPCP",name="CboBPCP", @class = "form-control"})
+                                        <label for="MS_BP_CHIU_PHI">@ViewText.LBL_BO_PHAN_CHIEU_PHI</label>
+
                                     }
-                                    <label for="MS_PHIEU_BAO_TRI">Phiếu bảo trì</label>
-                                </div>
-                                <div class="form-floating input-group break-line">
-                                    @Html.Label("MS_MAY","",new {id="txtMay",name="txtMay",@class = "form-control"})
-                                </div>
-                            </div>
-
-                            <div class="form-floating break-line d-none">
-                                @if (Model.THEM == true)
-                                {
-                                    @Html.DropDownListFor(model => model.MS_BP_CHIU_PHI,(IEnumerable<SelectListItem>)@ViewBag.BPCP, new { id="CboBPCP",name="CboBPCP", @class = "form-select form-select-sm"})
-                                    @Html.ValidationMessageFor(model=>model.MS_BP_CHIU_PHI)
-                                }
-                                else
-                                {
-                                    @Html.TextBoxFor(model => model.TEN_BP_CHIU_PHI,new {@readonly = "readonly",style = "background-color: white;", id="CboBPCP",name="CboBPCP", @class = "form-control"})
-                                }
-                                <label for="MS_BP_CHIU_PHI">Bộ phận CP</label>
-                            </div>
-
-                            <div class="form-floating break-line">
-                                @Html.DropDownListFor(model => model.NGUOI_NHAN,(IEnumerable<SelectListItem>)@ViewBag.NguoiNhap, new { id="cboNguoiNhap",name="cboNguoiNhap", @class = "form-select form-select-sm"})
-                                @Html.ValidationMessageFor(model=>model.NGUOI_NHAN)
-                                <label for="NGUOI_NHAP">Người/Cty nhận</label>
-                            </div>
-
-                            <div class="d-flex justify-content-between gap-2">
-                                <div class="form-floating input-group break-line">
-                                    @Html.TextBoxFor(model => model.SO_CHUNG_TU,new {@class = "form-control", maxlength = 250, autocomplete = "off" , placeholder="Ghi chú" })
-                                    @Html.ValidationMessageFor(model=>model.SO_CHUNG_TU)
-                                    <label for="SO_CHUNG_TU">Số chứng từ</label>
                                 </div>
 
-                                <div class="form-floating input-group break-line date">
-                                    @Html.TextBoxFor(model => model.NGAY_CHUNG_TU,"{0:dd/MM/yyyy}",new{ @class="form-control",autocomplete="off"})
-                                    @Html.ValidationMessageFor(model=>model.NGAY_CHUNG_TU)
-                                    <span class="input-group-append d-flex align-items-center">
-                                        <i class="bi bi-calendar4-week date-icon"></i>
-                                    </span>
-                                    <label for="NGAY_CHUNG_TU">Ngày chứng từ</label>
+                                <div class="form-floating break-line">
+                                    @Html.DropDownListFor(model => model.NGUOI_NHAN,(IEnumerable<SelectListItem>)@ViewBag.NguoiNhap, new { id="cboNguoiNhap",name="cboNguoiNhap", @class = "form-select form-select-sm"})
+                                    <label for="NGUOI_NHAP">@ViewText.LBL_NGUOI_NHAN</label>
+                                    <div id="cboNguoiNhap-error"></div>
+
                                 </div>
 
-                            </div>
-
-                            <div class="form-floating  break-line">
-                                @Html.TextAreaFor(model=>model.GHI_CHU,new {@class = "form-control", maxlength = 500, autocomplete = "off" , placeholder="Ghi chú" })
-                                @Html.ValidationMessageFor(model=>model.GHI_CHU)
-                                <label for="GHI_CHU">Ghi chú</label>
-                            </div>
-                            @if (Model.QUYEN == true)
-                            {
-                                @if (@Model.THEM == true)
-                                {
-                                    <div class="break-line d-flex justify-content-between">
-                                        <p></p>
-                                        <a id="btnSavePhieuXuatKho" class="btn btn-outline-dark m-1">
-                                            <i class="fa fa-floppy-o fs-7"></i>
-                                        </a>
+                                <div class="d-flex justify-content-between gap-2">
+                                    <div class="form-floating input-group break-line">
+                                        @Html.TextBoxFor(model => model.SO_CHUNG_TU,new {@class = "form-control", maxlength = 250, autocomplete = "off" , placeholder="Số chứng từ" })
+                                        <label for="SO_CHUNG_TU">@ViewText.LBL_SO_CHUNG_TU</label>
                                     </div>
-                                }
-                                else
+
+                                    <div class="form-floating input-group break-line date">
+                                        @Html.TextBoxFor(model => model.NGAY_CHUNG_TU,"{0:dd/MM/yyyy}",new{ @class="form-control",autocomplete="off"})
+                                        <span class="input-group-append d-flex align-items-center">
+                                            <i class="bi bi-calendar4-week date-icon"></i>
+                                        </span>
+                                        <label for="NGAY_CHUNG_TU">@ViewText.LBL_NGAY_CHUNG_TU</label>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-floating  break-line">
+                                    @Html.TextAreaFor(model => model.GHI_CHU, new { @class = "form-control", maxlength = 500, autocomplete = "off" })
+                                    <label for="GHI_CHU">@ViewText.LBL_GHI_CHU</label>
+
+                                </div>
+                                @if (Model.QUYEN == true)
                                 {
-                                    <div class="break-line d-flex">
-                                        <div class="form-floating flex-grow-1">
-                                            @Html.TextBox("ContainerCode", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", placeholder="Scan PTVT"})
-                                            <label for="ContainerCode">Scan PTVT</label>
-                                            <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
-                                                <img src="/images/barcode.png" alt="image" class="icon-barcode">
+                                    @if (@Model.THEM == true)
+                                    {
+                                        <div class="break-line d-flex justify-content-between">
+                                            <p></p>
+                                            <a id="btnSavePhieuXuatKho" class="btn btn-outline-dark m-1">
+                                                <i class="fa fa-floppy-o fs-7"></i>
                                             </a>
                                         </div>
-                                        <a id="btnSavePhieuXuatKho" class="btn btn-outline-dark m-1">
-                                            <i class="fa fa-floppy-o fs-7"></i>
-                                        </a>
-                                    </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="break-line d-flex">
+                                            <div class="form-floating flex-grow-1">
+                                                @Html.TextBox("ScanPhuTungCode", null, new {@class = "form-control", maxlength = 250, autocomplete = "off", placeholder=@ViewText.LBL_SCAN_VT_PT})
+                                                <label for="ScanPhuTungCode">@ViewText.LBL_SCAN_VT_PT</label>
+                                                <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
+                                                    <img src="/images/barcode.png" alt="image" class="icon-barcode">
+                                                </a>
+                                            </div>
+                                            <a id="btnSavePhieuXuatKho" class="btn btn-outline-dark m-1">
+                                                <i class="fa fa-floppy-o fs-7"></i>
+                                            </a>
+                                        </div>
+                                    }
                                 }
-                            }
-                        </div>
+                            </div>
+
+                        </form>
+
                     </div>
                 </div>
             </div>
@@ -157,8 +166,6 @@
                         <i class="fa fa-lock fs-5"></i>
                     </a>
                 }
-
-
             </div>
         </div>
     </nav>
@@ -175,6 +182,13 @@
             CHON_DS_PHUTUNG: '@Url.Action("ChonDSPhuTungXuat", "GoodIssue")',
             LOAD_DS_PHUTUNG: '@Url.Action("LoadDSPhuTungXuat", "GoodIssue")',
             GET_MAY_PBT: '@Url.Action("getMaybyPhieuBaoTri", "GoodIssue")',
+            SAVE_PHIEU_XUAT_KHO: '@Url.Action("SavePhieuXuatKho", "GoodIssue")',
+            ADD_PHUTUNGXUATKHO: '@Url.Action("AddPhuTungXuat", "GoodIssue")',
+            DELETE_PHUTUNGXUATKHO: '@Url.Action("DeletePhuTungXuatXuatKho", "GoodIssue")',
+            SCAN_PHU_TUNG_XUAT: '@Url.Action("ScanPhuTung", "GoodIssue")',
+            LOCK_PHIEUXUAT: '@Url.Action("LockPhieuXuatKho", "GoodIssue")',
+            MESS_XOA_PHU_TUNG_XUAT: '@Html.Raw(Message.XOA_PHU_TUNG_XUAT)',
+            MESS_KHOA_PHIEU_XUAT: '@Html.Raw(Message.KHOA_PHIEU_XUAT)',
             PAGE_SIZE: 10
         }
     </script>

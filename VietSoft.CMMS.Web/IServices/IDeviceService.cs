@@ -7,7 +7,7 @@ namespace VietSoft.CMMS.Web.IServices
     {
         public List<MoveDeviceModel> GetListMoveDecice(string username);
         public BaseResponseModel SaveMoveDevice(string username, string json, bool loaidc);
-        public List<IventoryDeviceModel> GetListIventoryDecice(string username);
+        public List<IventoryDeviceModel> GetListIventoryDecice(string username, int NNgu);
         public BaseResponseModel SaveIventoryDevice(string username, string json);
         
     }

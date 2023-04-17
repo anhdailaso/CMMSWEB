@@ -6,14 +6,14 @@ using VietSoft.CMMS.Web.Models.Maintenance;
 
 namespace VietSoft.CMMS.Web.Services
 {
-    public class GoodReceiptService: IGoodReceiptService
+    public class GoodReceiptService : IGoodReceiptService
     {
         private readonly IDapperService _dapper;
         public GoodReceiptService(IDapperService dapper)
         {
             _dapper = dapper;
         }
-        public List<GoodReceiptViewModel> GetListGoodReceipt(string username,int languages, DateTime? tngay, DateTime? dngay, string mskho)
+        public List<GoodReceiptViewModel> GetListGoodReceipt(string username, int languages, DateTime? tngay, DateTime? dngay, string mskho)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace VietSoft.CMMS.Web.Services
                 List<GoodReceiptViewModel>? res = _dapper.GetAll<GoodReceiptViewModel>("spCMMSWEB", p, CommandType.StoredProcedure);
                 return res;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return null;
             }
@@ -108,7 +108,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        
+
         public List<PhieuNhapKhoChiPhiModel> GetCHiPhiPhieuNhapKho(int languages, string mspn, int iloai)
         {
             //1 là xem 
@@ -124,7 +124,7 @@ namespace VietSoft.CMMS.Web.Services
             }
             catch (Exception ex)
             {
-                return new List<PhieuNhapKhoChiPhiModel> ();
+                return new List<PhieuNhapKhoChiPhiModel>();
             }
         }
 
@@ -151,7 +151,7 @@ namespace VietSoft.CMMS.Web.Services
         }
 
 
-        public ResponseViewModel DeletePhieuNhapKho(string mspn, string userName)
+        public ResponseViewModel DeletePhieuNhapKho(string mspn, string userName, int languages)
         {
             try
             {
@@ -159,18 +159,196 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@sDanhMuc", "DELETE_PHIEU_NHAP_KHO");
                 p.Add("@sCot1", mspn);
                 p.Add("@UserName", userName);
+                p.Add("@NNgu", languages);
                 var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 return res != null ? res : new ResponseViewModel()
                 {
                     MA = 0
                 };
             }
-            catch 
+            catch
             {
                 return new ResponseViewModel()
                 {
                     MA = -1
                 };
+            }
+        }
+
+        public ResponseViewModel LockPhieuNhapKho(string mspn)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "LOCK_PHIEU_NHAP_KHO");
+                p.Add("@sCot1", mspn);
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res != null ? res : new ResponseViewModel()
+                {
+                    MA = 0
+                };
+            }
+            catch
+            {
+                return new ResponseViewModel()
+                {
+                    MA = -1
+                };
+            }
+        }
+
+
+        public ResponseViewModel SavePhieuNhapKho(GoodReceiptDetailsModel model, string userName)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "SAVE_PHIEU_NHAP_KHO");
+                p.Add("@sCot1", model.MS_DH_NHAP_PT);
+                p.Add("@dCot1", DateTime.Now);
+                p.Add("@iCot1", model.MS_KHO);
+                p.Add("@iCot2", model.MS_DANG_NHAP);
+                p.Add("@sCot2", model.NGUOI_NHAP);
+                p.Add("@dCot2",  model.NGAY_CHUNG_TU);
+                p.Add("@sCot3", model.SO_CHUNG_TU == null ? "" : model.SO_CHUNG_TU);
+                p.Add("@sCot4", model.GHI_CHU);
+                p.Add("@sCot5", model.MS_DDH);
+                p.Add("@bCot1", model.THEM);
+                p.Add("@UserName", userName);
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res != null ? res : new ResponseViewModel()
+                {
+                    MA = 0
+                };
+            }
+            catch
+            {
+                return new ResponseViewModel()
+                {
+                    MA = -1
+                };
+            }
+        }
+
+
+        public ResponseViewModel SaveThongTinPhuTung(PhieuNhapKhoPhuTungMore model, string userName)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "SAVE_THONG_TIN_PHU_TUNG");
+                p.Add("@sCot1", model.MS_DH_NHAP_PT);
+                p.Add("@sCot2", model.MS_PT);
+                p.Add("@dCot1", model.BAO_HANH_DEN_NGAY);
+                p.Add("@sCot3", model.XUAT_XU);
+                p.Add("@fCot1", model.TY_GIA);
+                p.Add("@UserName", userName);
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res != null ? res : new ResponseViewModel()
+                {
+                    MA = 0
+                };
+            }
+            catch
+            {
+                return new ResponseViewModel()
+                {
+                    MA = -1
+                };
+            }
+        }
+
+
+        public ResponseViewModel AddPhuTungNhap(string username, string data, string mspn)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "ADD_PHU_TUNG_NHAP");
+                p.Add("@UserName", username);
+                p.Add("@sCot1", mspn);
+                p.Add("@json", data);
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return new ResponseViewModel();
+            }
+        }
+
+        public ResponseViewModel SaveVitri(string username, string data, string mspn, string mspt, int languages)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "SAVE_VI_TRI");
+                p.Add("@UserName", username);
+                p.Add("@sCot1", mspn);
+                p.Add("@sCot2", mspt);
+                p.Add("@json", data);
+                p.Add("@NNgu", languages);
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return new ResponseViewModel();
+            }
+        }
+
+        public ResponseViewModel SaveChiPhi(string username, string data, string mspn)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "SAVE_CHI_PHI");
+                p.Add("@UserName", username);
+                p.Add("@sCot1", mspn);
+                p.Add("@json", data);
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return new ResponseViewModel();
+            }
+        }
+
+        public ResponseViewModel SavePhuTungNhap(string username, string data, string mspn, int languages)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "SAVE_PHU_TUNG_NHAP");
+                p.Add("@UserName", username);
+                p.Add("@sCot1", mspn);
+                p.Add("@json", data);
+                p.Add("@NNgu", languages);
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return new ResponseViewModel();
+            }
+        }
+
+        public ResponseViewModel DeletePhuTungNhapKho(string mspt, string mspn, int languages)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "DELETE_PHU_TUNG_NHAP_KHO");
+                p.Add("@sCot1", mspn);
+                p.Add("@sCot2", mspt);
+                p.Add("@NNgu", languages);
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return new ResponseViewModel();
             }
         }
 

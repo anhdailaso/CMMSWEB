@@ -3,6 +3,50 @@
     var delayTimer;
     var bquyen = false;
 
+    $("#myFormXuat").validate({
+        ignore: '',
+        rules: {
+            "MS_DANG_XUAT": {
+                notEqualTo: '-1'
+            },
+
+            "MS_PHIEU_BAO_TRI": {
+                notEqualTo: '-1'
+            },
+            "MS_BP_CHIU_PHI": {
+                notEqualTo: '-1'
+            },
+            "NGUOI_NHAN": {
+                notEqualTo: '-1'
+            },
+        },
+        messages: {
+            "MS_DANG_XUAT": {
+                notEqualTo: "Không được để trống."
+            },
+            "MS_PHIEU_BAO_TRI": {
+                notEqualTo: "Không được để trống."
+            },
+            "MS_BP_CHIU_PHI": {
+                notEqualTo: "Không được để trống."
+            },
+            "NGUOI_NHAN": {
+                notEqualTo: "Không được để trống."
+            },
+        },
+        errorPlacement: function (error) {
+            let id = error[0].id;
+            $("#" + id).replaceWith(error);
+        },
+        success: function (error) {
+            //error.remove();
+            let id = error[0].id;
+            $("#" + id).empty();
+        }
+    });
+    $.validator.addMethod("notEqualTo", function (value, element, param) {
+        return this.optional(element) || value !== param;
+    }, "Please enter a different value");
     function init() {
         bload = false;
         setDatePicker("#toDate", null, null, null);
@@ -29,6 +73,31 @@
                 GetGoodIssue(1);
             }, 1000)
         })
+
+        $(document).on('click', '.btnDeletePhieuXuatKho', function () {
+            let msbx = $(this).data('mspx');
+            ShowConfirm(config.MESS_XOA_PHIEU_XUAT, 'warning', '', function (result) {
+                if (result == true) {
+                    $.ajax({
+                        type: "POST",
+                        url: config.DELETE_PHIEUXUATKHO,
+                        data: { mspx: msbx },
+                        success: function (response) {
+                            if (response.responseCode == 1) {
+                                showSuccess(response.responseMessage)
+                                GetGoodIssue(1);
+                            }
+                            else {
+                                showWarning(response.responseMessage)
+                            }
+                        },
+                        complete: function () {
+                        }
+                    });
+
+                }
+            });
+        });
 
 
         $(document).on("click", '#btnAddGoodIssue', function () {
@@ -67,10 +136,227 @@
         });
         GetGoodIssue(1);
     }
-
     function Addinit() {
-
         setDatePicker("#NGAY_CHUNG_TU", null, null, null);
+
+
+        $(document).on("blur", '.SoLuong', function () {
+            var maxvalue = parseFloat($(this).attr("max"));
+            if (maxvalue > 0) {
+                if (parseFloat($(this).val()) > maxvalue) {
+                    $(this).val(maxvalue);
+                    $(this).focus();
+                    return false;
+                }
+            }
+
+        })
+
+     
+        $('#ScanPhuTungCode').on('change', function () {
+            let ma = $(this).val();
+            $(this).val('');
+            $.ajax({
+                type: "POST",
+                url: config.SCAN_PHU_TUNG_XUAT,
+                data: {
+                    macode: ma,
+                    mspx: $('#MS_DH_XUAT_PT').val(),
+                },
+                success: function (response) {
+                    if (response.responseCode == 1) {
+
+                        showSuccess(response.responseMessage)
+                        LoadDanhSachPhuTung();
+                    }
+                    else {
+                        showWarning(response.responseMessage)
+                    }
+                },
+                complete: function () {
+                }
+            });
+
+        })
+
+
+        $(document).on('click', '.btnDeleteVatTuXuatKho', function () {
+            let mspt = $(this).data('mspt');
+            let mspn = $(this).data('mspn');
+
+            ShowConfirm(config.MESS_XOA_PHU_TUNG_XUAT, 'warning', '', function (result) {
+                if (result == true) {
+                    $.ajax({
+                        type: "POST",
+                        url: config.DELETE_PHUTUNGXUATKHO,
+                        data: {
+                            mspt: mspt,
+                            mspn: mspn,
+                            mspx: $('#MS_DH_XUAT_PT').val()
+                        },
+                        success: function (response) {
+                            if (response.responseCode == 1) {
+                                showSuccess(response.responseMessage)
+                                LoadDanhSachPhuTung();
+                            }
+                            else {
+                                showWarning(response.NAME)
+                            }
+                        },
+                        complete: function () {
+                        }
+                    });
+
+                }
+            });
+        });
+
+        $(document).on("click", '#btnAddPhuThungXuat', function () {
+            var lstParameter = new Array();
+            var cur_length = 0;
+            let rowdata = $(this).closest('.modal-content').find('.modal-body table tbody tr.tr-supplies')
+
+            $(rowdata).find('input:checkbox:checked').each(function (i, obj) {
+                lstParameter[cur_length] = new Object();
+                lstParameter[cur_length].MS_PT = $(this).closest('tr').find("td").eq(0).text();
+                lstParameter[cur_length].MS_DH_NHAP_PT = $(this).closest('tr').find("td").eq(1).text();
+                lstParameter[cur_length].MS_VI_TRI = $(this).data('msvt');
+                lstParameter[cur_length].SL_XUAT = $(this).closest('tr').find(".SoLuong").val();
+                cur_length = cur_length + 1;
+            });
+            $.ajax({
+                type: "POST",
+                url: config.ADD_PHUTUNGXUATKHO,
+                data: { jsonData: JSON.stringify(lstParameter), mspx: $('#MS_DH_XUAT_PT').val() },
+                success: function (response) {
+                    if (response.responseCode == 1) {
+                        LoadDanhSachPhuTung();
+                        $('#modalLarge').modal('hide');
+                    }
+                    else {
+                        showWarning(response.responseMessage)
+                    }
+                }
+            });
+
+
+            $('#modalLarge').modal('hide');
+        })
+        $(document).on("click", '#btnSavePhuTung', function () {
+            var lstParameter = new Array();
+            var cur_length = 0;
+            let rowdata = $('#GetDSPhuTungXuat').find('table.tbPhuTungXuat tbody tr')
+            console.log(rowdata);
+            $(rowdata).find('input').each(function (i, obj) {
+                lstParameter[cur_length] = new Object();
+                lstParameter[cur_length].MS_PT = $(this).data('mspt');
+                lstParameter[cur_length].MS_DH_NHAP_PT = $(this).closest('tr').find("td").eq(3).text();
+                lstParameter[cur_length].MS_VI_TRI = $(this).data('msvt');
+                lstParameter[cur_length].SL_XUAT = $(this).val();
+                cur_length = cur_length + 1;
+            });
+            $.ajax({
+                type: "POST",
+                url: config.ADD_PHUTUNGXUATKHO,
+                data: { jsonData: JSON.stringify(lstParameter), mspx: $('#MS_DH_XUAT_PT').val() },
+                success: function (response) {
+                    if (response.responseCode == 1) {
+                        LoadDanhSachPhuTung();
+                        showSuccess(response.responseMessage)
+                    }
+                    else {
+                        showWarning(response.responseMessage)
+                    }
+                }
+            });
+            $('#modalLarge').modal('hide');
+        })
+
+
+        //lock phiếu xuất
+        $(document).on("click", '#btnLock', function () {
+            ShowConfirm(config.MESS_KHOA_PHIEU_XUAT, 'warning', '', function (result) {
+                if (result == true) {
+                    $.ajax({
+                        type: "POST",
+                        url: config.LOCK_PHIEUXUAT,
+                        data: { mspx: $('#MS_DH_XUAT_PT').val() },
+                        success: function (response) {
+                            if (response.responseCode == 1) {
+                                window.location.href = "/GoodIssue/EditGoodIssue?mspx=" + $('#MS_DH_XUAT_PT').val() + "";
+                                showSuccess(response.responseMessage)
+                            }
+                            else {
+                                showWarning(response.responseMessage)
+                            }
+                        }
+                    });
+                }
+            });
+        })
+
+
+
+        $(document).on("click", '#btnSavePhieuXuatKho', function () {
+
+            switch (parseInt($('#CboDangXuat').val())) {
+                case 1: {
+                    //xuất cho bảo trì
+                    //MS_PHIEU_BAO_TRI
+                    $("#CboBPCP").rules("remove");
+                    $("#CboPBT").rules("add", {
+                        notEqualTo: '-1'
+                    });
+                    break;
+                }
+                case 2: {
+
+                    $("#CboBPCP").rules("remove");
+                    $("#CboPBT").rules("remove");
+                    //trả nhà cung cấp
+
+                    break;
+                }
+                case 3: {
+                    //khác
+                    $("#CboBPCP").rules("remove");
+                    $("#CboPBT").rules("remove");
+                    break;
+                }
+                case 4: {
+                    //bộ phận chiệu phí
+                    $("#CboPBT").rules("remove");
+                    $("#CboBPCP").rules("add", {
+                        notEqualTo: '-1'
+                    });
+                    break;
+                }
+            }
+            if ($('#myFormXuat').valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: config.SAVE_PHIEU_XUAT_KHO,
+                    data: $('#myFormXuat').serialize(),
+                    success: function (response) {
+                        if (response.responseCode == 1) {
+                            showSuccess(response.responseMessage)
+                            setTimeout(function () {
+                                window.location.href = "/GoodIssue/EditGoodIssue?mspx=" + $('#MS_DH_XUAT_PT').val() + "";
+                            }, 600)
+                        }
+                        else {
+                            showWarning(response.responseMessage)
+                        }
+                    },
+                    complete: function () {
+                    }
+                });
+            }
+
+
+        });
+
+
 
         if ($('#QUYEN').val() == 'False') {
             bquyen = false;
@@ -122,26 +408,36 @@
         $(document).on("keyup", '#search', function () {
             showLoadingOverlay('#resultContent');
             var keyword = $(this).val().toLowerCase();
-            $('.tblAddSuppliesSeleced tbody tr').filter(function () {
+            $('.tblAddPhuTungXuat tbody tr').filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(keyword) > -1);
-            });
+            },500);
             hideLoadingOverlay('#resultContent');
         })
-
+        //$(document).on("keyup", '#search', debounce(function () {
+        //    showLoadingOverlay('#resultContent');
+        //    var keyword = $(this).val().toLowerCase();
+        //    $('.tblAddPhuTungXuat tbody tr').each(function () {
+        //        if ($(this).text().toLowerCase().indexOf(keyword) > -1) {
+        //            $(this).addClass('visible').removeClass('hidden');
+        //        } else {
+        //            $(this).addClass('hidden').removeClass('visible');
+        //        }
+        //    });
+        //    hideLoadingOverlay('#resultContent');
+        //}, 500));
 
         if (parseInt($('#CboDangXuat').val()) == 2) {
             $('#CboDDH').parent('.form-floating').addClass('d-none');
         }
 
         $(document).on('change', '#chkBT', function () {
-                alert(1);
-                if ($(this).is(":checked")) {
-                    PoupLoadDanhSachPhuTung(true);
-                }
-                else {
-                    PoupLoadDanhSachPhuTung(false);
-                }
-            });
+            if ($(this).is(":checked")) {
+                PoupLoadDanhSachPhuTung(true);
+            }
+            else {
+                PoupLoadDanhSachPhuTung(false);
+            }
+        });
 
         $('#CboDangXuat').on('change', function () {
             switch (parseInt($('#CboDangXuat').val())) {
@@ -180,7 +476,6 @@
             }
         })
         LoadDanhSachPhuTung();
-
         $('#CboPBT').on('change', function () {
             $.ajax({
                 type: "POST",
@@ -193,8 +488,6 @@
             });
 
         })
-
-
         //chọn phụ tùng
         $(document).on("click", '#btnAddPhuTung', function () {
             $.ajax({
@@ -219,11 +512,6 @@
     }
 
 
-    function addclassdisabled() {
-        if (bquyen === false) {
-            $('.btn.btn-primary.w-50').addClass('disabled');
-        }
-    }
 
     function GetGoodIssue(pageIndex) {
         var currenpage = pageIndex || 1;
@@ -335,8 +623,6 @@
             }
         });
     }
-
-
 
     function renderPagination(totalPages, divRender, currentPage) {
         var pagination = $("#" + divRender);

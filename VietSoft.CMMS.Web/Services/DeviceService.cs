@@ -51,13 +51,14 @@ namespace VietSoft.CMMS.Web.Services
         }
 
       
-        public List<IventoryDeviceModel> GetListIventoryDecice(string username)
+        public List<IventoryDeviceModel> GetListIventoryDecice(string username, int NNgu)
         {
             try
             {
                 var p = new DynamicParameters();
                 p.Add("@sDanhMuc", "GETLIST_INVENTORY_DEVICE");
                 p.Add("@UserName", username);
+                p.Add("@NNgu", NNgu);
                 List<IventoryDeviceModel>? res = _dapper.GetAll<IventoryDeviceModel>("spCMMSWEB", p, CommandType.StoredProcedure);
                 return res;
             }

@@ -1,7 +1,7 @@
 ﻿@using VietSoft.CMMS.Web.Resources
 @model IEnumerable<VietSoft.CMMS.Web.Models.PhieuNhapKhoChiPhiModel>
 <div class="modal-header">
-    <h5>Nhập chi phí mua hàng</h5>
+    <h5>@ViewText.TITLE_NHAP_CHI_PHI</h5>
     <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
 </div>
 <div class="modal-body modal-confirm" id="modalResultContent">
@@ -13,17 +13,17 @@
                     <thead>
                         <tr>
                             <td width="25%" class="col-grid-table ">
-                                Loại chi phí
+                                @ViewText.LBL_LOAI_CP
                                 <span class="tooltip">Tooltip</span>
                             </td>
                             <td width="30%">
-                                Cách phân bổ
+                                @ViewText.LBL_CACH_PHAN_BO
                             </td>
                             <td width="20%">
-                                Số tiền
+                                @ViewText.LBL_SO_TIEN
                             </td>
                             <td width="25%">
-                                Ghi chú
+                                @ViewText.LBL_GHI_CHU
                             </td>
 
                         </tr>
@@ -31,21 +31,42 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td data-id="@item.MS_CHI_PHI">
-                                    @item.TEN_CP
-                                </td>
-                                <td>
-                                    @Html.DropDownListFor(modelItem => item.DANG_PB,(IEnumerable<SelectListItem>)@ViewBag.DANGPB, new {  @class = "form-select-sm"})
+                            @if (@ViewBag.QUYEN == true)
+                            {
+                                <tr>
+                                    <td data-id="@item.MS_CHI_PHI">
+                                        @item.TEN_CP
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(modelItem => item.DANG_PB,(IEnumerable<SelectListItem>)@ViewBag.DANGPB, new {  @class = "form-select-sm",@style="height:1.6rem!important;min-height:0.5rem!important;font-size: 0.8rem!important;padding: 0px 3px!important;"})
+                                    </td>
+                                    <td>
+                                        @*@item.TONG_CP.ToString("N2")*@
+                                        <input class="form-control form-control-sm TONG_CP" style="height:0.5rem!important;min-height:0.5rem!important;font-size: 0.8rem;padding: 11px 3px!important;" type="text" value="@item.TONG_CP.ToString("N2")" placeholder="chi phí" />
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm" style="height:0.5rem!important;min-height:0.5rem!important;font-size: 0.8rem;padding: 11px 3px!important;" type="text" value="@item.GHI_CHU" placeholder=@ViewText.LBL_GHI_CHU />
+                                    </td>
+                                </tr>
 
-                                </td>
-                                <td>
-                                    @item.TONG_CP.ToString("N2")
-                                </td>
-                                <td>
-                                    @item.GHI_CHU
-                                </td>
-                            </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td data-id="@item.MS_CHI_PHI">
+                                        @item.TEN_CP
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(modelItem => item.DANG_PB,(IEnumerable<SelectListItem>)@ViewBag.DANGPB, new {  @class = "form-select-sm",@style="height:1.6rem!important;min-height:0.5rem!important;font-size: 0.8rem!important;padding: 0px 3px!important;",@disabled = "disabled" })
+                                    </td>
+                                    <td>
+                                        @item.TONG_CP.ToString("N2")
+                                    </td>
+                                    <td>
+                                        @item.GHI_CHU
+                                    </td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>
@@ -54,7 +75,7 @@
             {
                 <div class="col-12">
                     <div class="no-data">
-                        <span>@ViewText.TXT_KHONGCO_DULIEU</span>
+                        <span>@ViewText.LBL_KHONGCO_DULIEU</span>
                     </div>
                 </div>
             }
@@ -64,5 +85,18 @@
 
 <div class="modal-footer justify-content-between gap-1 flex-nowrap">
     <button type="button" class="btn btn-outline-danger w-50" onclick="ClosePopup(this)" id="btnCancel">@ViewText.BTN_DONG</button>
-    <button type="button" class="btn btn-primary w-50" id="btnAddSupplies">@ViewText.BTN_LUU</button>
+    <button type="button" class="btn btn-primary w-50" id="btnSaveChiPhi">@ViewText.BTN_LUU</button>
 </div>
+
+<script>
+    $(".TONG_CP").on("input", function () {
+        var value = $(this).val().replace(/[^\d.]/g, ''); // Xóa tất cả ký tự không phải số và dấu chấm
+        value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'); // Thêm dấu phẩy phân cách phần ngàn
+        var parts = value.split('.');
+        if (parts.length > 1) {
+            parts[1] = parts[1].slice(0, 6); // Giới hạn số chữ số sau dấu thập phân là 6
+            value = parts.join('.'); // Gộp lại thành số
+        }
+        $(this).val(value);
+    });
+</script>

@@ -156,5 +156,25 @@ namespace VietSoft.CMMS.Web.Services
         }
 
 
+        public BaseResponseModel SaveAcceptUserRequest(string username, AcceptUserRequest request)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "CAP_NHAT_DUYET_USEREQUEST");
+                p.Add("@deviceID", request.MS_MAY);
+                p.Add("@sCot1", request.GHI_CHU);
+                p.Add("@iCot1", request.LOAI);
+                p.Add("@stt", request.STT);
+                var res = _dapper.Execute<BaseResponseModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponseModel();
+            }
+        }
+
+
     }
 }

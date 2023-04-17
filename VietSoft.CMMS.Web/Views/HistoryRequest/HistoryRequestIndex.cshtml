@@ -1,7 +1,7 @@
 ﻿@using VietSoft.CMMS.Web.Resources
 @using VietSoft.CMMS.Web.Helpers
 @{
-    ViewBag.Title = ViewText.TXT_LICH_SU_YEU_CAU_BAO_TRI;
+    ViewBag.Title = ViewText.TITLE_LICH_SU_YEU_CAU_BAO_TRI;
 }
 
 <div class="row">
@@ -18,7 +18,7 @@
                             <div class="form-floating break-line">
                                 <select id="cboMaThietBi" name="cboMaThietBi" asp-items="@ViewBag.ListMAY" class="form-control form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
                                 </select>
-                                <label for="cboMaThietBi">@ViewText.TXT_MA_THIET_BI</label>
+                                <label for="cboMaThietBi">@ViewText.LBL_MA_THIET_BI</label>
                                 <div id="cboMaThietBi-error"></div>
                                 <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
                                     <img src="~/images/barcode.png" alt="image" class="icon-barcode">
@@ -31,7 +31,7 @@
                                     <span class="input-group-append d-flex align-items-center">
                                         <i class="bi bi-calendar4-week date-icon "></i>
                                     </span>
-                                    <label for="from">@ViewText.TXT_TUNGAY</label>
+                                    <label for="from">@ViewText.LBL_TUNGAY</label>
                                     <div id="from-error"></div>
                                 </div>
 
@@ -40,7 +40,7 @@
                                     <span class="input-group-append d-flex align-items-center">
                                         <i class="bi bi-calendar4-week date-icon"></i>
                                     </span>
-                                    <label for="toDate">@ViewText.TXT_DENNGAY</label>
+                                    <label for="toDate">@ViewText.LBL_DENNGAY</label>
                                     <div id="toDate-error"></div>
 
                                 </div>
@@ -48,7 +48,7 @@
                             <div class="form-floating break-line">
                                 <select id="cboNguoiYeuCau" name="cboNguoiYeuCau" asp-items="@ViewBag.ListNYC" class="form-control form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
                                 </select>
-                                <label for="cboNguoiYeuCau">@ViewText.TXT_NGUOI_YEU_CAU</label>
+                                <label for="cboNguoiYeuCau">@ViewText.LBL_NGUOI_YEU_CAU</label>
                                 <div id="cboNguoiYeuCau-error"></div>
                             </div>
                             @*<div style="border-bottom:1px solid gray" class="break-line"></div>*@
@@ -84,7 +84,7 @@
         </div>
         <div>
             <div class="position-relative">
-                @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder= @ViewText.TXT_SEARCH})
+                @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder= @ViewText.LBL_SEARCH})
                 <i class="bi bi-search icon-obsolute"></i>
             </div>
             <div class="col-md-12 offset-md-12 col-xs-12  px-0">

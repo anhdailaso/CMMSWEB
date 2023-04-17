@@ -1,13 +1,13 @@
 ﻿@using VietSoft.CMMS.Web.Resources
 <div class="modal-header">
-    <h5>@ViewText.TXT_PHANTICH_HUHONG</h5>
+    <h5>@ViewText.LBL_PHANTICH_HUHONG</h5>
     <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
 </div>
 <div class="modal-body modal-confirm" id="modalResultContent">
    <div class="row mb-2">
     <div class="col-12">
        <div class="break-line position-relative" >
-            @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder=@ViewText.TXT_SEARCH})
+            @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder=@ViewText.LBL_SEARCH})
            <i class="bi bi-search icon-obsolute"></i>
         </div>    
         <div id="resultContent" class="treeMenuContent">

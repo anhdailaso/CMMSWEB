@@ -3,7 +3,7 @@
 @using VietSoft.CMMS.Web.Models.Maintenance;
 @model VietSoft.CMMS.Web.Models.Maintenance.TicketMaintenanceViewModel;
 @{
-    ViewBag.Title = "PHIẾU BẢO TRÌ";
+    ViewBag.Title = ViewText.TITLE_PHIEU_BAO_TRI;
     var priorityCategories = (IEnumerable<PriorityCategoryViewModel>)ViewBag.UuTien;
     var maintenanceCategories = (IEnumerable<MaintenanceCategoryViewModel>)ViewBag.LoaiBaoTri;
 }
@@ -31,7 +31,6 @@
                         font-family: FontAwesome;*/
         background-image: none !important;
     }
-
     .accordion-button:not(.collapsed)::after {
         background-image: none !important;
         transform: none;
@@ -68,21 +67,21 @@
                     <option value="@item.MS_LOAI_BT" data-huhong=@item.HU_HONG>@item.TEN_LOAI_BT</option>
                 }
             </select>
-            <label for="cboLoaiBaoTri">Loại bảo trì</label>
+            <label for="cboLoaiBaoTri">@ViewText.LBL_LOAI_BT</label>
 
             <a id="btnViewCauseOfDamage">
                 <img src="~/images/phantich.png" alt="image" class="icon-barcode">
             </a>
         </div>
 
-        <div class="form-floating break-line @(ViewBag.FLAG == 1 ? "disabled" : null)">
-            <select id="cboUuTien" name="cboMay" class="form-select form-select-sm" asp-for="@Model.MS_UU_TIEN">
+        <div class="form-floating break-line">
+                <select id="cboUuTien" asp-for="@Model.MS_UU_TIEN" name="cboUuTien" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
                 @foreach (var item in priorityCategories)
                 {
                     <option value="@item.MS_UU_TIEN" data-songay=@item.SO_NGAY>@item.TEN_UU_TIEN</option>
                 }
             </select>
-            <label for="cboUuTien">Mức ưu tiên</label>
+            <label for="cboUuTien">@ViewText.LBL_UU_TIEN</label>
         </div>
 
         @if (ViewBag.FLAG == 0)
@@ -165,12 +164,18 @@
             BACK_LOG: '@Url.Action("BackLog","WorkOrder")',
             DELETE_WORK: '@Url.Action("DeleteWork","WorkOrder")',
             DELETE_WORKORDER: '@Url.Action("DeleteWorkOrder","WorkOrder")',
-            KHONGCO_DULIEU: '@ViewText.TXT_KHONGCO_DULIEU',
+            KHONGCO_DULIEU: '@ViewText.LBL_KHONGCO_DULIEU',
             SAVE_WORK_ORDER: '@Url.Action("SaveWorkOrder","WorkOrder")',
             COMPLETED_WORK_ORDER: '@Url.Action("CompletedWorkOrder","WorkOrder")',
             SAVE_INPUT_CAUSE_OF_DAMAGE: '@Url.Action("SaveInputCauseOfDamageList","WorkOrder")',
             MESS_XACNHAN_HOANTHANH_PHIEUBAOTRI: '@Html.Raw(Message.XACNHAN_HOANTHANH_PHIEUBAOTRI)',
+            MESS_CHUYEN_CONGVIEC_QUA_KEHOACH: '@Html.Raw(Message.CHUYEN_CONGVIEC_QUA_KEHOACH)',
+            MESS_XOA_CONG_VIEC: '@Html.Raw(Message.XOA_CONG_VIEC)',
+            MESS_XOA_PHIEU_BAO_TRI:'@Html.Raw(Message.XOA_PHIEU_BAO_TRI)',
+            LBL_SO_LUONG: '@Html.Raw(ViewText.LBL_SO_LUONG)',
+            MESS_TU_GIO_KHONG_LON_HON_DEN_GIO: '@Html.Raw(Message.MESS_TU_GIO_KHONG_LON_HON_DEN_GIO)',
             MyEcomaint: '@Url.Action("Index", "Home")',
+            CHECK_TON_KHO: '@Url.Action("CHECK_TON_KHO","WorkOrder")',
         }
     </script>
     <script src="~/js/pages/workorder.js" asp-append-version="true"></script>

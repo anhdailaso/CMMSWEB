@@ -48,8 +48,8 @@ namespace VietSoft.HRM.Web.Controllers
         {
             GetListMenu(0);
             SessionManager.ThongTinChung = _accountService.GetThongTinChung(SessionManager.CurrentUser.UserName);
-            ViewBag.ListNhaXuong = _combobox.GetCbbDiaDiem(SessionManager.CurrentUser.UserName, 0, 1);
-            ViewBag.ListLoaiMAY = _combobox.GetLoaiMayAll(SessionManager.CurrentUser.UserName, 0, 1);
+            ViewBag.ListNhaXuong = _combobox.GetCbbDiaDiem(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1);
+            ViewBag.ListLoaiMAY = _combobox.GetLoaiMayAll(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1);
             return View();
         }
 
@@ -109,24 +109,33 @@ namespace VietSoft.HRM.Web.Controllers
             catch
             {
             }
-            ViewBag.NguyenNhan = _combobox.DanhSachNguyenNhan();
-            ViewBag.UuTien = _combobox.LoadListUuTien(0);
+            ViewBag.NguyenNhan = _combobox.DanhSachNguyenNhan(SessionManager.CurrentUser.TypeLangue);
+            ViewBag.UuTien = _combobox.LoadListUuTien(SessionManager.CurrentUser.TypeLangue);
             return View("~/Views/UserRequest/Index.cshtml", userequest);
         }
-        public IActionResult WorkOrder(string msmay, string tenmay, int flag, string ttmay)
+        public IActionResult WorkOrder(string msmay, string tenmay, int flag, string ttmay, int msut)
         {
             res = null;
             ViewBag.MS_MAY = msmay;
             ViewBag.TEN_MAY = tenmay;
             ViewBag.FLAG = flag;
-
             var ticketMaintenance = _maintenanceService.GetTicketMaintenanceByDevice(SessionManager.CurrentUser.UserName, msmay, flag == 1 ? false : true);
             if (flag != 1)
             {
                 ticketMaintenance.TINH_TRANG_MAY = ttmay;
+                ViewBag.LoaiBaoTri = _combobox.GetMaintenanceCategoy(2);
+
             }
-            ViewBag.LoaiBaoTri = _combobox.GetMaintenanceCategoy();
-            ViewBag.UuTien = _combobox.GetPriorityCategory(0);
+            else
+            {
+                ViewBag.LoaiBaoTri = _combobox.GetMaintenanceCategoy(-1);
+
+            }
+            if(ttmay != null)
+            {
+                ticketMaintenance.MS_UU_TIEN = msut;
+            }    
+            ViewBag.UuTien = _combobox.GetPriorityCategory(SessionManager.CurrentUser.TypeLangue);
             return View("~/Views/WorkOrder/Index.cshtml", ticketMaintenance);
         }
 
@@ -136,13 +145,13 @@ namespace VietSoft.HRM.Web.Controllers
             ViewBag.TEN_MAY = tenmay;
             ViewBag.FLAG = 2;
             var ticketMaintenance = _maintenanceService.GetTicketMaintenanceByDevice(mspbt);
-            ViewBag.LoaiBaoTri = _combobox.GetMaintenanceCategoy();
-            ViewBag.UuTien = _combobox.GetPriorityCategory(0);
+            ViewBag.LoaiBaoTri = _combobox.GetMaintenanceCategoy(-1);
+            ViewBag.UuTien = _combobox.GetPriorityCategory(SessionManager.CurrentUser.TypeLangue);
             return View("~/Views/WorkOrder/Index.cshtml", ticketMaintenance);
         }
         public ActionResult getDevices(string WorkSiteID, int coall)
         {
-            SelectList lst = _combobox.GetCbbMay(WorkSiteID, -1, SessionManager.CurrentUser.UserName, 0, coall);
+            SelectList lst = _combobox.GetCbbMay(WorkSiteID, -1, SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, coall);
             return Json(lst);
         }
         private static void GetListMenu(int menuSelected)
@@ -168,7 +177,7 @@ namespace VietSoft.HRM.Web.Controllers
                     return new MenuViewModel
                     {
                         MenuId = (int)Menu.MyEcomaint,
-                        MenuName = "My Ecomaint",
+                        MenuName =ViewText.MNU_MY_ECOMAINT,
                         MenuIcon = "mytask.png",
                         MenuUrl = "/Home/Index",
                     };
@@ -176,7 +185,7 @@ namespace VietSoft.HRM.Web.Controllers
                     return new MenuViewModel
                     {
                         MenuId = (int)Menu.DiChuyenTB,
-                        MenuName = "Di chuyển thiết bị",
+                        MenuName = ViewText.MNU_DI_CHUYEN_TB,
                         MenuIcon = "dichuyen.png",
                         MenuUrl = "/MoveDevice/Index",
                     };
@@ -184,7 +193,7 @@ namespace VietSoft.HRM.Web.Controllers
                     return new MenuViewModel
                     {
                         MenuId = (int)Menu.NghiemThuPBT,
-                        MenuName = "Nghiệm thu phiếu bảo trì",
+                        MenuName = ViewText.MNU_NGHIEM_THU_PBT,
                         MenuIcon = "nghiemthu.png",
                         MenuUrl = "/AcceptMaintenance/Index",
                     };
@@ -192,7 +201,7 @@ namespace VietSoft.HRM.Web.Controllers
                     return new MenuViewModel
                     {
                         MenuId = (int)Menu.KiemKeTB,
-                        MenuName = "Kiểm kê thiết bị",
+                        MenuName = ViewText.MNU_KIEM_KE,
                         MenuIcon = "kiemke.png",
                         MenuUrl = "/InventoryDevice/Index",
                     };
@@ -201,7 +210,7 @@ namespace VietSoft.HRM.Web.Controllers
                     {
                         MenuId = (int)Menu.History,
                         //MenuName = ViewText.TITLE_DANGKY_NGHI,
-                        MenuName = "Lịch sử bảo trì thiết bị",
+                        MenuName = ViewText.MNU_LICH_SU_TB,
                         MenuIcon = "lichsu.png",
                         MenuUrl = "/History/HistoryIndex",
                     };
@@ -210,7 +219,7 @@ namespace VietSoft.HRM.Web.Controllers
                     {
                         MenuId = (int)Menu.TheoDoiYCBT,
                         //MenuName = ViewText.TITLE_DANGKY_NGHI,
-                        MenuName = "Theo dõi yêu cầu bảo trì",
+                        MenuName = ViewText.MNU_THEO_DOI_YC,
                         MenuIcon = "Theodoi.png",
                         MenuUrl = "/HistoryRequest/HistoryRequestIndex",
                     };
@@ -218,7 +227,7 @@ namespace VietSoft.HRM.Web.Controllers
                     return new MenuViewModel
                     {
                         MenuId = (int)Menu.NhapKho,
-                        MenuName = "Nhập kho",
+                        MenuName = ViewText.MNU_NHAP_KHO,
                         MenuIcon = "import.png",
                         MenuUrl = "/GoodReceipt/Index",
                     };
@@ -227,7 +236,7 @@ namespace VietSoft.HRM.Web.Controllers
                     {
                         MenuId = (int)Menu.XuatKho,
                         //MenuName = ViewText.TITLE_DANGKY_NGHI,
-                        MenuName = "Xuất kho",
+                        MenuName = ViewText.MNU_XUAT_KHO,
                         MenuIcon = "export.png",
                         MenuUrl = "/GoodIssue/Index",
                     };
@@ -236,7 +245,7 @@ namespace VietSoft.HRM.Web.Controllers
                     {
                         MenuId = (int)Menu.BCXuatNhapTon,
                         //MenuName = ViewText.TITLE_DANGKY_NGHI,
-                        MenuName = "Báo cáo xuất nhập tồn",
+                        MenuName = ViewText.MNU_BC_NHAP_XUAT_TON,
                         MenuIcon = "Theodoi.png",
                         MenuUrl = "/BCNhapXuatTon/Index",
                     };
@@ -244,7 +253,7 @@ namespace VietSoft.HRM.Web.Controllers
                     return new MenuViewModel
                     {
                         MenuId = (int)Menu.Dashboard,
-                        MenuName = "Dashboard",
+                        MenuName = ViewText.MNU_DASHBOARD,
                         MenuIcon = "daskbord.png",
                         MenuUrl = "/Dashboard/Index",
                     };
@@ -261,7 +270,7 @@ namespace VietSoft.HRM.Web.Controllers
             {
                 var user = SessionManager.CurrentUser.UserName;
                 DateTime? endDate = DateTime.ParseExact(denngay, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                res = _homeService.GetMyEcomain(user, 0, endDate, msnx, mslmay, xuly, pageIndex, pageSize);
+                res = _homeService.GetMyEcomain(user, SessionManager.CurrentUser.TypeLangue, endDate, msnx, mslmay, xuly, pageIndex, pageSize);
                 result = new PagedList<MyEcomaintViewModel>(res, res.Count, pageIndex, pageSize);
             }
             else
@@ -299,7 +308,7 @@ namespace VietSoft.HRM.Web.Controllers
         }
         public IActionResult GetMonitoringParametersByDevice(string msmay, int isDue)
         {
-            List<MonitoringParametersByDevice> model = _homeService.GetMonitoringParametersByDevice(SessionManager.CurrentUser.UserName, 0, msmay, isDue, -1);
+            List<MonitoringParametersByDevice> model = _homeService.GetMonitoringParametersByDevice(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, msmay, isDue, -1);
             List<MonitoringViewModel> resulst = new List<MonitoringViewModel>();
             try
             {
@@ -408,7 +417,15 @@ namespace VietSoft.HRM.Web.Controllers
                 model.NGUOI_YEU_CAU = SessionManager.ThongTinChung.HO_TEN;
                 if (model.HONG == true)
                 {
-                    model.NGAY_XAY_RA = DateTime.ParseExact(model.NGAY_XAY_RA_STR, Setting.FORMAT_DATETIME, null);
+                    try
+                    {
+                        model.NGAY_XAY_RA = DateTime.ParseExact(model.NGAY_XAY_RA_STR, Setting.FORMAT_DATETIME, null);
+                    }
+                    catch (Exception)
+                    {
+                        model.NGAY_XAY_RA = null;
+                    }
+                    
                 }
                 else
                 {
@@ -530,5 +547,54 @@ namespace VietSoft.HRM.Web.Controllers
             }
             return uploadedFiles;
         }
+
+
+        public ActionResult ShowConfirmKhongDuyet(int loai,int stt, string tenmay, string msmay)
+        {
+            AcceptUserRequest model = new AcceptUserRequest();
+            model.TEN_MAY = tenmay;
+            model.MS_MAY = msmay;
+            model.GHI_CHU = "";
+            model.LOAI= loai;
+            model.STT = stt;
+            //loại 1 không duyệt; 2 duyệt; 3 bỏ qua tiếp nhận
+            switch (loai)
+            {
+                case 1:
+                    {
+                        ViewBag.TITLE = ViewText.TITLE_KHONG_DUYET_YC;
+                        break;
+                    }
+                case 2:
+                    {
+                        ViewBag.TITLE = ViewText.TITLE_DUYET_YC;
+                        break;
+                    }
+                case 3:
+                    {
+                        ViewBag.TITLE = ViewText.TITLE_KHONG_TIEP_NHAN_YC;
+                        break;
+                    }
+                default:
+                    break;
+            }
+            return PartialView("~/Views/UserRequest/_ConfirmKhongDuyet.cshtml", model);
+        }
+
+
+        [HttpPost]
+        public ActionResult SaveAcceptUserRequest(AcceptUserRequest data)
+        {
+            BaseResponseModel? res = _homeService.SaveAcceptUserRequest(SessionManager.CurrentUser.UserName, data);
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = res.NAME });
+            }
+        }
+
     }
 }

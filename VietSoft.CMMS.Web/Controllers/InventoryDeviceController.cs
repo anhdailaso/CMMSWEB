@@ -32,12 +32,12 @@ namespace VietSoft.CMMS.Web.Controllers
         public IActionResult Index()
         {
             res = null;
-            SelectList listDD = _combobox.GetCbbDiaDiem(SessionManager.CurrentUser.UserName, 0, 1);
+            SelectList listDD = _combobox.GetCbbDiaDiem(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1);
             SelectListItem item = listDD.Where(x => x.Value.ToString() == "-1").FirstOrDefault();
             item.Text = "";
             ViewBag.ListNhaXuong = listDD;
 
-            SelectList listMAY = _combobox.GetCbbMay("-1", -1, SessionManager.CurrentUser.UserName, 0, 1);
+            SelectList listMAY = _combobox.GetCbbMay("-1", -1, SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1);
             SelectListItem itemMay = listMAY.Where(x => x.Value.ToString() == "-1").FirstOrDefault();
             itemMay.Text = "";
             ViewBag.ListMAY = listMAY;
@@ -53,7 +53,7 @@ namespace VietSoft.CMMS.Web.Controllers
             PagedList<IventoryDeviceModel>? result = null;
             if (res == null)
             {
-                res = _device.GetListIventoryDecice(SessionManager.CurrentUser.UserName);
+                res = _device.GetListIventoryDecice(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue);
                 result = new PagedList<IventoryDeviceModel>(res, res.Count, pageIndex, pageSize);
             }
             result = new PagedList<IventoryDeviceModel>(res, res.Count, pageIndex, pageSize);

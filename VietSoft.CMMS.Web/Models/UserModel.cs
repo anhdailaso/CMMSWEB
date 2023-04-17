@@ -10,6 +10,7 @@
         public string Department { get; set; }
         public string Group { get; set; }
         public bool RememberMe { get; set; }
+        public int TypeLangue { get; set; }
         public string Email { get; set; }
         public int EmployeeId { get; set; }
 

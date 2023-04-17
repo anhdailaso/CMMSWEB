@@ -1,9 +1,8 @@
 ﻿@using VietSoft.CMMS.Web.Resources
 @using VietSoft.CMMS.Web.Helpers
 @{
-    ViewBag.Title = "DANH SÁCH PHIẾU NHẬP KHO";
+    ViewBag.Title = ViewText.TITLE_DS_PHIEU_NHAP_KHO;
 }
-
 <div class="row">
     <div class="col-md-6 offset-md-3 col-xs-12">
         <div class="accordion" id="accordionPanelsStayOpenExample">
@@ -26,7 +25,7 @@
                                     <span class="input-group-append d-flex align-items-center">
                                         <i class="bi bi-calendar4-week date-icon "></i>
                                     </span>
-                                    <label for="from">@ViewText.TXT_TUNGAY</label>
+                                    <label for="from">@ViewText.LBL_TUNGAY</label>
                                     <div id="from-error"></div>
                                 </div>
 
@@ -35,7 +34,7 @@
                                     <span class="input-group-append d-flex align-items-center">
                                         <i class="bi bi-calendar4-week date-icon"></i>
                                     </span>
-                                    <label for="toDate">@ViewText.TXT_DENNGAY</label>
+                                    <label for="toDate">@ViewText.LBL_DENNGAY</label>
                                     <div id="toDate-error"></div>
                                 </div>
                             </div>
@@ -47,7 +46,7 @@
       
         <div class="row mb-2">
             <div class="form-floating position-relative">
-                @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder=@ViewText.TXT_SEARCH})
+                @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder=@ViewText.LBL_SEARCH})
                 <i class="bi bi-search icon-obsolute"></i>
             </div>
             <div class="col-md-12 offset-md-12 col-xs-12  px-0">
@@ -78,6 +77,10 @@
         var config = {
             GET_GOODRECEIPT: '@Url.Action("GetListGoodReceipt", "GoodReceipt")',
             ADD_GOODRECEIPT: '@Url.Action("AddGoodReceipt", "GoodReceipt")',
+            DELETE_PHIEUNHAPKHO: '@Url.Action("DeletePhieuNhapKho","GoodReceipt")',
+            MESS_XOA_NHAP_KHO: '@Html.Raw(Message.XOA_NHAP_KHO)',
+            MESS_KHOA_PHIEU_NHAP: '@Html.Raw(Message.KHOA_PHIEU_NHAP)',
+            MESS_XOA_PHU_TUNG_NHAP: '@Html.Raw(Message.XOA_PHU_TUNG_NHAP)',
             PAGE_SIZE: 10
         }
     </script>

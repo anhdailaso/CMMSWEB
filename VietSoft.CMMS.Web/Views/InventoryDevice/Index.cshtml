@@ -1,14 +1,14 @@
 ﻿@using VietSoft.CMMS.Web.Resources
 @using VietSoft.CMMS.Web.Helpers
 @{
-    ViewBag.Title = "KIỂM KÊ THIẾT BỊ";
+    ViewBag.Title = ViewText.TITLE_KIEM_KE_THIET_BI;
 }
 <div class="row">
     <div class="col-md-6 offset-md-3 col-xs-12">
             <div class="form-floating break-line">
                 <select id="cboDiaDiem" name="cboDiaDiem" asp-items="@ViewBag.ListNhaXuong" class="form-control form-select form-select-sm">
                 </select>
-                <label for="cboDiaDiem">Địa điểm</label>
+                <label for="cboDiaDiem">@ViewText.LBL_DIA_DIEM</label>
                 <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
                     <img src="~/images/barcode.png" alt="image" class="icon-barcode">
                 </a>
@@ -17,7 +17,7 @@
             <div class="form-floating break-line">
                 <select id="cboMay" name="cboMay" asp-items="@ViewBag.ListMAY" class="form-control form-select form-select-sm">
                 </select>
-                <label for="cboMay">@ViewText.TXT_THIET_BI</label>
+                <label for="cboMay">@ViewText.LBL_THIET_BI</label>
                 <div id="cboMay-error"></div>
                 <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
                     <img src="~/images/barcode.png" alt="image" class="icon-barcode">

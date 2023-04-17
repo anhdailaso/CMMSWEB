@@ -14,5 +14,7 @@ namespace VietSoft.CMMS.Web.IServices
         UserRequestViewModel GetUserRequest(string msmay, string username);
         BaseResponseModel SaveUserRequest(string username,UserRequestViewModel request);
 
+        BaseResponseModel SaveAcceptUserRequest(string username, AcceptUserRequest model);
+
     }
 }

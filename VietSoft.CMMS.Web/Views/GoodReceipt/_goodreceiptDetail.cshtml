@@ -8,16 +8,16 @@
         <thead>
             <tr>
                 <td width="25%" class="col-grid-table">
-                    MS phiếu nhập
+                    @ViewText.LBL_MS_PHIEU_NHAP
                 </td>
                 <td width="20%">
-                    Dạng nhập
+                    @ViewText.LBL_DANG_NHAP
                 </td>
                 <td width="20%">
-                    Ngày nhập
+                    @ViewText.LBL_NGAY_NHAP
                 </td>
                 <td width="30%">
-                    Người nhập
+                    @ViewText.LBL_NGUOI_NHAN
                 </td>
                 <td width="5%">
                 </td>
@@ -43,7 +43,7 @@
                     <td>
                         @if(@item.LOCK == false && @item.USER_LAP.ToLower() == @SessionManager.CurrentUser.UserName.ToLower())
                         {
-                            <p style=""><a class="remove-row"><i class="fa fa-trash-o text-danger"></i></a></p>
+                            <p style=""><a class="remove-row btnDeletePhieuNhapKho" data-mspn ="@item.MS_DH_NHAP_PT"><i class="fa fa-trash-o text-danger"></i></a></p>
                         }
                     </td>
                 </tr>
@@ -58,7 +58,7 @@ else
 {
     <div class="col-12">
         <div class="no-data">
-            <span>@ViewText.TXT_KHONGCO_DULIEU</span>
+            <span>@ViewText.LBL_KHONGCO_DULIEU</span>
         </div>
     </div>
 }

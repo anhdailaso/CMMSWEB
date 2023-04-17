@@ -82,6 +82,7 @@
         UserName,
         Module,
         Database,
+        TypeLangue,
         Token
     }
 }

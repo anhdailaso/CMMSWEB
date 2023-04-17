@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<VietSoft.CMMS.Web.Models.Maintenance.WorkOrdersViewModel>
 @using System.Text.Json;
 <div class="accordion border-0 break-line" id="accordionFlushExample">
-@foreach (var item in Model)
-{
+    @foreach (var item in Model)
+    {
         <div class="accordion-item border-0 break-line">
-           
+
             <h2 class="accordion-header mx-3" id="flush-heading-@item.MS_CV">
                 <button class="accordion-button  collapsed parentCell" type="button" style="color: @(item.WorkOrderDetailViewModels.Any() ? "#ff870f" : "#113186")" data-bs-toggle="collapse" data-bs-target="#flush-collapse-@item.MS_CV" aria-expanded="false" aria-controls="flush-collapse-@item.MS_CV" title="Bạc đạn">
                     + @item.MS_BO_PHAN  @item.MO_TA_CV
@@ -39,9 +39,12 @@
                                 <tr>
                                     <td width="30%" style="line-height:2.3rem">@wd.MS_PT</td>
                                     <td width="30%" style="line-height:2.3rem">@wd.MS_VI_TRI_PT</td>
-                                    <td width="30%">
-                                        <input class="form-control SoLuongTT" style="font-size:0.8rem;" type="number" min="0" max="@(@wd.SL_KH == 0 ? 9999: @wd.SL_KH)" value="@wd.SL_TT" placeholder="số lượng" />
-                                        </td>
+                                    <td width="15%">
+                                        <input class="form-control SoLuongKH" style="font-size:0.8rem; color:#198754 !important;border-color:#198754 !important" type="number" min="0" max="@(@wd.SL_CT == 0 ? 9999: @wd.SL_CT)" value="@wd.SL_KH" placeholder="số lượng" />
+                                    <td width="15%">
+                                        <input class="form-control SoLuongTT" style="font-size:0.8rem;" type="number" min="0" max="@(@wd.SL_CT == 0 ? 9999: @wd.SL_CT)" value="@wd.SL_TT" placeholder="số lượng" />
+                                    </td>
+
                                     <td class="d-none">@item.MS_BO_PHAN</td>
                                     <td class="d-none">@item.MS_CV</td>
                                 </tr>
@@ -71,5 +74,5 @@
                 </div>
             </div>
         </div>
-}
+    }
 </div>

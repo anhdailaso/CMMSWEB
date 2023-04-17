@@ -1,0 +1,54 @@
+﻿@using ZXing;
+@using ZXing.QrCode;
+@using System.Drawing;
+@model List<string>
+
+<div class="container d-flex justify-content-center align-items-center">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4">
+                <h2>@item</h2>
+                @{
+                    // Tạo mã QR code
+                    var barcodeWriter = new BarcodeWriterPixelData
+                {
+                    Format = BarcodeFormat.QR_CODE,
+                    Options = new QrCodeEncodingOptions
+                    {
+                        ErrorCorrection = ZXing.QrCode.Internal.ErrorCorrectionLevel.H,
+                        Width = 300,
+                        Height = 300
+                    }
+                };
+                    Byte[] byteArray;
+                     ZXing.Rendering.PixelData pixelData = barcodeWriter.Write(item);
+                    using (var bitmap = new System.Drawing.Bitmap(pixelData.Width, pixelData.Height, System.Drawing.Imaging.PixelFormat.Format32bppRgb))
+                    {
+                        using (var ms = new MemoryStream())
+                        {
+                            var bitmapData = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, pixelData.Width, pixelData.Height), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+                            try
+                            {
+                                // we assume that the row stride of the bitmap is aligned to 4 byte multiplied by the width of the image
+                                System.Runtime.InteropServices.Marshal.Copy(pixelData.Pixels, 0, bitmapData.Scan0, pixelData.Pixels.Length);
+                            }
+                            finally
+                            {
+                                bitmap.UnlockBits(bitmapData);
+                            }
+                            // save to stream as PNG
+                            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                            byteArray = ms.ToArray();
+                        }
+                    }
+                    // Chèn ảnh QR code vào thẻ img
+                    //var imageConverter = new ImageConverter();
+                    //var imageData = (byte[])imageConverter.ConvertTo(bitmap, typeof(byte[]));
+                    var base64Image = Convert.ToBase64String(byteArray);
+                    <img src="data:image/png;base64,@base64Image" alt="@item" class="img-fluid" />
+                }
+            </div>
+        }
+    </div>
+</div>

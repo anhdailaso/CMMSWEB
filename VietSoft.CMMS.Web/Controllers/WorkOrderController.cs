@@ -58,10 +58,24 @@ namespace VietSoft.CMMS.Web.Controllers
 
         public IActionResult ViewInventory(string ticketId)
         {
-            ViewBag.ListKho = _combobox.DanhSachKho(SessionManager.CurrentUser.UserName);
-            //var res = _maintenanceService.GetListInventory(ticketId, "-1");
-            return PartialView("_viewInventory");
+                ViewBag.ListKho = _combobox.DanhSachKho(SessionManager.CurrentUser.UserName);
+                //kiểm tra c
+                return PartialView("_viewInventory");
         }
+
+        public IActionResult CHECK_TON_KHO(string ticketId)
+        {
+            if (_maintenanceService.CheckPhuTung(ticketId))
+            {
+
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.MESS_CHUA_CO_PHU_TUNG });
+            }
+        }
+
 
         public IActionResult GetInventory(string mskho, string ticketId)
         {
@@ -71,7 +85,7 @@ namespace VietSoft.CMMS.Web.Controllers
 
         public IActionResult GetWorkList(string deviceId, string ticketId)
         {
-            var res = _maintenanceService.GetWorkOrderList(userName, deviceId, ticketId);
+            var res = _maintenanceService.GetWorkOrderList(userName, deviceId, ticketId, SessionManager.CurrentUser.TypeLangue);
             return PartialView("_workList", res);
         }
 
@@ -109,14 +123,14 @@ namespace VietSoft.CMMS.Web.Controllers
             @ViewBag.MS_CV = workId;
             @ViewBag.MS_BO_PHAN = dept;
             var suppliesSelected = suppliesSelectedJson == null ? new List<string>() : JsonSerializer.Deserialize<List<string>>(suppliesSelectedJson);
-            var res = _maintenanceService.GetSuppliesList(userName, deviceId, dept, ticketId);
+            var res = _maintenanceService.GetSuppliesList(userName, deviceId, dept, ticketId, SessionManager.CurrentUser.TypeLangue);
             var lst = suppliesSelected == null ? res : res.Where(x => !suppliesSelected.Contains(x.MS_PT)).ToList();
             return PartialView("_addSupplies", lst);
         }
 
         public IActionResult AddMaintenanceWork(string deviceId, string ticketId)
         {
-            var res = _maintenanceService.GetJobList(userName, deviceId, ticketId);
+            var res = _maintenanceService.GetJobList(userName, deviceId, ticketId , SessionManager.CurrentUser.TypeLangue);
             return PartialView("_addMaintenanceWork", res);
         }
 
@@ -170,7 +184,7 @@ namespace VietSoft.CMMS.Web.Controllers
         [HttpPost]
         public IActionResult DeleteWork(SaveSuppliesModel model)
         {
-            var res = _maintenanceService.DeleteWork(model.MS_PHIEU_BAO_TRI, userName, model.MS_CV, model.MS_BO_PHAN);
+            var res = _maintenanceService.DeleteWork(model.MS_PHIEU_BAO_TRI, userName, model.MS_CV, model.MS_BO_PHAN, SessionManager.CurrentUser.TypeLangue);
             if (res.MA == 1)
             {
                 return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
@@ -182,7 +196,7 @@ namespace VietSoft.CMMS.Web.Controllers
         }
         public IActionResult DeleteWorkOrder(SaveSuppliesModel model)
         {
-            var res = _maintenanceService.DeleteWorkOrder(model.MS_PHIEU_BAO_TRI, userName);
+            var res = _maintenanceService.DeleteWorkOrder(model.MS_PHIEU_BAO_TRI, userName, SessionManager.CurrentUser.TypeLangue);
             if (res.MA == 1)
             {
                 return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
@@ -270,7 +284,7 @@ namespace VietSoft.CMMS.Web.Controllers
         [HttpPost]
         public IActionResult CompletedWorkOrder(string ticketId, string deviceId)
         {
-            var res = _maintenanceService.CompletedWorkOrder(ticketId, userName, deviceId);
+            var res = _maintenanceService.CompletedWorkOrder(ticketId, userName, deviceId, SessionManager.CurrentUser.TypeLangue);
 
             if (res.MA == 1)
             {
