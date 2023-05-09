@@ -10,6 +10,9 @@
                 notEqualTo: '-1'
             },
 
+            "MS_MAY": {
+                notEqualTo: '-1'
+            },
             "MS_PHIEU_BAO_TRI": {
                 notEqualTo: '-1'
             },
@@ -22,6 +25,9 @@
         },
         messages: {
             "MS_DANG_XUAT": {
+                notEqualTo: "Không được để trống."
+            },
+            "MS_MAY": {
                 notEqualTo: "Không được để trống."
             },
             "MS_PHIEU_BAO_TRI": {
@@ -51,7 +57,7 @@
         bload = false;
         setDatePicker("#toDate", null, null, null);
         const TNgay = new Date();
-        TNgay.setFullYear(TNgay.getFullYear() - 1);
+        TNgay.setMonth(TNgay.getMonth() - 2);
         setDatePicker("#fromDate", TNgay, null, null);
 
         $(document).on("dp.change", '#toDate', function () {
@@ -307,12 +313,16 @@
                     $("#CboPBT").rules("add", {
                         notEqualTo: '-1'
                     });
+                    $("#CboMay").rules("add", {
+                        notEqualTo: '-1'
+                    });
                     break;
                 }
                 case 2: {
 
                     $("#CboBPCP").rules("remove");
                     $("#CboPBT").rules("remove");
+                    $("#CboMay").rules("remove");
                     //trả nhà cung cấp
 
                     break;
@@ -321,11 +331,13 @@
                     //khác
                     $("#CboBPCP").rules("remove");
                     $("#CboPBT").rules("remove");
+                    $("#CboMay").rules("remove");
                     break;
                 }
                 case 4: {
                     //bộ phận chiệu phí
                     $("#CboPBT").rules("remove");
+                    $("#CboMay").rules("remove");
                     $("#CboBPCP").rules("add", {
                         notEqualTo: '-1'
                     });
@@ -372,6 +384,7 @@
                 case 1: {
                     //xuất cho bảo trì
                     $('#CboPBT').closest('.justify-content-between').removeClass('d-none');
+                    $('#CboMay').closest('.justify-content-between').removeClass('d-none');
                     $('#CboBPCP').parent('.form-floating').addClass('d-none');
                     $.ajax({
                         type: "POST",
@@ -386,6 +399,7 @@
                 case 2: {
                     //trả nhà cung cấp
                     $('#CboPBT').closest('.justify-content-between').addClass('d-none');
+                    $('#CboMay').closest('.justify-content-between').addClass('d-none');
                     $('#CboBPCP').parent('.form-floating').addClass('d-none');
                     break;
                 }
@@ -393,17 +407,23 @@
                     //khác
                     //LoadDonHang(0, 0);
                     $('#CboPBT').closest('.justify-content-between').addClass('d-none');
+                    $('#CboMay').closest('.justify-content-between').addClass('d-none');
                     $('#CboBPCP').parent('.form-floating').addClass('d-none');
                     break;
                 }
                 case 4: {
                     //bộ phận chiệu phí
                     $('#CboPBT').closest('.justify-content-between').addClass('d-none');
+                    $('#CboMay').closest('.justify-content-between').addClass('d-none');
                     $('#CboBPCP').parent('.form-floating').removeClass('d-none');
                     break;
                 }
             }
         }
+        else {
+            $("#CboDangXuat").val(3).change();
+        }
+
 
         $(document).on("keyup", '#search', function () {
             showLoadingOverlay('#resultContent');
@@ -444,8 +464,9 @@
                 case 1: {
                     //xuất cho bảo trì
                     LoadNguoiNhap(0, 5);
-                    LoadPBT();
+                    LoadMay();
                     $('#CboPBT').closest('.justify-content-between').removeClass('d-none');
+                    $('#CboMay').closest('.justify-content-between').removeClass('d-none');
                     $('#CboBPCP').parent('.form-floating').addClass('d-none');
                     break;
                 }
@@ -453,6 +474,7 @@
                     //trả nhà cung cấp
                     LoadNguoiNhap(1, 5);
                     $('#CboPBT').closest('.justify-content-between').addClass('d-none');
+                    $('#CboMay').closest('.justify-content-between').addClass('d-none');
                     $('#CboBPCP').parent('.form-floating').addClass('d-none');
                     break;
                 }
@@ -460,8 +482,8 @@
                     //khác
                     //LoadDonHang(0, 0);
                     LoadNguoiNhap(-1, 5);
-
                     $('#CboPBT').closest('.justify-content-between').addClass('d-none');
+                    $('#CboMay').closest('.justify-content-between').addClass('d-none');
                     $('#CboBPCP').parent('.form-floating').addClass('d-none');
                     break;
                 }
@@ -470,30 +492,25 @@
                     LoadNguoiNhap(0, 5);
                     LoadBPCP();
                     $('#CboPBT').closest('.justify-content-between').addClass('d-none');
+                    $('#CboMay').closest('.justify-content-between').addClass('d-none');
                     $('#CboBPCP').parent('.form-floating').removeClass('d-none');
                     break;
                 }
             }
         })
+
+
+
         LoadDanhSachPhuTung();
-        $('#CboPBT').on('change', function () {
-            $.ajax({
-                type: "POST",
-                url: config.GET_MAY_PBT,
-                data: { mspbt: $('#CboPBT').val() },
-                success: function (data) {
-                    $('#txtMay').text(data);
-
-                }
-            });
-
+        $('#CboMay').on('change', function () {
+            LoadPBT($(this).val());
         })
         //chọn phụ tùng
         $(document).on("click", '#btnAddPhuTung', function () {
             $.ajax({
                 type: "GET",
                 url: config.CHON_DS_PHUTUNG,
-                data: { dangxuat: $('#CboDangXuat').val() },
+                data: { dangxuat: $('#CboDangXuat').val(), mspx: $('#MS_DH_XUAT_PT').val() },
                 success: function (response) {
                     $('#modalLarge .modal-content').html(response);
                     $('#modalLarge').modal('show');
@@ -574,11 +591,15 @@
     }
 
 
-    function LoadPBT() {
+    function LoadPBT(e) {
+        alert(e);
         $('#CboPBT option').remove();
         $.ajax({
             type: "POST",
             url: config.GET_PHIEUBAOTRI,
+            data: {
+                msmay: e,
+            },
             success: function (data) {
                 $('#CboPBT').html('');
                 var s = '';
@@ -586,6 +607,22 @@
                     s += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
                 }
                 $("#CboPBT").html(s);
+            }
+        });
+    }
+
+    function LoadMay() {
+        $('#CboMay option').remove();
+        $.ajax({
+            type: "POST",
+            url: config.GET_MAY_PBT,
+            success: function (data) {
+                $('#CboMay').html('');
+                var s = '';
+                for (var i = 0; i < data.length; i++) {
+                    s += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
+                }
+                $("#CboMay").html(s);
             }
         });
     }

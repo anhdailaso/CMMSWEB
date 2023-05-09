@@ -12,7 +12,7 @@
         public bool RememberMe { get; set; }
         public int TypeLangue { get; set; }
         public string Email { get; set; }
-        public int EmployeeId { get; set; }
+        public string MS_CONG_NHAN { get; set; }
 
     }
 }

@@ -6,6 +6,12 @@
 </div>
 <div class="modal-body modal-confirm">
     @Html.Hidden("MS_PTVT",@ViewBag.MSPT,null)
+    <div class="row detail-page-emp-info">
+        <div class="col-12 d-flex justify-content-left gap-2 ">
+            <span class="emp-code">@ViewBag.MS_PN</span>
+        </div>
+    </div>
+
     <div class="row mb-2">
         <div class="col-12">
             @if (Model != null && Model.Count() > 0)

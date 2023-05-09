@@ -16,6 +16,7 @@ using System.Reflection;
 using System.Drawing;
 using Microsoft.AspNetCore.StaticFiles;
 using System.Net.Mime;
+using System.Linq.Expressions;
 
 namespace VietSoft.HRM.Web.Controllers
 {
@@ -25,7 +26,7 @@ namespace VietSoft.HRM.Web.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IAccountService _accountService;
         private readonly IComboboxService _combobox;
-        private readonly IHomeService _homeService;
+        private  IHomeService _homeService;
         private readonly IMaintenanceService _maintenanceService;
         public HomeController(ILogger<HomeController> logger, IAccountService accountService, IHomeService homeService, IComboboxService combobox,
             IMaintenanceService maintenanceService, IHostEnvironment hostEnvironment)
@@ -46,7 +47,8 @@ namespace VietSoft.HRM.Web.Controllers
         }
         public IActionResult Index()
         {
-            GetListMenu(0);
+            var listmenu = _homeService.GetMenu(SessionManager.CurrentUser.UserName);
+            GetListMenu(listmenu);
             SessionManager.ThongTinChung = _accountService.GetThongTinChung(SessionManager.CurrentUser.UserName);
             ViewBag.ListNhaXuong = _combobox.GetCbbDiaDiem(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1);
             ViewBag.ListLoaiMAY = _combobox.GetLoaiMayAll(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1);
@@ -76,7 +78,7 @@ namespace VietSoft.HRM.Web.Controllers
             //List<MonitoringParametersByDevice> model = _homeService.GetMonitoringParametersByDevice(SessionManager.CurrentUser.UserName,0,msmay,1,-1);
             return View("~/Views/Moningtoring/Index.cshtml");
         }
-        public IActionResult UserRequest(string msmay, string tenmay, int flag)
+        public IActionResult UserRequest(string msyc,string msmay, string tenmay, int flag)
         {
             res = null;
             ViewBag.MS_MAY = msmay;
@@ -85,41 +87,33 @@ namespace VietSoft.HRM.Web.Controllers
             UserRequestViewModel userequest = new UserRequestViewModel();
             try
             {
-                if (flag == 1)
+                userequest = _homeService.GetUserRequest(msyc,msmay, SessionManager.CurrentUser.UserName, flag);
+                if (userequest != null && !string.IsNullOrEmpty(userequest.Files))
                 {
-                    userequest = _homeService.GetUserRequest(msmay, SessionManager.CurrentUser.UserName);
-                    if (userequest != null && !string.IsNullOrEmpty(userequest.Files))
+                    var files = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImageFiles>>(userequest.Files);
+                    var lst = files != null ? files.Select(x => x.DUONG_DAN).ToList() : new List<string>();
+                    var lstBase64 = new List<string>();
+                    foreach (var item in lst)
                     {
-                        var files = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImageFiles>>(userequest.Files);
-                        var lst = files != null ? files.Select(x => x.DUONG_DAN).ToList() : new List<string>();
-                        var lstBase64 = new List<string>();
-                        foreach (var item in lst)
-                        {
-                            lstBase64.Add(item.ToBase64StringImage());
-                        }
-                        ViewBag.DanhSachHinhAnh = lstBase64;
+                        lstBase64.Add(item.ToBase64StringImage());
                     }
-                }
-                else
-                {
-                    userequest.STT = -1;
-                    userequest.USERNAME = SessionManager.CurrentUser.UserName;
+                    ViewBag.DanhSachHinhAnh = lstBase64;
                 }
             }
             catch
             {
             }
-            ViewBag.NguyenNhan = _combobox.DanhSachNguyenNhan(SessionManager.CurrentUser.TypeLangue);
+            ViewBag.NguyenNhan = _combobox.DanhSachNguyenNhan("", true, SessionManager.CurrentUser.TypeLangue);
             ViewBag.UuTien = _combobox.LoadListUuTien(SessionManager.CurrentUser.TypeLangue);
             return View("~/Views/UserRequest/Index.cshtml", userequest);
         }
-        public IActionResult WorkOrder(string msmay, string tenmay, int flag, string ttmay, int msut)
+        public IActionResult WorkOrder(string mspbt,string msmay, string tenmay, int flag, string ttmay, int msut)
         {
             res = null;
             ViewBag.MS_MAY = msmay;
             ViewBag.TEN_MAY = tenmay;
             ViewBag.FLAG = flag;
-            var ticketMaintenance = _maintenanceService.GetTicketMaintenanceByDevice(SessionManager.CurrentUser.UserName, msmay, flag == 1 ? false : true);
+            var ticketMaintenance = _maintenanceService.GetTicketMaintenanceByDevice(mspbt,SessionManager.CurrentUser.UserName, msmay, flag == 1 ? false : true);
             if (flag != 1)
             {
                 ticketMaintenance.TINH_TRANG_MAY = ttmay;
@@ -131,10 +125,10 @@ namespace VietSoft.HRM.Web.Controllers
                 ViewBag.LoaiBaoTri = _combobox.GetMaintenanceCategoy(-1);
 
             }
-            if(ttmay != null)
+            if (ttmay != null)
             {
                 ticketMaintenance.MS_UU_TIEN = msut;
-            }    
+            }
             ViewBag.UuTien = _combobox.GetPriorityCategory(SessionManager.CurrentUser.TypeLangue);
             return View("~/Views/WorkOrder/Index.cshtml", ticketMaintenance);
         }
@@ -154,34 +148,43 @@ namespace VietSoft.HRM.Web.Controllers
             SelectList lst = _combobox.GetCbbMay(WorkSiteID, -1, SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, coall);
             return Json(lst);
         }
-        private static void GetListMenu(int menuSelected)
+        private static void GetListMenu(List<string> listmenu)
         {
             List<MenuViewModel> menus = new();
-            menus.Add(GetMenuItem(Menu.MyEcomaint));
+            //menus.Add(GetMenuItem(Menu.MyEcomaint));
             //menus.Add(GetMenuItem(Menu.DiChuyenTB));
-            menus.Add(GetMenuItem(Menu.NghiemThuPBT));
-            menus.Add(GetMenuItem(Menu.KiemKeTB));
-            menus.Add(GetMenuItem(Menu.History));
-            menus.Add(GetMenuItem(Menu.TheoDoiYCBT));
-            menus.Add(GetMenuItem(Menu.NhapKho));
-            menus.Add(GetMenuItem(Menu.XuatKho));
-            menus.Add(GetMenuItem(Menu.BCXuatNhapTon));
-            menus.Add(GetMenuItem(Menu.Dashboard));
+
+            //kiểm user đó có quyền ngiệm thu
+            foreach (var item in listmenu)
+            {
+                if(item.Trim() != "")
+                {
+                    menus.Add(GetMenuItem(item));
+                }
+            }
+             //menus.Add(GetMenuItem(Menu.NghiemThuPBT));
+            //menus.Add(GetMenuItem(Menu.KiemKeTB));
+            //menus.Add(GetMenuItem(Menu.History));
+            //menus.Add(GetMenuItem(Menu.TheoDoiYCBT));
+            //menus.Add(GetMenuItem(Menu.NhapKho));
+            //menus.Add(GetMenuItem(Menu.XuatKho));
+            //menus.Add(GetMenuItem(Menu.BCXuatNhapTon));
+            //menus.Add(GetMenuItem(Menu.Dashboard));
             SessionManager.Menus = menus;
         }
-        private static MenuViewModel GetMenuItem(Menu menuItem)
+        private static MenuViewModel GetMenuItem(string menuItem)
         {
             switch (menuItem)
             {
-                case Menu.MyEcomaint:
+                case "MyEcomaint":
                     return new MenuViewModel
                     {
                         MenuId = (int)Menu.MyEcomaint,
-                        MenuName =ViewText.MNU_MY_ECOMAINT,
+                        MenuName = ViewText.MNU_MY_ECOMAINT,
                         MenuIcon = "mytask.png",
                         MenuUrl = "/Home/Index",
                     };
-                case Menu.DiChuyenTB:
+                case "DiChuyenTB":
                     return new MenuViewModel
                     {
                         MenuId = (int)Menu.DiChuyenTB,
@@ -189,7 +192,7 @@ namespace VietSoft.HRM.Web.Controllers
                         MenuIcon = "dichuyen.png",
                         MenuUrl = "/MoveDevice/Index",
                     };
-                case Menu.NghiemThuPBT:
+                case "NghiemThuPBT":
                     return new MenuViewModel
                     {
                         MenuId = (int)Menu.NghiemThuPBT,
@@ -197,7 +200,7 @@ namespace VietSoft.HRM.Web.Controllers
                         MenuIcon = "nghiemthu.png",
                         MenuUrl = "/AcceptMaintenance/Index",
                     };
-                case Menu.KiemKeTB:
+                case "KiemKeTB":
                     return new MenuViewModel
                     {
                         MenuId = (int)Menu.KiemKeTB,
@@ -205,7 +208,7 @@ namespace VietSoft.HRM.Web.Controllers
                         MenuIcon = "kiemke.png",
                         MenuUrl = "/InventoryDevice/Index",
                     };
-                case Menu.History:
+                case "History":
                     return new MenuViewModel
                     {
                         MenuId = (int)Menu.History,
@@ -214,7 +217,7 @@ namespace VietSoft.HRM.Web.Controllers
                         MenuIcon = "lichsu.png",
                         MenuUrl = "/History/HistoryIndex",
                     };
-                case Menu.TheoDoiYCBT:
+                case "TheoDoiYCBT":
                     return new MenuViewModel
                     {
                         MenuId = (int)Menu.TheoDoiYCBT,
@@ -223,7 +226,7 @@ namespace VietSoft.HRM.Web.Controllers
                         MenuIcon = "Theodoi.png",
                         MenuUrl = "/HistoryRequest/HistoryRequestIndex",
                     };
-                case Menu.NhapKho:
+                case "NhapKho":
                     return new MenuViewModel
                     {
                         MenuId = (int)Menu.NhapKho,
@@ -231,7 +234,7 @@ namespace VietSoft.HRM.Web.Controllers
                         MenuIcon = "import.png",
                         MenuUrl = "/GoodReceipt/Index",
                     };
-                case Menu.XuatKho:
+                case "XuatKho":
                     return new MenuViewModel
                     {
                         MenuId = (int)Menu.XuatKho,
@@ -240,7 +243,7 @@ namespace VietSoft.HRM.Web.Controllers
                         MenuIcon = "export.png",
                         MenuUrl = "/GoodIssue/Index",
                     };
-                case Menu.BCXuatNhapTon:
+                case "BCXuatNhapTon":
                     return new MenuViewModel
                     {
                         MenuId = (int)Menu.BCXuatNhapTon,
@@ -249,7 +252,7 @@ namespace VietSoft.HRM.Web.Controllers
                         MenuIcon = "Theodoi.png",
                         MenuUrl = "/BCNhapXuatTon/Index",
                     };
-                case Menu.Dashboard:
+                case "Dashboard":
                     return new MenuViewModel
                     {
                         MenuId = (int)Menu.Dashboard,
@@ -377,7 +380,7 @@ namespace VietSoft.HRM.Web.Controllers
                 Response.Headers.Add("Content-Disposition", cd.ToString());
                 return File(filedata, contentType);
             }
-            catch (Exception ex)
+            catch
             {
                 return File(Array.Empty<byte>(), "application/octet-stream");
             }
@@ -425,7 +428,7 @@ namespace VietSoft.HRM.Web.Controllers
                     {
                         model.NGAY_XAY_RA = null;
                     }
-                    
+
                 }
                 else
                 {
@@ -549,13 +552,13 @@ namespace VietSoft.HRM.Web.Controllers
         }
 
 
-        public ActionResult ShowConfirmKhongDuyet(int loai,int stt, string tenmay, string msmay)
+        public ActionResult ShowConfirmKhongDuyet(int loai, int stt, string tenmay, string msmay)
         {
             AcceptUserRequest model = new AcceptUserRequest();
             model.TEN_MAY = tenmay;
             model.MS_MAY = msmay;
             model.GHI_CHU = "";
-            model.LOAI= loai;
+            model.LOAI = loai;
             model.STT = stt;
             //loại 1 không duyệt; 2 duyệt; 3 bỏ qua tiếp nhận
             switch (loai)

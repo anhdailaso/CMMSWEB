@@ -39,7 +39,7 @@
                     lstParameter[cur_length].DUONG_DAN = $(obj).closest('.accordion-item.border-0.break-line').find('[data-com="' + $(obj).attr('data-msbophan') + '"][data-mor="' + $(obj).attr('data-msthongso') + '"]').attr('data-pat');
                     cur_length = cur_length + 1;
                 })
-                $(this).find('tr input[type=text]:not([value=""])').each(function (i, obj) {
+                $(this).find('tr input[type=number]').each(function (i, obj) {
                     if ($(obj).val() !== '') {
                         lstParameter[cur_length] = new Object();
                         lstParameter[cur_length].DeviceID = $('#MS_MAY').val(),
@@ -62,10 +62,10 @@
                     }
                 })
 
-            }
-            )
+            })
+            console.log(lstParameter);
             if (cur_length === 0) {
-                showWarning("Vui lòng chọn dữ liệu");
+                showWarning(config.MESS_VUI_LONG_CHON_DL);
                 return;
             }
             $.ajax({

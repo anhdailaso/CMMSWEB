@@ -126,8 +126,9 @@ namespace VietSoft.CMMS.Web.Controllers
             return PartialView("_listPhuTungNhap", result);
         }
 
-        public IActionResult ChonDSPhuTungNhap()
+        public IActionResult ChonDSPhuTungNhap(string mspn)
         {
+            ViewBag.MS_PN = mspn;
             return PartialView("_viewPhuTung");
         }
 
@@ -161,6 +162,7 @@ namespace VietSoft.CMMS.Web.Controllers
         {
             ViewBag.DANGPB = _combobox.DangPhanBo(SessionManager.CurrentUser.TypeLangue);
             ViewBag.QUYEN = quyen;
+            ViewBag.MS_PN = mspn;
             List<PhieuNhapKhoChiPhiModel> result = new List<PhieuNhapKhoChiPhiModel>();
             result = _goodreceipt.GetCHiPhiPhieuNhapKho(SessionManager.CurrentUser.TypeLangue, mspn, 2);
             return PartialView("_viewChiPhi", result);
@@ -168,6 +170,7 @@ namespace VietSoft.CMMS.Web.Controllers
 
         public IActionResult GetPhieuNhapKhoPhuTungDetails(string mspn, string mspt)
         {
+            ViewBag.MS_PN = mspn;
             PhieuNhapKhoPhuTungMore result = new PhieuNhapKhoPhuTungMore();
             result = _goodreceipt.GetPhieuNhapKhoPhuTungMore(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, mspn, mspt);
             return PartialView("_viewPhuTungDetail", result);
@@ -178,6 +181,7 @@ namespace VietSoft.CMMS.Web.Controllers
             List<ViTriNhapKhoModel> result = new List<ViTriNhapKhoModel>();
             ViewBag.MSPT = mspt;
             ViewBag.XOA = xoa;
+            ViewBag.MS_PN = mspn;
             result = _goodreceipt.GetViTriNhapKho(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, mspn, mspt);
             return PartialView("_viewViTri", result);
         }

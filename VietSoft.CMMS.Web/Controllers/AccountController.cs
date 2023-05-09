@@ -18,7 +18,6 @@ namespace VietSoft.CMMS.Web.Controllers
             _logger = logger;
             _config = config;
         }
-
         public IActionResult Login()
         {
             MessageUtil.ClearMessage();
@@ -32,7 +31,7 @@ namespace VietSoft.CMMS.Web.Controllers
 
                 // init session
                 UserModel? user = _accountService.GetProfile(userName);
-                user.TypeLangue = 0;
+                user.TypeLangue = 1;
                 SessionManager.CurrentUser = user;
                 return RedirectToAction("Index", "Home");
             }
@@ -61,7 +60,7 @@ namespace VietSoft.CMMS.Web.Controllers
                 {
                     user.UserName = userViewModel.UserName;
                     user.RememberMe = userViewModel.RememberMe;
-                    user.TypeLangue = 0;
+                    user.TypeLangue = 1;
                     SessionManager.CurrentUser = user;
 
                     // save cookie
@@ -79,7 +78,7 @@ namespace VietSoft.CMMS.Web.Controllers
 
                         Response.Cookies.Append(CookieKey.IsRememberMe.ToString(), rememberMeEncrypt, cookieOptions);
                         Response.Cookies.Append(CookieKey.UserName.ToString(), userNameEncrypt, cookieOptions);
-                        Response.Cookies.Append(CookieKey.TypeLangue.ToString(), "0", cookieOptions);
+                        Response.Cookies.Append(CookieKey.TypeLangue.ToString(), "1", cookieOptions);
                     }
                 }
                 else

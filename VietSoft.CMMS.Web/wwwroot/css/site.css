@@ -28,6 +28,15 @@ html {
         
     }
 }
+@media only screen and (min-width: 768px) {
+    [data-toggle="tooltip"] {
+        display: block;
+    }
+}
+
+* {
+    font-family: 'Segoe UI', sans-serif;
+}
 
 @media print {
     body * {
@@ -146,7 +155,13 @@ a {
     background-image: none;
     transform: none;
 }*/
-
+.bs-tooltip-start .tooltip-arrow{
+    width:0px!important;
+    height:0px!important;
+}
+.tooltip .tooltip-arrow::before {
+    border-style: none!important;
+}
 
 .btn-primary {
     border: 1px solid transparent;
@@ -212,7 +227,7 @@ textarea {
 .btn-outline-primary {
     color: var(--primary-color);
     border-color: var(--primary-color);
-    width: 100%;
+    /*width: 100%;*/
 }
 
     .btn-outline-primary.disabled, .btn-outline-primary:disabled {
@@ -410,7 +425,7 @@ input:focus, .form-select:focus, .btn:focus, textarea:focus {
         justify-content: space-between;
         color: rgba(0,0,0,.9) !important;
         font-weight: 500;
-        font-size: 1.15rem;
+        font-size: 1rem;
         line-height: 21px;
     }
 
@@ -672,7 +687,9 @@ td, th {
 .select2--small.select2-dropdown .select2-results__options .select2-results__option, .select2-container--bootstrap-5 .select2--small.select2-dropdown .select2-search .select2-search__field {
     min-height: 1.5625rem !important;
 }
-
+.input-group .select2-container--bootstrap-5 .select2-selection{
+    height:3rem!important;
+}
 .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option.select2-results__option--selected, .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option[aria-selected=true]:not(.select2-results__option--highlighted) {
     color: #fff !important;
     background-color: var(--primary-color) !important;

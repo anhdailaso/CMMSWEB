@@ -36,6 +36,21 @@
             GetListHistoryRequest(1);
         })
 
+        //chọn phụ tùng
+        $(document).on("click", '.showPBT', function () {
+            $.ajax({
+                type: "GET",
+                url: config.ViewChiTietPBT,
+                data: {
+                    mspbt: $(this).data('mspbt'),
+                },
+                success: function (response) {
+                    $('#modalLarge .modal-content').html(response);
+                    $('#modalLarge').modal('show');
+                }
+            });
+        });
+
         GetListHistoryRequest(1);
     }
 

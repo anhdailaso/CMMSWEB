@@ -78,17 +78,24 @@ namespace VietSoft.CMMS.Web.Controllers
             return View("~/Views/GoodIssue/AddGoodIssue.cshtml", ListGoodReceiptDetails);
         }
 
-        public ActionResult getPhieuBaoTri()
+        public ActionResult getPhieuBaoTri(string msmay)
         {
-            SelectList lst = _combobox.GetCbbPhieuBaoTriXuat();
+            SelectList lst = _combobox.GetCbbPhieuBaoTriXuat(msmay);
             return Json(lst);
         }
 
-        public ActionResult getMaybyPhieuBaoTri(string mspbt)
+        //public ActionResult getMaybyPhieuBaoTri(string mspbt)
+        //{
+        //    string may = _goodissue.GetMaybyPhieuBaoTri(mspbt);
+        //    return Json(may);
+        //}
+        public ActionResult getMaybyPhieuBaoTri()
         {
-            string may = _goodissue.GetMaybyPhieuBaoTri(mspbt);
-            return Json(may);
+            SelectList lst = _combobox.GetCbbMay("-1",-1,SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue,0);
+            return Json(lst);
         }
+
+
 
         public ActionResult getBoPhanChieuPhi()
         {
@@ -142,7 +149,7 @@ namespace VietSoft.CMMS.Web.Controllers
             }
             else
             {
-                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = res.NAME });
             }
         }
 
@@ -154,9 +161,10 @@ namespace VietSoft.CMMS.Web.Controllers
             return PartialView("_listPhuTungXuat", result);
         }
 
-        public IActionResult ChonDSPhuTungXuat(int dangxuat)
+        public IActionResult ChonDSPhuTungXuat(int dangxuat, string mspx)
         {
             ViewBag.DangXuat = dangxuat;
+            ViewBag.MS_PX = mspx;
             return PartialView("_viewPhuTungXuat");
         }
 

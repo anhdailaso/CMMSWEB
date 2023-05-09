@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<VietSoft.CMMS.Web.Models.Maintenance.WorkOrdersViewModel>
+@using VietSoft.CMMS.Web.Resources
 @using System.Text.Json;
 <div class="accordion border-0 break-line" id="accordionFlushExample">
     @foreach (var item in Model)
@@ -19,13 +20,13 @@
                     @*@item.PATH_HD*@
                     <a target="_blank" class="d-flex accordion-right-icon" style="padding-right:0.5rem" href="@Url.Action("DownloadFile","WorkOrder", new{filepath = item.PATH_HD})">
                         @*<i class="fa fa-file-pdf-o"></i>*@
-                        <i class="fa fa-paperclip" style="transform: rotate(45deg);"></i>
+                        <i class="fa fa-paperclip" style="transform: rotate(45deg);" data-toggle="tooltip" title="@ViewText.BTN_XEM_TAI_LIEU"></i>
                     </a>
                 }
-                <a class="d-flex accordion-right-icon btnBackLog" style="padding-right:0.5rem;color:#113186">
+                <a class="d-flex accordion-right-icon btnBackLog" style="padding-right:0.5rem;color:#113186" data-toggle="tooltip" title="@ViewText.BTN_LAP_KE_HOACH_TT">
                     <i class="fa fa-arrows"></i>
                 </a>
-                <a class="d-flex accordion-right-icon btnDeleteWork">
+                <a class="d-flex accordion-right-icon btnDeleteWork" data-toggle="tooltip" title="@ViewText.BTN_XOA_CONG_VIEC">
                     <i class="fa fa-trash-o text-danger"></i>
                 </a>
             </h2>
@@ -40,9 +41,12 @@
                                     <td width="30%" style="line-height:2.3rem">@wd.MS_PT</td>
                                     <td width="30%" style="line-height:2.3rem">@wd.MS_VI_TRI_PT</td>
                                     <td width="15%">
-                                        <input class="form-control SoLuongKH" style="font-size:0.8rem; color:#198754 !important;border-color:#198754 !important" type="number" min="0" max="@(@wd.SL_CT == 0 ? 9999: @wd.SL_CT)" value="@wd.SL_KH" placeholder="số lượng" />
+                                        <input class="form-control SoLuongKH" style="font-size:0.8rem; color:#198754 !important;border-color:#198754 !important" type="number" min="1" max="@(@wd.SL_CT == 0 ? 9999: @wd.SL_CT)" value="@wd.SL_KH"/>
                                     <td width="15%">
-                                        <input class="form-control SoLuongTT" style="font-size:0.8rem;" type="number" min="0" max="@(@wd.SL_CT == 0 ? 9999: @wd.SL_CT)" value="@wd.SL_TT" placeholder="số lượng" />
+                                        <input class="form-control SoLuongTT" style="font-size:0.8rem;" type="number" min="1" max="@(@wd.SL_CT == 0 ? 9999: @wd.SL_CT)" value="@wd.SL_TT"/>
+                                    </td>
+                                    <td width="10%">
+                                        <p style="margin-top: 10px;"><a class="remove-row"><i class="fa fa-trash-o fa-lg text-danger"></i></a></p>
                                     </td>
 
                                     <td class="d-none">@item.MS_BO_PHAN</td>
@@ -56,7 +60,7 @@
                         <div>
                             <input hidden class="MS_BO_PHAN" value="@item.MS_BO_PHAN">
                             <input hidden class="MS_CV" value="@item.MS_CV">
-                            <a class="btn btn-outline-warning m-1 btnSaveSupplies" style="width:auto">
+                            <a class="btn btn-outline-warning m-1 btnSaveSupplies" role="button"  data-toggle="tooltip" title="@ViewText.BTN_LUU_PHU_TUNG">
                                 <i class="fa fa-floppy-o fs-7"></i>
                             </a>
                         </div>
@@ -64,15 +68,25 @@
                             @{
                                 var supplies = JsonSerializer.Serialize(@item.WorkOrderDetailViewModels.Select(x => x.MS_PT).ToList());
                             }
-                            <a class="btn btn-outline-primary m-1  btnAddSupplies" data-supplies=@supplies data-dept=@item.MS_BO_PHAN data-mscv=@item.MS_CV style="width:auto" href="#!" role="button">
+                            <a class="btn btn-outline-primary m-1 btnAddSupplies" data-supplies=@supplies data-dept=@item.MS_BO_PHAN data-mscv=@item.MS_CV href="#!" role="button" data-toggle="tooltip" title="@ViewText.LBL_THEM_PHUTUNG">
                                 <i class="fa fa-plus fs-7"></i>
                             </a>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
     }
 </div>
+
+<script>
+    @*$('[data-toggle="tooltip"]').tooltip();*@
+
+        $('[data-toggle="tooltip"]').on("touchstart", function () {
+        $(this).tooltip('show');
+    });
+    $('[data-toggle="tooltip"]').on("touchmove", function () {
+        $('[data-toggle="tooltip"]').tooltip('hide');
+    });
+
+</script>

@@ -21,7 +21,7 @@ namespace VietSoft.CMMS.Web.Models
         public bool CHON { get; set; }
         public string MS_MAY { get; set; }
         public string TEN_MAY { get; set; }
-        public DateTime? NGAY_SCAN { get; set; }
+        public DateTime NGAY_SCAN { get; set; }
         public string MS_KHO { get; set; }
         public string TEN_KHO { get; set; }
     }

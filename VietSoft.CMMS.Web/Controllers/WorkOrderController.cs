@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.StaticFiles;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net.Mime;
@@ -38,9 +40,21 @@ namespace VietSoft.CMMS.Web.Controllers
             return PartialView("_viewCauseOfDamage");
         }
 
-        public IActionResult InputCauseOfDamage()
+        public IActionResult InputCauseOfDamage(string ticketId, string deviceId)
         {
-            return PartialView("_inputCauseOfDamage");
+            try
+            {
+                ViewBag.MS_PBT = ticketId;
+                ViewBag.MS_MAY = deviceId;
+                ViewBag.NguyenNhan = _combobox.DanhSachNguyenNhan(deviceId, false, SessionManager.CurrentUser.TypeLangue).Where(x => x.Text.Trim() != "");
+                var res = _maintenanceService.GetThoiGianNgungMay(ticketId, userName, SessionManager.CurrentUser.TypeLangue, true);
+                return PartialView("_inputCauseOfDamage", res);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
         }
 
         public IActionResult GetInputCauseOfDamageList(string deviceId, string ticketId)
@@ -50,21 +64,33 @@ namespace VietSoft.CMMS.Web.Controllers
             return Json(new JsonResponseViewModel { ResponseCode = 1, Data = res });
         }
 
-        public IActionResult LogWork(string ticketId)
+        public IActionResult LogWork(string ticketId, string deviceId)
         {
+            ViewBag.MS_PBT = ticketId;
+            ViewBag.MS_MAY = deviceId;
+            var cboCongNhan = _maintenanceService.GetNguoiThucHien(userName, deviceId, ticketId, SessionManager.CurrentUser.TypeLangue);
+            @ViewBag.CongNhan = cboCongNhan.Select(
+            x => new SelectListItem
+            {
+                Text = x.TEN_CONG_NHAN,
+                Value = x.MS_CONG_NHAN
+            });
             var res = _maintenanceService.GetLogWorkList(ticketId, userName);
             return PartialView("_logWork", res);
         }
 
-        public IActionResult ViewInventory(string ticketId)
+        public IActionResult ViewInventory(string ticketId,string deviceId)
         {
-                ViewBag.ListKho = _combobox.DanhSachKho(SessionManager.CurrentUser.UserName);
-                //kiểm tra c
-                return PartialView("_viewInventory");
+            ViewBag.MS_PBT = ticketId;
+            ViewBag.MS_MAY = deviceId;
+            ViewBag.ListKho = _combobox.DanhSachKho(SessionManager.CurrentUser.UserName);
+            //kiểm tra c
+            return PartialView("_viewInventory");
         }
 
         public IActionResult CHECK_TON_KHO(string ticketId)
         {
+
             if (_maintenanceService.CheckPhuTung(ticketId))
             {
 
@@ -74,6 +100,12 @@ namespace VietSoft.CMMS.Web.Controllers
             {
                 return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.MESS_CHUA_CO_PHU_TUNG });
             }
+        }
+
+        public IActionResult UPDATE_TT_HT(string ticketId)
+        {
+            var res = _maintenanceService.UpdateTinhTrang(ticketId);
+            return PartialView("_workList", res);
         }
 
 
@@ -112,7 +144,7 @@ namespace VietSoft.CMMS.Web.Controllers
                 Response.Headers.Add("Content-Disposition", cd.ToString());
                 return File(filedata, contentType);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return File(Array.Empty<byte>(), "application/octet-stream");
             }
@@ -130,8 +162,18 @@ namespace VietSoft.CMMS.Web.Controllers
 
         public IActionResult AddMaintenanceWork(string deviceId, string ticketId)
         {
-            var res = _maintenanceService.GetJobList(userName, deviceId, ticketId , SessionManager.CurrentUser.TypeLangue);
+            ViewBag.MS_PBT = ticketId;
+            ViewBag.MS_MAY = deviceId;
+            var res = _maintenanceService.GetJobList(userName, deviceId, ticketId, SessionManager.CurrentUser.TypeLangue);
             return PartialView("_addMaintenanceWork", res);
+        }
+
+        public IActionResult ChonNguoiThucHien(string deviceId, string ticketId)
+        {
+            ViewBag.MS_PBT = ticketId;
+            ViewBag.MS_MAY = deviceId;
+            var res = _maintenanceService.GetNguoiThucHien(userName, deviceId, ticketId, SessionManager.CurrentUser.TypeLangue);
+            return PartialView("_addNguoiThucHien", res);
         }
 
         [HttpPost]
@@ -149,6 +191,22 @@ namespace VietSoft.CMMS.Web.Controllers
                 return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
             }
         }
+
+        [HttpPost]
+        public IActionResult SaveNguoiThucHien(string ticketId, string json)
+        {
+            var res = _maintenanceService.SaveNguoiThucHien(ticketId, json);
+
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+            }
+        }
+
 
         [HttpPost]
         public IActionResult SaveSupplies(SaveSuppliesModel model)
@@ -207,20 +265,79 @@ namespace VietSoft.CMMS.Web.Controllers
             }
         }
 
+        public IActionResult AddRowLogwork(SaveLogWorkModel model, string deviceId)
+        {
+            var cboCongNhan = _maintenanceService.GetNguoiThucHien(userName, deviceId, "-1", SessionManager.CurrentUser.TypeLangue);
+            @ViewBag.CongNhan = cboCongNhan.Select(
+            x => new SelectListItem
+            {
+                Text = x.TEN_CONG_NHAN,
+                Value = x.MS_CONG_NHAN
+            });
+            try
+            {
+                model.LogWorkList = model.LogWorkList.Select(x =>
+                {
+                    x.NGAY = DateTime.ParseExact(x.S_NGAY, Setting.FORMAT_DATETIME, null);
+                    x.DEN_NGAY = DateTime.ParseExact(x.S_DEN_NGAY, Setting.FORMAT_DATETIME, null);
+                    return x;
+                });
+            }
+            catch
+            {
+            }
+            List<LogWorkViewModel> list = new List<LogWorkViewModel>();
+            LogWorkViewModel item = new LogWorkViewModel();
+            DateTime dt = DateTime.Now;
+            item.NGAY = dt;
+            item.DEN_NGAY = dt.AddHours(1);
+            item.MS_CONG_NHAN = SessionManager.CurrentUser.MS_CONG_NHAN;
+            item.S_NGAY = "";
+            item.S_DEN_NGAY = "";
+            item.SO_GIO = 60;
+            try
+            {
+                list = model.LogWorkList.ToList();
+            }
+            catch
+            {
+            }
+            list.Add(item);
+            ViewBag.MS_PBT = model.MS_PHIEU_BAO_TRI;
+            ViewBag.MS_MAY = deviceId;
+            return PartialView("_logWork", list);
+        }
+
+        
+
 
         [HttpPost]
         public IActionResult SaveLogWork(SaveLogWorkModel model)
         {
-
             model.LogWorkList = model.LogWorkList.Select(x =>
             {
                 x.NGAY = DateTime.ParseExact(x.S_NGAY, Setting.FORMAT_DATETIME, null);
                 x.DEN_NGAY = DateTime.ParseExact(x.S_DEN_NGAY, Setting.FORMAT_DATETIME, null);
                 return x;
             });
+
+            List<string> mscn = new List<string>();
+            mscn = model.LogWorkList.Select(x => x.MS_CONG_NHAN).Distinct().ToList();
+            foreach (var item in mscn)
+            {
+                var timeList = new List<Tuple<DateTime, DateTime>>();
+                foreach (var logWorkViewModel in model.LogWorkList.Where(x => x.MS_CONG_NHAN == item.ToString()).OrderBy(x => x.NGAY).ToList())
+                {
+                    timeList.Add(Tuple.Create(logWorkViewModel.NGAY, logWorkViewModel.DEN_NGAY));
+                }
+                if (Commons.CheckTimeOverlap(timeList))
+                {
+                    return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.MESS_KHOAN_TG_TON_TAI });
+                }
+            }
+           
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(model.LogWorkList);
             var res = _maintenanceService.SaveLogWork(model.MS_PHIEU_BAO_TRI, userName, json);
-
             if (res.MA == 1)
             {
                 return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
@@ -232,28 +349,44 @@ namespace VietSoft.CMMS.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveInputCauseOfDamageList(SaveCauseOfDamageInputModel model)
+        public IActionResult SaveInputCauseOfDamageList(SaveCauseOfDamageInputModel model, int msnn, string tungay, string denngay)
         {
             var causeOfDamages = new List<SaveCauseOfDamageModel>();
-            foreach (var item in model.Keys)
+            string json = "";
+            try
             {
-                var ids = item.Split('|');
-                var causeOfDamage = new SaveCauseOfDamageModel()
+                foreach (var item in model.Keys)
                 {
-                    MS_MAY = ids[0],
-                    MS_BO_PHAN = ids[1],
-                    CLASS_ID = ids[2],
-                    PROBLEM_ID = ids[3],
-                    CAUSE_ID = ids[4],
-                    REMEDY_ID = ids[5]
-                };
+                    var ids = item.Split('|');
+                    var causeOfDamage = new SaveCauseOfDamageModel()
+                    {
+                        MS_MAY = ids[0],
+                        MS_BO_PHAN = ids[1],
+                        CLASS_ID = ids[2],
+                        PROBLEM_ID = ids[3],
+                        CAUSE_ID = ids[4],
+                        REMEDY_ID = ids[5]
+                    };
 
-                causeOfDamages.Add(causeOfDamage);
+                    causeOfDamages.Add(causeOfDamage);
+                }
+                json = Newtonsoft.Json.JsonConvert.SerializeObject(causeOfDamages);
+
+            }
+            catch
+            {
+                json = "";
             }
 
-            var json = Newtonsoft.Json.JsonConvert.SerializeObject(causeOfDamages);
-            var res = _maintenanceService.SaveInputCauseOfDamageList(model.MS_PHIEU_BAO_TRI, json);
+            DateTime TN = DateTime.ParseExact(tungay, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+            DateTime DN = DateTime.ParseExact(denngay, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
 
+            if (TN > DN)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.MESS_TN_KHONG_LON_HON_DN });
+            }
+
+            var res = _maintenanceService.SaveInputCauseOfDamageList(model.MS_PHIEU_BAO_TRI, msnn, TN, DN, json, userName);
             if (res.MA == 1)
             {
                 return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
@@ -268,7 +401,7 @@ namespace VietSoft.CMMS.Web.Controllers
         public IActionResult SaveWorkOrder(TicketMaintenanceViewModel model, string deviceId)
         {
             DateTime dateOut;
-            DateTime.TryParseExact(model.S_NGAY_KT_KH, Setting.FORMAT_DATE, null, DateTimeStyles.None, out dateOut) ;
+            DateTime.TryParseExact(model.S_NGAY_KT_KH, Setting.FORMAT_DATE, null, DateTimeStyles.None, out dateOut);
             var res = _maintenanceService.SaveWorkOrder(model.MS_PHIEU_BAO_TRI, dateOut, model.MS_LOAI_BT, model.MS_UU_TIEN, model.TINH_TRANG_MAY, userName, deviceId);
 
             if (res.MA == 1)
@@ -285,17 +418,16 @@ namespace VietSoft.CMMS.Web.Controllers
         public IActionResult CompletedWorkOrder(string ticketId, string deviceId)
         {
             var res = _maintenanceService.CompletedWorkOrder(ticketId, userName, deviceId, SessionManager.CurrentUser.TypeLangue);
-
             if (res.MA == 1)
             {
-                if(res.NAME == "SHOW_HH")
-                {
-                    return Json(new JsonResponseViewModel { ResponseCode = 2, ResponseMessage = Message.CAPNHAT_THANHCONG });
-                }
-                else
-                {
-                    return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
-                }
+                //if (res.NAME == "SHOW_HH")
+                //{
+                return Json(new JsonResponseViewModel { ResponseCode = 2, ResponseMessage = Message.CAPNHAT_THANHCONG });
+                //}
+                //else
+                //{
+                //    return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+                //}
             }
             else
             {

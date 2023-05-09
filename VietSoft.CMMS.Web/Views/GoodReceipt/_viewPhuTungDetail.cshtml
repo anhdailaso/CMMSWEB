@@ -8,6 +8,12 @@
    @Html.HiddenFor(x=>x.MS_DH_NHAP_PT)
     @Html.HiddenFor(x=>x.MS_PT)
 <div class="modal-body">
+        <div class="row detail-page-emp-info break-line">
+            <div class="col-12 d-flex justify-content-left gap-2 ">
+                <span class="emp-code">@ViewBag.MS_PN</span>
+            </div>
+        </div>
+
     <div class="form-floating  break-line">
         @Html.TextBoxFor(model=>model.XUAT_XU,new {@class = "form-control", autocomplete = "off" , placeholder="Xuất xứ" })
         <label for="XUAT_XU">Xuất xứ</label>

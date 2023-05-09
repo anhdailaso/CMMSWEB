@@ -1,0 +1,38 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@model VietSoft.CMMS.Web.Models.ViewChitietPhieuBaoTriModel
+<div class="modal-header">
+    <h5>@ViewText.TITLE_THONG_TIN_PBT</h5>
+    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body modal-confirm" id="modalResultContent">
+    <div class="row mb-2">
+        <div class="col-12">
+            <div id="resultContent" style="height:380px;">
+                <table class="table table-striped">
+                    <tbody>
+                        <tr class="tr-supplies">
+                            <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">@ViewText.LBL_CONG_VIEC</td>
+                            <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">@Html.Raw(Model.CONG_VIEC?.Replace(";", "<br>") ?? "")</td>
+                        </tr>
+
+                        <tr class="tr-supplies">
+                            <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">@ViewText.LBL_PHU_TUNG</td>
+                            <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">@Html.Raw(Model.PHU_TUNG?.Replace(";", "<br>") ?? "")</td>
+                        </tr>
+
+                        <tr class="tr-supplies">
+                            <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">@ViewText.LBL_NGUOI_THUC_HIEN</td>
+                            <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">@Html.Raw(Model.NGUOI_THUC_HIEN?.Replace(";", "<br>") ?? "")</td>
+                        </tr>
+
+                        <tr class="tr-supplies">
+                            <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">@ViewText.LBL_NGHIEM_THU</td>
+                            <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">@Model.NGUOI_NGHIEM_THU</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

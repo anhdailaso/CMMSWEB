@@ -9,6 +9,7 @@ using VietSoft.CMMS.Web.Helpers;
 using System.Reflection;
 using System.Data;
 using VietSoft.CMMS.Core.Models;
+using Newtonsoft.Json;
 
 namespace VietSoft.CMMS.Web.Services
 {
@@ -34,8 +35,10 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@bcot1", xuly);
                 //int TotalRows = p.Get<int>("@TotalRows");
                 List<MyEcomaintViewModel>? res =  _dapper.GetAll<MyEcomaintViewModel>("spCMMSWEB", p, CommandType.StoredProcedure).OrderBy(x=>x.TEN_MAY).ToList();
-                 return res;
-            }
+                res.Where(x=>x.sListYC!="").ToList().ForEach(r => r.ListYC = JsonConvert.DeserializeObject<List<MyEcomaintYeuCauModel>>(r.sListYC));
+                res.Where(x => x.sListBT != "").ToList().ForEach(r => r.ListBT = JsonConvert.DeserializeObject<List<MyEcomaintBaoTriModel>>(r.sListBT));
+                return res.OrderBy(x=>x.MS_MAY).ToList();
+            }           
             catch
             {
                 return null;
@@ -78,7 +81,23 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public UserRequestViewModel GetUserRequest(string msmay, string username)
+        public List<string> GetMenu(string username)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "GET_MENU");
+                p.Add("@UserName", username);
+                List<string> res = _dapper.GetAll<string>("spCMMSWEB", p, CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public UserRequestViewModel GetUserRequest(string msyc,string msmay, string username,int them)
         {
             try
             {
@@ -86,6 +105,8 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@sDanhMuc", "GetUserRequest");
                 p.Add("@deviceID", msmay);
                 p.Add("@UserName", username);
+                p.Add("@stt", them);
+                p.Add("@sCot1", msyc);
                 var res = _dapper.Execute<UserRequestViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 return res;
             }
@@ -154,7 +175,6 @@ namespace VietSoft.CMMS.Web.Services
                 return new BaseResponseModel();
             }
         }
-
 
         public BaseResponseModel SaveAcceptUserRequest(string username, AcceptUserRequest request)
         {

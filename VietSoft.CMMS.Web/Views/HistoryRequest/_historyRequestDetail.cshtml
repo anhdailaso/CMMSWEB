@@ -21,7 +21,31 @@
 
                 </div>
             </div>
-            <div class="separate-line"></div>
+            @switch (item.TINH_TRANG)
+            {
+                case 0:
+                    {
+                        <div class="separate-line" style="border-bottom: 6px solid rgba(0,0,0,.125);border-radius: 5px;"></div>
+                        break;
+                    }
+                case 1:
+                    {
+                        <div class="separate-line" style="border-bottom: 6px solid #ff870f;border-radius: 5px;"></div>
+                        break;
+                    }
+                case 2:
+                    {
+                        <div class="separate-line" style="border-bottom: 6px solid #0d6efd;border-radius: 5px;"></div>
+                        break;
+                    }
+                case 3:
+                    {
+                        <div class="separate-line" style="border-bottom: 6px solid #198754;border-radius: 5px;"></div>
+                        break;
+                    }
+                default: break;
+            }
+
             <div class="card-body">
                 <div class="row detail-page-emp-info">
                     <div class="col-12 d-flex justify-content-left gap-2 ">
@@ -29,22 +53,45 @@
                         <span class="emp-code">@item.TEN_MAY</span>
                     </div>
                 </div>
-                <div style="padding-bottom:0.3rem; justify-content:space-between" class="d-flex mt-1">
 
-                    <div class="d-flex gap-2 ">
-                        <span>@ViewText.LBL_TINH_TRANG:</span>
-                        <span class="card-value">@item.TINH_TRANG_MAY</span>
-                    </div>
-                    @if (@item.NGAY_KT_PBT != null)
+                <div style="padding-bottom:0.3rem; justify-content:space-between" class="d-flex mt-1">
+                    @if (@item.NGAY_DUYET != null)
                     {
-                        <div class="d-flex gap-2">
-                            <span>@ViewText.LBL_PHIEU_BAO_TRI:</span>
-                            <a style="color:#113186;" href="/Home/WorkOrderRQ?mspbt=@item.MS_PHIEU_BAO_TRI&msmay=@item.MS_MAY&tenmay=@item.TEN_MAY" class="card-value">@item.MS_PHIEU_BAO_TRI</a>
+                        <div class="d-flex gap-2 ">
+                            <span>@ViewText.LBL_NGAY_DUYET:</span>
+                            <span class="card-value">@item.NGAY_DUYET</span>
                         </div>
                     }
+
+
+                    @if (@item.NGAY_PBT != null)
+                    {
+                        <div class="d-flex gap-2">
+                            <span>@ViewText.LBL_NGAY_TIEP_NHAN:</span>
+                            <span class="card-value">@item.NGAY_PBT</span>
+                        </div>
+                    }
+
+                </div>
+
+                <div style="padding-bottom:0.3rem; justify-content:space-between" class="d-flex mt-1">
+                    <div class="d-flex gap-2 ">
+                        <span>@ViewText.LBL_TINH_TRANG:</span>
+                        <span class="card-value">@Html.Raw(@item.TINH_TRANG_MAY.Replace(";","<br>"))</span>
+                    </div>
                 </div>
 
 
+                @if (@item.MS_PHIEU_BAO_TRI != null)
+                {
+                    <div style="padding-bottom:0.3rem; justify-content:space-between" class="d-flex mt-1">
+                        <div class="d-flex gap-2">
+                            <span>@ViewText.LBL_PHIEU_BAO_TRI:</span>
+                            <a style="color:#113186;" class="card-value showPBT" data-mspbt="@item.MS_PHIEU_BAO_TRI">@item.MS_PHIEU_BAO_TRI</a>
+                            @*href="/Home/WorkOrderRQ?mspbt=@item.MS_PHIEU_BAO_TRI&msmay=@item.MS_MAY&tenmay=@item.TEN_MAY"*@
+                        </div>
+                    </div>
+                }
 
 
             </div>

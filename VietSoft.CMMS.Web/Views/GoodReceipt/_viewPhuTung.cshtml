@@ -2,9 +2,17 @@
 <div class="modal-header">
     <h5>@ViewText.LBL_THEM_PHUTUNG</h5>
     <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+    
 </div>
+
 <div class="modal-body modal-confirm" id="modalResultContent">
+    <div class="row detail-page-emp-info break-line">
+        <div class="col-12 d-flex justify-content-left gap-2 ">
+            <span class="emp-code">@ViewBag.MS_PN</span>
+        </div>
+    </div>
    <div class="row mb-2">
+
     <div class="col-12">
        <div class="position-relative" >
             @Html.TextBox("search", null, new { @class = "form-control", maxlength = 250, autocomplete = "off", tabindex="-1" , placeholder=@ViewText.LBL_SEARCH})

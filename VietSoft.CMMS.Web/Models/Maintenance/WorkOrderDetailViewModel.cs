@@ -16,6 +16,31 @@
         public string PATH_HD { get; set; }
     }
 
+    public class NguoiThucHienModel
+    {
+        public string MS_CONG_NHAN { get; set; }
+        public string TEN_CONG_NHAN { get; set; }
+        public bool CHON { get; set; }
+        public bool XOA { get; set; }
+
+    }
+    public class CapNhatCa
+    {
+        public int ID_CA { get; set; }
+        public DateTime NGAY_BD { get; set; }
+        public DateTime NGAY_KT { get; set; }
+    }
+    public class ThoiGianNgungMayModel
+    {
+        public int MS_NGUYEN_NHAN { get; set; }
+        public string TEN_NGUYEN_NHAN { get; set; }
+        public int ID_CA { get; set; }
+        public string TEN_CA { get; set; }
+        public DateTime TU_GIO { get; set; }
+        public DateTime DEN_GIO { get; set; }
+    }
+
+
     public class WorkOrdersViewModel
     {
         public string MS_PHIEU_BAO_TRI { get; set; }

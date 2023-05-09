@@ -5,6 +5,12 @@
     <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
 </div>
 <div class="modal-body modal-confirm" id="modalResultContent">
+    <div class="row detail-page-emp-info">
+        <div class="col-12 d-flex justify-content-left gap-2 ">
+            <span class="emp-code">@ViewBag.MS_PN</span>
+        </div>
+    </div>
+
     <div class="row mb-2">
         <div class="col-12">
             @if (Model != null && Model.Count() > 0)
@@ -42,10 +48,10 @@
                                     </td>
                                     <td>
                                         @*@item.TONG_CP.ToString("N2")*@
-                                        <input class="form-control form-control-sm TONG_CP" style="height:0.5rem!important;min-height:0.5rem!important;font-size: 0.8rem;padding: 11px 3px!important;" type="text" value="@item.TONG_CP.ToString("N2")" placeholder="chi phí" />
+                                        <input class="form-control form-control-sm TONG_CP" style="height:0.5rem!important;min-height:0.5rem!important;font-size: 0.8rem;padding: 11px 3px!important;" type="text" value="@item.TONG_CP.ToString("N2")"/>
                                     </td>
                                     <td>
-                                        <input class="form-control form-control-sm" style="height:0.5rem!important;min-height:0.5rem!important;font-size: 0.8rem;padding: 11px 3px!important;" type="text" value="@item.GHI_CHU" placeholder=@ViewText.LBL_GHI_CHU />
+                                        <input class="form-control form-control-sm" style="height:0.5rem!important;min-height:0.5rem!important;font-size: 0.8rem;padding: 11px 3px!important;" type="text" value="@item.GHI_CHU"  />
                                     </td>
                                 </tr>
 

@@ -1,52 +1,80 @@
 ﻿@using VietSoft.CMMS.Web.Resources
 @using VietSoft.CMMS.Web.Helpers;
 @model IEnumerable<VietSoft.CMMS.Web.Models.Maintenance.LogWorkViewModel>
+<style>
+    .select2-container--bootstrap-5 .select2-selection--single {
+        background-image: none !important;
+    }
+</style>
 <div class="modal-header">
     <h5>@ViewText.LBL_GHINHAN_THOIGIAN_LAMVIEC</h5>
     <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
 </div>
-<div class="modal-body modal-confirm">
-    <div class="row mb-2" >
-        <div class="col-12" id="logWorkContent">
-            <div class="col-2" id="btnAddRowLogWork">
-                <i class="fa fa-plus fs-7 mx-3" aria-hidden="true"></i>
-            </div>
-            <div style="height:380px;">
-                  <table id="tblLogWork" class="table table-responsive table-borderless cuscess" >
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td style="width:45%">
-                                <div class="form-floating input-group date ">
-                                    <input style="border-radius: 0 !important" type="text" class="form-control-bottom form-control fromDate" autocomplete="off" value="@item.NGAY.ToString(Setting.FORMAT_DATETIME)"/>
-                                </div>
-                            </td>
-                            <td style="width:45%">
-                                 <div class="form-floating input-group date px-2" >
-                                        <input type="text" style="border-radius: 0 !important" class="form-control form-control-bottom toDate" autocomplete="off" value="@item.DEN_NGAY.ToString(Setting.FORMAT_DATETIME)" />
-                                </div>
-                            </td>
-                            <td style="width:10%">
-                              <p class="text-orange mt-3 hours"> @item.SO_GIO</p>
-                            </td>
-                            <td class="d-none">@item.MS_CONG_NHAN</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            </div>
+<div class="modal-body modal-confirm" id="modalResultContent">
+
+    <div class="row detail-page-emp-info break-line">
+        <div class="col-12 d-flex justify-content-left gap-2 ">
+            <span class="emp-name">@ViewBag.MS_PBT</span>
+            <span class="emp-code">@ViewBag.MS_MAY</span>
         </div>
     </div>
 
+    <div class="row mb-2">
+        <div class="col-12" id="logWorkContent">
+            <div class="col-2" id="btnAddRowLogWork">
+                <i class="fa fa-plus fs-7 mx-3" style="font-size:0.8rem!important" aria-hidden="true"></i>
+            </div>
+            <div style="height:380px;">
+                <table id="tblLogWork" class="table table-responsive table-borderless cuscess">
+                    <tbody>
+                        @{
+                            int i = 0;
+                            @foreach (var item in Model)
+                            {
+                                i++;
+                                <tr>
+                                    <td style="width:30%">
+                                        <div class="form-floating input-group date ">
+                                            <input style="border-radius: 0 !important;width:150px!important" type="text" class="form-control form-control-bottom  fromDate" autocomplete="off" value="@item.NGAY.ToString(Setting.FORMAT_DATETIME)" />
+                                        </div>
+                                    </td>
+                                    <td style="width:30%">
+                                        <div class="form-floating input-group date px-2">
+                                            <input type="text" style="border-radius: 0 !important;width:150px!important" class="form-control form-control-bottom toDate" autocomplete="off" value="@item.DEN_NGAY.ToString(Setting.FORMAT_DATETIME)" />
+                                        </div>
+                                    </td>
+                                    <td style="width:30%">
+                                        @Html.DropDownListFor(modelItem => item.MS_CONG_NHAN, (IEnumerable<SelectListItem>)@ViewBag.CongNhan, new { @class = "cboCongNhan", /*@style = "left: 185px !important"*/ @id = i})
+                                    </td>
+                                    <td style="width:10%">
+                                        <p class="text-orange mt-3 hours"> @item.SO_GIO</p>
+                                    </td>
+                                    <td width="10%">
+                                        <p style="margin-top: 0.95rem;"><a class="remove-row"><i class="fa fa-trash-o fa-lg text-danger"></i></a></p>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-
 <div class="modal-footer justify-content-between gap-1 flex-nowrap">
     <button type="button" class="btn btn-outline-danger w-50" onclick="ClosePopup(this)" id="btnCancel">@ViewText.BTN_DONG</button>
     <button type="button" class="btn btn-primary w-50" id="btnSaveLogWork">@ViewText.BTN_LUU</button>
 </div>
 
 <script>
+
+    $("#tblLogWork .cboCongNhan").select2({
+        theme: "bootstrap-5",
+        dropdownAutoWidth: true,
+        dropdownParent: $('#modalResultContent'),
+    });
+
+
     setDateTimePicker('.fromDate', moment($(".fromDate").val(), _formatDateTime).toDate());
     //setDateTimePicker('.toDate', moment($(".toDate").val(), _formatDateTime).toDate())
     $('.toDate').datetimepicker({
@@ -57,4 +85,6 @@
             horizontal: 'right'
         }
     });
+
+
 </script>

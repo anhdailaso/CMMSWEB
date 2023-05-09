@@ -11,6 +11,7 @@ namespace VietSoft.CMMS.Web.IServices
         IEnumerable<GetDeviceInfoObj> GetDeviceInfo(string Username);
         IEnumerable<GetDeviceStatusObj> GetDeviceStatus(string Username);
         IEnumerable<GetSituationWOColumnObj> GetSituationWOColumn(string Username);
+        IEnumerable<GetDowtimeCauseObj> GetDowtimeCause(string Username);
         int GetSoMay();
     }
 }

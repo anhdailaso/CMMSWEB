@@ -41,7 +41,7 @@ namespace VietSoft.HRM.Web.Controllers
 
         public JsonResult GetSituationWO()
         {
-            string data = JsonConvert.SerializeObject(_chart.GetSituationWO().ToList()).Replace("\"[", "[").Replace("]\"", "]");
+            var data = JsonConvert.SerializeObject(_chart.GetDowtimeCause(SessionManager.CurrentUser.UserName).ToList()).Replace("\",\"y\":", "\",").Replace("name\":\"", "").Replace('}',']').Replace('{', '[');
             return Json(data);
         }
 

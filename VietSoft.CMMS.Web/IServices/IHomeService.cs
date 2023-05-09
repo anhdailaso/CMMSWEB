@@ -9,9 +9,10 @@ namespace VietSoft.CMMS.Web.IServices
     {
         List<MyEcomaintViewModel> GetMyEcomain(string username, int languages, DateTime? dngay, string ms_nx, string mslmay, bool xuly, int pageIndex, int pageSize);
         List<MonitoringParametersByDevice> GetMonitoringParametersByDevice(string username, int languages,string may,int isDue,int stt);
+        List<string> GetMenu(string username);
         BaseResponseModel SaveMonitoring(string username,string jsonData);
-        public BaseResponseModel DeleteUserRequest(int stt);
-        UserRequestViewModel GetUserRequest(string msmay, string username);
+        BaseResponseModel DeleteUserRequest(int stt);
+        UserRequestViewModel GetUserRequest(string msyc,string msmay, string username, int them);
         BaseResponseModel SaveUserRequest(string username,UserRequestViewModel request);
 
         BaseResponseModel SaveAcceptUserRequest(string username, AcceptUserRequest model);

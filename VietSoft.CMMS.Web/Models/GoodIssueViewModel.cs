@@ -25,6 +25,7 @@ namespace VietSoft.CMMS.Web.Models
         public int MS_DANG_XUAT { get; set; }
 
         public string MS_PHIEU_BAO_TRI { get; set; }
+        public string MS_MAY { get; set; }
         public int MS_BP_CHIU_PHI { get; set; }
         public string TEN_BP_CHIU_PHI { get; set; }
         public string NGUOI_NHAN { get; set; }

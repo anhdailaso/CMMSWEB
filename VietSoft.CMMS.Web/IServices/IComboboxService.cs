@@ -11,7 +11,8 @@ namespace VietSoft.CMMS.Web.IServices
         SelectList CboNgoaiTe();
         SelectList DanhSachKho(string Username);
         //SelectList DanhSachDangNhap();
-        SelectList DanhSachNguyenNhan(int NNgu);
+        SelectList DanhSachNguyenNhan(string msmay, bool CoAll, int NNgu);
+        SelectList DanhSachCa(int NNgu);
         SelectList DanhSachLoaiBT();
         SelectList DanhSachPhuTung(int NNgu);
         SelectList GetCbbDiaDiem(string UserName, int NNgu, int CoAll);
@@ -20,7 +21,7 @@ namespace VietSoft.CMMS.Web.IServices
         SelectList GetCbbDangNhap(string Username, int NNgu, int CoAll);
         SelectList GetCbbTrong();
         SelectList GetCbbDangxuat(string Username, int NNgu, int CoAll);
-        SelectList GetCbbPhieuBaoTriXuat();
+        SelectList GetCbbPhieuBaoTriXuat(string msmay);
         SelectList GetCbbBoPhanChiuPhi(string Username);
 
         SelectList GetCbbDDH(string Username, int NNgu, int CoAll, int dexuat);
@@ -32,9 +33,6 @@ namespace VietSoft.CMMS.Web.IServices
         SelectList GetCbbLoaiCV(string UserName, int NNgu, int CoAll);
 
 
-        SelectList LoadListThietBi();
-        SelectList LoadListNguyenNhan();
-        SelectList LoadListLoaiYC();
         SelectList LoadListUuTien(int NN);
 
         //Đạt sửa 10101999

@@ -61,7 +61,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gửi yêu cầu thành công..
+        ///   Looks up a localized string similar to Submit request successfully..
         /// </summary>
         public static string APPLY_REQUEST_SUCCESS {
             get {
@@ -70,7 +70,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Duyệt yêu cầu thành công..
+        ///   Looks up a localized string similar to Browse request successfully..
         /// </summary>
         public static string APPROVAL_SUCCESS {
             get {
@@ -79,7 +79,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cập nhật thành công..
+        ///   Looks up a localized string similar to Update successful..
         /// </summary>
         public static string CAPNHAT_THANHCONG {
             get {
@@ -88,7 +88,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Đổi mật khẩu thành công..
+        ///   Looks up a localized string similar to Change password successfully..
         /// </summary>
         public static string CHANGE_PASS_SUCCESS {
             get {
@@ -97,7 +97,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bạn có muốn chuyển công việc qua kế hoạch tổng thể?.
+        ///   Looks up a localized string similar to Do you want to move work through the master plan?.
         /// </summary>
         public static string CHUYEN_CONGVIEC_QUA_KEHOACH {
             get {
@@ -106,7 +106,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Đã có lỗi xảy ra..
+        ///   Looks up a localized string similar to An error has occurred..
         /// </summary>
         public static string COLOI_XAYRA {
             get {
@@ -115,7 +115,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Đăng ký thành công..
+        ///   Looks up a localized string similar to Sign Up Success..
         /// </summary>
         public static string DANGKY_THANHCONG {
             get {
@@ -124,7 +124,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Không được để trống..
+        ///   Looks up a localized string similar to Can not be left blank..
         /// </summary>
         public static string FIELD_REQUIRED {
             get {
@@ -133,7 +133,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bạn có muốn khóa phiếu nhập kho này không?.
+        ///   Looks up a localized string similar to Do you want to lock this deposit slip?.
         /// </summary>
         public static string KHOA_PHIEU_NHAP {
             get {
@@ -142,7 +142,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bạn có muốn khóa phiếu xuất kho này không?.
+        ///   Looks up a localized string similar to Do you want to lock this delivery note?.
         /// </summary>
         public static string KHOA_PHIEU_XUAT {
             get {
@@ -151,7 +151,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Link đã hết hạn. Vui lòng gửi lại yêu cầu thay đổi mật khẩu và truy cập vào link mới..
+        ///   Looks up a localized string similar to Link has expired. Please resend the password change request and access the new link..
         /// </summary>
         public static string LINK_FORGOT_PASS_EXPIRED {
             get {
@@ -160,7 +160,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tên đăng nhập hoặc mật khẩu không đúng..
+        ///   Looks up a localized string similar to Username or password is incorrect..
         /// </summary>
         public static string LOGIN_FAILED {
             get {
@@ -169,7 +169,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Chưa có phụ tùng cho phiếu bảo trì.
+        ///   Looks up a localized string similar to No spare parts for maintenance ticket.
         /// </summary>
         public static string MESS_CHUA_CO_PHU_TUNG {
             get {
@@ -178,7 +178,34 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Từ giờ không được lớn hơn đến giờ.
+        ///   Looks up a localized string similar to Input value does not match!.
+        /// </summary>
+        public static string MESS_GIA_TRI_KHONG_HOP_LE {
+            get {
+                return ResourceManager.GetString("MESS_GIA_TRI_KHONG_HOP_LE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time has existed!.
+        /// </summary>
+        public static string MESS_KHOAN_TG_TON_TAI {
+            get {
+                return ResourceManager.GetString("MESS_KHOAN_TG_TON_TAI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From day not greater to day!.
+        /// </summary>
+        public static string MESS_TN_KHONG_LON_HON_DN {
+            get {
+                return ResourceManager.GetString("MESS_TN_KHONG_LON_HON_DN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can not get older from now on.
         /// </summary>
         public static string MESS_TU_GIO_KHONG_LON_HON_DEN_GIO {
             get {
@@ -187,7 +214,16 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nhập lại mật khẩu không đúng..
+        ///   Looks up a localized string similar to Please select data!.
+        /// </summary>
+        public static string MESS_VUI_LONG_CHON_DL {
+            get {
+                return ResourceManager.GetString("MESS_VUI_LONG_CHON_DL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password incorrect, please try again..
         /// </summary>
         public static string NHAPLAI_MK_KHONGDUNG {
             get {
@@ -196,7 +232,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tài khoản này không có email. Vui lòng liên hệ quản trị viên để được trợ giúp..
+        ///   Looks up a localized string similar to This account has no email. Please contact your administrator for help..
         /// </summary>
         public static string SEND_MAIL_FAILED {
             get {
@@ -205,7 +241,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Link tạo lại mật khẩu đã gửi đến {0}. Vui lòng kiểm tra mail của bạn..
+        ///   Looks up a localized string similar to Password reset link sent to {0}. Please check your mail..
         /// </summary>
         public static string SEND_MAIL_SUCCESS {
             get {
@@ -214,7 +250,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cập nhật yêu cầu thành công..
+        ///   Looks up a localized string similar to Update request successful..
         /// </summary>
         public static string UPDATE_REQUEST_SUCCESS {
             get {
@@ -223,7 +259,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bạn có muốn hoàn thành khai báo phiếu bảo trì?.
+        ///   Looks up a localized string similar to Do you want to complete the maintenance ticket declaration?.
         /// </summary>
         public static string XACNHAN_HOANTHANH_PHIEUBAOTRI {
             get {
@@ -232,7 +268,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bạn có muốn xóa công việc này không?.
+        ///   Looks up a localized string similar to Do you want to delete this job?.
         /// </summary>
         public static string XOA_CONG_VIEC {
             get {
@@ -241,7 +277,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bạn có muốn xóa phiếu nhập kho này không?.
+        ///   Looks up a localized string similar to Do you want to delete this voucher?.
         /// </summary>
         public static string XOA_NHAP_KHO {
             get {
@@ -250,7 +286,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bạn có muốn xóa phiếu bảo trì này không?.
+        ///   Looks up a localized string similar to Do you want to delete this maintenance ticket?.
         /// </summary>
         public static string XOA_PHIEU_BAO_TRI {
             get {
@@ -259,7 +295,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bạn có muốn xóa phiếu xuất kho này không?.
+        ///   Looks up a localized string similar to Do you want to delete this delivery note?.
         /// </summary>
         public static string XOA_PHIEU_XUAT {
             get {
@@ -268,7 +304,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bạn có muốn xóa phụ tùng cho phiếu nhập kho này?.
+        ///   Looks up a localized string similar to Do you want to delete the spare part for this stock receipt?.
         /// </summary>
         public static string XOA_PHU_TUNG_NHAP {
             get {
@@ -277,7 +313,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bạn có muốn xóa phụ tùng cho phiếu xuất kho này không?.
+        ///   Looks up a localized string similar to Do you want to delete spare parts for this delivery note?.
         /// </summary>
         public static string XOA_PHU_TUNG_XUAT {
             get {
@@ -286,7 +322,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bạn có muốn xóa yêu cầu này không?.
+        ///   Looks up a localized string similar to Do you want to delete this request?.
         /// </summary>
         public static string XOA_YEU_CAU {
             get {

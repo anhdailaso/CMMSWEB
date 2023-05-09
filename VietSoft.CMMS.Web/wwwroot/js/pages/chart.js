@@ -139,10 +139,62 @@
 
         $.post(config.urlGetTinhHinhPBT, function (data) {
             if (data.length > 0) {
-                console.log(data);
+                //$('#linechart').highcharts({
+                //    chart: {
+                //        type: 'line',
+                //        backgroundColor: 'transparent',
+                //        height: 304,
+                //        marginLeft: 80,
+                //        marginRight: 80,
+                //        marginBottom: 80,
+                //        marginTop: 20,
+                //        plotBackgroundColor: 'none',
+                //        plotBorderWidth: null,
+                //        plotShadow: false,
+                //    },
+                //    tooltip: {
+                //        valueSuffix: ''
+                //    },
+
+                //    title: {
+                //        text: ''
+                //    },
+                //    xAxis: {
+                //        categories: theMonths
+                //    },
+
+                //    yAxis: {
+                //        title: {
+                //            text: 'Số phiếu'
+                //        }
+                //    },
+                //    legend: {
+                //        itemStyle: {
+                //            fontWeight: 'bold'
+                //        },
+                //        borderWidth: 0
+                //    },
+                //    plotOptions: {
+                //        line: {
+                //            dataLabels: {
+                //                enabled: true
+                //            },
+                //            enableMouseTracking: true,
+                //            showInLegend: true,
+                //            marker: {
+                //                enabled: true
+                //            },
+                //            lineWidth: 5,
+                //            //pointStart: newDate.getMonth()
+                //        }
+                //    },
+
+                //    series: JSON.parse(data)
+                //});
+
                 $('#linechart').highcharts({
                     chart: {
-                        type: 'line',
+                        type: 'column',
                         backgroundColor: 'transparent',
                         height: 304,
                         marginLeft: 80,
@@ -151,47 +203,56 @@
                         marginTop: 20,
                         plotBackgroundColor: 'none',
                         plotBorderWidth: null,
-                        plotShadow: false,
                     },
-                    tooltip: {
-                        valueSuffix: ''
+                    xAxis: {
+                        type: 'category',
+                        labels: {
+                            rotation: -45,
+                            style: {
+                                fontSize: '13px',
+                                fontFamily: 'Verdana, sans-serif'
+                            }
+                        }
                     },
-
+                    yAxis: {
+                        title: {
+                            text: 'Số phút ngừng máy'
+                        }
+                    },
                     title: {
                         text: ''
                     },
-                    xAxis: {
-                        categories: theMonths
-                    },
 
-                    yAxis: {
-                        title: {
-                            text: 'Số phiếu'
+                    tooltip: {
+                        formatter: function () {
+                            return this.point.name + ': ' + this.y + '(phút)';
                         }
                     },
+                    credits: {
+                        enabled: false
+                    },
                     legend: {
-                        itemStyle: {
-                            fontWeight: 'bold'
-                        },
-                        borderWidth: 0
+                        enabled: false
                     },
                     plotOptions: {
-                        line: {
+                        column: {
                             dataLabels: {
-                                enabled: true
+                                enabled: true,
                             },
-                            enableMouseTracking: true,
+                            
                             showInLegend: true,
                             marker: {
                                 enabled: true
                             },
-                            lineWidth: 5,
-                            //pointStart: newDate.getMonth()
+                            borderWidth: 0
                         }
                     },
-
-                    series: JSON.parse(data)
+                    //[[ "5S",  1440.0], { "name": "Bảo trì hàng tháng", "y": 1440.0, "color": null }, { "name": "Bảo trì nửa năm", "y": 1440.0, "color": null }]
+                    series: [{
+                        data: JSON.parse(data),
+                    }]
                 });
+
             }
         });
         $.post(config.urlGetTinhHinhPBTColumn, function (data) {

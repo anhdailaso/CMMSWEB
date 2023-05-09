@@ -5718,8 +5718,8 @@ textarea.form-control-lg {
 .tooltip .tooltip-arrow {
   position: absolute;
   display: block;
-  width: 0.8rem;
-  height: 0.4rem;
+  /*width: 0.8rem;
+  height: 0.4rem;*/
 }
 .tooltip .tooltip-arrow::before {
   position: absolute;
@@ -5745,8 +5745,8 @@ textarea.form-control-lg {
 }
 .bs-tooltip-end .tooltip-arrow, .bs-tooltip-auto[data-popper-placement^=right] .tooltip-arrow {
   left: 0;
-  width: 0.4rem;
-  height: 0.8rem;
+  /*width: 0.4rem;
+  height: 0.8rem;*/
 }
     .bs-tooltip-end .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=right] .tooltip-arrow::before {
         right: -1px;
@@ -5771,8 +5771,8 @@ textarea.form-control-lg {
 }
 .bs-tooltip-start .tooltip-arrow, .bs-tooltip-auto[data-popper-placement^=left] .tooltip-arrow {
   right: 0;
-  width: 0.4rem;
-  height: 0.8rem;
+/*  width: 0.4rem;
+  height: 0.8rem;*/
 }
     .bs-tooltip-start .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=left] .tooltip-arrow::before {
         left: -1px;

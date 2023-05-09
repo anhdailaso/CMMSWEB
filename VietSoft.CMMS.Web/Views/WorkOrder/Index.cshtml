@@ -13,9 +13,9 @@
     }
 
     .navbar-button {
-        padding-left: 100px;
+        /*padding-left: 100px;*/
         padding-top: unset;
-        padding-right: 100px;
+        /*padding-right: 100px;*/
         /* overflow: hidden; */
         position: absolute;
         line-height: 42px;
@@ -116,28 +116,33 @@
     <nav class="fixed-bottom">
         <div class="navbar-button  text-center text-white">
             <div id="button-container" class="btn-group">
-                <a id="btnAddMaintenanceWork" class="btn btn-outline-primary m-1">
+                <a id="btnAddMaintenanceWork" class="btn btn-outline-primary m-1" data-toggle="tooltip" title="@ViewText.LBL_THEM_CONGVIEC_BAOTRI">
                     <i class="fa fa-plus fs-7" aria-hidden="true"></i>
                 </a>
 
                 <!-- Twitter -->
-                <a id="btnXemtonkho" class="btn btn-outline-secondary m-1">
-                    <i class="fa fa-cogs fs-7"></i>
+                <a id="btnXemtonkho" class="btn btn-outline-secondary m-1" data-toggle="tooltip" title="@ViewText.LBL_XEM_TON_KHO">
+                    <i class="fa-solid fa-warehouse-full fa-2xs fs-7"></i>
                 </a>
 
-                <a id="logWork" class="btn btn-outline-dark m-1">
+                <a id="logWork" class="btn btn-outline-dark m-1" data-toggle="tooltip" title="@ViewText.LBL_GHINHAN_THOIGIAN_LAMVIEC">
                     <i class="fa fa-clock-o fs-7"></i>
                 </a>
-
-
                 <!-- Google -->
-                <a id="btnCompletePBT" class="btn btn-outline-success m-1">
+                <a id="btnCompletePBT" class="btn btn-outline-success m-1" data-toggle="tooltip" title="@ViewText.BTN_HOAN_THANH_PBT">
                     <i class="fa fa-check-circle fs-7"></i>
                 </a>
 
-                <a class="btn btn-outline-warning m-1" id="btnhuyBT" role="button">
-                    <i class="fa fa-times fs-7"></i>
+                @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() && Model.QUYEN > 0)
+                {
+                    <a class="btn btn-outline-warning m-1" data-toggle="tooltip" title="@ViewText.BTN_XOA" id="btnhuyBT" role="button">
+                        <i class="fa fa-times fs-7"></i>
+                    </a>
+
+                    <a id="btnAddNguoiThucHien" class="btn btn-outline-primary m-1" data-toggle="tooltip" title="@ViewText.TITLE_THEN_NGUOI_THUC_HIEN">
+                        <i class="fa-regular fa-person-sign fs-7" aria-hidden="true"></i>
                 </a>
+                }
             </div>
         </div>
     </nav>
@@ -158,8 +163,11 @@
             GET_WORK_LIST: '@Url.Action("GetWorkList","WorkOrder")',
             ADD_SUPPLIES: '@Url.Action("AddSupplies","WorkOrder")',
             ADD_MAINTENANCE_WORK: '@Url.Action("AddMaintenanceWork","WorkOrder")',
+            ADD_NGUOI_THUC_HIEN: '@Url.Action("ChonNguoiThucHien","WorkOrder")',
             SAVE_MAINTENANCE_WORK: '@Url.Action("SaveMaintenanceWork","WorkOrder")',
+            SAVE_NGUOI_THUC_HIEN: '@Url.Action("SaveNguoiThucHien","WorkOrder")',
             SAVE_LOG_WORK: '@Url.Action("SaveLogWork","WorkOrder")',
+            ADD_ROW_LOG_WORK: '@Url.Action("AddRowLogwork","WorkOrder")',
             SAVE_SUPPLIES: '@Url.Action("SaveSupplies","WorkOrder")',
             BACK_LOG: '@Url.Action("BackLog","WorkOrder")',
             DELETE_WORK: '@Url.Action("DeleteWork","WorkOrder")',
@@ -176,6 +184,8 @@
             MESS_TU_GIO_KHONG_LON_HON_DEN_GIO: '@Html.Raw(Message.MESS_TU_GIO_KHONG_LON_HON_DEN_GIO)',
             MyEcomaint: '@Url.Action("Index", "Home")',
             CHECK_TON_KHO: '@Url.Action("CHECK_TON_KHO","WorkOrder")',
+            UPDATE_TT_HT: '@Url.Action("UPDATE_TT_HT","WorkOrder")',
+            MESS_GIA_TRI_KHONG_HOP_LE: '@Html.Raw(Message.MESS_GIA_TRI_KHONG_HOP_LE)',
         }
     </script>
     <script src="~/js/pages/workorder.js" asp-append-version="true"></script>

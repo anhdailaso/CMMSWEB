@@ -22,8 +22,149 @@
             GetListAcceptMaintenance(1);
         })
 
+        //chọn phụ tùng
+        $(document).on("click", '#btnNgungMay', function () {
+            $.ajax({
+                type: "GET",
+                url: config.urlViewNgungMay,
+                data: {
+                    mspbt: $('#MS_PBT').text(),
+                    msmay: $('#MS_MAY').text()
+                },
+                success: function (response) {
+                    $('#modalLarge .modal-content').html(response);
+                    $('#modalLarge').modal('show');
+                    DanhSachNgungMay();
+                }
+            });
+        });
+
+        //refresh thời gian ngừng máy
+        $(document).on("click", '#btnRefreshTGNM', function () {
+            showLoadingOverlay("#resultContent");
+            $.ajax({
+                type: "GET",
+                url: config.urlRefreshNgungMay,
+                data: {
+                    tungay: $('#fromDateNM').val(),
+                    denngay: $('#toDateNM').val(),
+                    msnn: $('#cboNguyennhan').val(),
+                    msmay: $('.emp-code').text()
+
+                },
+                success: function (response) {
+                    if (response.responseCode == -1) {
+                        showWarning(response.responseMessage)
+                    }
+                    else {
+                        $("#resultContent").html(response);
+                    }
+                },
+                complete: function () {
+                    hideLoadingOverlay("#resultContent");
+
+                }
+            });
+        });
+
+
+        $(document).on("click", '.remove-row', function () {
+            $(this).closest("tr").remove();
+        });
+
+        //add thời gian ngừng máy
+        $(document).on("click", '#btnAddTGNM', function () {
+            let model = [];
+            $("#tbNguyenNhanNgungMay tbody tr").each(function () {
+                var row = {};
+                row.MS_NGUYEN_NHAN = $(this).find(".cboLuoiNN").val();
+                row.TEN_NGUYEN_NHAN = '';
+                row.ID_CA = $(this).find("td[data-ca]").data("ca");
+                row.TEN_CA = '';
+                row.TU_GIO = $(this).find("td[data-tugio]").data("tugio");
+                row.DEN_GIO = $(this).find("td[data-dengio]").data("dengio");
+                model.push(row);
+            });
+            showLoadingOverlay("#resultContent");
+            $.ajax({
+                type: "GET",
+                url: config.urlAddNgungMay,
+                data: {
+                    tungay: $('#fromDateNM').val(),
+                    denngay: $('#toDateNM').val(),
+                    msnn: $('#cboNguyennhan').val(),
+                    msmay: $('#MS_MAY').text(),
+                    json: JSON.stringify(model),
+                },
+                success: function (response) {
+                    if (response.responseCode == -1) {
+                        showWarning(response.responseMessage)
+                    }
+                    else {
+                        $("#resultContent").html(response);
+                    }
+                },
+                complete: function () {
+                    hideLoadingOverlay("#resultContent");
+
+                }
+            });
+        });
+
+        //save thời gian ngừng máy
+        $(document).on("click", '#btnSaveNgungMay', function () {
+            let model = [];
+            $("#tbNguyenNhanNgungMay tbody tr").each(function () {
+                var row = {};
+                row.MS_NGUYEN_NHAN = $(this).find(".cboLuoiNN").val();
+                row.ID_CA = $(this).find("td[data-ca]").data("ca");
+                row.TU_GIO = $(this).find("td[data-tugio]").data("tugio");
+                row.DEN_GIO = $(this).find("td[data-dengio]").data("dengio");
+                model.push(row);
+            });
+            $.ajax({
+                type: "GET",
+                url: config.urlSaveNgungMay,
+                data: {
+                    mspbt: $('#MS_PBT').text(),
+                    json: JSON.stringify(model),
+                },
+                success: function (response) {
+                    if (response.responseCode == 1) {
+                        showSuccess(response.responseMessage);
+                    }
+                    else {
+                        showWarning(response.responseMessage)
+                    }
+                },
+                complete: function () {
+                }
+            });
+        });
+
+
+
+        function DanhSachNgungMay() {
+            showLoadingOverlay("#resultContent");
+            $.ajax({
+                type: "GET",
+                url: config.urlNgungMay,
+                data: {
+                    mspbt: $('#MS_PBT').text(),
+                    msmay: $('#MS_MAY').text()
+                },
+                success: function (response) {
+                    $("#resultContent").html(response);
+                },
+                complete: function () {
+                    hideLoadingOverlay("#resultContent");
+                  
+                }
+            });
+        }
+
+
         $(document).on("dp.change", '#toDate', function () {
-            console.log($('#search'));
             $('#search').val("");
             GetListAcceptMaintenance(1);
         })

@@ -1,7 +1,7 @@
 ﻿var WorkOrderModule = WorkOrderModule || (function (window, $, config) {
     var contentDataList = "#GetWorkOrder";
     var delayTimer;
-    var bload = false;
+    var bload = true;
     function init() {
         //$(document).ready(function () {
         //    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="collapse"]'))
@@ -68,14 +68,14 @@
             hideLoadingOverlay("#modalResultContent");
         })
 
-        $(document).on("change", '#inputCauseOfDamageContent input:checkbox', function () {
-            if ($("#inputCauseOfDamageContent input:checkbox:checked").length > 0) {
-                $("#btnSaveInputCauseOfDamageList").removeClass("disabled");
-            }
-            else {
-                $("#btnSaveInputCauseOfDamageList").addClass("disabled");
-            }
-        })
+        //$(document).on("change", '#inputCauseOfDamageContent input:checkbox', function () {
+        //    if ($("#inputCauseOfDamageContent input:checkbox:checked").length > 0) {
+        //        $("#btnSaveInputCauseOfDamageList").removeClass("disabled");
+        //    }
+        //    else {
+        //        $("#btnSaveInputCauseOfDamageList").addClass("disabled");
+        //    }
+        //})
 
         $('#btnViewCauseOfDamage').on('click', function () {
             GetViewCauseOfDamage();
@@ -193,8 +193,8 @@
                 let html = ` <tr>
                                 <td width="30%" style="line-height:2.3rem">`+ mspt + `</td>
                                 <td width="30%" style="line-height:2.3rem">`+ msvt + `</td>
- <td width="15%"> <input class="form-control SoLuongKH" style="font-size:0.8rem;color:#198754 !important;border-color:#198754 !important;" type="number" min="0" max="`+ (msvt == '' ? 9999 : sl) + `" value="` + sl + `" placeholder="` + config.LBL_SO_LUONG + `" /></td>
-<td width="15%"> <input class="form-control SoLuongTT" style="font-size:0.8rem;" type="number" min="0" max="`+ (msvt == '' ? 9999 : sl) + `" value="` + sl + `" placeholder="` + config.LBL_SO_LUONG + `" /></td>
+ <td width="15%"> <input class="form-control SoLuongKH" style="font-size:0.8rem;color:#198754 !important;border-color:#198754 !important;" type="number" min="1" max="`+ (msvt == '' ? 9999 : sl) + `" value="` + sl + `"  /></td>
+<td width="15%"> <input class="form-control SoLuongTT" style="font-size:0.8rem;" type="number" min="1" max="`+ (msvt == '' ? 9999 : sl) + `" value="` + sl + `" /></td>
                                 <td width="10%">
                                     <p style="margin-top: 10px;"><a class="remove-row"><i class="fa fa-trash-o fa-lg text-danger"></i></a></p>
                                 </td>
@@ -226,7 +226,7 @@
                         setTimeout(function () {
                             //window.history.back(1)
                             //window.location.href = config.MyEcomaint;
-                            window.location.href = "/Home/WorkOrder?msmay=" + $('#MS_MAY').val() + "&tenmay=" + $('#emp-code').text() + "&flag=1";
+                            window.location.href = "/Home/WorkOrder?mspbt=" + $('#MS_PHIEU_BAO_TRI').val() +"&msmay=" + $('#MS_MAY').val() + "&tenmay=" + $('#emp-code').text() + "&flag=1";
 
                         }, 600)
 
@@ -293,12 +293,42 @@
                     MS_CV: mscv,
                     MO_TA_CV: motacv
                 }
-
                 workList.push(object)
 
             });
 
             SaveMaintenanceWork(workList)
+        });
+
+
+        $(document).on("click", '#btnChonNguoiThucHien', function () {
+            SaveNguoiThucHien();
+        });
+
+        $(document).on('click', '#btnCancelHT', function () {
+            ShowConfirm(config.MESS_XACNHAN_HOANTHANH_PHIEUBAOTRI, 'warning', '', function (result) {
+                if (result == true) {
+                    //saveCompleteWorkOrder();
+                    window.location.href = "/Home/Index";
+                }
+                else {
+                    //cập nhật lại tình trạng của phiếu bảo trì
+                    $.ajax({
+                        type: "POST",
+                        url: config.UPDATE_TT_HT,
+                        data: { ticketId: $('#MS_PHIEU_BAO_TRI').val(), },
+                        success: function (response) {
+                            if (response.responseCode == 1) {
+                            }
+                            else {
+                                showWarning(response.responseMessage)
+                            }
+                        },
+                    });
+                    $('#modalLarge').modal('hide');
+                }
+            });
+
         });
 
         $(document).on('click', '#btnSaveInputCauseOfDamageList', function () {
@@ -318,7 +348,10 @@
                 type: "POST",
                 url: config.SAVE_INPUT_CAUSE_OF_DAMAGE,
                 data: {
-                    model: model
+                    model: model,
+                    msnn: $('#cboNguyennhan').val(),
+                    tungay: $('#fromDate').val(),
+                    denngay: $('#toDate').val(),
                 },
                 success: function (response) {
                     if (response.responseCode == 1) {
@@ -338,6 +371,8 @@
         });
 
         $(document).on('click', '.btnSaveSupplies', function () {
+            $('[data-toggle="tooltip"]').tooltip('hide');
+            bload = true;
             let suppliesList = [];
             let msbp = $(this).closest('div').find('input.MS_BO_PHAN').val();
             let mscv = $(this).closest('div').find('input.MS_CV').val();
@@ -345,8 +380,17 @@
                 let mspt = $(this).find('td').eq(0).text()
                 let msvt = $(this).find('td').eq(1).text()
                 let sl = $(this).find('td').eq(2).find('input').val()
-                let sltt = $(this).find('td').eq(3).find('input').val()
+                //kiểm tra số lượng kh
 
+                if (!$.isNumeric(sl) || sl === '' || sl === '0') {
+                    bload = false;
+                }
+
+                let sltt = $(this).find('td').eq(3).find('input').val()
+                if (!$.isNumeric(sltt) || sltt === '' || sltt === '0') {
+                    bload = false;
+                }
+                //kiểm tra số lượng thực tế
                 let obj = {
                     MS_PT: mspt,
                     MS_VI_TRI_PT: msvt,
@@ -365,25 +409,30 @@
                 SuppliesList: suppliesList
             }
 
-            $.ajax({
-                type: "POST",
-                url: config.SAVE_SUPPLIES,
-                data: {
-                    model: model
-                },
-                success: function (response) {
-                    if (response.responseCode == 1) {
-                        showSuccess(response.responseMessage)
-                        $('#modalLarge').modal('hide');
-                        WorkList();
+            if (bload == true) {
+                $.ajax({
+                    type: "POST",
+                    url: config.SAVE_SUPPLIES,
+                    data: {
+                        model: model
+                    },
+                    success: function (response) {
+                        if (response.responseCode == 1) {
+                            showSuccess(response.responseMessage)
+                            $('#modalLarge').modal('hide');
+                            WorkList();
+                        }
+                        else {
+                            showWarning(response.responseMessage)
+                        }
+                    },
+                    complete: function () {
                     }
-                    else {
-                        showWarning(response.responseMessage)
-                    }
-                },
-                complete: function () {
-                }
-            });
+                });
+            }
+            else {
+                showWarning(config.MESS_GIA_TRI_KHONG_HOP_LE);
+            }
         });
 
         $(document).on('click', '.btnBackLog', function () {
@@ -484,7 +533,6 @@
 
         });
 
-
         $(document).on('click', '#btnSaveLogWork', function () {
             let logworkList = []
             $(this).closest('.modal').find('.modal-body table#tblLogWork tr').each(function () {
@@ -497,8 +545,8 @@
                     showWarning(config.MESS_TU_GIO_KHONG_LON_HON_DEN_GIO);
                     return;
                 }
-                let times = $(this).find('td').eq(2).find('p').text()
-                let mscn = $(this).find('td').eq(3).text()
+                let times = $(this).find('td').eq(3).find('p').text()
+                let mscn = $(this).find('td').eq(2).find(".cboCongNhan").val();
                 let obj = {
                     MS_CONG_NHAN: mscn,
                     S_NGAY: valFromDate,
@@ -556,35 +604,83 @@
         $(document).on("click", '#btnAddMaintenanceWork', function () {
             AddMaintenanceWork()
         });
+
+        $(document).on("click", '#btnAddNguoiThucHien', function () {
+            ChonNguoiThucHien()
+        });
+
+
+
+
         $(document).on("click", '.remove-row', function () {
             $(this).closest("tr").remove();
         });
 
         $(document).on("click", '#btnAddRowLogWork', function () {
-            let html = `<tr >
-                            <td style="width:45%">
-                                <div class="form-floating input-group date">
-                                    <input style="border-radius: 0 !important" type="text" class="form-control-bottom form-control fromDate" autocomplete="off"/>
-                                </div>
-                            </td>
-                            <td style="width:45%">
-                                 <div class="form-floating input-group date" >
-                                    <input type="text" style="border-radius: 0 !important" class="form-control form-control-bottom toDate" autocomplete="off"/>
-                                </div>
-                            </td>
-                            <td style="width:5%">
-                              <p class="text-orange mt-3 hours"> 0</p>
-                            </td>
-                             <td style="width:5%"> 
-                               <p class="mt-3"><a class="remove-row" ><i class="fa fa-trash-o fa-lg text-danger"></i></a></p>
-                            </td>
-                        </tr>`
+            let logworkList = []
+            $(this).closest('.modal').find('.modal-body table#tblLogWork tr').each(function () {
+                let valFromDate = $(this).find('input.fromDate').val();
+                let valToDate = $(this).find('input.toDate').val();
 
-            $('#tblLogWork tbody').prepend(html)
-
-            setDateTimePicker('.fromDate', moment(new Date(), _formatDateTime).subtract(1, 'hour').toDate())
-            setDateTimePicker('.toDate', moment(new Date(), _formatDateTime).toDate())
+                let fromDate = moment(valFromDate, _formatDateTime).toDate();
+                let toDate = moment(valToDate, _formatDateTime).toDate();
+                if (fromDate >= toDate) {
+                    showWarning(config.MESS_TU_GIO_KHONG_LON_HON_DEN_GIO);
+                    return;
+                }
+                let times = $(this).find('td').eq(3).find('p').text();
+                let mscn = $(this).find('td').eq(2).find(".cboCongNhan").val();
+                let obj = {
+                    MS_CONG_NHAN: mscn,
+                    S_NGAY: valFromDate,
+                    S_DEN_NGAY: valToDate,
+                    SO_GIO: times
+                }
+                logworkList.push(obj);
+            })
+            let model = {
+                MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),
+                LogWorkList: logworkList
+            }
+            $.ajax({
+                type: "POST",
+                url: config.ADD_ROW_LOG_WORK,
+                data: {
+                    model: model,
+                    deviceId: $('#MS_MAY').val()
+                },
+                success: function (response) {
+                    $('#modalLarge .modal-content').html(response);
+                    $('#modalLarge').modal('show');
+                }
+            });
         });
+
+        //    let html = `<tr >
+        //                    <td style="width:30%">
+        //                        <div class="form-floating input-group date">
+        //                            <input style="border-radius: 0 !important;width:140px!important" type="text" class="form-control-bottom form-control fromDate" autocomplete="off"/>
+        //                        </div>
+        //                    </td>
+        //                    <td style="width:30%">
+        //                         <div class="form-floating input-group date" >
+        //                            <input type="text" style="border-radius: 0 !important;width:140px!important" class="form-control form-control-bottom toDate" autocomplete="off"/>
+        //                        </div>
+        //                    </td>
+        //                      <td style="width:30%">
+        //                     <select class="form-control form-control-bottom cboCongNhan"></select>
+        //                       </td>
+        //                    <td style="width:10%">
+        //                      <p class="text-orange mt-3 hours"> 0</p>
+        //                    </td>
+        //                     <td width="10%">
+        //                            <p style="margin-top: 0.95rem;"><a class="remove-row"><i class="fa fa-trash-o fa-lg text-danger"></i></a></p>
+        //                        </td>
+        //                </tr>`
+        //    $('#tblLogWork tbody').prepend(html)
+        //    setDateTimePicker('.fromDate', moment(new Date(), _formatDateTime).subtract(1, 'hour').toDate())
+        //    setDateTimePicker('.toDate', moment(new Date(), _formatDateTime).toDate())
+        //});
 
 
 
@@ -598,7 +694,7 @@
             let hoursDiff = Math.floor((toDate - fromDate) / 60000);
             if (hoursDiff <= 0) {
                 showWarning(config.MESS_TU_GIO_KHONG_LON_HON_DEN_GIO);
-                $(this).closest('tr').find('input.fromDate').focus();
+                //$(this).closest('tr').find('input.fromDate').focus();
             }
             //let diffTime = getDiffTimes(fromDate, toDate)
             //let hours = diffTime > 0 ? diffTime : 0
@@ -633,6 +729,39 @@
         });
     }
 
+    function SaveNguoiThucHien() {
+        let CNList = [];
+        $('input:checkbox.input-add-nth:checked').each(function () {
+            let mscn = $(this).data('ms-cn');
+            let object = {
+                MS_CONG_NHAN: mscn,
+            }
+            CNList.push(object)
+
+        });
+        $.ajax({
+            type: "POST",
+            url: config.SAVE_NGUOI_THUC_HIEN,
+            data: {
+                ticketId: $('#MS_PHIEU_BAO_TRI').val(),
+                json: JSON.stringify(CNList)
+            },
+            success: function (response) {
+                if (response.responseCode == 1) {
+                    showSuccess(response.responseMessage)
+                    $('#modalLarge').modal('hide');
+                    WorkList();
+                }
+                else {
+                    showWarning(response.responseMessage)
+                }
+            },
+            complete: function () {
+            }
+        });
+    }
+
+
     function SaveMaintenanceWork(workList) {
         let model = {
             MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),
@@ -665,6 +794,10 @@
         $.ajax({
             type: "GET",
             url: config.GET_INPUT_CAUSE_OF_DAMAGE,
+            data: {
+                ticketId: $('#MS_PHIEU_BAO_TRI').val(),
+                deviceId: $('#MS_MAY').val(),
+            },
             success: function (response) {
                 $('#modalLarge .modal-content').html(response);
                 $('#modalLarge').modal('show');
@@ -808,7 +941,8 @@
             type: "GET",
             url: config.LOG_WORK,
             data: {
-                ticketId: $('#MS_PHIEU_BAO_TRI').val()
+                ticketId: $('#MS_PHIEU_BAO_TRI').val(),
+                deviceId: $('#MS_MAY').val(),
             },
             success: function (response) {
                 $('#modalLarge .modal-content').html(response);
@@ -822,7 +956,8 @@
             type: "GET",
             url: config.VIEW_INVENTORY,
             data: {
-                ticketId: $('#MS_PHIEU_BAO_TRI').val()
+                ticketId: $('#MS_PHIEU_BAO_TRI').val(),
+                deviceId: $('#MS_MAY').val(),
             },
             success: function (response) {
                 $('#modalLarge .modal-content').html(response);
@@ -902,6 +1037,21 @@
         $.ajax({
             type: "GET",
             url: config.ADD_MAINTENANCE_WORK,
+            data: {
+                deviceId: $('#MS_MAY').val(),
+                ticketId: $('#MS_PHIEU_BAO_TRI').val()
+            },
+            success: function (response) {
+                $('#modalLarge .modal-content').html(response);
+                $('#modalLarge').modal('show');
+            }
+        });
+    }
+
+    function ChonNguoiThucHien() {
+        $.ajax({
+            type: "GET",
+            url: config.ADD_NGUOI_THUC_HIEN,
             data: {
                 deviceId: $('#MS_MAY').val(),
                 ticketId: $('#MS_PHIEU_BAO_TRI').val()

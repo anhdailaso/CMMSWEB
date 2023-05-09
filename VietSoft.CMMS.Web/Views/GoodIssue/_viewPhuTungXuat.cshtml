@@ -5,6 +5,12 @@
 </div>
 @Html.Hidden("DANG_XUAT",@ViewBag.DangXuat, null)
 <div class="modal-body modal-confirm" id="modalResultContent">
+    <div class="row detail-page-emp-info break-line">
+        <div class="col-12 d-flex justify-content-left gap-2 ">
+            <span class="emp-code">@ViewBag.MS_PX</span>
+        </div>
+    </div>
+
     <div class="row mb-2">
         <div class="col-12">
             @if(@ViewBag.DangXuat == 1)

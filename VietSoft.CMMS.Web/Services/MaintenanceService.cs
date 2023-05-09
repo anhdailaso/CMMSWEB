@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Microsoft.ApplicationBlocks.Data;
 using System.Data;
+using System.Data.SqlClient;
 using VietSoft.CMMS.Core.Models;
 using VietSoft.CMMS.Web.Helpers;
 using VietSoft.CMMS.Web.IServices;
@@ -35,7 +36,7 @@ namespace VietSoft.CMMS.Web.Services
                 return null;
             }
         }
-        public TicketMaintenanceViewModel GetTicketMaintenanceByDevice(string userName, string deviceId, bool isNewTicket)
+        public TicketMaintenanceViewModel GetTicketMaintenanceByDevice(string mspbt,string userName, string deviceId, bool isNewTicket)
         {
             try
             {
@@ -44,7 +45,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@deviceID", deviceId);
                 p.Add("@UserName", userName);
                 p.Add("@bCot1", !isNewTicket);
-
+                p.Add("@sCot1", mspbt);
                 var res =  _dapper.Execute<TicketMaintenanceViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
 
                 return res ?? new TicketMaintenanceViewModel();
@@ -134,6 +135,44 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@UserName", userName);
                 p.Add("@NNgu", languages);
                 var res = _dapper.GetAll<WorkOrderDetailViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public IEnumerable<NguoiThucHienModel> GetNguoiThucHien(string userName, string deviceId, string ticketId, int languages)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "GET_NGUOI_THUC_HIEN");
+                p.Add("@sCot1", ticketId);
+                p.Add("@deviceID", deviceId);
+                p.Add("@UserName", userName);
+                p.Add("@NNgu", languages);
+                var res = _dapper.GetAll<NguoiThucHienModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public ThoiGianNgungMayModel GetThoiGianNgungMay(string ticketId, string userName, int languages,bool add)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "GET_THOI_GIAN_DUNG_MAY");
+                p.Add("@sCot1", ticketId);
+                p.Add("@UserName", userName);
+                p.Add("@NNgu", languages);
+                p.Add("@bCot1", add);
+                var res = _dapper.Execute<ThoiGianNgungMayModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 return res;
             }
             catch (Exception ex)
@@ -430,6 +469,38 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
+
+        public ResponseViewModel SaveNguoiThucHien(string ticketId, string json)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc","SAVE_NGUOI_THU_HIEN");
+                p.Add("@sCot1", ticketId);
+                p.Add("@json", json);
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                if (res != null)
+                {
+                    return res;
+                }
+                else
+                {
+                    return new ResponseViewModel
+                    {
+                        MA = 0
+                    };
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return new ResponseViewModel()
+                {
+                    MA = -1
+                };
+            }
+        }
+
         public ResponseViewModel SaveLogWork(string ticketId, string userName, string json)
         {
             try
@@ -505,19 +576,98 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public ResponseViewModel SaveInputCauseOfDamageList(string ticketId, string json)
+
+        public List<CapNhatCa> CapNhatCa(DateTime TN, DateTime DN)
+        {
+            DateTime TNgay = TN;
+            DateTime DNgay = DN;
+            List<DateTime> ListNgay = new List<DateTime>();
+            ListNgay.Add(TN.AddDays(-1));
+            //lấy tất cả các ngày có trong list
+            do
+            {
+                ListNgay.Add(TN);
+                TN = TN.AddDays(1);
+            } while (TN.Date <= DN.Date);
+            List<CapNhatCa> listResulst = new List<CapNhatCa>();
+            for (int i = 0; i < ListNgay.Count; i++)
+            {
+                //lấy các ca của ngày hôm đó
+                List<CapNhatCa> listCA = new List<CapNhatCa>();
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "GET_CA");
+                p.Add("@dCot1", ListNgay[i]);
+                listCA = _dapper.GetAll<CapNhatCa>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                if (ListNgay.Count() == 2 && listCA.Where(x => TNgay >= x.NGAY_BD && DNgay <= x.NGAY_KT).ToList().Count() == 1)
+                {
+                    var item = listCA.Where(x => TNgay >= x.NGAY_BD && DNgay <= x.NGAY_KT).FirstOrDefault();
+                    item.NGAY_KT = DNgay;
+                    item.NGAY_BD = TNgay;
+                    listResulst.Add(item);
+                    return listResulst;
+                }
+                //listCA = listCA.Where(x => TNgay >= x.NGAY_BD && DNgay <= x.NGAY_KT).ToList();
+                //ngày bắc đầu nằm trong ca
+                foreach (var item in listCA.Where(x => x.NGAY_BD <= DNgay))
+                {
+                    //kiểm tra từ ngày có nằm trong item không
+                    if (TNgay >= item.NGAY_BD && TNgay < item.NGAY_KT)
+                    {
+                        //kiểm tra đến ngày có nhỏ hơn ngày kết thúc không
+                        if (DN > item.NGAY_KT)
+                        {
+                            // Đến ngày lớn hơn ngày kết thúc
+                            item.NGAY_BD = TNgay;
+                            listResulst.Add(item);
+                            TNgay = item.NGAY_KT;
+                        }
+                        else
+                        {
+                            // Đến ngày nhỏ hơn ngày kết thúc
+                            item.NGAY_KT = DN;
+                            listResulst.Add(item);
+                            break;
+                        }
+                    }
+                }
+            }
+            return listResulst;
+        }
+
+        public ResponseViewModel SaveInputCauseOfDamageList(string ticketId, int msnn, DateTime tungay, DateTime denngay, string json,string Username)
         {
             try
             {
-                var p = new DynamicParameters();
-                p.Add("@sDanhMuc", CategoryType.SAVE_LISTWO_FAILRULE_ANALYSIS.ToString());
-                p.Add("@sCot1", ticketId);
-                p.Add("@json", json);
 
-                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
-                return res != null ? res : new ResponseViewModel()
+                var p = new DynamicParameters();
+                //delete thời gian ngừng máy
+                p.Add("@sDanhMuc", "DELETE_NGUNG_MAY");
+                p.Add("@sCot1", ticketId);
+                _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+
+                //save thời gian ngừng máy
+                List<CapNhatCa> Resulst = CapNhatCa(tungay,denngay);
+                int n = Resulst.Count;
+                foreach (var item1 in Resulst)
                 {
-                    MA = 0
+                    p.Add("@sDanhMuc", "ADD_NGUNG_MAY");
+                    p.Add("@sCot1", ticketId);
+                    p.Add("@iCot1", msnn);
+                    p.Add("@dCot1", n ==1 ?tungay : item1.NGAY_BD);
+                    p.Add("@dCot2", n == 1 ? denngay : item1.NGAY_KT);
+                    p.Add("@UserName", Username);
+                    _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                }
+                if (json != "")
+                {
+                    p.Add("@sDanhMuc", CategoryType.SAVE_LISTWO_FAILRULE_ANALYSIS.ToString());
+                    p.Add("@sCot1", ticketId);
+                    p.Add("@json", json);
+                    _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                }
+                return  new ResponseViewModel()
+                {
+                    MA = 1
                 };
             }
             catch (Exception ex)
@@ -549,6 +699,24 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
+        public BaseResponseModel SaveThoiGianNgungMay(string username,string mspbt, string json)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "SAVE_THOI_GIAN_NGUNG_MAY");
+                p.Add("@UserName", username);
+                p.Add("@sCot1", mspbt);
+                p.Add("@json", json);
+                var res = _dapper.Execute<BaseResponseModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch
+            {
+                return new BaseResponseModel();
+            }
+        }
+
         public bool CheckPhuTung(string ticketId)
         {
             int n = Convert.ToInt32(SqlHelper.ExecuteScalar(_dapper.GetDbconnection().ConnectionString, CommandType.Text, "SELECT COUNT(*) FROM dbo.PHIEU_BAO_TRI_CONG_VIEC_PHU_TUNG WHERE MS_PHIEU_BAO_TRI ='" + ticketId + "'"));
@@ -560,7 +728,39 @@ namespace VietSoft.CMMS.Web.Services
             {
                 return true;
             }    
-        }    
+        }
 
+        public BaseResponseModel UpdateTinhTrang(string ticketId)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "UPATE_TINHTRANG_HOANTHANH");
+                p.Add("@sCot1", ticketId);
+                var res = _dapper.Execute<BaseResponseModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch
+            {
+                return new BaseResponseModel();
+            }
+        }
+
+
+        public List<ThoiGianNgungMayModel> GetListThoiGianNgungMay(string mspbt, int languages)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "GET_LIST_THOI_GIAN_MGUNG_MAY");
+                p.Add("@sCot1", mspbt);
+                List<ThoiGianNgungMayModel>? res = _dapper.GetAll<ThoiGianNgungMayModel>("spCMMSWEB", p, CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }

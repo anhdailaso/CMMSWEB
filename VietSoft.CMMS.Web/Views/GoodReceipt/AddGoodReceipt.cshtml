@@ -81,7 +81,7 @@
                                 {
                                     <div class="break-line d-flex justify-content-between">
                                         <p></p>
-                                        <a id="btnSavePhieuNhapKho" class="btn btn-outline-dark m-1">
+                                        <a id="btnSavePhieuNhapKho" class="btn btn-outline-dark m-1" data-toggle="tooltip" title="@ViewText.BTN_LUU">
                                             <i class="fa fa-floppy-o fs-7"></i>
                                         </a>
                                     </div>
@@ -118,34 +118,34 @@
         <div class="navbar-button  text-center text-white">
             <div id="button-container" class="btn-group">
 
-                <a id="btnInBarcode" class="btn btn-outline-dark m-1">
+                <a id="btnInBarcode" class="btn btn-outline-dark m-1" data-toggle="tooltip" title="@ViewText.BTN_IN_QR">
                     <i class="fa fa-print fs-7"></i>
                 </a>
 
                 @if (Model.QUYEN == true)
                 {
-                    <a id="btnAddPhuTung" class="btn btn-outline-primary m-1">
+                    <a id="btnAddPhuTung" class="btn btn-outline-primary m-1" data-toggle="tooltip" title="@ViewText.LBL_THEM_PHUTUNG">
                         <i class="fa fa-plus fs-7" aria-hidden="true"></i>
                     </a>
 
                     <!-- Google -->
-                    <a id="btnAddChiPhi" class="btn btn-outline-secondary m-1">
+                    <a id="btnAddChiPhi" class="btn btn-outline-secondary m-1" data-toggle="tooltip" title="@ViewText.TITLE_NHAP_CHI_PHI">
                         <i class="fa fa-usd fs-7"></i>
                     </a>
-                    <a id="btnSavePhuTung" class="btn btn-outline-dark m-1">
+                    <a id="btnSavePhuTung" class="btn btn-outline-dark m-1" data-toggle="tooltip" title="@ViewText.BTN_LUU_PHU_TUNG">
                         <i class="fa fa-floppy-o fs-7"></i>
                     </a>
 
                 }
                 else
                 {
-                    <a id="btnAddChiPhi" class="btn btn-outline-secondary m-1">
+                    <a id="btnAddChiPhi" class="btn btn-outline-secondary m-1"data-toggle="tooltip" title="@ViewText.TITLE_NHAP_CHI_PHI">
                         <i class="fa fa-usd fs-7"></i>
                     </a>
                 }
                 @if (Model.LOCK == false)
                 {
-                    <a class="btn btn-outline-warning m-1" id="btnLock" role="button">
+                    <a class="btn btn-outline-warning m-1" id="btnLock" role="button" data-toggle="tooltip" title="@ViewText.BTN_KHOA">
                         <i class="fa fa-lock fs-5"></i>
                     </a>
                 }

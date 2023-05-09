@@ -25,95 +25,106 @@
             </tr>
         </thead>
         <tbody>
-            @*--fa fa-times đậm
-        <i class="fa fa-times"></i>
-        <i class="fa-solid fa-circle"></i>
-        *@
-            @foreach (var item in Model.Data)
+            @foreach (var itemcha in Model.Data)
             {
                 <tr class="parentCell odd">
                     <td>
-                        @item.MS_MAY
+                        @itemcha.MS_MAY
                         <div class="tooltip-action">
                             <a>
                                 @*<img src="@string.Format(Setting.MENU_ICON_FOLDER, "timesheet-white-sm.png")" class="icon-tooltip">*@
-                                <span>@item.TEN_MAY</span>
+                                <span>@itemcha.TEN_MAY</span>
                             </a>
                         </div>
                     </td>
-                    <td>
-                        @if (item.YC == 1)
+                    <td name="@itemcha.MS_MAY">
+                        @if (itemcha.sListYC != "")
                         {
-                            <a href="/Home/UserRequest?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=1">
-                                @if (@item.MUC_YC == 1)
-                                {
-                                    <i class="@(item.TREYC == 1 ? (item.HH_YC == 1 ? "fa-regular fa-circle-a" : "fa-regular fa-circle-n") : (item.HH_YC == 1 ? "fa-solid fa-a" : "fa-solid fa-n"))" style="color:#ff0000"></i>
-                                }
-                                else
-                                {
-                                    @if (@item.MUC_YC == 2)
+
+                            foreach (var item in itemcha.ListYC)
+                            {
+                                <a class="px-2" href="/Home/UserRequest?msyc=@item.MS_YEU_CAU&msmay=@itemcha.MS_MAY&tenmay=@itemcha.TEN_MAY&flag=1" onclick="myFunction(event,this)" ontouchstart="myFunctionTouch(event,this)">
+                                    @if (@item.MUC_YC == 1)
                                     {
-                                        <i class="@(item.TREYC == 1 ? (item.HH_YC == 1 ? "fa-regular fa-circle-a" : "fa-regular fa-circle-n") : (item.HH_YC == 1 ? "fa-solid fa-a" : "fa-solid fa-n"))" style="color:#13079b"></i>
+                                        <i class="@(item.TREYC == 1 ? (item.DUYET_YC == 1 ? "fa-regular fa-circle-a" : "fa-regular fa-circle-n") : (item.DUYET_YC == 1 ? "fa-solid fa-a" : "fa-solid fa-n"))" style="color:#ff0000"></i>
                                     }
                                     else
                                     {
-                                        <i class="@(item.TREYC == 1 ? (item.HH_YC == 1 ? "fa-regular fa-circle-a" : "fa-regular fa-circle-n") : (item.HH_YC == 1 ? "fa-solid fa-a" : "fa-solid fa-n"))" style="color:#008001"></i>
+                                        @if (@item.MUC_YC == 2)
+                                        {
+                                            <i class="@(item.TREYC == 1 ? (item.DUYET_YC == 1 ? "fa-regular fa-circle-a" : "fa-regular fa-circle-n") : (item.DUYET_YC == 1 ? "fa-solid fa-a" : "fa-solid fa-n"))" style="color:#13079b"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="@(item.TREYC == 1 ? (item.DUYET_YC == 1 ? "fa-regular fa-circle-a" : "fa-regular fa-circle-n") : (item.DUYET_YC == 1 ? "fa-solid fa-a" : "fa-solid fa-n"))" style="color:#008001"></i>
+                                        }
                                     }
-                                }
-                            </a>
+                                </a>
+                            }
+                           @* <a class="px-2" href="/Home/UserRequest?msyc=-1&msmay=@itemcha.MS_MAY&tenmay=@itemcha.TEN_MAY&flag=0">
+                                <i class="fa-solid fa-plus" style="color:#13079b"></i>
+                            </a>*@
+
                         }
                         else
                         {
-                            <a href="/Home/UserRequest?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=0">
+                            <a class="px-2" href="/Home/UserRequest?msyc=-1&msmay=@itemcha.MS_MAY&tenmay=@itemcha.TEN_MAY&flag=0">
+                                @*<i class="fa-solid fa-plus" style="color:#13079b"></i>*@
                                 <i class="fa fa-times" style="color:#fff0"></i>
                             </a>
                         }
                     </td>
                     <td>
-                        @if (item.PBT == 1)
+                        @if (itemcha.sListBT != "")
                         {
-                            <a href="/Home/WorkOrder?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=1&ttmay=''">
-                                @if (item.MUC_BT == 1)
-                                {
-                                    //cao<i class="fa-solid fa-p"></i>
-                                    <i class="@(item.TREBT == 1 ? (item.HH_BT == 1 ? "fa-regular fa-circle-c" : "fa-regular fa-circle-p") : (item.HH_BT == 1 ? "fa-solid fa-c" : "fa-solid fa-p"))" style="color:#ff0000"></i>
-                                }
-                                else
-                                {
-                                    @if (item.MUC_BT == 2)
+                            foreach (var item in itemcha.ListBT)
+                            {
+                                <a href="/Home/WorkOrder?mspbt=@item.MS_PHIEU_BAO_TRI&msmay=@itemcha.MS_MAY&tenmay=@itemcha.TEN_MAY&flag=1&ttmay=''">
+                                    @if (item.MUC_BT == 1)
                                     {
-                                        //trung bình
-                                        <i class="@(item.TREBT == 1 ? (item.HH_BT == 1 ? "fa-regular fa-circle-c" : "fa-regular fa-circle-p") : (item.HH_BT == 1 ? "fa-solid fa-c" : "fa-solid fa-p"))" style="color:#13079b"></i>
-
+                                        //cao<i class="fa-solid fa-p"></i>
+                                        <i class="@(item.TREBT == 1 ? (item.HH_BT == 1 ? "fa-regular fa-circle-c" : "fa-regular fa-circle-p") : (item.HH_BT == 1 ? "fa-solid fa-c" : "fa-solid fa-p"))" style="color:#ff0000"></i>
                                     }
                                     else
                                     {
-                                        <i class="@(item.TREBT == 1 ? (item.HH_BT == 1 ? "fa-regular fa-circle-c" : "fa-regular fa-circle-p") : (item.HH_BT == 1 ? "fa-solid fa-c" : "fa-solid fa-p"))" style="color:#008001"></i>
+                                        @if (item.MUC_BT == 2)
+                                        {
+                                            //trung bình
+                                            <i class="@(item.TREBT == 1 ? (item.HH_BT == 1 ? "fa-regular fa-circle-c" : "fa-regular fa-circle-p") : (item.HH_BT == 1 ? "fa-solid fa-c" : "fa-solid fa-p"))" style="color:#13079b"></i>
+
+                                        }
+                                        else
+                                        {
+                                            <i class="@(item.TREBT == 1 ? (item.HH_BT == 1 ? "fa-regular fa-circle-c" : "fa-regular fa-circle-p") : (item.HH_BT == 1 ? "fa-solid fa-c" : "fa-solid fa-p"))" style="color:#008001"></i>
+                                        }
                                     }
-                                }
-                            </a>
+                                </a>
+                            }
+
                         }
                         else
                         {
-                            <a href="/Home/WorkOrder?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=0">
+                            <a href="/Home/WorkOrder?mspbt=-1&msmay=@itemcha.MS_MAY&tenmay=@itemcha.TEN_MAY&flag=0">
                                 <i class="fa fa-times" style="color:#fff0"></i>
                             </a>
                         }
                     </td>
                     <td>
-                        @if (item.GSTT == 1)
+                        @if (itemcha.TREGS == 2)
                         {
-                            <a href="/Home/Moningtoring?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=1">
+                            <a href="/Home/Moningtoring?msmay=@itemcha.MS_MAY&tenmay=@itemcha.TEN_MAY&flag=1">
 
-                                <i class="@(item.TREGS == 1 ? "fa-solid fa-circle" : "fa fa-times")" style="color:#13079b"></i>
-
+                                <i class="@(itemcha.TREGS == 1 ? "fa-solid fa-circle" : "fa fa-times")" style="color:#13079b"></i>
                             </a>
                         }
                         else
                         {
-                            <a href="/Home/Moningtoring?msmay=@item.MS_MAY&tenmay=@item.TEN_MAY&flag=0">
-                                <i class="fa fa-times" style="color:#fff0"></i>
-                            </a>
+                            @if (itemcha.TREGS == 1)
+                            {
+                                <a href="/Home/Moningtoring?msmay=@itemcha.MS_MAY&tenmay=@itemcha.TEN_MAY&flag=0">
+                                    <i class="fa fa-times" style="color:#fff0"></i>
+                                </a>
+                            }
                         }
                     </td>
                 </tr>
@@ -131,3 +142,31 @@ else
         </div>
     </div>
 }
+
+<script>
+    var clickCount = 0;
+    var clickTimeout;
+    function myFunction(event, element) {
+        // Thực hiện công việc khi sự kiện dbclick xảy ra
+        event.preventDefault(); // Loại bỏ sự kiện click mặc định của thẻ
+        clickCount++;
+        if (clickCount === 1) {
+            clickTimeout = setTimeout(function () {
+                //alert("Click");
+                console.log(element.href);
+                window.location.href = element.href;
+                clickCount = 0;
+            }, 300);
+        } else if (clickCount === 2) {
+            clearTimeout(clickTimeout);
+            window.location.href = element.href.replace('flag=1', 'flag=0');
+            clickCount = 0;
+        }
+    }
+    function myFunctionTouch(event, element) {
+        event.preventDefault();
+        window.location.href = element.href.replace('flag=1', 'flag=0');
+    }
+    
+
+</script>

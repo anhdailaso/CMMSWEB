@@ -85,6 +85,20 @@ namespace VietSoft.CMMS.Web.Services
             }
 
         }
+        public IEnumerable<GetDowtimeCauseObj> GetDowtimeCause(string Username)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@NNgu", 0);
+                return _dapper.GetAll<GetDowtimeCauseObj>("spGetDowtimeCause", p, CommandType.StoredProcedure).ToList();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
 
         public int GetSoMay()
         {

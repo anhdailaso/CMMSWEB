@@ -8,7 +8,7 @@
 @if (Model != null && Model.Data.Count > 0)
 {
     <div class="accordion border-0 break-line" id="accordionFlushExample">
-        @foreach (var item in Model.Data.OrderBy(x => x.MS_PHIEU_BAO_TRI))
+        @foreach (var item in Model.Data.OrderByDescending(x => x.MS_PHIEU_BAO_TRI))
         {
             <div class="accordion-item border-0 break-line">
                 <h2 class="accordion-header d-flex" id="heading-100">

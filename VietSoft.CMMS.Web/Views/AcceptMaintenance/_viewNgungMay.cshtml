@@ -1,0 +1,83 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@model VietSoft.CMMS.Web.Models.Maintenance.ThoiGianNgungMayModel
+
+<div class="modal-header">
+    <h5>@ViewText.LBL_THOI_GIAN_NGUNG_MAY</h5>
+    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body modal-confirm" id="modalResultContent">
+
+    <div class="row detail-page-emp-info break-line">
+        <div class="col-12 d-flex justify-content-left gap-2 ">
+            <span class="emp-name">@ViewBag.MS_PBT</span>
+            <span class="emp-code">@ViewBag.MS_MAY</span>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between gap-2">
+        <div class="form-floating input-group break-line date" id="toDateContainer">
+            <input type="text" class="form-control" id="fromDateNM" name="fromDateNM" style="font-size:0.8rem!important" value="@Model.TU_GIO.ToString(Setting.FORMAT_DATETIME)" autocomplete="off" />
+            <span class="input-group-append d-flex align-items-center" style="right:1px">
+                <i class="bi bi-calendar4-week date-icon "></i>
+            </span>
+            <label for="fromDateNM">@ViewText.LBL_TU_NGAY_GIO</label>
+            <div id="from-error"></div>
+        </div>
+        <div class="form-floating input-group break-line date" id="toDateContainer">
+            <input type="text" class="form-control" id="toDateNM" name="toDateNM"  style="font-size:0.8rem!important" value="@Model.DEN_GIO.ToString(Setting.FORMAT_DATETIME)" autocomplete="off" />
+            <span class="input-group-append d-flex align-items-center" style="right:1px">
+                <i class="bi bi-calendar4-week date-icon"></i>
+            </span>
+            <label for="toDateNM">@ViewText.LBL_DEN_NGAY_GIO</label>
+            <div id="toDate-error"></div>
+        </div>
+    </div>
+
+    <div class="break-line d-flex">
+        <div class="form-floating flex-grow-1">
+            @Html.DropDownList("MS_NGUYEN_NHAN",(IEnumerable<SelectListItem>)@ViewBag.NguyenNhan, new { id="cboNguyennhan",name="cboNguyennhan", @class = "form-control form-select form-select-sm"})
+            <label for="MS_NGUYEN_NHAN">@ViewText.LBL_NGUYEN_NHAN</label>
+        </div>
+      @*  <a id="btnRefreshTGNM" class="btn btn-outline-success m-1">
+            <i class="fa-solid fa-arrows-rotate"></i>
+        </a>*@
+        <a id="btnAddTGNM" class="btn btn-outline-primary m-1">
+            <i class="fa fa-plus fs-7" aria-hidden="true"></i>
+        </a>
+    </div>
+
+
+    <div class="row mb-2">
+        <div class="col-12">
+            <div id="resultContent" style="height:380px;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer justify-content-between gap-1 flex-nowrap">
+    <button type="button" class="btn btn-outline-danger w-50" onclick="ClosePopup(this)" id="btnCancel">@ViewText.BTN_DONG</button>
+    <button type="button" class="btn btn-primary w-50" id="btnSaveNgungMay">@ViewText.BTN_LUU</button>
+</div>
+<script>
+    $("#cboNguyennhan").select2({
+        theme: "bootstrap-5",
+        width: "100%",
+        dropdownParent: $('#modalResultContent'),
+    });
+
+    setDateTimePicker('#fromDateNM', moment($('#fromDateNM').val(), _formatDateTime).toDate());
+    $('#toDateNM').datetimepicker({
+        locale: 'vi',
+        useCurrent: false,
+        defaultDate: moment($('#toDateNM').val(), _formatDateTime),
+        widgetPositioning: {
+            horizontal: 'right'
+        }
+    });
+
+    $('#toDateNM').parents(".input-group.date").find(".date-icon").on('click', function () {
+        $('#toDateNM').datetimepicker('show');
+    })
+
+</script>

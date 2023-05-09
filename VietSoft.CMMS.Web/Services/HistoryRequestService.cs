@@ -36,5 +36,26 @@ namespace VietSoft.CMMS.Web.Services
                 return null;
             }
         }
+
+        public ViewChitietPhieuBaoTriModel ViewChiTietPBT(string username, int languages, string mspbt)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "VIEW_CHI_TIET_PBT");
+                p.Add("@sCot1", mspbt);
+                p.Add("@UserName", username);
+                p.Add("@NNgu", languages);
+                var res = _dapper.Execute<ViewChitietPhieuBaoTriModel>("spCMMSWEB", p, CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return new ViewChitietPhieuBaoTriModel();
+            }
+        }
+
+
+
     }
 }

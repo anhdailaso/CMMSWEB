@@ -54,7 +54,7 @@ namespace VietSoft.CMMS.Web.Controllers
             {
                 if (keySeach != null)
                 {
-                    result = new PagedList<HistoryRequestViewModel>(res.Where(x => x.MS_MAY.ToLower().Contains(keySeach.ToLower()) || x.TINH_TRANG_MAY.ToLower().Contains(keySeach.ToLower()) || x.NGAY_YC.ToLower().Contains(keySeach.ToLower()) || x.TINH_TRANG_MAY.ToLower().Contains(keySeach.ToLower())).ToList(), res.Count(x => x.MS_MAY.ToLower().Contains(keySeach.ToLower()) || x.TINH_TRANG_MAY.ToLower().Contains(keySeach.ToLower()) || x.NGAY_YC.ToLower().Contains(keySeach.ToLower()) || x.TINH_TRANG_MAY.ToLower().Contains(keySeach.ToLower())) , pageIndex, pageSize);
+                    result = new PagedList<HistoryRequestViewModel>(res.Where(x => x.MS_MAY.ToLower().Contains(keySeach.ToLower()) || x.TINH_TRANG_MAY.ToLower().Contains(keySeach.ToLower()) || x.NGAY_YC.ToLower().Contains(keySeach.ToLower()) || x.TINH_TRANG_MAY.ToLower().Contains(keySeach.ToLower())).ToList(), res.Count(x => x.MS_MAY.ToLower().Contains(keySeach.ToLower()) || x.TINH_TRANG_MAY.ToLower().Contains(keySeach.ToLower()) || x.NGAY_YC.ToLower().Contains(keySeach.ToLower()) || x.TINH_TRANG_MAY.ToLower().Contains(keySeach.ToLower())), pageIndex, pageSize);
                 }
                 else
                 {
@@ -63,6 +63,12 @@ namespace VietSoft.CMMS.Web.Controllers
             }
 
             return PartialView("_historyRequestDetail", result);
+        }
+
+        public IActionResult ViewChiTietPBT(string mspbt)
+        {
+            var res = _historyRequestService.ViewChiTietPBT(SessionManager.CurrentUser.UserName,SessionManager.CurrentUser.TypeLangue,mspbt);
+            return PartialView("_viewPhieuBaoTri",res);
         }
     }
 }

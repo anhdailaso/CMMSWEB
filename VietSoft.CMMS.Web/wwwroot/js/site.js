@@ -51,10 +51,20 @@ $(function () {
             }
         });
 
+    $('[data-toggle="tooltip"]').on("touchstart", function () {
+        $(this).tooltip('show');
+    });
+    $('[data-toggle="tooltip"]').on("touchmove", function () {
+        $('[data-toggle="tooltip"]').tooltip('hide');
+    });
+    $('[data-toggle="tooltip"]').tooltip();
+
+
     $.LoadingOverlaySetup({
         maxSize: "25px",
         minSize: "25px"
     });
+
 
     initBootstrapDialog();
     InitSelect2();
@@ -317,6 +327,9 @@ function setDatePicker(idInput, options, minDate, maxDate) {
         options.maxDate = maxDate;
     }
     $(idInput).datetimepicker(options);
+    $(idInput).parents(".input-group.date").find(".date-icon").on('click', function () {
+        $(idInput).datetimepicker('show');
+    })
 }
 
 function setDateTimePicker(idInput, options, minDate, maxDate) {
@@ -327,6 +340,9 @@ function setDateTimePicker(idInput, options, minDate, maxDate) {
     //options.minDate = moment(new Date(), 'DD/MM/YYYY HH:mm');
     format = _formatDateTime;
     $(idInput).datetimepicker(options);
+    $(idInput).parents(".input-group.date").find(".date-icon").on('click', function () {
+        $(idInput).datetimepicker('show');
+    })
 }
 
 function setTimePicker(idInput, options) {
@@ -361,7 +377,7 @@ function checkIsWeekend(date1, date2) {
 }
 
 function ClosePopup(element) {
-    $(element).parents('.modal').modal('hide')
+    $(element).parents('.modal').modal('hide');
 }
 
 

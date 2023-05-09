@@ -1,0 +1,89 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@model IEnumerable<VietSoft.CMMS.Web.Models.Maintenance.ThoiGianNgungMayModel>
+
+@if (Model != null && Model.Count() > 0)
+{
+    <table class="table table-striped" cellspacing="0" id="tbNguyenNhanNgungMay" style="width:100% !important">
+        <thead>
+            <tr>
+                <th width="25%" class="col-grid-table">
+                    @ViewText.LBL_TU_NGAY_GIO
+                    <span class="tooltip">Tooltip</span>
+                </th>
+                <th width="25%">
+                    @ViewText.LBL_DEN_NGAY_GIO
+                </th>
+                <th width="10%">
+                    @ViewText.LBL_CA
+                </th>
+                <th width="30%">
+                    @ViewText.LBL_NGUYEN_NHAN
+                </th>
+                <th width="10%">
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td data-tugio="@item.TU_GIO">
+                        @item.TU_GIO.ToString(Setting.FORMAT_DATETIME)
+                    </td>
+                    <td data-dengio="@item.DEN_GIO">
+                        @item.DEN_GIO.ToString(Setting.FORMAT_DATETIME)
+                    </td>
+                    <td data-ca="@item.ID_CA">
+                        @item.TEN_CA
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(modelItem => item.MS_NGUYEN_NHAN, (IEnumerable<SelectListItem>)@ViewBag.NguyenNhan, new { @class = "form-select-sm cboLuoiNN", /*@style = "width:30%"*/ @id = $"ddlNguyenNhan_{item.TU_GIO.ToString(Setting.FORMAT_DATETIME)}", @data_id = item.TU_GIO.ToString(Setting.FORMAT_DATETIME) })
+                    </td>
+                    <td width="10%">
+                        <p>
+                            <a class="remove-row"><i class="fa fa-trash-o fa-lg text-danger"></i></a>
+                        </p>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="col-12">
+        <div class="no-data">
+            <span>@ViewText.LBL_KHONGCO_DULIEU</span>
+        </div>
+    </div>
+}
+<script>
+    $("#tbNguyenNhanNgungMay .cboLuoiNN").select2({
+        theme: "bootstrap-5",
+        width: "100%",
+        dropdownParent: $('#modalResultContent'),
+    });
+
+
+    $('#tbNguyenNhanNgungMay .cboLuoiNN').on('select2:close', function (e) {
+        var selectedValue = $(this).select2('data')[0].text;
+        $(this).siblings('span.select2').html(selectedValue);
+    });
+
+    $('#tbNguyenNhanNgungMay .cboLuoiNN').siblings('span.select2').on('click', function () {
+        $(this).siblings('select').select2('open');
+    });
+
+    $('#tbNguyenNhanNgungMay .cboLuoiNN').on('select2:select', function (e) {
+        $(this).siblings('span.select2').html(e.params.data.text);
+        console.log(e.params.data.text);
+    });
+
+    $('#tbNguyenNhanNgungMay .cboLuoiNN').each(function () {
+        var dataid = $(this).attr('data-id');
+        var stext = $('#tbNguyenNhanNgungMay').find('[data-id="' + dataid + '"]').find('option:selected').text();
+        $('#tbNguyenNhanNgungMay').find('[data-id="' + dataid + '"]').siblings('span.select2').html(stext);
+    });
+
+</script>

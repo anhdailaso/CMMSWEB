@@ -45,14 +45,14 @@
                                             <td data-pass="@item1.Pass">
                                                 <input class="form-check-input" id="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" style="margin-top:0.8rem" data-pass="@item1.Pass" data-id="@item1.ValueParamID" data-msbophan="@item1.ComponentID" data-msthongso="@item1.MonitoringParamsID" type="checkbox">
                                             </td>
-                                            <td> <input class="form-control" style="font-size:0.8rem;" type="text" id="note" placeholder=@ViewText.LBL_GHI_CHU aria-label="default input example" value="" /></td>
+                                            <td> <input class="form-control" style="font-size:0.8rem;" type="text" id="note" placeholder="@ViewText.LBL_GHI_CHU" aria-label="default input example" value="" /></td>
                                         </tr>
                                     }
                                     else
                                     {
                                         <tr  >
                                             <td class="parentCell odd">
-                                                <input onfocusout="myfunction(this)" class="form-control form-input" data-range="@item1.ValueParamName.Split('!')[1]" data-msbophan="@item1.ComponentID" id="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" data-msthongso="@item1.MonitoringParamsID" style="font-size:0.8rem;" type="text" placeholder="Kết quả" aria-label="default input example" value="" name="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" />
+                                                <input onfocusout="myfunction(this)" class="form-control form-input" type="number" min="0" max="99999" data-range="@item1.ValueParamName.Split('!')[1]" data-msbophan="@item1.ComponentID" id="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" data-msthongso="@item1.MonitoringParamsID" style="font-size:0.8rem;"  placeholder="Kết quả" aria-label="default input example" value="" name="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" />
                                                 <div class="tooltip-action position-absolute">
                                                     <a>
                                                         <span>@Html.Raw(@item1.ValueParamName.Split('!')[0])</span>
@@ -60,7 +60,7 @@
                                                 </div>
                                             </td>
                                             <td style="line-height:2.5rem!important;width:40px;">@item1.MeasurementUnitName</td>
-                                            <td> <input class="form-control" style="font-size:0.8rem;" type="text" id="note" placeholder=@ViewText.LBL_GHI_CHU aria-label="default input example" value="" /></td>
+                                            <td> <input class="form-control" style="font-size:0.8rem;" type="text" id="note" placeholder="@ViewText.LBL_GHI_CHU" aria-label="default input example" value="" /></td>
                                         </tr>
                                     }
                                 }
@@ -80,10 +80,12 @@ else
         </div>
     </div>
 }
-
 @Html.Partial("~/Views/Camera/_loadimage.cshtml")
 <input type="file" id="fileToUpload" style="display: none;" />
 <script>
+    var config = {
+        MESS_GIA_TRI_KHONG_HOP_LE: '@Html.Raw(Message.MESS_GIA_TRI_KHONG_HOP_LE)',
+    }
     function myfunction(e) {
         var id_input = ($(e).attr('name'));
         var id = ($(e).attr('id'));
@@ -91,7 +93,7 @@ else
         if (!$.isNumeric($(e).val()) && $(e).val() !== '') {
             if ($(e).val() == '') return false;
             $(e).focus();
-            showWarning("Chỉ được nhập số!");
+            showWarning(config.MESS_GIA_TRI_KHONG_HOP_LE);
             $(e).val('');
             $('#title-' + id).css("color", "#113186");
             return false;
@@ -107,7 +109,7 @@ else
             }
             if (flag == 0) {
                 $(e).focus();
-                showWarning("Giá trị nhập không phù hợp!");
+                showWarning(config.MESS_GIA_TRI_KHONG_HOP_LE);
                 $(e).val('');
                 $('#title-' + id).css("color", "#113186");
                 return false;

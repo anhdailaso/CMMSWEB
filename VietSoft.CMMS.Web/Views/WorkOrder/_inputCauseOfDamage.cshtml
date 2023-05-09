@@ -1,17 +1,77 @@
 ﻿@using VietSoft.CMMS.Web.Resources
+@model VietSoft.CMMS.Web.Models.Maintenance.ThoiGianNgungMayModel
 <div class="modal-header">
     <h5>@ViewText.LBL_PHANTICH_HUHONG</h5>
-    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+    @*<button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>*@
 </div>
 <div class="modal-body modal-confirm" id="modalInputCauseOfDamageContent">
+    @*<p class="break-line">Thời gian ngừng máy</p>*@
+    <div class="row detail-page-emp-info break-line">
+        <div class="col-12 d-flex justify-content-left gap-2 ">
+            <span class="emp-name">@ViewBag.MS_PBT</span>
+            <span class="emp-code">@ViewBag.MS_MAY</span>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between gap-2">
+        <div class="form-floating input-group break-line date" id="toDateContainer">
+            <input type="text" class="form-control form-control-buttom" id="fromDate" name="fromDate" style="font-size:0.8rem!important" value="@Model.TU_GIO.ToString(Setting.FORMAT_DATETIME)" autocomplete="off" />
+            <span class="input-group-append d-flex align-items-center" style="right:1px">
+                <i class="bi bi-calendar4-week date-icon "></i>
+            </span>
+            <label for="from">@ViewText.LBL_TUNGAY</label>
+            <div id="from-error"></div>
+        </div>
+        <div class="form-floating input-group break-line date" id="toDateContainer">
+            <input type="text" class="form-control" id="toDate" name="toDate" style="font-size:0.8rem!important" value="@Model.DEN_GIO.ToString(Setting.FORMAT_DATETIME)" autocomplete="off" />
+            <span class="input-group-append d-flex align-items-center" style="right:1px">
+                <i class="bi bi-calendar4-week date-icon"></i>
+            </span>
+            <label for="toDate">@ViewText.LBL_DENNGAY</label>
+            <div id="toDate-error"></div>
+        </div>
+    </div>
+
+    <div class="form-floating break-line">
+        @Html.DropDownList("MS_NGUYEN_NHAN",(IEnumerable<SelectListItem>)@ViewBag.NguyenNhan, new { id="cboNguyennhan",name="cboNguyennhan", @class = "form-control form-select form-select-sm"})
+        <label for="MS_NGUYEN_NHAN">@ViewText.LBL_NGUYEN_NHAN</label>
+    </div>
+
+
     <div class="row mb-2">
         <div class="col-12 treeMenuContent" id="inputCauseOfDamageContent">
         </div>
     </div>
 
+    <br />
+    <br />
+    <br />
+    <br />
+
 </div>
 
 <div class="modal-footer justify-content-between gap-1 flex-nowrap">
-    <button type="button" class="btn btn-outline-danger w-50" onclick="ClosePopup(this)" id="btnCancel">@ViewText.BTN_DONG</button>
-    <button type="button" class="btn btn-primary w-50 disabled" id="btnSaveInputCauseOfDamageList">@ViewText.BTN_LUU</button>
+    <button type="button" class="btn btn-outline-danger w-50" id="btnCancelHT">@ViewText.BTN_DONG</button>
+    <button type="button" class="btn btn-primary w-50" id="btnSaveInputCauseOfDamageList">@ViewText.BTN_LUU</button>
 </div>
+<script>
+    $("#cboNguyennhan").select2({
+        theme: "bootstrap-5",
+        width: "100%",
+        dropdownParent: $('#modalInputCauseOfDamageContent'),
+    });
+
+    setDateTimePicker('#fromDate', moment($('#fromDate').val(), _formatDateTime).toDate());
+    $('#toDate').datetimepicker({
+        locale: 'vi',
+        useCurrent: false,
+        defaultDate: moment($('#toDate').val(), _formatDateTime),
+        widgetPositioning: {
+            horizontal: 'right'
+        }
+    });
+
+    $('#toDate').parents(".input-group.date").find(".date-icon").on('click', function () {
+        $('#toDate').datetimepicker('show');
+    })
+
+</script>

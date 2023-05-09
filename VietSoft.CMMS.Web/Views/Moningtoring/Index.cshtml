@@ -97,17 +97,15 @@
 <nav class="fixed-bottom">
     <div class="navbar-button  text-center text-white">
         <div id="button-container" class="btn-group">
-            <a class="btn btn-outline-dark m-1" role="button" href="@Url.Action("Index","Home")">
+            <a class="btn btn-outline-dark m-1" role="button" href="@Url.Action("Index","Home")" data-toggle="tooltip" title="@ViewText.BTN_TRANG_CHU">
                 <i class="fa fa-home fs-7" aria-hidden="true"></i>
             </a>
-
-            <!-- Twitter -->
-            <a class="btn btn-outline-primary m-1" id='btnsave' role="button">
+            <a class="btn btn-outline-primary m-1" id='btnsave' role="button" data-toggle="tooltip" title="@ViewText.BTN_LUU">
                 <i class="fa fa-floppy-o fs-7"></i>
             </a>
 
-            <!-- Google -->
-            <a class="btn btn-outline-warning m-1" id="btnhuy"  role="button">
+            <a class="btn btn-outline-warning m-1" id="btnhuy" role="button" data-toggle="tooltip" title="@ViewText.LBL_HUY">
+                @*<i class="fa-solid fa-arrows-rotate fs-7"></i>*@
                 <i class="fa fa-times fs-7"></i>
             </a>
         </div>
@@ -120,6 +118,8 @@
             GET_MONITORING_LIST: '@Url.Action("GetMonitoringParametersByDevice", "Home")',
             SAVE_MONITORING: '@Url.Action("SaveMonitoring", "Home")',
             MyEcomaint: '@Url.Action("Index", "Home")',
+            MESS_VUI_LONG_CHON_DL: '@Html.Raw(Message.MESS_VUI_LONG_CHON_DL)',
+
         }
     </script>
     <script src="~/js/pages/moningtoring.js" asp-append-version="true"></script>

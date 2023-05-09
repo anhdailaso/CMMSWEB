@@ -23,7 +23,7 @@
         </div>
         <div class="border-top my-3"></div>
         <div class="form-floating  break-line">
-            @Html.TextAreaFor(model=>model.MO_TA_TINH_TRANG,new {@class = "form-control", maxlength = 250, autocomplete = "off" , placeholder= @ViewText.LBL_MO_TA_TINH_TRANG })
+            @Html.TextAreaFor(model=>model.MO_TA_TINH_TRANG,new {@class = "form-control", maxlength = 250, autocomplete = "off",@Value = "1", placeholder= @ViewText.LBL_MO_TA_TINH_TRANG })
             @Html.ValidationMessageFor(model=>model.MO_TA_TINH_TRANG)
             <label for="MO_TA_TINH_TRANG">@ViewText.LBL_MO_TA_TINH_TRANG</label>
         </div>
@@ -86,7 +86,7 @@
 <nav class="fixed-bottom">
     <div class="navbar-button  text-center text-white">
         <div id="button-container" class="btn-group">
-            <a class="btn btn-outline-dark m-1" role="button" href="@Url.Action("Index","Home")">
+            <a class="btn btn-outline-dark m-1" role="button" href="@Url.Action("Index","Home")" data-toggle="tooltip" title="@ViewText.BTN_TRANG_CHU">
                 <i class="fa fa-home fs-7" aria-hidden="true"></i>
             </a>
             @Html.HiddenFor(x => x.DUYET)
@@ -97,10 +97,10 @@
 
                 if (Model.QUYEN == 1)
                 {
-                    <a class="btn btn-outline-primary m-1" id='btnLPBT' role="button">
+            <a class="btn btn-outline-primary m-1" id='btnLPBT' role="button" data-toggle="tooltip" title="@ViewText.BTN_LAP_PHIEU_BAO_TRI">
                         <i class="fa fa-cogs fs-7"></i>
                     </a>
-                    <a class="btn btn-outline-warning m-1" id='btnKhongTiepNhan' role="button">
+                    <a class="btn btn-outline-warning m-1" id='btnKhongTiepNhan' role="button" data-toggle="tooltip" title="@ViewText.BTN_BO_QUA">
                         <i class="fa-solid fa-ban fs-7"></i>
                     </a>
                   @*  @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() || Model.USERNAME == null)
@@ -118,10 +118,10 @@
                     @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() || Model.USERNAME == null)
                     {
                         //user thêm
-                        <a class="btn btn-outline-primary m-1" id='btnsave' role="button">
+            <a class="btn btn-outline-primary m-1" id='btnsave' role="button" data-toggle="tooltip" title="@ViewText.BTN_LUU">
                             <i class="fa fa-floppy-o fs-7"></i>
                         </a>
-                        <a class="btn btn-outline-warning m-1" id='btnhuy' role="button">
+            <a class="btn btn-outline-warning m-1" id='btnhuy' role="button" data-toggle="tooltip" title="@ViewText.BTN_XOA">
                             <i class="fa fa-times fs-7"></i>
                         </a>
                     }
@@ -129,11 +129,11 @@
                     {
                         //user có quyền duyệt có button duyệt và không duyệt
 
-                        <a class="btn btn-outline-primary m-1" id='btnDuyet' role="button">
+            <a class="btn btn-outline-primary m-1" id='btnDuyet' role="button" data-toggle="tooltip" title="@ViewText.BTN_DUYET">
                             <i class="fa-solid fa-check fs-7"></i>
                         </a>
 
-                        <a class="btn btn-outline-warning m-1" id='btnKhongDuyet' role="button">
+            <a class="btn btn-outline-warning m-1" id='btnKhongDuyet' role="button" data-toggle="tooltip" title="@ViewText.BTN_KHONG_DUYET">
                             <i class="fa-solid fa-ban fs-7"></i>
                         </a>
                     }
@@ -142,10 +142,10 @@
                 {
                     @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() || Model.USERNAME == null)
                     {
-                        <a class="btn btn-outline-primary m-1" id='btnsave' role="button">
+            <a class="btn btn-outline-primary m-1" id='btnsave' role="button" data-toggle="tooltip" title="@ViewText.BTN_LUU">
                             <i class="fa fa-floppy-o fs-7"></i>
                         </a>
-                        <a class="btn btn-outline-warning m-1" id='btnhuy' role="button">
+            <a class="btn btn-outline-warning m-1" id='btnhuy' role="button" data-toggle="tooltip" title="@ViewText.BTN_XOA">
                             <i class="fa fa-times fs-7"></i>
                         </a>
                     }
@@ -163,7 +163,7 @@
             {
                 <div class="add-image">
                     <i class="fa fa-camera-retro" aria-hidden="true" style="font-size:20px"></i>
-                    <span>Thêm hình</span>
+                    <span>@ViewText.LBL_THEM_HINH</span>
                 </div>
             }
         </div>

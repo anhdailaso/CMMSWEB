@@ -18,8 +18,6 @@ namespace VietSoft.CMMS.Web.Controllers
         private readonly IAccountService _accountService;
         private readonly IComboboxService _combobox;
         private readonly IHistoryService _historyService;
-
-
         public HistoryController(ILogger<HistoryController> logger, IAccountService accountService, IComboboxService combobox, IHistoryService historyService)
         {
             _logger = logger;

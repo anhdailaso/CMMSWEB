@@ -48,7 +48,7 @@
         bload = false;
         setDatePicker("#toDate", null, null, null);
         const TNgay = new Date();
-        TNgay.setFullYear(TNgay.getFullYear() - 1);
+        TNgay.setMonth(TNgay.getMonth() - 2);
         setDatePicker("#fromDate", TNgay, null, null);
 
         $(document).on("dp.change", '#toDate', function () {
@@ -493,6 +493,9 @@
             $.ajax({
                 type: "GET",
                 url: config.CHON_DS_PHUTUNG,
+                data: {
+                    mspn: $('#MS_DH_NHAP_PT').val(),
+                },
                 success: function (response) {
                     $('#modalLarge .modal-content').html(response);
                     $('#modalLarge').modal('show');

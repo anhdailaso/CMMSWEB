@@ -28,12 +28,26 @@
                                 </div>
 
                                 <div class="form-floating break-line">
-                                    @Html.DropDownListFor(model => model.MS_DANG_XUAT,(IEnumerable<SelectListItem>)@ViewBag.DangXuat, new { id="CboDangXuat",name="CboDangXuat", @class = "form-select form-select-sm"})
+                                    @Html.DropDownListFor(model => model.MS_DANG_XUAT,(IEnumerable<SelectListItem>)@ViewBag.DangXuat, new { id="CboDangXuat",name="CboDangXuat", @class = "form-control form-select form-select-sm"})
                                     <label for="MS_DANG_XUAT">@ViewText.LBL_DANG_XUAT</label>
                                     <div id="CboDangXuat-error"></div>
                                 </div>
+                                <div class="d-flex justify-content-between gap-2">
+                                    <div class="form-floating input-group break-line">
+                                        @if (Model.THEM == true)
+                                        {
+                                            @Html.DropDownListFor(model => model.MS_MAY,(IEnumerable<SelectListItem>)@ViewBag.PBT, new { id="CboMay",name="CboMay", @class = "form-control form-select form-select-sm"})
+                                            <label for="MS_MAY">@ViewText.LBL_THIET_BI</label>
+                                            <div id="CboMay-error"></div>
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(model => model.MS_MAY,new {@readonly = "readonly",style = "background-color: white;" , id="CboMay",name="CboMay", @class = "form-control"})
+                                            <label for="MS_MAY">@ViewText.LBL_THIET_BI</label>
+                                            <div id="CboMay-error"></div>
+                                        }
+                                    </div>
 
-                                <div class="d-flex justify-content-between gap-2 d-none">
                                     <div class="form-floating input-group break-line">
                                         @if (Model.THEM == true)
                                         {
@@ -49,9 +63,11 @@
 
                                         }
                                     </div>
-                                    <div class="form-floating input-group break-line">
+
+
+                                 @*   <div class="form-floating input-group break-line">
                                         @Html.Label("MS_MAY","",new {id="txtMay",name="txtMay",@class = "form-control"})
-                                    </div>
+                                    </div>*@
                                 </div>
 
                                 <div class="form-floating break-line d-none">
@@ -119,7 +135,7 @@
                                                     <img src="/images/barcode.png" alt="image" class="icon-barcode">
                                                 </a>
                                             </div>
-                                            <a id="btnSavePhieuXuatKho" class="btn btn-outline-dark m-1">
+                                            <a id="btnSavePhieuXuatKho" class="btn btn-outline-dark m-1" data-toggle="tooltip" title="@ViewText.BTN_LUU.ToLower()">
                                                 <i class="fa fa-floppy-o fs-7"></i>
                                             </a>
                                         </div>
@@ -153,16 +169,16 @@
             <div id="button-container" class="btn-group">
                 @if (Model.QUYEN == true)
                 {
-                    <a id="btnAddPhuTung" class="btn btn-outline-primary m-1">
+                    <a id="btnAddPhuTung" class="btn btn-outline-primary m-1" data-toggle="tooltip" title="@ViewText.LBL_THEM_PHUTUNG">
                         <i class="fa fa-plus fs-7" aria-hidden="true"></i>
                     </a>
-                    <a id="btnSavePhuTung" class="btn btn-outline-dark m-1">
+                    <a id="btnSavePhuTung" class="btn btn-outline-dark m-1" data-toggle="tooltip" title="@ViewText.BTN_LUU_PHU_TUNG">
                         <i class="fa fa-floppy-o fs-7"></i>
                     </a>
                 }
                 @if (Model.LOCK == false)
                 {
-                    <a class="btn btn-outline-warning m-1" id="btnLock" role="button">
+                    <a class="btn btn-outline-warning m-1" id="btnLock" role="button" data-toggle="tooltip" title="@ViewText.BTN_KHOA">
                         <i class="fa fa-lock fs-5"></i>
                     </a>
                 }
@@ -175,6 +191,7 @@
     <script src="~/lib/jquery.twbsPagination/jquery.twbsPagination.min.js"></script>
     <script>
         var config = {
+            GET_PHIEUBAOTRI: '@Url.Action("getPhieuBaoTri", "GoodIssue")',
             GET_PHIEUBAOTRI: '@Url.Action("getPhieuBaoTri", "GoodIssue")',
             GET_BOPHANCHIEUPHI: '@Url.Action("getBoPhanChieuPhi", "GoodIssue")',
             GET_NGUOINHAP: '@Url.Action("getNguoiNhap", "GoodIssue")',
