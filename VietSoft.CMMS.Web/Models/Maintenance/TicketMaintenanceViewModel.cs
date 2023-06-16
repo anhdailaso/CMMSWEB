@@ -10,6 +10,8 @@
         public string? TINH_TRANG_MAY { get; set; }
         public string? USERNAME { get; set; }
         public int QUYEN { get; set; }
+        public string GHI_CHU { get; set; }
+        public int THEM { get; set; }
 
     }
 }

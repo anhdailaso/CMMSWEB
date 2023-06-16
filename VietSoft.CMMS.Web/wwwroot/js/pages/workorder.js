@@ -17,7 +17,6 @@
         $('#btnhuyBT').on('click', function () {
             WorkList();
         });
-
         $('#cboLoaiBaoTri').val($('#MS_LOAI_BT').val()).change();
         //$('#cboUuTien').val($('#MS_UU_TIEN').val()).change();
         if ($('#flag').val() != 0) {
@@ -25,10 +24,57 @@
             $("#cboUuTien").prop("disabled", true);
             $('span [role=combobox]').css('background-color', '#FFFFFF');
         }
+
         bload = true;
 
         initEvent();
     }
+    function AddCVinit() {
+        $('input[type=radio][name=inlineRadioOptions]').change(function () {
+            if ($(this).val() == 'true') {
+                //đến
+                $('#cboCV').parent('.form-floating').addClass('d-none');
+                $('#CONGVIEC').parent('.form-floating').removeClass('d-none');
+                $('#THOIGIAN').parent('.form-floating').removeClass('d-none');
+
+            }
+            else {
+                $('#cboCV').parent('.form-floating').removeClass('d-none');
+                $('#CONGVIEC').parent('.form-floating').addClass('d-none');
+                $('#THOIGIAN').parent('.form-floating').addClass('d-none');
+            }
+        });
+
+        $('#cboBP').on('change', function () {
+            console.log($('input[type=radio][name=inlineRadioOptions]:checked').val());
+            if ($('input[type=radio][name=inlineRadioOptions]:checked').val() == 'false') {
+                LoadCongViec();
+            }
+        });
+
+        $('#btnAddCVPT').on('click', function () {
+            ThemCongViecChoBoPhan();
+        });
+
+        $('#cboBP').select2({
+            theme: "bootstrap-5",
+            dropdownParent: $('#modalResultContent'),
+            width: "100%",
+            height: "200px",
+
+        });
+
+        $('#cboCV').select2({
+            theme: "bootstrap-5",
+            dropdownParent: $('#modalResultContent'),
+            width: "100%",
+            height: "200px",
+        });
+
+        LoadCongViec();
+
+    }
+
     function initEvent() {
         CalculatePlanDate()
 
@@ -209,10 +255,12 @@
                 MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),
                 S_NGAY_KT_KH: $('#NGAY_KT_KH').text(),
                 MS_UU_TIEN: $('#cboUuTien').val(),
-                TINH_TRANG_MAY: $('#TINH_TRANG_MAY').val(),
-                MS_LOAI_BT: $('#cboLoaiBaoTri').val()
+                TINH_TRANG_MAY: $('#TINH_TRANG_MAY').text(),
+                MS_LOAI_BT: $('#cboLoaiBaoTri').val(),
+                GHI_CHU: $('#GHI_CHU').val(),
+                THEM: $('#THEM').val(),
             };
-
+            console.log(model);
             $.ajax({
                 type: "POST",
                 url: config.SAVE_WORK_ORDER,
@@ -226,7 +274,7 @@
                         setTimeout(function () {
                             //window.history.back(1)
                             //window.location.href = config.MyEcomaint;
-                            window.location.href = "/Home/WorkOrder?mspbt=" + $('#MS_PHIEU_BAO_TRI').val() +"&msmay=" + $('#MS_MAY').val() + "&tenmay=" + $('#emp-code').text() + "&flag=1";
+                            window.location.href = "/Home/WorkOrder?mspbt=" + $('#MS_PHIEU_BAO_TRI').val() + "&msmay=" + $('#MS_MAY').val() + "&tenmay=" + $('#emp-code').text() + "&flag=1";
 
                         }, 600)
 
@@ -469,6 +517,46 @@
 
         });
 
+        var clickCount = 0;
+        var clickTimeout;
+        $(document).on('click', '.btnTaiLieu', function (event, element) {
+            var form = $(this);
+            event.preventDefault(); // Loại bỏ sự kiện click mặc định của thẻ
+            clickCount++;
+            if (clickCount === 1) {
+                clickTimeout = setTimeout(function () {
+                    //alert("Click");
+                    $.ajax({
+                        type: "GET",
+                        url: config.XEM_HUONG_DAN,
+                        data: {
+                            thaotac: form.data('thaotac'),
+                            tieuchuanKT: form.data('tieuchuankt'),
+                            yeucauNS: form.data('yeucauns'),
+                            yeucauDC: form.data('yeucaudc'),
+                            MotaCV: form.data('motacv'),
+                        },
+                        success: function (response) {
+                            $('#modalLarge .modal-content').html(response);
+                            $('#modalLarge').modal('show');
+                        }
+                    });
+
+                    clickCount = 0;
+                }, 300);
+            } else if (clickCount === 2) {
+                //alert("dbClick");
+                var filePath = $(this).data('file');
+                if (filePath !== '') {
+                    var url = "/WorkOrder/DownloadFile?filepath=" + filePath;
+                    window.open(url, "_blank");
+                }
+                clearTimeout(clickTimeout);
+                clickCount = 0;
+            }
+        }),
+
+
         $(document).on('click', '.btnDeleteWork', function () {
             let msbp = $(this).closest('div').find('input.MS_BO_PHAN').val();
             let mscv = $(this).closest('div').find('input.MS_CV').val();
@@ -609,6 +697,21 @@
             ChonNguoiThucHien()
         });
 
+        $(document).on("click", '#btnAddWork', function () {
+            $.ajax({
+                type: "GET",
+                url: config.THEM_CONG_VIEC,
+                data: {
+                    deviceId: $('#MS_MAY').val(),
+                    ticketId: $('#MS_PHIEU_BAO_TRI').val(),
+                },
+                success: function (response) {
+                    $('#modalLarge .modal-content').html(response);
+                    $('#modalLarge').modal('show');
+                }
+            });
+        });
+
 
 
 
@@ -703,6 +806,24 @@
         });
     }
 
+    function LoadCongViec() {
+        $('#cboCV option').remove();
+        console.log($('#cboBP').val());
+        $.ajax({
+            type: "POST",
+            url: config.LOAD_COMBO_CONG_VIEC,
+            data: { deviceId: $('#MS_MAY').val(), msbp: $('#cboBP').val() },
+            success: function (data) {
+                $('#cboCV').html('');
+                var s = '';
+                for (var i = 0; i < data.length; i++) {
+                    s += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
+                }
+                $("#cboCV").html(s);
+            }
+        });
+    }
+
     function saveCompleteWorkOrder() {
         showLoadingOverlay("#inputCauseOfDamageContent");
         $.ajax({
@@ -778,7 +899,7 @@
             success: function (response) {
                 if (response.responseCode == 1) {
                     showSuccess(response.responseMessage)
-                    $('#modalLarge').modal('hide');
+                    $('#modal').modal('hide');
                     WorkList();
                 }
                 else {
@@ -789,6 +910,35 @@
             }
         });
     }
+
+    //thêm công việc cho bộ phận
+    function ThemCongViecChoBoPhan() {
+        $.ajax({
+            type: "POST",
+            url: config.THEM_CONG_VIEC_PHU_TUNG,
+            data: {
+                deviceId: $('#MS_MAY').val(),
+                msbp: $('#cboBP').val(),
+                mscv: $('#cboCV').val(),
+                tenCV: $('#CONGVIEC').val(),
+                thoigian: $('#THOIGIAN').val(),
+                them: $('input[type=radio][name=inlineRadioOptions]:checked').val()
+            },
+            success: function (response) {
+                if (response.responseCode == 1) {
+                    showSuccess(response.responseMessage)
+                    $('#modalLarge').modal('hide');
+                    AddMaintenanceWork();
+                }
+                else {
+                    showWarning(response.responseMessage)
+                }
+            },
+            complete: function () {
+            }
+        });
+    }
+
     function GetInputCauseOfDamage() {
         showLoadingOverlay("#inputCauseOfDamageContent");
         $.ajax({
@@ -1042,8 +1192,10 @@
                 ticketId: $('#MS_PHIEU_BAO_TRI').val()
             },
             success: function (response) {
-                $('#modalLarge .modal-content').html(response);
-                $('#modalLarge').modal('show');
+                //$('#modalLarge .modal-content').html(response);
+                //$('#modalLarge').modal('show');
+                $('#modal .modal-content').html(response);
+                $('#modal').modal('show');
             }
         });
     }
@@ -1073,7 +1225,8 @@
     }
 
     return {
-        init: init
+        init: init,
+        AddCVinit: AddCVinit,
     };
 
 })(window, jQuery, config);

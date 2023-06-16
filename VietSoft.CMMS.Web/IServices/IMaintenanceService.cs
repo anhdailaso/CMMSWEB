@@ -23,8 +23,9 @@ namespace VietSoft.CMMS.Web.IServices
          ResponseViewModel DeleteWorkOrder(string ticketId, string userName, int languages);
         ResponseViewModel SaveMaintenanceWork(string deviceId, string ticketId, string userName, string json);
         ResponseViewModel SaveNguoiThucHien(string ticketId, string json);
+        ResponseViewModel ThemCauTrucCongViec(string deviceId, string msbp, int mscv, string tenCV, int thoigian, bool them);
         ResponseViewModel SaveLogWork(string ticketId, string userName, string json);
-        ResponseViewModel SaveWorkOrder(string ticketId, DateTime date, int categoryTicketId, int priorityId, string statusDevice, string userName, string deviceId);
+        ResponseViewModel SaveWorkOrder(string ticketId, DateTime date, int categoryTicketId, int priorityId, string statusDevice,string lydoBT, string userName, string deviceId, int them);
         ResponseViewModel CompletedWorkOrder(string ticketId, string userName, string deviceId, int languages);
         List<CapNhatCa> CapNhatCa(DateTime TN, DateTime DN);
         ResponseViewModel SaveInputCauseOfDamageList(string ticketId, int msnn, DateTime tungay, DateTime denngay, string json, string Username);

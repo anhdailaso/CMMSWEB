@@ -11,12 +11,9 @@ using System.Data;
 using VietSoft.CMMS.Core.Models;
 using System.Globalization;
 using Newtonsoft.Json;
-using System.IO;
-using System.Reflection;
 using System.Drawing;
 using Microsoft.AspNetCore.StaticFiles;
 using System.Net.Mime;
-using System.Linq.Expressions;
 
 namespace VietSoft.HRM.Web.Controllers
 {
@@ -55,6 +52,21 @@ namespace VietSoft.HRM.Web.Controllers
             return View();
         }
 
+        public IActionResult WorkOrderLink(string mspbt,string msmay)
+        {
+
+            var listmenu = _homeService.GetMenu(SessionManager.CurrentUser.UserName);
+            GetListMenu(listmenu);
+            SessionManager.ThongTinChung = _accountService.GetThongTinChung(SessionManager.CurrentUser.UserName);
+            ViewBag.ListNhaXuong = _combobox.GetCbbDiaDiem(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1);
+            ViewBag.MS_MAY = msmay;
+            ViewBag.TEN_MAY = "";
+            ViewBag.FLAG = 1;
+            var ticketMaintenance = _maintenanceService.GetTicketMaintenanceByDevice(mspbt);
+            ViewBag.LoaiBaoTri = _combobox.GetMaintenanceCategoy(-1);
+            ViewBag.UuTien = _combobox.GetPriorityCategory(SessionManager.CurrentUser.TypeLangue);
+            return View("~/Views/WorkOrder/Index.cshtml", ticketMaintenance);
+        }
         public ActionResult GoBack()
         {
             var refererUrl = Request.Headers["Referer"].ToString();
@@ -103,10 +115,18 @@ namespace VietSoft.HRM.Web.Controllers
             catch
             {
             }
-            ViewBag.NguyenNhan = _combobox.DanhSachNguyenNhan("", true, SessionManager.CurrentUser.TypeLangue);
+            if(flag == 1)
+            {
+                ViewBag.NguyenNhan = _combobox.DanhSachNguyenNhan("",true,SessionManager.CurrentUser.TypeLangue);
+            }
+            else
+            {
+                ViewBag.NguyenNhan = _combobox.DanhSachNguyenNhan(msmay, false, SessionManager.CurrentUser.TypeLangue);
+            }    
             ViewBag.UuTien = _combobox.LoadListUuTien(SessionManager.CurrentUser.TypeLangue);
             return View("~/Views/UserRequest/Index.cshtml", userequest);
         }
+        [Route("Home/WorkOrder")]
         public IActionResult WorkOrder(string mspbt,string msmay, string tenmay, int flag, string ttmay, int msut)
         {
             res = null;

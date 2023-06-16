@@ -62,7 +62,6 @@ namespace VietSoft.CMMS.Web.Services
         }
 
 
-
         public SelectList DanhSachNguyenNhan(string msmay, bool CoAll, int NNgu)
         {
 
@@ -486,6 +485,59 @@ namespace VietSoft.CMMS.Web.Services
              });
             return new SelectList(listItem, "Value", "Text", null);
         }
+
+        public SelectList GetCbbBoPhan(string msmay, string Username, int NNgu)
+        {
+            DataTable dtTmp = new DataTable();
+            SqlCommand sqlcom = new SqlCommand();
+            SqlConnection con = new SqlConnection(_dapper.GetDbconnection().ConnectionString);
+            if (con.State == ConnectionState.Closed)
+                con.Open();
+            sqlcom.Connection = con;
+            sqlcom.Parameters.AddWithValue("@sDanhMuc", "GET_COMBO_BO_PHAN");
+            sqlcom.Parameters.AddWithValue("@UserName", Username);
+            sqlcom.Parameters.AddWithValue("@NNgu", NNgu);
+            sqlcom.Parameters.AddWithValue("@deviceID", msmay);
+            sqlcom.CommandType = CommandType.StoredProcedure;
+            sqlcom.CommandText = "spCMMSWEB";
+            SqlDataAdapter da = new SqlDataAdapter(sqlcom);
+            da.Fill(dtTmp);
+
+            var listItem = dtTmp.AsEnumerable().Select(
+             x => new SelectListItem
+             {
+                 Text = x.Field<string>("TEN_BP"),
+                 Value = x.Field<string>("MA_BP")
+             });
+            return new SelectList(listItem, "Value", "Text", null);
+        }
+
+        public SelectList GetCbbCongViec(string msmay, string msbp, int NNgu)
+        {
+            DataTable dtTmp = new DataTable();
+            SqlCommand sqlcom = new SqlCommand();
+            SqlConnection con = new SqlConnection(_dapper.GetDbconnection().ConnectionString);
+            if (con.State == ConnectionState.Closed)
+                con.Open();
+            sqlcom.Connection = con;
+            sqlcom.Parameters.AddWithValue("@sDanhMuc", "GET_COMBO_CONG_VIEC");
+            sqlcom.Parameters.AddWithValue("@NNgu", NNgu);
+            sqlcom.Parameters.AddWithValue("@deviceID", msmay);
+            sqlcom.Parameters.AddWithValue("@sCot1", msbp);
+            sqlcom.CommandType = CommandType.StoredProcedure;
+            sqlcom.CommandText = "spCMMSWEB";
+            SqlDataAdapter da = new SqlDataAdapter(sqlcom);
+            da.Fill(dtTmp);
+            var listItem = dtTmp.AsEnumerable().Select(
+             x => new SelectListItem
+             {
+                 Text = x.Field<string>("MO_TA_CV"),
+                 Value = x.Field<int>("MS_CV").ToString()
+             });
+            return new SelectList(listItem, "Value", "Text", null);
+        }
+
+
 
         public SelectList GetCbbPhuTung(string msmay, string msbp, string Username, int NNgu, int CoAll)
         {

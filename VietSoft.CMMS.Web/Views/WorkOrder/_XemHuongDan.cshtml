@@ -1,0 +1,39 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@using VietSoft.CMMS.Web.Helpers
+
+<div class="modal-header">
+    <h5>@ViewText.LBL_CHI_TIET_CV</h5>
+    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body modal-confirm" id="modalResultContent">
+    <div class="row detail-page-emp-info break-line">
+        <div class="col-12 d-flex justify-content-left gap-2">
+            <span class="emp-code">@ViewBag.MotaCV</span>
+        </div>
+    </div>
+   
+    <table class="table table-striped">
+        <tbody>
+            <tr class="tr-supplies">
+                <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">@ViewText.LBL_CHI_TIET_CV</td>
+                <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">@ViewBag.ThaoTac</td>
+            </tr>
+
+            <tr class="tr-supplies">
+                <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">@ViewText.LBL_TIEU_CHUAN_KTRA</td>
+                <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">@ViewBag.TieuChuanKT</td>
+            </tr>
+
+            <tr class="tr-supplies">
+                <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">@ViewText.LBL_YEU_CAU_NS</td>
+                <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">@ViewBag.YeuCauNS</td>
+            </tr>
+
+            <tr class="tr-supplies">
+                <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">@ViewText.LBL_YEU_CAU_DC</td>
+                <td style="padding-left: 1rem!important;text-align:left !important" class="w-50">@ViewBag.YeuCauDC</td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>

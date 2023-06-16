@@ -118,93 +118,96 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="APPLY_REQUEST_SUCCESS" xml:space="preserve">
-    <value>Submit request successfully.</value>
+    <value>Gửi yêu cầu thành công.</value>
   </data>
   <data name="APPROVAL_SUCCESS" xml:space="preserve">
-    <value>Browse request successfully.</value>
+    <value>Duyệt yêu cầu thành công.</value>
   </data>
   <data name="CAPNHAT_THANHCONG" xml:space="preserve">
-    <value>Update successful.</value>
+    <value>Cập nhật thành công.</value>
   </data>
   <data name="CHANGE_PASS_SUCCESS" xml:space="preserve">
-    <value>Change password successfully.</value>
+    <value>Đổi mật khẩu thành công.</value>
   </data>
   <data name="CHUYEN_CONGVIEC_QUA_KEHOACH" xml:space="preserve">
-    <value>Do you want to move work through the master plan?</value>
+    <value>Bạn có muốn chuyển công việc qua kế hoạch tổng thể?</value>
   </data>
   <data name="COLOI_XAYRA" xml:space="preserve">
-    <value>An error has occurred.</value>
+    <value>Đã có lỗi xảy ra.</value>
   </data>
   <data name="DANGKY_THANHCONG" xml:space="preserve">
-    <value>Sign Up Success.</value>
+    <value>Đăng ký thành công.</value>
   </data>
   <data name="FIELD_REQUIRED" xml:space="preserve">
-    <value>Can not be left blank.</value>
+    <value>Không được để trống.</value>
   </data>
   <data name="KHOA_PHIEU_NHAP" xml:space="preserve">
-    <value>Do you want to lock this deposit slip?</value>
+    <value>Bạn có muốn khóa phiếu nhập kho này không?</value>
   </data>
   <data name="KHOA_PHIEU_XUAT" xml:space="preserve">
-    <value>Do you want to lock this delivery note?</value>
+    <value>Bạn có muốn khóa phiếu xuất kho này không?</value>
   </data>
   <data name="LINK_FORGOT_PASS_EXPIRED" xml:space="preserve">
-    <value>Link has expired. Please resend the password change request and access the new link.</value>
+    <value>Link đã hết hạn. Vui lòng gửi lại yêu cầu thay đổi mật khẩu và truy cập vào link mới.</value>
   </data>
   <data name="LOGIN_FAILED" xml:space="preserve">
-    <value>Username or password is incorrect.</value>
+    <value>Tên đăng nhập hoặc mật khẩu không đúng.</value>
   </data>
   <data name="MESS_CHUA_CO_PHU_TUNG" xml:space="preserve">
-    <value>No spare parts for maintenance ticket</value>
+    <value>Chưa có phụ tùng cho phiếu bảo trì</value>
   </data>
   <data name="MESS_GIA_TRI_KHONG_HOP_LE" xml:space="preserve">
-    <value>Input value does not match!</value>
+    <value>Giá trị nhập không phù hợp!</value>
   </data>
   <data name="MESS_KHOAN_TG_TON_TAI" xml:space="preserve">
-    <value>Time has existed!</value>
+    <value>Khoản thời gian đã tồn tại!</value>
   </data>
   <data name="MESS_TN_KHONG_LON_HON_DN" xml:space="preserve">
-    <value>From day not greater to day!</value>
+    <value>Từ ngày không lớn hơn đến ngày!</value>
   </data>
   <data name="MESS_TU_GIO_KHONG_LON_HON_DEN_GIO" xml:space="preserve">
-    <value>Can not get older from now on</value>
+    <value>Từ giờ không được lớn hơn đến giờ</value>
   </data>
   <data name="MESS_VUI_LONG_CHON_DL" xml:space="preserve">
-    <value>Please select data!</value>
+    <value>Vui lòng chọn dữ liệu!</value>
   </data>
   <data name="NHAPLAI_MK_KHONGDUNG" xml:space="preserve">
-    <value>Password incorrect, please try again.</value>
+    <value>Nhập lại mật khẩu không đúng.</value>
   </data>
   <data name="SEND_MAIL_FAILED" xml:space="preserve">
-    <value>This account has no email. Please contact your administrator for help.</value>
+    <value>Tài khoản này không có email. Vui lòng liên hệ quản trị viên để được trợ giúp.</value>
   </data>
   <data name="SEND_MAIL_SUCCESS" xml:space="preserve">
-    <value>Password reset link sent to {0}. Please check your mail.</value>
+    <value>Link tạo lại mật khẩu đã gửi đến {0}. Vui lòng kiểm tra mail của bạn.</value>
+  </data>
+  <data name="TITLE_NGHIEM_THU_PHIEU_BAO_TRI" xml:space="preserve">
+    <value>Nghiệm thu PBT</value>
   </data>
   <data name="UPDATE_REQUEST_SUCCESS" xml:space="preserve">
-    <value>Update request successful.</value>
+    <value>Cập nhật yêu cầu thành công.</value>
   </data>
   <data name="XACNHAN_HOANTHANH_PHIEUBAOTRI" xml:space="preserve">
-    <value>Do you want to complete the maintenance ticket declaration?</value>
+    <value>Bạn có muốn khai báo hoàn thành phiếu bảo trì?</value>
   </data>
   <data name="XOA_CONG_VIEC" xml:space="preserve">
-    <value>Do you want to delete this job?</value>
+    <value>Bạn có muốn xóa công việc này không?</value>
   </data>
   <data name="XOA_NHAP_KHO" xml:space="preserve">
-    <value>Do you want to delete this voucher?</value>
+    <value>Bạn có muốn xóa phiếu nhập kho này không?</value>
   </data>
   <data name="XOA_PHIEU_BAO_TRI" xml:space="preserve">
-    <value>Do you want to delete this maintenance ticket?</value>
+    <value>Bạn có muốn xóa phiếu bảo trì này không?</value>
   </data>
   <data name="XOA_PHIEU_XUAT" xml:space="preserve">
-    <value>Do you want to delete this delivery note?</value>
+    <value>Bạn có muốn xóa phiếu xuất kho này không?</value>
   </data>
   <data name="XOA_PHU_TUNG_NHAP" xml:space="preserve">
-    <value>Do you want to delete the spare part for this stock receipt?</value>
+    <value>Bạn có muốn xóa phụ tùng cho phiếu nhập kho này?</value>
   </data>
   <data name="XOA_PHU_TUNG_XUAT" xml:space="preserve">
-    <value>Do you want to delete spare parts for this delivery note?</value>
+    <value>Bạn có muốn xóa phụ tùng cho phiếu xuất kho này không?</value>
   </data>
   <data name="XOA_YEU_CAU" xml:space="preserve">
-    <value>Do you want to delete this request?</value>
+    <value>Bạn có muốn xóa yêu cầu này không?</value>
   </data>
 </root>

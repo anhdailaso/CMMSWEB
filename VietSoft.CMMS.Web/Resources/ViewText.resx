@@ -118,448 +118,472 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BTN_BO_QUA" xml:space="preserve">
-    <value>Skip</value>
+    <value>Bỏ qua</value>
   </data>
   <data name="BTN_DANGNHAP" xml:space="preserve">
-    <value>LOG IN</value>
+    <value>ĐĂNG NHẬP</value>
   </data>
   <data name="BTN_DANGXUAT" xml:space="preserve">
-    <value>Log out</value>
+    <value>Đăng xuất</value>
   </data>
   <data name="BTN_DOI_MK" xml:space="preserve">
-    <value>Change password</value>
+    <value>Đổi mật khẩu</value>
   </data>
   <data name="BTN_DONG" xml:space="preserve">
-    <value>Close</value>
+    <value>Đóng</value>
   </data>
   <data name="BTN_DUYET" xml:space="preserve">
-    <value>Browse votes</value>
+    <value>Duyệt phiếu</value>
   </data>
   <data name="BTN_HOAN_THANH_PBT" xml:space="preserve">
-    <value>Complete the WO</value>
+    <value>Hoàn thành phiếu</value>
   </data>
   <data name="BTN_IN_QR" xml:space="preserve">
-    <value>Print QRCode</value>
+    <value>In QRCode</value>
   </data>
   <data name="BTN_KHOA" xml:space="preserve">
-    <value>Lock</value>
+    <value>Khóa phiếu</value>
   </data>
   <data name="BTN_KHONG_DUYET" xml:space="preserve">
-    <value>Do not browse</value>
+    <value>Không duyệt</value>
   </data>
   <data name="BTN_LAP_KE_HOACH_TT" xml:space="preserve">
-    <value>Moving on to the master plan</value>
+    <value>Chuyển qua kế hoạch tổng thể</value>
   </data>
   <data name="BTN_LAP_PHIEU_BAO_TRI" xml:space="preserve">
-    <value>Make a maintenance ticket</value>
+    <value>Lập phiếu bảo trì</value>
   </data>
   <data name="BTN_LUU" xml:space="preserve">
-    <value>Save</value>
+    <value>Lưu</value>
   </data>
   <data name="BTN_LUU_PHU_TUNG" xml:space="preserve">
-    <value>Save spare parts</value>
+    <value>Lưu phụ tùng</value>
   </data>
   <data name="BTN_NO" xml:space="preserve">
-    <value>NO</value>
+    <value>Đóng</value>
   </data>
   <data name="BTN_QUEN_MK" xml:space="preserve">
-    <value>Recover password</value>
+    <value>Lấy lại mật khẩu</value>
   </data>
   <data name="BTN_TAOLAI_MK" xml:space="preserve">
-    <value>Create password</value>
+    <value>Tạo lại mật khẩu</value>
   </data>
   <data name="BTN_THEM" xml:space="preserve">
-    <value>Add</value>
+    <value>Thêm</value>
   </data>
   <data name="BTN_TRANG_CHU" xml:space="preserve">
-    <value>Back to home page</value>
+    <value>Trở về trang chủ</value>
   </data>
   <data name="BTN_XEM_TAI_LIEU" xml:space="preserve">
-    <value>Document Viewer</value>
+    <value>Xem tài liệu</value>
   </data>
   <data name="BTN_XOA" xml:space="preserve">
-    <value>Delete</value>
+    <value>Xóa</value>
   </data>
   <data name="BTN_XOA_CONG_VIEC" xml:space="preserve">
-    <value>Delete job</value>
+    <value>Xóa công việc</value>
   </data>
   <data name="BTN_YES" xml:space="preserve">
-    <value>YES</value>
+    <value>Lưu</value>
   </data>
   <data name="LBL_AN_CHI_TIET" xml:space="preserve">
-    <value>Hide details</value>
+    <value>Ẩn chi tiết</value>
   </data>
   <data name="LBL_BAO_TRI" xml:space="preserve">
-    <value>Maintenance</value>
+    <value>Bảo trì</value>
   </data>
   <data name="LBL_BO_PHAN_CHIEU_PHI" xml:space="preserve">
-    <value>Cost Center</value>
+    <value>Bộ phận CP</value>
   </data>
   <data name="LBL_CA" xml:space="preserve">
-    <value>Shift</value>
+    <value>Ca</value>
   </data>
   <data name="LBL_CACH_PHAN_BO" xml:space="preserve">
-    <value>Allocation Method</value>
+    <value>Cách phân bổ</value>
+  </data>
+  <data name="LBL_CACH_THUC_HIEN" xml:space="preserve">
+    <value>Cách thực hiện</value>
   </data>
   <data name="LBL_CHI_PHI_KHAC" xml:space="preserve">
-    <value>Other Cost</value>
+    <value>Chi phí khác</value>
+  </data>
+  <data name="LBL_CHI_TIET_CV" xml:space="preserve">
+    <value>Chi tiết công việc</value>
+  </data>
+  <data name="LBL_CHON_CONG_VIEC" xml:space="preserve">
+    <value>Chọn công việc</value>
   </data>
   <data name="LBL_CHON_TU_PBT" xml:space="preserve">
-    <value>Select from WO</value>
+    <value>Chọn từ phiếu bảo trì</value>
   </data>
   <data name="LBL_CHUYEN_DEN" xml:space="preserve">
-    <value>Moved to</value>
+    <value>Chuyển đến</value>
   </data>
   <data name="LBL_CHUYEN_DI" xml:space="preserve">
-    <value>Moved from</value>
+    <value>Chuyển đi</value>
   </data>
   <data name="LBL_CONG_VIEC" xml:space="preserve">
-    <value>Job</value>
+    <value>Công việc</value>
   </data>
   <data name="LBL_DANG_NHAP" xml:space="preserve">
-    <value>GR type</value>
+    <value>Dạng nhập</value>
   </data>
   <data name="LBL_DANG_XUAT" xml:space="preserve">
-    <value>GI type</value>
+    <value>Dạng xuất</value>
   </data>
   <data name="LBL_DENGIO" xml:space="preserve">
-    <value>To time</value>
+    <value>Đến giờ</value>
   </data>
   <data name="LBL_DENNGAY" xml:space="preserve">
-    <value>To date</value>
+    <value>Đến ngày</value>
   </data>
   <data name="LBL_DEN_NGAY_GIO" xml:space="preserve">
-    <value>Till date</value>
+    <value>Đến ngày giờ</value>
   </data>
   <data name="LBL_DIA_DIEM" xml:space="preserve">
-    <value>Location</value>
+    <value>Địa điểm</value>
   </data>
   <data name="LBL_DOI_MK" xml:space="preserve">
-    <value>Change password</value>
+    <value>Đổi mật khẩu</value>
   </data>
   <data name="LBL_DON_GIA" xml:space="preserve">
-    <value>Unit Price</value>
+    <value>Đơn giá</value>
   </data>
   <data name="LBL_DON_HANG" xml:space="preserve">
-    <value>PO</value>
+    <value>Đơn hàng</value>
   </data>
   <data name="LBL_DON_VI" xml:space="preserve">
-    <value>Work unit</value>
+    <value>Đơn vị</value>
   </data>
   <data name="LBL_DUYET" xml:space="preserve">
-    <value>Approve</value>
+    <value>Duyệt</value>
   </data>
   <data name="LBL_GHINHAN_THOIGIAN_LAMVIEC" xml:space="preserve">
-    <value>Record Work Time</value>
+    <value>Ghi nhận thời gian làm việc</value>
   </data>
   <data name="LBL_GHI_CHU" xml:space="preserve">
-    <value>Note</value>
+    <value>Ghi chú</value>
   </data>
   <data name="LBL_GIAM_SAT" xml:space="preserve">
-    <value>Monitoring</value>
+    <value>Giám sát</value>
   </data>
   <data name="LBL_HIEN_TRANG_SD_MAY" xml:space="preserve">
-    <value>Machine Condition</value>
+    <value>Hiện Trạng Sử Dụng Máy</value>
   </data>
   <data name="LBL_HUY" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Hủy</value>
   </data>
   <data name="LBL_KHO" xml:space="preserve">
-    <value>Warehouse</value>
+    <value>Kho</value>
   </data>
   <data name="LBL_KHONGCO_DULIEU" xml:space="preserve">
-    <value>No data</value>
+    <value>Không có dữ liệu.</value>
   </data>
   <data name="LBL_LICH_SU_BAO_TRI_THIET_BI" xml:space="preserve">
-    <value>MAINTENANCE HISTORY</value>
+    <value>LỊCH SỬ BẢO TRÌ THIẾT BỊ</value>
   </data>
   <data name="LBL_LOAI_BT" xml:space="preserve">
-    <value>Maintenance type</value>
+    <value>Loại bảo trì</value>
   </data>
   <data name="LBL_LOAI_CP" xml:space="preserve">
-    <value>Cost Type</value>
+    <value>Loại chi phí</value>
   </data>
   <data name="LBL_LOAI_HC" xml:space="preserve">
-    <value>Calibration Type</value>
+    <value>Loại HC</value>
   </data>
   <data name="LBL_LOAI_MAY" xml:space="preserve">
-    <value>Equipment Type</value>
+    <value>Loại thiết bị</value>
   </data>
   <data name="LBL_LUU_DULIEU_DANGNHAP" xml:space="preserve">
-    <value>Save Password</value>
+    <value>Lưu mật khẩu</value>
   </data>
   <data name="LBL_MATKHAU" xml:space="preserve">
-    <value>Password</value>
+    <value>Mật khẩu</value>
   </data>
   <data name="LBL_MAY_CAN_XL" xml:space="preserve">
-    <value>Equipment to be handled</value>
+    <value>Những máy cần xử lý</value>
   </data>
   <data name="LBL_MAY_HONG" xml:space="preserve">
-    <value>Breakdown</value>
+    <value>Máy hỏng</value>
   </data>
   <data name="LBL_MA_BO_PHAN" xml:space="preserve">
-    <value>Component Code</value>
+    <value>Mã bộ phận</value>
   </data>
   <data name="LBL_MA_PHU_TUNG" xml:space="preserve">
-    <value>Spare Part Code</value>
+    <value>Mã phụ tùng</value>
   </data>
   <data name="LBL_MA_THIET_BI" xml:space="preserve">
-    <value>Machine Code</value>
+    <value>Mã thiết bị</value>
   </data>
   <data name="LBL_MO_TA_TINH_TRANG" xml:space="preserve">
-    <value>Machine Status Description</value>
+    <value>Mô tả tình trạng</value>
   </data>
   <data name="LBL_MS_PHIEU_NHAP" xml:space="preserve">
-    <value>GI Code</value>
+    <value>MS phiếu nhập</value>
   </data>
   <data name="LBL_MS_PHIEU_XUAT" xml:space="preserve">
-    <value>GR Code</value>
+    <value>MS phiếu xuất</value>
   </data>
   <data name="LBL_MS_PT" xml:space="preserve">
-    <value>Spare Part Code</value>
+    <value>Mã VTPT</value>
   </data>
   <data name="LBL_NGAY" xml:space="preserve">
-    <value>Date</value>
+    <value>Ngày</value>
   </data>
   <data name="LBL_NGAY_CHUNG_TU" xml:space="preserve">
-    <value>Document Date</value>
+    <value>Ngày chứng từ</value>
   </data>
   <data name="LBL_NGAY_DUYET" xml:space="preserve">
-    <value>Approval date</value>
+    <value>Ngày duyệt</value>
   </data>
   <data name="LBL_NGAY_KT" xml:space="preserve">
-    <value>End date</value>
+    <value>Ngày KT</value>
   </data>
   <data name="LBL_NGAY_NHAP" xml:space="preserve">
-    <value>Receipt Date</value>
+    <value>Ngày nhập</value>
   </data>
   <data name="LBL_NGAY_TIEP_NHAN" xml:space="preserve">
-    <value>Receive date</value>
+    <value>Ngày tiếp nhận</value>
   </data>
   <data name="LBL_NGAY_XAY_RA" xml:space="preserve">
-    <value>Breakdown Time</value>
+    <value>Thời gian hỏng</value>
   </data>
   <data name="LBL_NGAY_XUAT" xml:space="preserve">
-    <value>Issue Date</value>
+    <value>Ngày xuất</value>
   </data>
   <data name="LBL_NGAY_YC" xml:space="preserve">
-    <value>Request Date</value>
+    <value>Ngày YC</value>
   </data>
   <data name="LBL_NGHIEM_THU" xml:space="preserve">
-    <value>Acceptance</value>
+    <value>Nghiệm thu</value>
   </data>
   <data name="LBL_NGUOI_NHAN" xml:space="preserve">
-    <value>Receiver</value>
+    <value>Người/Cty nhận</value>
   </data>
   <data name="LBL_NGUOI_NHAP" xml:space="preserve">
-    <value>Importer</value>
+    <value>Người nhập</value>
   </data>
   <data name="LBL_NGUOI_THUC_HIEN" xml:space="preserve">
-    <value>Executor</value>
+    <value>Người thực hiện</value>
   </data>
   <data name="LBL_NGUOI_YEU_CAU" xml:space="preserve">
-    <value>Requester</value>
+    <value>Người yêu cầu</value>
   </data>
   <data name="LBL_NGUYEN_NHAN" xml:space="preserve">
-    <value>Reason</value>
+    <value>Nguyên nhân</value>
   </data>
   <data name="LBL_NHAPLAI_MK_MOI" xml:space="preserve">
-    <value>Reinput New Password</value>
+    <value>Nhập lại mật khẩu mới</value>
   </data>
   <data name="LBL_NHAP_MK_MOI" xml:space="preserve">
-    <value>New Password</value>
+    <value>Mật khẩu mới</value>
   </data>
   <data name="LBL_NHAP_TRONG_KY" xml:space="preserve">
-    <value>Received in Period</value>
+    <value>Nhập trong kỳ</value>
   </data>
   <data name="LBL_NOI_CHUYEN_DEN" xml:space="preserve">
-    <value>Moved to</value>
+    <value>Nơi chuyển đến</value>
   </data>
   <data name="LBL_NOI_CHUYEN_DI" xml:space="preserve">
-    <value>Moved from</value>
+    <value>Nơi chuyển đi</value>
   </data>
   <data name="LBL_NOI_DUNG_YC" xml:space="preserve">
-    <value>Request Content</value>
+    <value>Nội dung yêu cầu</value>
   </data>
   <data name="LBL_PHANTICH_HUHONG" xml:space="preserve">
-    <value>Failure Analysis</value>
+    <value>Phân tích hư hỏng &amp; TGNM</value>
   </data>
   <data name="LBL_PHAN_TICH_HU_HONG" xml:space="preserve">
-    <value>Damage analysis by object</value>
+    <value>Phân tích hư hỏng theo đối tượng</value>
   </data>
   <data name="LBL_PHIEU_BAO_TRI" xml:space="preserve">
-    <value>Work Order</value>
+    <value>Phiếu bảo trì</value>
   </data>
   <data name="LBL_PHONG_BAN" xml:space="preserve">
-    <value>Department</value>
+    <value>Phòng ban</value>
   </data>
   <data name="LBL_PHU_TUNG" xml:space="preserve">
-    <value>Accessary</value>
+    <value>Phụ tùng</value>
   </data>
   <data name="LBL_QUEN_MK" xml:space="preserve">
-    <value>Forget Password</value>
+    <value>Quên mật khẩu?</value>
   </data>
   <data name="LBL_SCAN_PHU_TUNG" xml:space="preserve">
-    <value>Scan Spare Part</value>
+    <value>Scan phụ tùng</value>
   </data>
   <data name="LBL_SCAN_VT_PT" xml:space="preserve">
-    <value>Scan Spare Part</value>
+    <value>Scan VTPT</value>
   </data>
   <data name="LBL_SEARCH" xml:space="preserve">
-    <value>Search</value>
+    <value>Tìm kiếm</value>
   </data>
   <data name="LBL_SL_KHA_DUNG" xml:space="preserve">
-    <value>Available Qty</value>
+    <value>SL khả dụng</value>
   </data>
   <data name="LBL_SL_THAY_THE" xml:space="preserve">
-    <value>Replacement Qty</value>
+    <value>Số lượng thay thế</value>
   </data>
   <data name="LBL_SL_TON_KHO" xml:space="preserve">
-    <value>Stock Qty</value>
+    <value>SL tồn kho</value>
   </data>
   <data name="LBL_SL_TREN_BT" xml:space="preserve">
-    <value>Qty in WO</value>
+    <value>SL trên PBT</value>
   </data>
   <data name="LBL_SO_CHUNG_TU" xml:space="preserve">
-    <value>Doc Qty</value>
+    <value>Số chứng từ</value>
   </data>
   <data name="LBL_SO_LUONG" xml:space="preserve">
-    <value>Qty</value>
+    <value>Số lượng</value>
   </data>
   <data name="LBL_SO_NGAY" xml:space="preserve">
-    <value>Number of days</value>
+    <value>Số ngày</value>
   </data>
   <data name="LBL_SO_TIEN" xml:space="preserve">
-    <value>Amount</value>
+    <value>Số tiền</value>
   </data>
   <data name="LBL_TAOLAI_MK" xml:space="preserve">
-    <value>Change Password</value>
+    <value>Tạo lại mật khẩu</value>
   </data>
   <data name="LBL_TAT_CA" xml:space="preserve">
-    <value>All</value>
+    <value>Tất cả</value>
   </data>
   <data name="LBL_TEN_CV" xml:space="preserve">
-    <value>Task Name</value>
+    <value>Tên công việc</value>
   </data>
   <data name="LBL_TEN_DANG_NHAP" xml:space="preserve">
-    <value>User Name</value>
+    <value>Tên đăng nhập</value>
   </data>
   <data name="LBL_TEN_DVT" xml:space="preserve">
-    <value>UoM</value>
+    <value>Đơn vị tính</value>
   </data>
   <data name="LBL_TEN_PT" xml:space="preserve">
-    <value>Spare Part Name</value>
+    <value>Tên VTPT</value>
   </data>
   <data name="LBL_THEM_CONGVIEC_BAOTRI" xml:space="preserve">
-    <value>Add Maintennance Task</value>
+    <value>Thêm công việc bảo trì</value>
+  </data>
+  <data name="LBL_THEM_CONG_VIEC" xml:space="preserve">
+    <value>Thêm công việc</value>
   </data>
   <data name="LBL_THEM_HINH" xml:space="preserve">
-    <value>Add image</value>
+    <value>Thêm hình</value>
   </data>
   <data name="LBL_THEM_PHUTUNG" xml:space="preserve">
-    <value>Add Spare Part</value>
+    <value>Thêm vật tư phụ tùng  </value>
   </data>
   <data name="LBL_THIET_BI" xml:space="preserve">
-    <value>Equipment</value>
+    <value>Thiết bị</value>
+  </data>
+  <data name="LBL_THOI_GIAN_CHUAN" xml:space="preserve">
+    <value>Thời gian chuẩn(phút)</value>
   </data>
   <data name="LBL_THOI_GIAN_NGUNG_MAY" xml:space="preserve">
-    <value>Machine downtime</value>
+    <value>Thời gian ngừng máy</value>
   </data>
   <data name="LBL_THONG_SO_DH" xml:space="preserve">
-    <value>Due Parametter</value>
+    <value>Những thông số đến hạn</value>
   </data>
   <data name="LBL_THONG_TIN_NGUOI_DUNG" xml:space="preserve">
-    <value>User Information</value>
+    <value>Thông Tin Người Dùng</value>
   </data>
   <data name="LBL_TIEN_TE" xml:space="preserve">
-    <value>Currency</value>
+    <value>Tiền tệ</value>
+  </data>
+  <data name="LBL_TIEU_CHUAN_KTRA" xml:space="preserve">
+    <value>Tiêu chuẩn kiểm tra</value>
   </data>
   <data name="LBL_TINH_TRANG" xml:space="preserve">
-    <value>Condition</value>
+    <value>Tình trạng</value>
   </data>
   <data name="LBL_TINH_TRANG_PBT" xml:space="preserve">
-    <value>WO Status</value>
+    <value>Tình Trạng Phiếu Bảo Trì</value>
   </data>
   <data name="LBL_TINH_TRANG_THIET_BI" xml:space="preserve">
-    <value>Equipment Status</value>
+    <value>Tình Trang Thiết Bị</value>
   </data>
   <data name="LBL_TO" xml:space="preserve">
-    <value>Team</value>
+    <value>Tổ</value>
   </data>
   <data name="LBL_TON_CUOI_KY" xml:space="preserve">
-    <value>Stock in Beginning</value>
+    <value>Tồn cuối kỳ</value>
   </data>
   <data name="LBL_TON_DAU_KY" xml:space="preserve">
-    <value>Stock in End</value>
+    <value>Tồn đầu kỳ</value>
   </data>
   <data name="LBL_TT_PHU_TUNG" xml:space="preserve">
-    <value>Spare Part Replacement</value>
+    <value>Thay thế phụ tùng</value>
   </data>
   <data name="LBL_TT_SAU_BT" xml:space="preserve">
-    <value>Status after Maintenance</value>
+    <value>Tình trạng sau bảo trì</value>
   </data>
   <data name="LBL_TUNGAY" xml:space="preserve">
-    <value>From Date</value>
+    <value>Từ ngày</value>
   </data>
   <data name="LBL_TU_NGAY_GIO" xml:space="preserve">
-    <value>From date and time</value>
+    <value>Từ ngày giờ</value>
   </data>
   <data name="LBL_UU_TIEN" xml:space="preserve">
-    <value>Priority</value>
+    <value>Mức độ khẩn cấp</value>
   </data>
   <data name="LBL_VAT" xml:space="preserve">
-    <value>%VAT</value>
+    <value>% Vat</value>
   </data>
   <data name="LBL_VI_TRI" xml:space="preserve">
-    <value>Location</value>
+    <value>Vị trí</value>
   </data>
   <data name="LBL_XEM_TON_KHO" xml:space="preserve">
-    <value>View Inventory</value>
+    <value>Xem tồn kho</value>
   </data>
   <data name="LBL_XEM_VA_NHAP_TGNM" xml:space="preserve">
-    <value>View and enter downtime</value>
+    <value>Xem và nhập thời gian ngừng máy</value>
   </data>
   <data name="LBL_XUAT_TRONG_KY" xml:space="preserve">
-    <value>Issued in Period</value>
+    <value>Xuất trong kỳ</value>
   </data>
   <data name="LBL_YEU_CAU" xml:space="preserve">
-    <value>Request</value>
+    <value>Yêu cầu</value>
+  </data>
+  <data name="LBL_YEU_CAU_DC" xml:space="preserve">
+    <value>Yêu cầu dụng cụ</value>
+  </data>
+  <data name="LBL_YEU_CAU_NS" xml:space="preserve">
+    <value>Yêu cầu nhân sự</value>
   </data>
   <data name="MNU_BC_NHAP_XUAT_TON" xml:space="preserve">
-    <value>Inventory Transaction Report</value>
+    <value>Báo cáo xuất nhập tồn</value>
   </data>
   <data name="MNU_DASHBOARD" xml:space="preserve">
     <value>Dashboard</value>
   </data>
   <data name="MNU_DI_CHUYEN_TB" xml:space="preserve">
-    <value>Equipment Movement</value>
+    <value>Di chuyển thiết bị</value>
   </data>
   <data name="MNU_KIEM_KE" xml:space="preserve">
-    <value>Equipment Counting</value>
+    <value>Kiểm kê thiết bị</value>
   </data>
   <data name="MNU_LICH_SU_TB" xml:space="preserve">
-    <value>Maintenance History</value>
+    <value>Lịch sử bảo trì thiết bị</value>
   </data>
   <data name="MNU_MY_ECOMAINT" xml:space="preserve">
     <value>My Ecomaint</value>
   </data>
   <data name="MNU_NGHIEM_THU_PBT" xml:space="preserve">
-    <value>WO Acceptance</value>
+    <value>Nghiệm thu phiếu bảo trì</value>
   </data>
   <data name="MNU_NHAP_KHO" xml:space="preserve">
-    <value>Goods Receipt</value>
+    <value>Nhập kho</value>
   </data>
   <data name="MNU_THEO_DOI_YC" xml:space="preserve">
-    <value>Maintennance Request Follow up</value>
+    <value>Theo dõi yêu cầu bảo trì</value>
   </data>
   <data name="MNU_XUAT_KHO" xml:space="preserve">
-    <value>Goods Issue</value>
+    <value>Xuất kho</value>
   </data>
   <data name="TITLE_BC_XUAT_NHAP_TON" xml:space="preserve">
-    <value>INVENTORY TRANSACTION REPORT</value>
+    <value>BÁO CÁO XUẤT NHẬP TỒN</value>
   </data>
   <data name="TITLE_CHON_HINH_GIAM_SAT" xml:space="preserve">
-    <value>Select picture</value>
+    <value>Chọn hình cho giám sát</value>
   </data>
   <data name="TITLE_CONGTY" xml:space="preserve">
     <value>VietSoft</value>
@@ -568,69 +592,72 @@
     <value>DASHBOARD</value>
   </data>
   <data name="TITLE_DOI_MK" xml:space="preserve">
-    <value>Change password</value>
+    <value>Đổi mật khẩu</value>
   </data>
   <data name="TITLE_DS_PHIEU_NHAP_KHO" xml:space="preserve">
-    <value>LIST OF GOODS RECEIPTS</value>
+    <value>DANH SÁCH PHIẾU NHẬP KHO</value>
   </data>
   <data name="TITLE_DS_PHIEU_XUAT_KHO" xml:space="preserve">
-    <value>LIST OF GOODS ISSUE</value>
+    <value>DANH SÁCH PHIẾU XUẤT KHO</value>
   </data>
   <data name="TITLE_DUYET_YC" xml:space="preserve">
-    <value>Browse requests</value>
+    <value>Duyệt yêu cầu</value>
   </data>
   <data name="TITLE_KHONG_DUYET_YC" xml:space="preserve">
-    <value>Request not approved</value>
+    <value>Không duyệt yêu cầu</value>
   </data>
   <data name="TITLE_KHONG_TIEP_NHAN_YC" xml:space="preserve">
-    <value>Requests are not accepted</value>
+    <value>Không tiếp nhận yêu cầu</value>
   </data>
   <data name="TITLE_KIEM_KE_THIET_BI" xml:space="preserve">
-    <value>DEVICE INSPECTION</value>
+    <value>KIỂM KÊ THIẾT BỊ</value>
   </data>
   <data name="TITLE_LICH_SU_YEU_CAU_BAO_TRI" xml:space="preserve">
-    <value>MAINTENNANCE HISTORY</value>
+    <value>LỊCH SỬ YÊU CẦU BẢO TRÌ</value>
   </data>
   <data name="TITLE_LOGIN" xml:space="preserve">
-    <value>Log in</value>
+    <value>Đăng nhập</value>
   </data>
   <data name="TITLE_MY_ECOMAIN" xml:space="preserve">
     <value>MY ECOMAINT</value>
   </data>
   <data name="TITLE_NGHIEM_THU_PBT" xml:space="preserve">
-    <value>WO ACCEPTANCE</value>
+    <value>NGHIỆM THU PHIẾU BẢO TRÌ</value>
   </data>
   <data name="TITLE_NGHIEM_THU_PHIEU_BAO_TRI" xml:space="preserve">
-    <value>Acceptance of maintenance vouchers</value>
+    <value>Nghiệm thu phiếu bảo trì</value>
   </data>
   <data name="TITLE_NHAP_CHI_PHI" xml:space="preserve">
-    <value>Input Landed Cost</value>
+    <value>Nhập chi phí mua hàng</value>
   </data>
   <data name="TITLE_NHAP_VI_TRI_VTPT" xml:space="preserve">
-    <value>Input Location</value>
+    <value>Nhập vị trí VTPT</value>
   </data>
   <data name="TITLE_PHIEU_BAO_TRI" xml:space="preserve">
-    <value>WORD ORDER</value>
+    <value>PHIẾU BẢO TRÌ</value>
   </data>
   <data name="TITLE_PHIEU_NHAP_KHO" xml:space="preserve">
-    <value>GOODS RECEIPT</value>
+    <value>PHIẾU NHẬP KHO</value>
   </data>
   <data name="TITLE_PHIEU_XUAT_KHO" xml:space="preserve">
-    <value>GOODS ISSUE</value>
+    <value>PHIẾU XUẤT KHO</value>
   </data>
   <data name="TITLE_QUEN_MK" xml:space="preserve">
-    <value>Forget Password</value>
+    <value>Quên mật khẩu</value>
   </data>
   <data name="TITLE_TAOLAI_MK" xml:space="preserve">
-    <value>Create New Passowrd</value>
+    <value>Tạo lại mật khẩu</value>
+  </data>
+  <data name="TITLE_THEM_CONG_VIEC_CAU_TRUC" xml:space="preserve">
+    <value>Thêm công việc cấu trúc</value>
   </data>
   <data name="TITLE_THEN_NGUOI_THUC_HIEN" xml:space="preserve">
-    <value>More implementers</value>
+    <value>Thêm người thực hiện</value>
   </data>
   <data name="TITLE_THONG_TIN_PBT" xml:space="preserve">
-    <value>Information of maintenance ticket</value>
+    <value>Thông tin phiếu bảo trì</value>
   </data>
   <data name="TITLE_YEU_CAU_BT" xml:space="preserve">
-    <value>MAINTENANCE REQUEST</value>
+    <value>YÊU CẦU BẢO TRÌ</value>
   </data>
 </root>

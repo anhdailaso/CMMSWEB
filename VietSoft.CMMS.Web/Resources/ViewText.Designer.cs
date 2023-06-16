@@ -61,7 +61,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Skip.
+        ///   Looks up a localized string similar to Bỏ qua.
         /// </summary>
         public static string BTN_BO_QUA {
             get {
@@ -70,7 +70,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to LOG IN.
+        ///   Looks up a localized string similar to ĐĂNG NHẬP.
         /// </summary>
         public static string BTN_DANGNHAP {
             get {
@@ -79,7 +79,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Log out.
+        ///   Looks up a localized string similar to Đăng xuất.
         /// </summary>
         public static string BTN_DANGXUAT {
             get {
@@ -88,7 +88,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change password.
+        ///   Looks up a localized string similar to Đổi mật khẩu.
         /// </summary>
         public static string BTN_DOI_MK {
             get {
@@ -97,7 +97,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Close.
+        ///   Looks up a localized string similar to Đóng.
         /// </summary>
         public static string BTN_DONG {
             get {
@@ -106,7 +106,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Browse votes.
+        ///   Looks up a localized string similar to Duyệt phiếu.
         /// </summary>
         public static string BTN_DUYET {
             get {
@@ -115,7 +115,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Complete the WO.
+        ///   Looks up a localized string similar to Hoàn thành phiếu.
         /// </summary>
         public static string BTN_HOAN_THANH_PBT {
             get {
@@ -124,7 +124,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Print QRCode.
+        ///   Looks up a localized string similar to In QRCode.
         /// </summary>
         public static string BTN_IN_QR {
             get {
@@ -133,7 +133,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lock.
+        ///   Looks up a localized string similar to Khóa phiếu.
         /// </summary>
         public static string BTN_KHOA {
             get {
@@ -142,7 +142,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do not browse.
+        ///   Looks up a localized string similar to Không duyệt.
         /// </summary>
         public static string BTN_KHONG_DUYET {
             get {
@@ -151,7 +151,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Moving on to the master plan.
+        ///   Looks up a localized string similar to Chuyển qua kế hoạch tổng thể.
         /// </summary>
         public static string BTN_LAP_KE_HOACH_TT {
             get {
@@ -160,7 +160,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Make a maintenance ticket.
+        ///   Looks up a localized string similar to Lập phiếu bảo trì.
         /// </summary>
         public static string BTN_LAP_PHIEU_BAO_TRI {
             get {
@@ -169,7 +169,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save.
+        ///   Looks up a localized string similar to Lưu.
         /// </summary>
         public static string BTN_LUU {
             get {
@@ -178,7 +178,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save spare parts.
+        ///   Looks up a localized string similar to Lưu phụ tùng.
         /// </summary>
         public static string BTN_LUU_PHU_TUNG {
             get {
@@ -187,7 +187,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NO.
+        ///   Looks up a localized string similar to Đóng.
         /// </summary>
         public static string BTN_NO {
             get {
@@ -196,7 +196,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Recover password.
+        ///   Looks up a localized string similar to Lấy lại mật khẩu.
         /// </summary>
         public static string BTN_QUEN_MK {
             get {
@@ -205,7 +205,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create password.
+        ///   Looks up a localized string similar to Tạo lại mật khẩu.
         /// </summary>
         public static string BTN_TAOLAI_MK {
             get {
@@ -214,7 +214,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add.
+        ///   Looks up a localized string similar to Thêm.
         /// </summary>
         public static string BTN_THEM {
             get {
@@ -223,7 +223,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Back to home page.
+        ///   Looks up a localized string similar to Trở về trang chủ.
         /// </summary>
         public static string BTN_TRANG_CHU {
             get {
@@ -232,7 +232,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Document Viewer.
+        ///   Looks up a localized string similar to Xem tài liệu.
         /// </summary>
         public static string BTN_XEM_TAI_LIEU {
             get {
@@ -241,7 +241,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete.
+        ///   Looks up a localized string similar to Xóa.
         /// </summary>
         public static string BTN_XOA {
             get {
@@ -250,7 +250,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete job.
+        ///   Looks up a localized string similar to Xóa công việc.
         /// </summary>
         public static string BTN_XOA_CONG_VIEC {
             get {
@@ -259,7 +259,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to YES.
+        ///   Looks up a localized string similar to Lưu.
         /// </summary>
         public static string BTN_YES {
             get {
@@ -268,7 +268,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hide details.
+        ///   Looks up a localized string similar to Ẩn chi tiết.
         /// </summary>
         public static string LBL_AN_CHI_TIET {
             get {
@@ -277,7 +277,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Maintenance.
+        ///   Looks up a localized string similar to Bảo trì.
         /// </summary>
         public static string LBL_BAO_TRI {
             get {
@@ -286,7 +286,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cost Center.
+        ///   Looks up a localized string similar to Bộ phận CP.
         /// </summary>
         public static string LBL_BO_PHAN_CHIEU_PHI {
             get {
@@ -295,7 +295,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Shift.
+        ///   Looks up a localized string similar to Ca.
         /// </summary>
         public static string LBL_CA {
             get {
@@ -304,7 +304,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Allocation Method.
+        ///   Looks up a localized string similar to Cách phân bổ.
         /// </summary>
         public static string LBL_CACH_PHAN_BO {
             get {
@@ -313,7 +313,16 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Other Cost.
+        ///   Looks up a localized string similar to Cách thực hiện.
+        /// </summary>
+        public static string LBL_CACH_THUC_HIEN {
+            get {
+                return ResourceManager.GetString("LBL_CACH_THUC_HIEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chi phí khác.
         /// </summary>
         public static string LBL_CHI_PHI_KHAC {
             get {
@@ -322,7 +331,25 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select from WO.
+        ///   Looks up a localized string similar to Chi tiết công việc.
+        /// </summary>
+        public static string LBL_CHI_TIET_CV {
+            get {
+                return ResourceManager.GetString("LBL_CHI_TIET_CV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chọn công việc.
+        /// </summary>
+        public static string LBL_CHON_CONG_VIEC {
+            get {
+                return ResourceManager.GetString("LBL_CHON_CONG_VIEC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chọn từ phiếu bảo trì.
         /// </summary>
         public static string LBL_CHON_TU_PBT {
             get {
@@ -331,7 +358,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Moved to.
+        ///   Looks up a localized string similar to Chuyển đến.
         /// </summary>
         public static string LBL_CHUYEN_DEN {
             get {
@@ -340,7 +367,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Moved from.
+        ///   Looks up a localized string similar to Chuyển đi.
         /// </summary>
         public static string LBL_CHUYEN_DI {
             get {
@@ -349,7 +376,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Job.
+        ///   Looks up a localized string similar to Công việc.
         /// </summary>
         public static string LBL_CONG_VIEC {
             get {
@@ -358,7 +385,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GR type.
+        ///   Looks up a localized string similar to Dạng nhập.
         /// </summary>
         public static string LBL_DANG_NHAP {
             get {
@@ -367,7 +394,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GI type.
+        ///   Looks up a localized string similar to Dạng xuất.
         /// </summary>
         public static string LBL_DANG_XUAT {
             get {
@@ -376,7 +403,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Till date.
+        ///   Looks up a localized string similar to Đến ngày giờ.
         /// </summary>
         public static string LBL_DEN_NGAY_GIO {
             get {
@@ -385,7 +412,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To time.
+        ///   Looks up a localized string similar to Đến giờ.
         /// </summary>
         public static string LBL_DENGIO {
             get {
@@ -394,7 +421,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To date.
+        ///   Looks up a localized string similar to Đến ngày.
         /// </summary>
         public static string LBL_DENNGAY {
             get {
@@ -403,7 +430,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Location.
+        ///   Looks up a localized string similar to Địa điểm.
         /// </summary>
         public static string LBL_DIA_DIEM {
             get {
@@ -412,7 +439,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change password.
+        ///   Looks up a localized string similar to Đổi mật khẩu.
         /// </summary>
         public static string LBL_DOI_MK {
             get {
@@ -421,7 +448,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unit Price.
+        ///   Looks up a localized string similar to Đơn giá.
         /// </summary>
         public static string LBL_DON_GIA {
             get {
@@ -430,7 +457,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to PO.
+        ///   Looks up a localized string similar to Đơn hàng.
         /// </summary>
         public static string LBL_DON_HANG {
             get {
@@ -439,7 +466,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Work unit.
+        ///   Looks up a localized string similar to Đơn vị.
         /// </summary>
         public static string LBL_DON_VI {
             get {
@@ -448,7 +475,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Approve.
+        ///   Looks up a localized string similar to Duyệt.
         /// </summary>
         public static string LBL_DUYET {
             get {
@@ -457,7 +484,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Note.
+        ///   Looks up a localized string similar to Ghi chú.
         /// </summary>
         public static string LBL_GHI_CHU {
             get {
@@ -466,7 +493,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Record Work Time.
+        ///   Looks up a localized string similar to Ghi nhận thời gian làm việc.
         /// </summary>
         public static string LBL_GHINHAN_THOIGIAN_LAMVIEC {
             get {
@@ -475,7 +502,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Monitoring.
+        ///   Looks up a localized string similar to Giám sát.
         /// </summary>
         public static string LBL_GIAM_SAT {
             get {
@@ -484,7 +511,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Machine Condition.
+        ///   Looks up a localized string similar to Hiện Trạng Sử Dụng Máy.
         /// </summary>
         public static string LBL_HIEN_TRANG_SD_MAY {
             get {
@@ -493,7 +520,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cancel.
+        ///   Looks up a localized string similar to Hủy.
         /// </summary>
         public static string LBL_HUY {
             get {
@@ -502,7 +529,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Warehouse.
+        ///   Looks up a localized string similar to Kho.
         /// </summary>
         public static string LBL_KHO {
             get {
@@ -511,7 +538,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No data.
+        ///   Looks up a localized string similar to Không có dữ liệu..
         /// </summary>
         public static string LBL_KHONGCO_DULIEU {
             get {
@@ -520,7 +547,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MAINTENANCE HISTORY.
+        ///   Looks up a localized string similar to LỊCH SỬ BẢO TRÌ THIẾT BỊ.
         /// </summary>
         public static string LBL_LICH_SU_BAO_TRI_THIET_BI {
             get {
@@ -529,7 +556,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Maintenance type.
+        ///   Looks up a localized string similar to Loại bảo trì.
         /// </summary>
         public static string LBL_LOAI_BT {
             get {
@@ -538,7 +565,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cost Type.
+        ///   Looks up a localized string similar to Loại chi phí.
         /// </summary>
         public static string LBL_LOAI_CP {
             get {
@@ -547,7 +574,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Calibration Type.
+        ///   Looks up a localized string similar to Loại HC.
         /// </summary>
         public static string LBL_LOAI_HC {
             get {
@@ -556,7 +583,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Equipment Type.
+        ///   Looks up a localized string similar to Loại thiết bị.
         /// </summary>
         public static string LBL_LOAI_MAY {
             get {
@@ -565,7 +592,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save Password.
+        ///   Looks up a localized string similar to Lưu mật khẩu.
         /// </summary>
         public static string LBL_LUU_DULIEU_DANGNHAP {
             get {
@@ -574,7 +601,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Component Code.
+        ///   Looks up a localized string similar to Mã bộ phận.
         /// </summary>
         public static string LBL_MA_BO_PHAN {
             get {
@@ -583,7 +610,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Spare Part Code.
+        ///   Looks up a localized string similar to Mã phụ tùng.
         /// </summary>
         public static string LBL_MA_PHU_TUNG {
             get {
@@ -592,7 +619,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Machine Code.
+        ///   Looks up a localized string similar to Mã thiết bị.
         /// </summary>
         public static string LBL_MA_THIET_BI {
             get {
@@ -601,7 +628,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Password.
+        ///   Looks up a localized string similar to Mật khẩu.
         /// </summary>
         public static string LBL_MATKHAU {
             get {
@@ -610,7 +637,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Equipment to be handled.
+        ///   Looks up a localized string similar to Những máy cần xử lý.
         /// </summary>
         public static string LBL_MAY_CAN_XL {
             get {
@@ -619,7 +646,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Breakdown.
+        ///   Looks up a localized string similar to Máy hỏng.
         /// </summary>
         public static string LBL_MAY_HONG {
             get {
@@ -628,7 +655,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Machine Status Description.
+        ///   Looks up a localized string similar to Mô tả tình trạng.
         /// </summary>
         public static string LBL_MO_TA_TINH_TRANG {
             get {
@@ -637,7 +664,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GI Code.
+        ///   Looks up a localized string similar to MS phiếu nhập.
         /// </summary>
         public static string LBL_MS_PHIEU_NHAP {
             get {
@@ -646,7 +673,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GR Code.
+        ///   Looks up a localized string similar to MS phiếu xuất.
         /// </summary>
         public static string LBL_MS_PHIEU_XUAT {
             get {
@@ -655,7 +682,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Spare Part Code.
+        ///   Looks up a localized string similar to Mã VTPT.
         /// </summary>
         public static string LBL_MS_PT {
             get {
@@ -664,7 +691,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Date.
+        ///   Looks up a localized string similar to Ngày.
         /// </summary>
         public static string LBL_NGAY {
             get {
@@ -673,7 +700,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Document Date.
+        ///   Looks up a localized string similar to Ngày chứng từ.
         /// </summary>
         public static string LBL_NGAY_CHUNG_TU {
             get {
@@ -682,7 +709,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Approval date.
+        ///   Looks up a localized string similar to Ngày duyệt.
         /// </summary>
         public static string LBL_NGAY_DUYET {
             get {
@@ -691,7 +718,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to End date.
+        ///   Looks up a localized string similar to Ngày KT.
         /// </summary>
         public static string LBL_NGAY_KT {
             get {
@@ -700,7 +727,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Receipt Date.
+        ///   Looks up a localized string similar to Ngày nhập.
         /// </summary>
         public static string LBL_NGAY_NHAP {
             get {
@@ -709,7 +736,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Receive date.
+        ///   Looks up a localized string similar to Ngày tiếp nhận.
         /// </summary>
         public static string LBL_NGAY_TIEP_NHAN {
             get {
@@ -718,7 +745,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Breakdown Time.
+        ///   Looks up a localized string similar to Thời gian hỏng.
         /// </summary>
         public static string LBL_NGAY_XAY_RA {
             get {
@@ -727,7 +754,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Issue Date.
+        ///   Looks up a localized string similar to Ngày xuất.
         /// </summary>
         public static string LBL_NGAY_XUAT {
             get {
@@ -736,7 +763,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Request Date.
+        ///   Looks up a localized string similar to Ngày YC.
         /// </summary>
         public static string LBL_NGAY_YC {
             get {
@@ -745,7 +772,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Acceptance.
+        ///   Looks up a localized string similar to Nghiệm thu.
         /// </summary>
         public static string LBL_NGHIEM_THU {
             get {
@@ -754,7 +781,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Receiver.
+        ///   Looks up a localized string similar to Người/Cty nhận.
         /// </summary>
         public static string LBL_NGUOI_NHAN {
             get {
@@ -763,7 +790,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Importer.
+        ///   Looks up a localized string similar to Người nhập.
         /// </summary>
         public static string LBL_NGUOI_NHAP {
             get {
@@ -772,7 +799,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Executor.
+        ///   Looks up a localized string similar to Người thực hiện.
         /// </summary>
         public static string LBL_NGUOI_THUC_HIEN {
             get {
@@ -781,7 +808,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Requester.
+        ///   Looks up a localized string similar to Người yêu cầu.
         /// </summary>
         public static string LBL_NGUOI_YEU_CAU {
             get {
@@ -790,7 +817,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reason.
+        ///   Looks up a localized string similar to Nguyên nhân.
         /// </summary>
         public static string LBL_NGUYEN_NHAN {
             get {
@@ -799,7 +826,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New Password.
+        ///   Looks up a localized string similar to Mật khẩu mới.
         /// </summary>
         public static string LBL_NHAP_MK_MOI {
             get {
@@ -808,7 +835,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Received in Period.
+        ///   Looks up a localized string similar to Nhập trong kỳ.
         /// </summary>
         public static string LBL_NHAP_TRONG_KY {
             get {
@@ -817,7 +844,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reinput New Password.
+        ///   Looks up a localized string similar to Nhập lại mật khẩu mới.
         /// </summary>
         public static string LBL_NHAPLAI_MK_MOI {
             get {
@@ -826,7 +853,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Moved to.
+        ///   Looks up a localized string similar to Nơi chuyển đến.
         /// </summary>
         public static string LBL_NOI_CHUYEN_DEN {
             get {
@@ -835,7 +862,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Moved from.
+        ///   Looks up a localized string similar to Nơi chuyển đi.
         /// </summary>
         public static string LBL_NOI_CHUYEN_DI {
             get {
@@ -844,7 +871,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Request Content.
+        ///   Looks up a localized string similar to Nội dung yêu cầu.
         /// </summary>
         public static string LBL_NOI_DUNG_YC {
             get {
@@ -853,7 +880,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Damage analysis by object.
+        ///   Looks up a localized string similar to Phân tích hư hỏng theo đối tượng.
         /// </summary>
         public static string LBL_PHAN_TICH_HU_HONG {
             get {
@@ -862,7 +889,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failure Analysis.
+        ///   Looks up a localized string similar to Phân tích hư hỏng &amp; TGNM.
         /// </summary>
         public static string LBL_PHANTICH_HUHONG {
             get {
@@ -871,7 +898,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Work Order.
+        ///   Looks up a localized string similar to Phiếu bảo trì.
         /// </summary>
         public static string LBL_PHIEU_BAO_TRI {
             get {
@@ -880,7 +907,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Department.
+        ///   Looks up a localized string similar to Phòng ban.
         /// </summary>
         public static string LBL_PHONG_BAN {
             get {
@@ -889,7 +916,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessary.
+        ///   Looks up a localized string similar to Phụ tùng.
         /// </summary>
         public static string LBL_PHU_TUNG {
             get {
@@ -898,7 +925,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Forget Password.
+        ///   Looks up a localized string similar to Quên mật khẩu?.
         /// </summary>
         public static string LBL_QUEN_MK {
             get {
@@ -907,7 +934,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Scan Spare Part.
+        ///   Looks up a localized string similar to Scan phụ tùng.
         /// </summary>
         public static string LBL_SCAN_PHU_TUNG {
             get {
@@ -916,7 +943,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Scan Spare Part.
+        ///   Looks up a localized string similar to Scan VTPT.
         /// </summary>
         public static string LBL_SCAN_VT_PT {
             get {
@@ -925,7 +952,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search.
+        ///   Looks up a localized string similar to Tìm kiếm.
         /// </summary>
         public static string LBL_SEARCH {
             get {
@@ -934,7 +961,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Available Qty.
+        ///   Looks up a localized string similar to SL khả dụng.
         /// </summary>
         public static string LBL_SL_KHA_DUNG {
             get {
@@ -943,7 +970,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Replacement Qty.
+        ///   Looks up a localized string similar to Số lượng thay thế.
         /// </summary>
         public static string LBL_SL_THAY_THE {
             get {
@@ -952,7 +979,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stock Qty.
+        ///   Looks up a localized string similar to SL tồn kho.
         /// </summary>
         public static string LBL_SL_TON_KHO {
             get {
@@ -961,7 +988,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Qty in WO.
+        ///   Looks up a localized string similar to SL trên PBT.
         /// </summary>
         public static string LBL_SL_TREN_BT {
             get {
@@ -970,7 +997,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Doc Qty.
+        ///   Looks up a localized string similar to Số chứng từ.
         /// </summary>
         public static string LBL_SO_CHUNG_TU {
             get {
@@ -979,7 +1006,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Qty.
+        ///   Looks up a localized string similar to Số lượng.
         /// </summary>
         public static string LBL_SO_LUONG {
             get {
@@ -988,7 +1015,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of days.
+        ///   Looks up a localized string similar to Số ngày.
         /// </summary>
         public static string LBL_SO_NGAY {
             get {
@@ -997,7 +1024,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Amount.
+        ///   Looks up a localized string similar to Số tiền.
         /// </summary>
         public static string LBL_SO_TIEN {
             get {
@@ -1006,7 +1033,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change Password.
+        ///   Looks up a localized string similar to Tạo lại mật khẩu.
         /// </summary>
         public static string LBL_TAOLAI_MK {
             get {
@@ -1015,7 +1042,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All.
+        ///   Looks up a localized string similar to Tất cả.
         /// </summary>
         public static string LBL_TAT_CA {
             get {
@@ -1024,7 +1051,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Task Name.
+        ///   Looks up a localized string similar to Tên công việc.
         /// </summary>
         public static string LBL_TEN_CV {
             get {
@@ -1033,7 +1060,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User Name.
+        ///   Looks up a localized string similar to Tên đăng nhập.
         /// </summary>
         public static string LBL_TEN_DANG_NHAP {
             get {
@@ -1042,7 +1069,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UoM.
+        ///   Looks up a localized string similar to Đơn vị tính.
         /// </summary>
         public static string LBL_TEN_DVT {
             get {
@@ -1051,7 +1078,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Spare Part Name.
+        ///   Looks up a localized string similar to Tên VTPT.
         /// </summary>
         public static string LBL_TEN_PT {
             get {
@@ -1060,7 +1087,16 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Maintennance Task.
+        ///   Looks up a localized string similar to Thêm công việc.
+        /// </summary>
+        public static string LBL_THEM_CONG_VIEC {
+            get {
+                return ResourceManager.GetString("LBL_THEM_CONG_VIEC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thêm công việc bảo trì.
         /// </summary>
         public static string LBL_THEM_CONGVIEC_BAOTRI {
             get {
@@ -1069,7 +1105,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add image.
+        ///   Looks up a localized string similar to Thêm hình.
         /// </summary>
         public static string LBL_THEM_HINH {
             get {
@@ -1078,7 +1114,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Spare Part.
+        ///   Looks up a localized string similar to Thêm vật tư phụ tùng  .
         /// </summary>
         public static string LBL_THEM_PHUTUNG {
             get {
@@ -1087,7 +1123,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Equipment.
+        ///   Looks up a localized string similar to Thiết bị.
         /// </summary>
         public static string LBL_THIET_BI {
             get {
@@ -1096,7 +1132,16 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Machine downtime.
+        ///   Looks up a localized string similar to Thời gian chuẩn(phút).
+        /// </summary>
+        public static string LBL_THOI_GIAN_CHUAN {
+            get {
+                return ResourceManager.GetString("LBL_THOI_GIAN_CHUAN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thời gian ngừng máy.
         /// </summary>
         public static string LBL_THOI_GIAN_NGUNG_MAY {
             get {
@@ -1105,7 +1150,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Due Parametter.
+        ///   Looks up a localized string similar to Những thông số đến hạn.
         /// </summary>
         public static string LBL_THONG_SO_DH {
             get {
@@ -1114,7 +1159,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User Information.
+        ///   Looks up a localized string similar to Thông Tin Người Dùng.
         /// </summary>
         public static string LBL_THONG_TIN_NGUOI_DUNG {
             get {
@@ -1123,7 +1168,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Currency.
+        ///   Looks up a localized string similar to Tiền tệ.
         /// </summary>
         public static string LBL_TIEN_TE {
             get {
@@ -1132,7 +1177,16 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Condition.
+        ///   Looks up a localized string similar to Tiêu chuẩn kiểm tra.
+        /// </summary>
+        public static string LBL_TIEU_CHUAN_KTRA {
+            get {
+                return ResourceManager.GetString("LBL_TIEU_CHUAN_KTRA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tình trạng.
         /// </summary>
         public static string LBL_TINH_TRANG {
             get {
@@ -1141,7 +1195,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to WO Status.
+        ///   Looks up a localized string similar to Tình Trạng Phiếu Bảo Trì.
         /// </summary>
         public static string LBL_TINH_TRANG_PBT {
             get {
@@ -1150,7 +1204,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Equipment Status.
+        ///   Looks up a localized string similar to Tình Trang Thiết Bị.
         /// </summary>
         public static string LBL_TINH_TRANG_THIET_BI {
             get {
@@ -1159,7 +1213,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Team.
+        ///   Looks up a localized string similar to Tổ.
         /// </summary>
         public static string LBL_TO {
             get {
@@ -1168,7 +1222,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stock in Beginning.
+        ///   Looks up a localized string similar to Tồn cuối kỳ.
         /// </summary>
         public static string LBL_TON_CUOI_KY {
             get {
@@ -1177,7 +1231,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stock in End.
+        ///   Looks up a localized string similar to Tồn đầu kỳ.
         /// </summary>
         public static string LBL_TON_DAU_KY {
             get {
@@ -1186,7 +1240,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Spare Part Replacement.
+        ///   Looks up a localized string similar to Thay thế phụ tùng.
         /// </summary>
         public static string LBL_TT_PHU_TUNG {
             get {
@@ -1195,7 +1249,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Status after Maintenance.
+        ///   Looks up a localized string similar to Tình trạng sau bảo trì.
         /// </summary>
         public static string LBL_TT_SAU_BT {
             get {
@@ -1204,7 +1258,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to From date and time.
+        ///   Looks up a localized string similar to Từ ngày giờ.
         /// </summary>
         public static string LBL_TU_NGAY_GIO {
             get {
@@ -1213,7 +1267,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to From Date.
+        ///   Looks up a localized string similar to Từ ngày.
         /// </summary>
         public static string LBL_TUNGAY {
             get {
@@ -1222,7 +1276,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Priority.
+        ///   Looks up a localized string similar to Mức độ khẩn cấp.
         /// </summary>
         public static string LBL_UU_TIEN {
             get {
@@ -1231,7 +1285,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to %VAT.
+        ///   Looks up a localized string similar to % Vat.
         /// </summary>
         public static string LBL_VAT {
             get {
@@ -1240,7 +1294,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Location.
+        ///   Looks up a localized string similar to Vị trí.
         /// </summary>
         public static string LBL_VI_TRI {
             get {
@@ -1249,7 +1303,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to View Inventory.
+        ///   Looks up a localized string similar to Xem tồn kho.
         /// </summary>
         public static string LBL_XEM_TON_KHO {
             get {
@@ -1258,7 +1312,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to View and enter downtime.
+        ///   Looks up a localized string similar to Xem và nhập thời gian ngừng máy.
         /// </summary>
         public static string LBL_XEM_VA_NHAP_TGNM {
             get {
@@ -1267,7 +1321,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Issued in Period.
+        ///   Looks up a localized string similar to Xuất trong kỳ.
         /// </summary>
         public static string LBL_XUAT_TRONG_KY {
             get {
@@ -1276,7 +1330,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Request.
+        ///   Looks up a localized string similar to Yêu cầu.
         /// </summary>
         public static string LBL_YEU_CAU {
             get {
@@ -1285,7 +1339,25 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Inventory Transaction Report.
+        ///   Looks up a localized string similar to Yêu cầu dụng cụ.
+        /// </summary>
+        public static string LBL_YEU_CAU_DC {
+            get {
+                return ResourceManager.GetString("LBL_YEU_CAU_DC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yêu cầu nhân sự.
+        /// </summary>
+        public static string LBL_YEU_CAU_NS {
+            get {
+                return ResourceManager.GetString("LBL_YEU_CAU_NS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Báo cáo xuất nhập tồn.
         /// </summary>
         public static string MNU_BC_NHAP_XUAT_TON {
             get {
@@ -1303,7 +1375,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Equipment Movement.
+        ///   Looks up a localized string similar to Di chuyển thiết bị.
         /// </summary>
         public static string MNU_DI_CHUYEN_TB {
             get {
@@ -1312,7 +1384,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Equipment Counting.
+        ///   Looks up a localized string similar to Kiểm kê thiết bị.
         /// </summary>
         public static string MNU_KIEM_KE {
             get {
@@ -1321,7 +1393,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Maintenance History.
+        ///   Looks up a localized string similar to Lịch sử bảo trì thiết bị.
         /// </summary>
         public static string MNU_LICH_SU_TB {
             get {
@@ -1339,7 +1411,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to WO Acceptance.
+        ///   Looks up a localized string similar to Nghiệm thu phiếu bảo trì.
         /// </summary>
         public static string MNU_NGHIEM_THU_PBT {
             get {
@@ -1348,7 +1420,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Goods Receipt.
+        ///   Looks up a localized string similar to Nhập kho.
         /// </summary>
         public static string MNU_NHAP_KHO {
             get {
@@ -1357,7 +1429,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Maintennance Request Follow up.
+        ///   Looks up a localized string similar to Theo dõi yêu cầu bảo trì.
         /// </summary>
         public static string MNU_THEO_DOI_YC {
             get {
@@ -1366,7 +1438,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Goods Issue.
+        ///   Looks up a localized string similar to Xuất kho.
         /// </summary>
         public static string MNU_XUAT_KHO {
             get {
@@ -1375,7 +1447,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INVENTORY TRANSACTION REPORT.
+        ///   Looks up a localized string similar to BÁO CÁO XUẤT NHẬP TỒN.
         /// </summary>
         public static string TITLE_BC_XUAT_NHAP_TON {
             get {
@@ -1384,7 +1456,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select picture.
+        ///   Looks up a localized string similar to Chọn hình cho giám sát.
         /// </summary>
         public static string TITLE_CHON_HINH_GIAM_SAT {
             get {
@@ -1411,7 +1483,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change password.
+        ///   Looks up a localized string similar to Đổi mật khẩu.
         /// </summary>
         public static string TITLE_DOI_MK {
             get {
@@ -1420,7 +1492,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to LIST OF GOODS RECEIPTS.
+        ///   Looks up a localized string similar to DANH SÁCH PHIẾU NHẬP KHO.
         /// </summary>
         public static string TITLE_DS_PHIEU_NHAP_KHO {
             get {
@@ -1429,7 +1501,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to LIST OF GOODS ISSUE.
+        ///   Looks up a localized string similar to DANH SÁCH PHIẾU XUẤT KHO.
         /// </summary>
         public static string TITLE_DS_PHIEU_XUAT_KHO {
             get {
@@ -1438,7 +1510,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Browse requests.
+        ///   Looks up a localized string similar to Duyệt yêu cầu.
         /// </summary>
         public static string TITLE_DUYET_YC {
             get {
@@ -1447,7 +1519,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Request not approved.
+        ///   Looks up a localized string similar to Không duyệt yêu cầu.
         /// </summary>
         public static string TITLE_KHONG_DUYET_YC {
             get {
@@ -1456,7 +1528,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Requests are not accepted.
+        ///   Looks up a localized string similar to Không tiếp nhận yêu cầu.
         /// </summary>
         public static string TITLE_KHONG_TIEP_NHAN_YC {
             get {
@@ -1465,7 +1537,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to DEVICE INSPECTION.
+        ///   Looks up a localized string similar to KIỂM KÊ THIẾT BỊ.
         /// </summary>
         public static string TITLE_KIEM_KE_THIET_BI {
             get {
@@ -1474,7 +1546,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MAINTENNANCE HISTORY.
+        ///   Looks up a localized string similar to LỊCH SỬ YÊU CẦU BẢO TRÌ.
         /// </summary>
         public static string TITLE_LICH_SU_YEU_CAU_BAO_TRI {
             get {
@@ -1483,7 +1555,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Log in.
+        ///   Looks up a localized string similar to Đăng nhập.
         /// </summary>
         public static string TITLE_LOGIN {
             get {
@@ -1501,7 +1573,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to WO ACCEPTANCE.
+        ///   Looks up a localized string similar to NGHIỆM THU PHIẾU BẢO TRÌ.
         /// </summary>
         public static string TITLE_NGHIEM_THU_PBT {
             get {
@@ -1510,7 +1582,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Acceptance of maintenance vouchers.
+        ///   Looks up a localized string similar to Nghiệm thu phiếu bảo trì.
         /// </summary>
         public static string TITLE_NGHIEM_THU_PHIEU_BAO_TRI {
             get {
@@ -1519,7 +1591,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Input Landed Cost.
+        ///   Looks up a localized string similar to Nhập chi phí mua hàng.
         /// </summary>
         public static string TITLE_NHAP_CHI_PHI {
             get {
@@ -1528,7 +1600,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Input Location.
+        ///   Looks up a localized string similar to Nhập vị trí VTPT.
         /// </summary>
         public static string TITLE_NHAP_VI_TRI_VTPT {
             get {
@@ -1537,7 +1609,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to WORD ORDER.
+        ///   Looks up a localized string similar to PHIẾU BẢO TRÌ.
         /// </summary>
         public static string TITLE_PHIEU_BAO_TRI {
             get {
@@ -1546,7 +1618,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GOODS RECEIPT.
+        ///   Looks up a localized string similar to PHIẾU NHẬP KHO.
         /// </summary>
         public static string TITLE_PHIEU_NHAP_KHO {
             get {
@@ -1555,7 +1627,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GOODS ISSUE.
+        ///   Looks up a localized string similar to PHIẾU XUẤT KHO.
         /// </summary>
         public static string TITLE_PHIEU_XUAT_KHO {
             get {
@@ -1564,7 +1636,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Forget Password.
+        ///   Looks up a localized string similar to Quên mật khẩu.
         /// </summary>
         public static string TITLE_QUEN_MK {
             get {
@@ -1573,7 +1645,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create New Passowrd.
+        ///   Looks up a localized string similar to Tạo lại mật khẩu.
         /// </summary>
         public static string TITLE_TAOLAI_MK {
             get {
@@ -1582,7 +1654,16 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to More implementers.
+        ///   Looks up a localized string similar to Thêm công việc cấu trúc.
+        /// </summary>
+        public static string TITLE_THEM_CONG_VIEC_CAU_TRUC {
+            get {
+                return ResourceManager.GetString("TITLE_THEM_CONG_VIEC_CAU_TRUC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thêm người thực hiện.
         /// </summary>
         public static string TITLE_THEN_NGUOI_THUC_HIEN {
             get {
@@ -1591,7 +1672,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Information of maintenance ticket.
+        ///   Looks up a localized string similar to Thông tin phiếu bảo trì.
         /// </summary>
         public static string TITLE_THONG_TIN_PBT {
             get {
@@ -1600,7 +1681,7 @@ namespace VietSoft.CMMS.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MAINTENANCE REQUEST.
+        ///   Looks up a localized string similar to YÊU CẦU BẢO TRÌ.
         /// </summary>
         public static string TITLE_YEU_CAU_BT {
             get {

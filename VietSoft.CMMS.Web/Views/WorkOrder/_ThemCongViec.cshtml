@@ -1,0 +1,55 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@using VietSoft.CMMS.Web.Helpers
+<style>
+    .select2-results {
+        height:150px;
+    }
+</style>
+<div class="modal-header">
+    <h5>@ViewText.TITLE_THEM_CONG_VIEC_CAU_TRUC</h5>
+    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body modal-confirm" id="modalResultContent" style="height:380px">
+    <div class="row detail-page-emp-info break-line">
+        <div class="col-12 d-flex justify-content-left gap-2">
+            <span class="emp-name" id="MS_PBT">@ViewBag.MS_PBT</span>
+            <span class="emp-code" id="MS_MAY">@ViewBag.MS_MAY</span>
+        </div>
+    </div>
+    <div class="form-floating break-line">
+        @Html.DropDownList("MS_BP",(IEnumerable<SelectListItem>)@ViewBag.cboBoPhan, new { id="cboBP",name="cboBP", @class = "form-select form-select-sm"})
+        <label for="MS_UU_TIEN">@ViewText.LBL_MA_BO_PHAN</label>
+    </div>
+    <div class="form-check form-check-inline break-line">
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="false" checked>
+        <label class="form-check-label" for="inlineRadio1">@ViewText.LBL_CHON_CONG_VIEC</label>
+    </div>
+    <div class="form-check form-check-inline break-line">
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="true">
+        <label class="form-check-label" for="inlineRadio2">@ViewText.LBL_THEM_CONG_VIEC</label>
+    </div>
+
+    <div class="form-floating break-line">
+        @Html.DropDownList("CONG_VIEC",(IEnumerable<SelectListItem>)@ViewBag.cboCongViec, new {id="cboCV",name="cboCV", @class = "form-select form-select-sm"})
+        <label for="MS_UU_TIEN">@ViewText.LBL_CONG_VIEC</label>
+    </div>
+
+    <div class="form-floating break-line d-none">
+        @Html.TextBox("CONGVIEC",null,new { @class = "form-control", maxlength = 250, autocomplete = "off" , placeholder=@ViewText.LBL_CONG_VIEC })
+        <label for="YEU_CAU">@ViewText.LBL_CONG_VIEC</label>
+    </div>
+
+    <div class="form-floating break-line d-none">
+        @Html.TextBox("THOIGIAN",0,new { @class = "form-control",@type="number", min="0",max ="9999", autocomplete = "off" , placeholder=@ViewText.LBL_CONG_VIEC })
+        <label for="YEU_CAU">@ViewText.LBL_THOI_GIAN_CHUAN</label>
+    </div>
+
+
+</div>
+<div class="modal-footer justify-content-between gap-1 flex-nowrap">
+    <button type="button" class="btn btn-outline-danger w-50" onclick="ClosePopup(this)" id="btnNo">@ViewText.BTN_NO</button>
+    <button type="submit" class="btn btn-primary w-50" id="btnAddCVPT">@ViewText.BTN_YES</button>
+</div>
+    <script>
+            WorkOrderModule.AddCVinit();
+    </script>

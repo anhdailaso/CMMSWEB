@@ -43,7 +43,7 @@
 
                             foreach (var item in itemcha.ListYC)
                             {
-                                <a class="px-2" href="/Home/UserRequest?msyc=@item.MS_YEU_CAU&msmay=@itemcha.MS_MAY&tenmay=@itemcha.TEN_MAY&flag=1" onclick="myFunction(event,this)" ontouchstart="myFunctionTouch(event,this)">
+                                <a class="px-2" href="/Home/UserRequest?msyc=@item.MS_YEU_CAU&msmay=@itemcha.MS_MAY&tenmay=@itemcha.TEN_MAY&flag=1" onclick="myFunction(event,this)">
                                     @if (@item.MUC_YC == 1)
                                     {
                                         <i class="@(item.TREYC == 1 ? (item.DUYET_YC == 1 ? "fa-regular fa-circle-a" : "fa-regular fa-circle-n") : (item.DUYET_YC == 1 ? "fa-solid fa-a" : "fa-solid fa-n"))" style="color:#ff0000"></i>
@@ -79,7 +79,7 @@
                         {
                             foreach (var item in itemcha.ListBT)
                             {
-                                <a href="/Home/WorkOrder?mspbt=@item.MS_PHIEU_BAO_TRI&msmay=@itemcha.MS_MAY&tenmay=@itemcha.TEN_MAY&flag=1&ttmay=''">
+                                <a href="/Home/WorkOrder?mspbt=@item.MS_PHIEU_BAO_TRI&msmay=@itemcha.MS_MAY&tenmay=@itemcha.TEN_MAY&flag=1">
                                     @if (item.MUC_BT == 1)
                                     {
                                         //cao<i class="fa-solid fa-p"></i>

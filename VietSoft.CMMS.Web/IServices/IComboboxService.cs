@@ -37,6 +37,8 @@ namespace VietSoft.CMMS.Web.IServices
 
         //Đạt sửa 10101999
         SelectList GetCbbBoPhan(string msmay, string Username, int NNgu, int CoAll);
+        SelectList GetCbbBoPhan(string msmay, string Username, int NNgu);
+        SelectList GetCbbCongViec(string msmay, string msbp, int NNgu);
         SelectList GetCbbPhuTung(string msmay, string msbp, string Username, int NNgu, int CoAll);
 
         //Đạt sửa 26122022

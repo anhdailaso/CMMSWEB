@@ -28,9 +28,10 @@
     .accordion-button::after {
         /*https://astronautweb.co/snippet/font-awesome/*/
         /*        content: "\f083";
-                        font-family: FontAwesome;*/
+                            font-family: FontAwesome;*/
         background-image: none !important;
     }
+
     .accordion-button:not(.collapsed)::after {
         background-image: none !important;
         transform: none;
@@ -55,6 +56,7 @@
 
         <div class="d-flex justify-content-between mb-3">
             @Html.Hidden("MS_PHIEU_BAO_TRI", @Model.MS_PHIEU_BAO_TRI, null)
+            @Html.Hidden("THEM", @Model.THEM, null)
             <div><span>@Model.MS_PHIEU_BAO_TRI</span></div>
             @Html.Hidden("currentDate", @Model.NGAY_KT_KH.ToString(Setting.FORMAT_DATE), null)
             <div><span id="NGAY_KT_KH">@Model.NGAY_KT_KH.ToString(Setting.FORMAT_DATE)</span></div>
@@ -75,7 +77,7 @@
         </div>
 
         <div class="form-floating break-line">
-                <select id="cboUuTien" asp-for="@Model.MS_UU_TIEN" name="cboUuTien" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+            <select id="cboUuTien" asp-for="@Model.MS_UU_TIEN" name="cboUuTien" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
                 @foreach (var item in priorityCategories)
                 {
                     <option value="@item.MS_UU_TIEN" data-songay=@item.SO_NGAY>@item.TEN_UU_TIEN</option>
@@ -84,29 +86,33 @@
             <label for="cboUuTien">@ViewText.LBL_UU_TIEN</label>
         </div>
 
-        @if (ViewBag.FLAG == 0)
-        {
-            <div class="break-line d-flex justify-content-between">
-                <p id="TINH_TRANG_MAY">@Model.TINH_TRANG_MAY</p>
-                <a id="btnSaveWorkOrder" class="btn btn-outline-dark m-1">
-                    <i class="fa fa-floppy-o fs-7"></i>
-                </a>
-            </div>
-        }
+        <div class="form-floating break-line">
+            @Html.TextAreaFor(model=>model.GHI_CHU, new { @class = "form-control", maxlength = 250, autocomplete = "off" , placeholder=@ViewText.LBL_GHI_CHU })
+            <label for="GHI_CHU">@ViewText.LBL_GHI_CHU</label>
+        </div>
+
+        @* @if (ViewBag.FLAG == 0)
+        {*@
+        <div class="break-line d-flex justify-content-between">
+            <p id="TINH_TRANG_MAY">@Model.TINH_TRANG_MAY</p>
+            <a id="btnSaveWorkOrder" class="btn btn-outline-dark m-1">
+                <i class="fa fa-floppy-o fs-7"></i>
+            </a>
+        </div>
+        @* }
         else
         {
-            <div class="break-line">
-                @if (Model.TINH_TRANG_MAY != null)
-                {
-                    <p id="TINH_TRANG_MAY">@Model.TINH_TRANG_MAY</p>
-                }
-            </div>
+        <div class="break-line">
+        @if (Model.TINH_TRANG_MAY != null)
+        {
+        <p id="TINH_TRANG_MAY">@Model.TINH_TRANG_MAY</p>
         }
+        </div>
+        }*@
 
         <div class="border-top my-3"></div>
         <br />
         <div id="workListContent"></div>
-
     </div>
 </div>
 <br />
@@ -116,9 +122,13 @@
     <nav class="fixed-bottom">
         <div class="navbar-button  text-center text-white">
             <div id="button-container" class="btn-group">
-                <a id="btnAddMaintenanceWork" class="btn btn-outline-primary m-1" data-toggle="tooltip" title="@ViewText.LBL_THEM_CONGVIEC_BAOTRI">
-                    <i class="fa fa-plus fs-7" aria-hidden="true"></i>
-                </a>
+
+                @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() && Model.QUYEN > 0)
+                {
+                    <a id="btnAddMaintenanceWork" class="btn btn-outline-primary m-1" data-toggle="tooltip" title="@ViewText.LBL_THEM_CONGVIEC_BAOTRI">
+                        <i class="fa fa-plus fs-7" aria-hidden="true"></i>
+                    </a>
+                }
 
                 <!-- Twitter -->
                 <a id="btnXemtonkho" class="btn btn-outline-secondary m-1" data-toggle="tooltip" title="@ViewText.LBL_XEM_TON_KHO">
@@ -141,7 +151,7 @@
 
                     <a id="btnAddNguoiThucHien" class="btn btn-outline-primary m-1" data-toggle="tooltip" title="@ViewText.TITLE_THEN_NGUOI_THUC_HIEN">
                         <i class="fa-regular fa-person-sign fs-7" aria-hidden="true"></i>
-                </a>
+                    </a>
                 }
             </div>
         </div>
@@ -164,6 +174,10 @@
             ADD_SUPPLIES: '@Url.Action("AddSupplies","WorkOrder")',
             ADD_MAINTENANCE_WORK: '@Url.Action("AddMaintenanceWork","WorkOrder")',
             ADD_NGUOI_THUC_HIEN: '@Url.Action("ChonNguoiThucHien","WorkOrder")',
+            THEM_CONG_VIEC: '@Url.Action("THEM_CONG_VIEC","WorkOrder")',
+            XEM_HUONG_DAN: '@Url.Action("XEM_HUONG_DAN","WorkOrder")',
+            LOAD_COMBO_CONG_VIEC: '@Url.Action("LoadComBoCongViec","WorkOrder")',
+            THEM_CONG_VIEC_PHU_TUNG: '@Url.Action("ThemCongViecPhuTung","WorkOrder")',
             SAVE_MAINTENANCE_WORK: '@Url.Action("SaveMaintenanceWork","WorkOrder")',
             SAVE_NGUOI_THUC_HIEN: '@Url.Action("SaveNguoiThucHien","WorkOrder")',
             SAVE_LOG_WORK: '@Url.Action("SaveLogWork","WorkOrder")',
@@ -179,7 +193,7 @@
             MESS_XACNHAN_HOANTHANH_PHIEUBAOTRI: '@Html.Raw(Message.XACNHAN_HOANTHANH_PHIEUBAOTRI)',
             MESS_CHUYEN_CONGVIEC_QUA_KEHOACH: '@Html.Raw(Message.CHUYEN_CONGVIEC_QUA_KEHOACH)',
             MESS_XOA_CONG_VIEC: '@Html.Raw(Message.XOA_CONG_VIEC)',
-            MESS_XOA_PHIEU_BAO_TRI:'@Html.Raw(Message.XOA_PHIEU_BAO_TRI)',
+            MESS_XOA_PHIEU_BAO_TRI: '@Html.Raw(Message.XOA_PHIEU_BAO_TRI)',
             LBL_SO_LUONG: '@Html.Raw(ViewText.LBL_SO_LUONG)',
             MESS_TU_GIO_KHONG_LON_HON_DEN_GIO: '@Html.Raw(Message.MESS_TU_GIO_KHONG_LON_HON_DEN_GIO)',
             MyEcomaint: '@Url.Action("Index", "Home")',

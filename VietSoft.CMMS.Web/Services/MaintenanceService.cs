@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using Microsoft.ApplicationBlocks.Data;
 using System.Data;
-using System.Data.SqlClient;
 using VietSoft.CMMS.Core.Models;
 using VietSoft.CMMS.Web.Helpers;
 using VietSoft.CMMS.Web.IServices;
@@ -91,9 +90,8 @@ namespace VietSoft.CMMS.Web.Services
                 if (res != null)
                 {
                     var lst = res.GroupBy(
-                        x => (x.MS_CV, x.MO_TA_CV, x.MS_BO_PHAN, x.TEN_BO_PHAN, x.PATH_HD),
-                        (key, data) => new { MS_CV = key.MS_CV, MO_TA_CV = key.MO_TA_CV, PATH_HD = key.PATH_HD, MS_BO_PHAN = key.MS_BO_PHAN, TEN_BO_PHAN = key.TEN_BO_PHAN, WorkOrderDetailViewModels = data }).ToList();
-
+                        x => (x.MS_CV, x.MO_TA_CV,x.THAO_TAC,x.TIEU_CHUAN_KT,x.YEU_CAU_NS,x.YEU_CAU_DUNG_CU,x.MS_BO_PHAN, x.TEN_BO_PHAN, x.PATH_HD),
+                        (key, data) => new { MS_CV = key.MS_CV, MO_TA_CV = key.MO_TA_CV, THAO_TAC = key.THAO_TAC, TIEU_CHUAN_KT = key.TIEU_CHUAN_KT, YEU_CAU_NS = key.YEU_CAU_NS, YEU_CAU_DUNG_CU = key.YEU_CAU_DUNG_CU,PATH_HD = key.PATH_HD, MS_BO_PHAN = key.MS_BO_PHAN, TEN_BO_PHAN = key.TEN_BO_PHAN, WorkOrderDetailViewModels = data }).ToList();
                     var workOrders = lst.Select(x =>
                     new WorkOrdersViewModel()
                     {
@@ -101,6 +99,10 @@ namespace VietSoft.CMMS.Web.Services
                         TEN_BO_PHAN = x.TEN_BO_PHAN,
                         MS_CV = x.MS_CV,
                         MO_TA_CV = x.MO_TA_CV,
+                        THAO_TAC = x.THAO_TAC,
+                        TIEU_CHUAN_KT = x.TIEU_CHUAN_KT,
+                        YEU_CAU_NS = x.YEU_CAU_NS,
+                        YEU_CAU_DUNG_CU = x.YEU_CAU_DUNG_CU,
                         PATH_HD = @x.PATH_HD,
                         WorkOrderDetailViewModels = x.WorkOrderDetailViewModels.Where(x => !string.IsNullOrEmpty(x.MS_PT)).Select(x => new WorkOrderDetailViewModel()
                         {
@@ -468,8 +470,6 @@ namespace VietSoft.CMMS.Web.Services
                 };
             }
         }
-
-
         public ResponseViewModel SaveNguoiThucHien(string ticketId, string json)
         {
             try
@@ -501,6 +501,42 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
+        public ResponseViewModel ThemCauTrucCongViec(string deviceId, string msbp, int mscv, string tenCV, int thoigian, bool them)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "THEM_CAU_TRUC_CONG_VIEC");
+                p.Add("@sCot1", msbp);
+                p.Add("@sCot2", tenCV);
+                p.Add("@iCot1", mscv);
+                p.Add("@iCot2", thoigian);
+                p.Add("@bCot1", them);
+                p.Add("@deviceID", deviceId);
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                if (res != null)
+                {
+                    return res;
+                }
+                else
+                {
+                    return new ResponseViewModel
+                    {
+                        MA = 0
+                    };
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return new ResponseViewModel()
+                {
+                    MA = -1
+                };
+            }
+        }
+
+
         public ResponseViewModel SaveLogWork(string ticketId, string userName, string json)
         {
             try
@@ -523,7 +559,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public ResponseViewModel SaveWorkOrder(string ticketId, DateTime date, int categoryTicketId, int priorityId, string statusDevice, string userName, string deviceId)
+        public ResponseViewModel SaveWorkOrder(string ticketId, DateTime date, int categoryTicketId, int priorityId, string statusDevice, string lydoBT, string userName, string deviceId, int them)
         {
             try
             {
@@ -533,10 +569,11 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@dCot1", date);
                 p.Add("@iCot1", categoryTicketId);
                 p.Add("@iCot2", priorityId);
+                p.Add("@iCot3", them);
                 p.Add("@sCot3", statusDevice);
+                p.Add("@sCot4", lydoBT);
                 p.Add("@UserName", userName);
                 p.Add("@deviceID", deviceId);
-
                 var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 return res != null ? res : new ResponseViewModel()
                 {

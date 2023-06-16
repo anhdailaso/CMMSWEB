@@ -168,6 +168,31 @@ namespace VietSoft.CMMS.Web.Controllers
             return PartialView("_addMaintenanceWork", res);
         }
 
+        public IActionResult THEM_CONG_VIEC(string deviceId, string ticketId)
+        {
+            ViewBag.MS_PBT = ticketId;
+            ViewBag.MS_MAY = deviceId;
+            ViewBag.cboBoPhan = _combobox.GetCbbBoPhan(deviceId, SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue);
+            ViewBag.cboCongViec = _combobox.GetCbbTrong();
+            return PartialView("_ThemCongViec");
+        }
+
+        public IActionResult XEM_HUONG_DAN(string thaotac, string tieuchuanKT, string yeucauNS, string yeucauDC ,string MotaCV)
+        {
+            ViewBag.ThaoTac = thaotac;
+            ViewBag.TieuChuanKT = tieuchuanKT;
+            ViewBag.YeuCauNS = yeucauNS;
+            ViewBag.YeuCauDC = yeucauDC;
+            ViewBag.MotaCV = MotaCV;
+            return PartialView("_XemHuongDan");
+        }
+
+        public ActionResult LoadComBoCongViec(string deviceId, string msbp)
+        {
+            SelectList lst = _combobox.GetCbbCongViec(deviceId, msbp, SessionManager.CurrentUser.TypeLangue);
+            return Json(lst);
+        }
+
         public IActionResult ChonNguoiThucHien(string deviceId, string ticketId)
         {
             ViewBag.MS_PBT = ticketId;
@@ -205,6 +230,22 @@ namespace VietSoft.CMMS.Web.Controllers
             {
                 return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
             }
+        }
+
+        [HttpPost]
+        public IActionResult ThemCongViecPhuTung(string deviceId, string msbp, int mscv,string tenCV,int thoigian,bool them)
+        {
+            var res = _maintenanceService.ThemCauTrucCongViec(deviceId, msbp, mscv, tenCV, thoigian, them);
+
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+            }
+            return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
         }
 
 
@@ -402,7 +443,7 @@ namespace VietSoft.CMMS.Web.Controllers
         {
             DateTime dateOut;
             DateTime.TryParseExact(model.S_NGAY_KT_KH, Setting.FORMAT_DATE, null, DateTimeStyles.None, out dateOut);
-            var res = _maintenanceService.SaveWorkOrder(model.MS_PHIEU_BAO_TRI, dateOut, model.MS_LOAI_BT, model.MS_UU_TIEN, model.TINH_TRANG_MAY, userName, deviceId);
+            var res = _maintenanceService.SaveWorkOrder(model.MS_PHIEU_BAO_TRI, dateOut, model.MS_LOAI_BT, model.MS_UU_TIEN, model.TINH_TRANG_MAY,model.GHI_CHU, userName, deviceId, model.THEM);
 
             if (res.MA == 1)
             {

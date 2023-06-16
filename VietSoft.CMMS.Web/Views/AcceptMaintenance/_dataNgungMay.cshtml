@@ -65,7 +65,6 @@ else
         dropdownParent: $('#modalResultContent'),
     });
 
-
     $('#tbNguyenNhanNgungMay .cboLuoiNN').on('select2:close', function (e) {
         var selectedValue = $(this).select2('data')[0].text;
         $(this).siblings('span.select2').html(selectedValue);

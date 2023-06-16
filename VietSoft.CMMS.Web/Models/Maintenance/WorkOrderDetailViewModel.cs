@@ -7,6 +7,10 @@
         public string TEN_BO_PHAN { get; set; }
         public int MS_CV { get; set; }
         public string MO_TA_CV { get; set; }
+        public string THAO_TAC { get; set; }
+        public string TIEU_CHUAN_KT { get; set; }
+        public string YEU_CAU_NS { get; set; }
+        public string YEU_CAU_DUNG_CU { get; set; }
         public string MS_PT { get; set; }
         public string TEN_PT { get; set; }
         public string MS_VI_TRI_PT { get; set; }
@@ -48,6 +52,10 @@
         public string TEN_BO_PHAN { get; set; }
         public int MS_CV { get; set; }
         public string MO_TA_CV { get; set; }
+        public string THAO_TAC { get; set; }
+        public string TIEU_CHUAN_KT { get; set; }
+        public string YEU_CAU_NS { get; set; }
+        public string YEU_CAU_DUNG_CU { get; set; }
         public string PATH_HD { get; set; }
         public IEnumerable<WorkOrderDetailViewModel> WorkOrderDetailViewModels { get; set; }
 

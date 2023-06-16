@@ -18,7 +18,7 @@ namespace VietSoft.CMMS.Web.Controllers
             _logger = logger;
             _config = config;
         }
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = null)
         {
             MessageUtil.ClearMessage();
             string? isRememberMeEncrypt = Request.Cookies[CookieKey.IsRememberMe.ToString()];
@@ -31,16 +31,23 @@ namespace VietSoft.CMMS.Web.Controllers
 
                 // init session
                 UserModel? user = _accountService.GetProfile(userName);
-                user.TypeLangue = 1;
+                user.TypeLangue = 0;
                 SessionManager.CurrentUser = user;
-                return RedirectToAction("Index", "Home");
+                if (string.IsNullOrEmpty(returnUrl))
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    return Redirect(returnUrl.Replace('*','&'));
+                }
             }
 
             LoginViewModel? model = new()
             {
                 RememberMe = isRememberMeCookie,
+                ReturnUrl = returnUrl
             };
-
             return View(model);
         }
 
@@ -60,7 +67,7 @@ namespace VietSoft.CMMS.Web.Controllers
                 {
                     user.UserName = userViewModel.UserName;
                     user.RememberMe = userViewModel.RememberMe;
-                    user.TypeLangue = 1;
+                    user.TypeLangue = 0;
                     SessionManager.CurrentUser = user;
 
                     // save cookie
@@ -78,7 +85,7 @@ namespace VietSoft.CMMS.Web.Controllers
 
                         Response.Cookies.Append(CookieKey.IsRememberMe.ToString(), rememberMeEncrypt, cookieOptions);
                         Response.Cookies.Append(CookieKey.UserName.ToString(), userNameEncrypt, cookieOptions);
-                        Response.Cookies.Append(CookieKey.TypeLangue.ToString(), "1", cookieOptions);
+                        Response.Cookies.Append(CookieKey.TypeLangue.ToString(), "0", cookieOptions);
                     }
                 }
                 else
@@ -86,7 +93,14 @@ namespace VietSoft.CMMS.Web.Controllers
                     MessageUtil.ShowError(Message.LOGIN_FAILED, false);
                     return View(userViewModel);
                 }
-                return RedirectToAction("Index", "Home");
+                if(userViewModel.ReturnUrl == null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    return Redirect(userViewModel.ReturnUrl.Replace('*', '&'));
+                }    
                 //return RedirectToAction("HistoryIndex", "History");
             }
             return View(userViewModel);

@@ -15,20 +15,41 @@
                         </a>
                     </div>
                 </button>
-                @if (!string.IsNullOrEmpty(item.PATH_HD))
-                {
-                    @*@item.PATH_HD*@
-                    <a target="_blank" class="d-flex accordion-right-icon" style="padding-right:0.5rem" href="@Url.Action("DownloadFile","WorkOrder", new{filepath = item.PATH_HD})">
-                        @*<i class="fa fa-file-pdf-o"></i>*@
-                        <i class="fa fa-paperclip" style="transform: rotate(45deg);" data-toggle="tooltip" title="@ViewText.BTN_XEM_TAI_LIEU"></i>
-                    </a>
-                }
+                <a class="d-flex accordion-right-icon btnTaiLieu" data-file="@item.PATH_HD" data-thaotac="@item.THAO_TAC" data-tieuchuankt="@item.TIEU_CHUAN_KT" data-yeucauns="@item.YEU_CAU_NS" data-yeucaudc="@item.YEU_CAU_DUNG_CU" data-motacv="@item.MS_BO_PHAN  @item.MO_TA_CV" style="padding-right:0.5rem" @*href="@Url.Action("DownloadFile","WorkOrder", new{filepath = item.PATH_HD})"*@>
+                    <i class="fa fa-paperclip" style="transform: rotate(45deg);" data-toggle="tooltip" title="@ViewText.BTN_XEM_TAI_LIEU"></i>
+                </a>
                 <a class="d-flex accordion-right-icon btnBackLog" style="padding-right:0.5rem;color:#113186" data-toggle="tooltip" title="@ViewText.BTN_LAP_KE_HOACH_TT">
                     <i class="fa fa-arrows"></i>
                 </a>
                 <a class="d-flex accordion-right-icon btnDeleteWork" data-toggle="tooltip" title="@ViewText.BTN_XOA_CONG_VIEC">
                     <i class="fa fa-trash-o text-danger"></i>
                 </a>
+
+
+                @* <div class="dropdown">
+            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton+@item.MS_CV" data-bs-toggle="dropdown" aria-expanded="false" style="margin-top: -14px;border: none;">
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton+@item.MS_CV">
+            <li>
+            <a class="dropdown-item btnDeleteWork" href="#"> <i class="fa fa-trash-o text-danger pe-2"></i>@ViewText.BTN_XOA_CONG_VIEC</a>
+            </li>
+            <li>
+            <a class="dropdown-item btnBackLog" href="#"> <i style="color:#113186" class="fa fa-arrows pe-2"></i>@ViewText.BTN_LAP_KE_HOACH_TT</a>
+            </li>
+            <li>
+            <a class="dropdown-item btnXemHuongdan"> <i class="fa-solid fa-chalkboard-user pe-2" style="color: #ff870f;"></i>Xem hướng dẫn</a>
+            </li>
+            @if (!string.IsNullOrEmpty(item.PATH_HD))
+            {
+            <li>
+            <a class="dropdown-item" href="@Url.Action("DownloadFile","WorkOrder", new{filepath = item.PATH_HD})"> <i class="fa fa-paperclip pe-2" style="transform: rotate(45deg);"></i>@ViewText.BTN_XEM_TAI_LIEU</a>
+            </li>
+            }
+            </ul>
+            </div>*@
+
+
+
             </h2>
 
             <div id="flush-collapse-@item.MS_CV" class="accordion-collapse collapse" aria-labelledby="flush-heading-@item.MS_CV" data-bs-parent="#accordionFlushExample">
@@ -41,9 +62,9 @@
                                     <td width="30%" style="line-height:2.3rem">@wd.MS_PT</td>
                                     <td width="30%" style="line-height:2.3rem">@wd.MS_VI_TRI_PT</td>
                                     <td width="15%">
-                                        <input class="form-control SoLuongKH" style="font-size:0.8rem; color:#198754 !important;border-color:#198754 !important" type="number" min="1" max="@(@wd.SL_CT == 0 ? 9999: @wd.SL_CT)" value="@wd.SL_KH"/>
+                                        <input class="form-control SoLuongKH" style="font-size:0.8rem; color:#198754 !important;border-color:#198754 !important" type="number" min="1" max="@(@wd.SL_CT == 0 ? 9999: @wd.SL_CT)" value="@wd.SL_KH" />
                                     <td width="15%">
-                                        <input class="form-control SoLuongTT" style="font-size:0.8rem;" type="number" min="1" max="@(@wd.SL_CT == 0 ? 9999: @wd.SL_CT)" value="@wd.SL_TT"/>
+                                        <input class="form-control SoLuongTT" style="font-size:0.8rem;" type="number" min="1" max="@(@wd.SL_CT == 0 ? 9999: @wd.SL_CT)" value="@wd.SL_TT" />
                                     </td>
                                     <td width="10%">
                                         <p style="margin-top: 10px;"><a class="remove-row"><i class="fa fa-trash-o fa-lg text-danger"></i></a></p>
@@ -60,7 +81,7 @@
                         <div>
                             <input hidden class="MS_BO_PHAN" value="@item.MS_BO_PHAN">
                             <input hidden class="MS_CV" value="@item.MS_CV">
-                            <a class="btn btn-outline-warning m-1 btnSaveSupplies" role="button"  data-toggle="tooltip" title="@ViewText.BTN_LUU_PHU_TUNG">
+                            <a class="btn btn-outline-warning m-1 btnSaveSupplies" role="button" data-toggle="tooltip" title="@ViewText.BTN_LUU_PHU_TUNG">
                                 <i class="fa fa-floppy-o fs-7"></i>
                             </a>
                         </div>
@@ -83,8 +104,8 @@
     @*$('[data-toggle="tooltip"]').tooltip();*@
 
         $('[data-toggle="tooltip"]').on("touchstart", function () {
-        $(this).tooltip('show');
-    });
+            $(this).tooltip('show');
+        });
     $('[data-toggle="tooltip"]').on("touchmove", function () {
         $('[data-toggle="tooltip"]').tooltip('hide');
     });
