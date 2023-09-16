@@ -27,17 +27,17 @@
             @foreach (var item in Model.Data)
             {
                 <tr style="color:@(item.LOCK == true ? "#008001" : "black")">
-                    <td>
+                    <td class="text-start">
                         <a style="color:#113186;" href="/GoodReceipt/EditGoodReceipt?mspn=@item.MS_DH_NHAP_PT" class="card-value">@item.MS_DH_NHAP_PT</a>
                         @*@item.MS_DH_NHAP_PT*@
                     </td>
-                    <td>
+                    <td class="text-start">
                         @item.DANG_NHAP
                     </td>
                     <td>
                         @item.NGAY.ToString(Setting.FORMAT_DATE)
                     </td>
-                    <td>
+                    <td class="text-start">
                         @item.TEN
                     </td>
                     <td>

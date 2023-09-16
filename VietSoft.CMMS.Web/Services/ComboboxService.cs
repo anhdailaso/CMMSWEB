@@ -148,8 +148,12 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public SelectList GetCbbDiaDiem(string Username, int NNgu, int CoAll)
+        public SelectList GetCbbDiaDiem(string Username, int NNgu, int CoAll , int Myeco)
         {
+            if(Myeco == 1)
+            {
+                CoAll = 0; 
+            }    
             DataTable tb = new DataTable();
             tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString, "GetNhaXuongAll", Username, NNgu, CoAll));
             var listItem = tb.AsEnumerable().Select(
@@ -197,7 +201,7 @@ namespace VietSoft.CMMS.Web.Services
             else
             {
                 tb = tb.AsEnumerable().Where(x => Convert.ToInt32(x["MS_DANG_NHAP"]) < 9).CopyToDataTable();
-                //tb.Rows.Add(-1, "");
+                tb.Rows.Add(-1, "");
             }
             var listItem = tb.AsEnumerable().Select(
              x => new SelectListItem
@@ -232,7 +236,7 @@ namespace VietSoft.CMMS.Web.Services
             else
             {
                 tb = tb.AsEnumerable().Where(x => Convert.ToInt32(x["MS_DANG_XUAT"]) < 9).CopyToDataTable();
-                //tb.Rows.Add(-1, "");
+                tb.Rows.Add(-1, "");
             }
             var listItem = tb.AsEnumerable().Select(
              x => new SelectListItem
@@ -247,7 +251,7 @@ namespace VietSoft.CMMS.Web.Services
         public SelectList GetCbbPhieuBaoTriXuat(string msmay)
         {
             DataTable tb = new DataTable();
-            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString,CommandType.Text, "SELECT MS_PHIEU_BAO_TRI MA ,MS_PHIEU_BAO_TRI TEN FROM PHIEU_BAO_TRI where TINH_TRANG_PBT=2 AND MS_MAY ='"+ msmay +"' ORDER BY MS_PHIEU_BAO_TRI DESC"));
+            tb.Load(SqlHelper.ExecuteReader(_dapper.GetDbconnection().ConnectionString,CommandType.Text, "SELECT MS_PHIEU_BAO_TRI MA ,MS_PHIEU_BAO_TRI TEN FROM PHIEU_BAO_TRI where TINH_TRANG_PBT=2 AND MS_MAY =N'"+ msmay +"' ORDER BY MS_PHIEU_BAO_TRI DESC"));
             DataRow newRow = tb.NewRow();
             newRow[0] = "-1";
             newRow[1] = "";

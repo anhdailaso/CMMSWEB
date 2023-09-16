@@ -1,4 +1,4 @@
-﻿@using VietSoft.CMMS.Web.Resources
+﻿ @using VietSoft.CMMS.Web.Resources
 @using VietSoft.CMMS.Web.Helpers
 @using VietSoft.CMMS.Web.Models.Maintenance;
 @model VietSoft.CMMS.Web.Models.Maintenance.TicketMaintenanceViewModel;
@@ -28,7 +28,7 @@
     .accordion-button::after {
         /*https://astronautweb.co/snippet/font-awesome/*/
         /*        content: "\f083";
-                            font-family: FontAwesome;*/
+                                font-family: FontAwesome;*/
         background-image: none !important;
     }
 
@@ -47,7 +47,7 @@
                 <input type="hidden" id="flag" name="flag" value="@ViewBag.FLAG">
                 <span class="emp-name">@ViewBag.MS_MAY</span>
                 <span class="emp-code">@ViewBag.TEN_MAY</span>
-                @*         <span class="emp-name">A05534</span>
+                @*<span class="emp-name">A05534</span>
                 <span class="emp-code">máy đóng bao</span>*@
             </div>
         </div>
@@ -91,25 +91,17 @@
             <label for="GHI_CHU">@ViewText.LBL_GHI_CHU</label>
         </div>
 
-        @* @if (ViewBag.FLAG == 0)
-        {*@
+      
         <div class="break-line d-flex justify-content-between">
             <p id="TINH_TRANG_MAY">@Model.TINH_TRANG_MAY</p>
-            <a id="btnSaveWorkOrder" class="btn btn-outline-dark m-1">
-                <i class="fa fa-floppy-o fs-7"></i>
-            </a>
+            @if (Model.QUYEN_MENU == 1)
+            {
+                <a id="btnSaveWorkOrder" class="btn btn-outline-dark m-1">
+                    <i class="fa fa-floppy-o fs-7"></i>
+                </a>
+            }
         </div>
-        @* }
-        else
-        {
-        <div class="break-line">
-        @if (Model.TINH_TRANG_MAY != null)
-        {
-        <p id="TINH_TRANG_MAY">@Model.TINH_TRANG_MAY</p>
-        }
-        </div>
-        }*@
-
+      
         <div class="border-top my-3"></div>
         <br />
         <div id="workListContent"></div>
@@ -117,13 +109,13 @@
 </div>
 <br />
 <br />
-@if (ViewBag.FLAG == 1)
+@if (ViewBag.FLAG == 1 && Model.QUYEN_MENU == 1)
 {
     <nav class="fixed-bottom">
         <div class="navbar-button  text-center text-white">
             <div id="button-container" class="btn-group">
 
-                @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() && Model.QUYEN > 0)
+                @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() && Model.QUYEN_CN > 0)
                 {
                     <a id="btnAddMaintenanceWork" class="btn btn-outline-primary m-1" data-toggle="tooltip" title="@ViewText.LBL_THEM_CONGVIEC_BAOTRI">
                         <i class="fa fa-plus fs-7" aria-hidden="true"></i>
@@ -143,7 +135,7 @@
                     <i class="fa fa-check-circle fs-7"></i>
                 </a>
 
-                @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() && Model.QUYEN > 0)
+                @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() && Model.QUYEN_CN > 0)
                 {
                     <a class="btn btn-outline-warning m-1" data-toggle="tooltip" title="@ViewText.BTN_XOA" id="btnhuyBT" role="button">
                         <i class="fa fa-times fs-7"></i>

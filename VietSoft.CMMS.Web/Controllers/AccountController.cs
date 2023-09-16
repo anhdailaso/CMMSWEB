@@ -60,6 +60,7 @@ namespace VietSoft.CMMS.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 UserModel? user = new();
                 SessionManager.Module = userViewModel.Module;
                 int res = _accountService.Login(userViewModel.UserName, userViewModel.Password);
@@ -68,6 +69,7 @@ namespace VietSoft.CMMS.Web.Controllers
                     user.UserName = userViewModel.UserName;
                     user.RememberMe = userViewModel.RememberMe;
                     user.TypeLangue = 0;
+                    //user.Avatar = _accountService.GetProfile(user.UserName).Avatar;
                     SessionManager.CurrentUser = user;
 
                     // save cookie

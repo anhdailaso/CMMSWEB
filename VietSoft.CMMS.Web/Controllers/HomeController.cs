@@ -47,6 +47,7 @@ namespace VietSoft.HRM.Web.Controllers
             var listmenu = _homeService.GetMenu(SessionManager.CurrentUser.UserName);
             GetListMenu(listmenu);
             SessionManager.ThongTinChung = _accountService.GetThongTinChung(SessionManager.CurrentUser.UserName);
+            //với data nặng thì cho theo nhà xưởng
             ViewBag.ListNhaXuong = _combobox.GetCbbDiaDiem(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1);
             ViewBag.ListLoaiMAY = _combobox.GetLoaiMayAll(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1);
             return View();
@@ -58,7 +59,7 @@ namespace VietSoft.HRM.Web.Controllers
             var listmenu = _homeService.GetMenu(SessionManager.CurrentUser.UserName);
             GetListMenu(listmenu);
             SessionManager.ThongTinChung = _accountService.GetThongTinChung(SessionManager.CurrentUser.UserName);
-            ViewBag.ListNhaXuong = _combobox.GetCbbDiaDiem(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1);
+            ViewBag.ListNhaXuong = _combobox.GetCbbDiaDiem(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1,1);
             ViewBag.MS_MAY = msmay;
             ViewBag.TEN_MAY = "";
             ViewBag.FLAG = 1;
@@ -87,6 +88,7 @@ namespace VietSoft.HRM.Web.Controllers
             ViewBag.MS_MAY = msmay;
             ViewBag.TEN_MAY = tenmay;
             ViewBag.FLAG = flag;
+            ViewBag.QUYEN_MENU = _homeService.QuyenMenuGSTT(SessionManager.CurrentUser.UserName) == 0 ? 0 : 1;
             //List<MonitoringParametersByDevice> model = _homeService.GetMonitoringParametersByDevice(SessionManager.CurrentUser.UserName,0,msmay,1,-1);
             return View("~/Views/Moningtoring/Index.cshtml");
         }
@@ -138,12 +140,10 @@ namespace VietSoft.HRM.Web.Controllers
             {
                 ticketMaintenance.TINH_TRANG_MAY = ttmay;
                 ViewBag.LoaiBaoTri = _combobox.GetMaintenanceCategoy(2);
-
             }
             else
             {
                 ViewBag.LoaiBaoTri = _combobox.GetMaintenanceCategoy(-1);
-
             }
             if (ttmay != null)
             {
@@ -331,6 +331,7 @@ namespace VietSoft.HRM.Web.Controllers
         }
         public IActionResult GetMonitoringParametersByDevice(string msmay, int isDue)
         {
+            ViewBag.QUYEN_MENU = _homeService.QuyenMenuGSTT(SessionManager.CurrentUser.UserName) == 0 ? 0 : 1;
             List<MonitoringParametersByDevice> model = _homeService.GetMonitoringParametersByDevice(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, msmay, isDue, -1);
             List<MonitoringViewModel> resulst = new List<MonitoringViewModel>();
             try
@@ -370,6 +371,29 @@ namespace VietSoft.HRM.Web.Controllers
             {
                 string uploadedFiles = await SaveUploadFile(image, dev);
                 return Json(new JsonResponseViewModel { Data = new Imagemodel { Path = uploadedFiles, Path64 = uploadedFiles.ToBase64StringImage() }, ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            catch (Exception ex)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveImageAvatar(IFormFile image)
+        {
+            try
+            {
+                if(_homeService.UpdateAvatar(SessionManager.CurrentUser.UserName, image) == 1)
+                {
+                    return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+                    
+                }
+                else
+                {
+                    return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+
+                }
+
             }
             catch (Exception ex)
             {

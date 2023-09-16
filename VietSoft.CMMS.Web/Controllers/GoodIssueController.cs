@@ -3,13 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 using System.Globalization;
-using System.Reflection;
-using VietSoft.CMMS.Core.Models;
 using VietSoft.CMMS.Web.Helpers;
 using VietSoft.CMMS.Web.IServices;
 using VietSoft.CMMS.Web.Models;
 using VietSoft.CMMS.Web.Resources;
-using VietSoft.CMMS.Web.Services;
 
 namespace VietSoft.CMMS.Web.Controllers
 {
@@ -163,7 +160,7 @@ namespace VietSoft.CMMS.Web.Controllers
 
         public IActionResult ChonDSPhuTungXuat(int dangxuat, string mspx)
         {
-            ViewBag.DangXuat = dangxuat;
+            ViewBag.DangXuat = dangxuat.ToString();
             ViewBag.MS_PX = mspx;
             return PartialView("_viewPhuTungXuat");
         }

@@ -10,10 +10,11 @@ using System.Reflection;
 using System.Data;
 using VietSoft.CMMS.Core.Models;
 using Newtonsoft.Json;
+using Microsoft.ApplicationBlocks.Data;
 
 namespace VietSoft.CMMS.Web.Services
 {
-    public class HomeService :  IHomeService
+    public class HomeService : IHomeService
     {
         private readonly IDapperService _dapper;
         private readonly ILogger<HomeService> _logger;
@@ -21,7 +22,7 @@ namespace VietSoft.CMMS.Web.Services
         {
             _dapper = dapper;
         }
-        public List<MyEcomaintViewModel> GetMyEcomain(string username, int languages, DateTime? dngay, string ms_nx, string mslmay, bool xuly,int pageIndex, int pageSize)
+        public List<MyEcomaintViewModel> GetMyEcomain(string username, int languages, DateTime? dngay, string ms_nx, string mslmay, bool xuly, int pageIndex, int pageSize)
         {
             try
             {
@@ -34,11 +35,12 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@NNgu", languages);
                 p.Add("@bcot1", xuly);
                 //int TotalRows = p.Get<int>("@TotalRows");
-                List<MyEcomaintViewModel>? res =  _dapper.GetAll<MyEcomaintViewModel>("spCMMSWEB", p, CommandType.StoredProcedure).OrderBy(x=>x.TEN_MAY).ToList();
-                res.Where(x=>x.sListYC!="").ToList().ForEach(r => r.ListYC = JsonConvert.DeserializeObject<List<MyEcomaintYeuCauModel>>(r.sListYC));
+                List<MyEcomaintViewModel>? res = _dapper.GetAll<MyEcomaintViewModel>("spCMMSWEB", p, CommandType.StoredProcedure).OrderBy(x => x.TEN_MAY).ToList();
+                res.Where(x => x.sListYC != "").ToList().ForEach(r => r.ListYC = JsonConvert.DeserializeObject<List<MyEcomaintYeuCauModel>>(r.sListYC));
+
                 res.Where(x => x.sListBT != "").ToList().ForEach(r => r.ListBT = JsonConvert.DeserializeObject<List<MyEcomaintBaoTriModel>>(r.sListBT));
-                return res.OrderBy(x=>x.MS_MAY).ToList();
-            }           
+                return res.OrderBy(x => x.MS_MAY).ToList();
+            }
             catch
             {
                 return null;
@@ -75,7 +77,7 @@ namespace VietSoft.CMMS.Web.Services
                 List<MonitoringParametersByDevice>? res = _dapper.GetAll<MonitoringParametersByDevice>("spCMMSWEB", p, CommandType.StoredProcedure);
                 return res;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return null;
             }
@@ -97,7 +99,51 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public UserRequestViewModel GetUserRequest(string msyc,string msmay, string username,int them)
+        public int QuyenMenuGSTT(string username)
+        {
+            try
+            {
+                return Convert.ToInt32(SqlHelper.ExecuteScalar(_dapper.GetDbconnection().ConnectionString, CommandType.Text, "SELECT COUNT(*) FROM dbo.USERS A\r\nINNER JOIN dbo.NHOM_MENU B ON B.GROUP_ID = A.GROUP_ID\r\nWHERE A.USERNAME = '" + username + "' AND B.MENU_ID ='mnuGiamsattinhtrang'\r\n"));
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+
+        public int UpdateAvatar(string username, IFormFile image)
+        {
+            try
+            {
+                byte[] fileData = null;
+                if(image != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        image.CopyTo(memoryStream);
+                        fileData = memoryStream.ToArray();
+                    }
+                    SessionManager.CurrentUser.Avatar = Convert.ToBase64String(fileData);
+
+                }
+                else
+                {
+                    SessionManager.CurrentUser.Avatar = null;
+                }    
+                string sql = "UPDATE dbo.USERS SET AVATAR = @FileData WHERE USERNAME = @Username";
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@FileData", fileData, DbType.Binary); // Thêm giá trị của tệp vào tham số @FileData
+                parameters.Add("@Username", username);
+                _dapper.ExecuteNonQuery(sql, parameters,CommandType.Text);
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+
+        public UserRequestViewModel GetUserRequest(string msyc, string msmay, string username, int them)
         {
             try
             {
@@ -116,7 +162,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public BaseResponseModel SaveMonitoring(string username,string data)
+        public BaseResponseModel SaveMonitoring(string username, string data)
         {
             try
             {
@@ -149,7 +195,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public BaseResponseModel SaveUserRequest(string username,UserRequestViewModel request)
+        public BaseResponseModel SaveUserRequest(string username, UserRequestViewModel request)
         {
             try
             {

@@ -59,6 +59,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@sDanhMuc", "GETPROFILE");
                 p.Add("@UserName", userName);
                 var res = _dapper.Execute<UserModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                res.Avatar = Convert.ToBase64String(res.HINH_CN);
                 return res;
             }
             catch (Exception ex)

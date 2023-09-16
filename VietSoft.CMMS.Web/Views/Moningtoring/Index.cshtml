@@ -5,7 +5,7 @@
 }
 
 <style>
-       .navbar-button {
+    .navbar-button {
         padding-left: 100px;
         padding-top: unset;
         padding-right: 100px;
@@ -21,7 +21,7 @@
     .accordion-button::after {
         /*https://astronautweb.co/snippet/font-awesome/*/
         /*        content: "\f083";
-                    font-family: FontAwesome;*/
+                                font-family: FontAwesome;*/
         background-image: none !important;
     }
 
@@ -29,14 +29,15 @@
         background-image: none !important;
         transform: none;
     }
+
 </style>
 
 <div class="row">
     <div class="col-md-6 offset-md-3 col-xs-12">
         <div class="row detail-page-emp-info">
             <div class="col-12 d-flex justify-content-left gap-2 ">
-                <span class="emp-name" >@ViewBag.MS_MAY</span>
-                <span class="emp-code" >@ViewBag.TEN_MAY</span>
+                <span class="emp-name">@ViewBag.MS_MAY</span>
+                <span class="emp-code">@ViewBag.TEN_MAY</span>
                 <input type="hidden" id="MS_MAY" name="MS_MAY" value="@ViewBag.MS_MAY">
             </div>
         </div>
@@ -44,7 +45,7 @@
         <div class="border-top my-3"></div>
         <div class="form-floating">
             <div class="form-check">
-                 @if (ViewBag.FLAG == 1)
+                @if (ViewBag.FLAG == 1)
                 {
                     <input class="form-check-input" type="radio" name="flexRadioDefault" value="1" id="flexRadioDefault1" checked>
                 }
@@ -57,21 +58,25 @@
                 </label>
             </div>
             <div class="form-check">
-                   @if (ViewBag.FLAG == 1)
+                @if (ViewBag.FLAG == 1)
                 {
                     <input class="form-check-input" type="radio" name="flexRadioDefault" value="0" id="flexRadioDefault2">
-
                 }
                 else
                 {
                     <input class="form-check-input" type="radio" name="flexRadioDefault" value="0" id="flexRadioDefault2" checked>
-
-
                 }
                 <label class="form-check-label" for="flexRadioDefault2">
                     @ViewText.LBL_TAT_CA
                 </label>
             </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" value="2" id="flexRadioDefault3">
+                <label class="form-check-label" for="flexRadioDefault3">
+                    Đổi sản phẩm
+                </label>
+            </div>
+
         </div>
         <div class="form-check text-nowrap">
             <input class="form-check-input" type="checkbox" value="" checked id="chkanct">
@@ -79,6 +84,8 @@
                 @ViewText.LBL_AN_CHI_TIET
             </label>
         </div>
+
+
 
 
         <div class="border-top my-3"></div>
@@ -100,14 +107,23 @@
             <a class="btn btn-outline-dark m-1" role="button" href="@Url.Action("Index","Home")" data-toggle="tooltip" title="@ViewText.BTN_TRANG_CHU">
                 <i class="fa fa-home fs-7" aria-hidden="true"></i>
             </a>
-            <a class="btn btn-outline-primary m-1" id='btnsave' role="button" data-toggle="tooltip" title="@ViewText.BTN_LUU">
-                <i class="fa fa-floppy-o fs-7"></i>
-            </a>
+            @if (@ViewBag.QUYEN_MENU == 1)
+            {
+                <a class="btn btn-outline-primary m-1" id='btnsave' role="button" data-toggle="tooltip" title="@ViewText.BTN_LUU">
+                    <i class="fa fa-floppy-o fs-7"></i>
+                </a>
 
-            <a class="btn btn-outline-warning m-1" id="btnhuy" role="button" data-toggle="tooltip" title="@ViewText.LBL_HUY">
-                @*<i class="fa-solid fa-arrows-rotate fs-7"></i>*@
-                <i class="fa fa-times fs-7"></i>
-            </a>
+                <a class="btn btn-outline-warning m-1" id="btnhuy" role="button" data-toggle="tooltip" title="@ViewText.LBL_HUY">
+                    @*<i class="fa-solid fa-arrows-rotate fs-7"></i>*@
+                    <i class="fa fa-times fs-7"></i>
+                </a>
+
+                <a class="btn btn-outline-warning m-1" id="btnChonAll" role="button" data-toggle="tooltip" title="Chọn">
+                    @*<i class="fa-solid fa-arrows-rotate fs-7"></i>*@
+                    <i class="fa fa-times fs-7"></i>
+                </a>
+            }
+
         </div>
     </div>
 </nav>

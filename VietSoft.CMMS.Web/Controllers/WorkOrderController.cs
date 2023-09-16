@@ -149,7 +149,7 @@ namespace VietSoft.CMMS.Web.Controllers
                 return File(Array.Empty<byte>(), "application/octet-stream");
             }
         }
-
+        
         public IActionResult AddSupplies(string suppliesSelectedJson, string deviceId, string dept, int workId, string ticketId)
         {
             @ViewBag.MS_CV = workId;

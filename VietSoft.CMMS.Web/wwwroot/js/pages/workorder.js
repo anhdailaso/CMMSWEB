@@ -234,7 +234,7 @@
                 let mspt = $(this).closest('tr').find("td").eq(0).text();
                 let msvt = $(this).closest('tr').find("td").eq(1).text()
                 let sl = $(this).closest('tr').find("td").eq(2).text()
-                let rowId = `#flush-collapse-` + $('#MS_CV').val()
+                let rowId = `#flush-collapse-` + $('#MS_BO_PHAN').val().replace('.','_') + $('#MS_CV').val()
 
                 let html = ` <tr>
                                 <td width="30%" style="line-height:2.3rem">`+ mspt + `</td>

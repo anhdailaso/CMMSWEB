@@ -36,7 +36,6 @@ namespace VietSoft.CMMS.Web.Controllers
             SelectListItem item = listDD.Where(x => x.Value.ToString() == "-1").FirstOrDefault();
             item.Text = "";
             ViewBag.ListNhaXuong = listDD;
-
             SelectList listMAY = _combobox.GetCbbMay("-1", -1, SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1);
             SelectListItem itemMay = listMAY.Where(x => x.Value.ToString() == "-1").FirstOrDefault();
             itemMay.Text = "";

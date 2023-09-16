@@ -15,7 +15,7 @@ namespace VietSoft.CMMS.Web.IServices
         SelectList DanhSachCa(int NNgu);
         SelectList DanhSachLoaiBT();
         SelectList DanhSachPhuTung(int NNgu);
-        SelectList GetCbbDiaDiem(string UserName, int NNgu, int CoAll);
+        SelectList GetCbbDiaDiem(string UserName, int NNgu, int CoAll, int Myeco = 0);
         SelectList GetLoaiMayAll(string UserName, int NNgu, int CoAll);
         SelectList GetCbbHeThong(string UserName, int NNgu, int CoAll);
         SelectList GetCbbDangNhap(string Username, int NNgu, int CoAll);

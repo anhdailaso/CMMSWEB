@@ -28,7 +28,7 @@
             @foreach (var itemcha in Model.Data)
             {
                 <tr class="parentCell odd">
-                    <td>
+                    <td class="text-start">
                         @itemcha.MS_MAY
                         <div class="tooltip-action">
                             <a>
@@ -91,7 +91,6 @@
                                         {
                                             //trung bình
                                             <i class="@(item.TREBT == 1 ? (item.HH_BT == 1 ? "fa-regular fa-circle-c" : "fa-regular fa-circle-p") : (item.HH_BT == 1 ? "fa-solid fa-c" : "fa-solid fa-p"))" style="color:#13079b"></i>
-
                                         }
                                         else
                                         {
@@ -113,7 +112,6 @@
                         @if (itemcha.TREGS == 2)
                         {
                             <a href="/Home/Moningtoring?msmay=@itemcha.MS_MAY&tenmay=@itemcha.TEN_MAY&flag=1">
-
                                 <i class="@(itemcha.TREGS == 1 ? "fa-solid fa-circle" : "fa fa-times")" style="color:#13079b"></i>
                             </a>
                         }

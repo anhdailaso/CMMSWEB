@@ -8,7 +8,7 @@
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://192.168.1.27:7203"
+      "applicationUrl": "http://192.168.88.171:7203"
     },
     "IIS Express": {
       "commandName": "IISExpress",

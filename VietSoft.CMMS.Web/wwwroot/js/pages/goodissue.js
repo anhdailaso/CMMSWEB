@@ -421,7 +421,7 @@
             }
         }
         else {
-            $("#CboDangXuat").val(3).change();
+            $("#CboDangXuat").val(-1).change();
         }
 
 
@@ -592,7 +592,7 @@
 
 
     function LoadPBT(e) {
-        alert(e);
+     /*   alert(e);*/
         $('#CboPBT option').remove();
         $.ajax({
             type: "POST",

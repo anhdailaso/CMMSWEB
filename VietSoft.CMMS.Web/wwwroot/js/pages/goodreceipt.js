@@ -153,6 +153,7 @@
 
 
         switch (parseInt($('#CboDangNhap').val())) {
+            case 1:
             case 2: {
                 //nhập khác
                 $('#CboDDH').parent('.form-floating').addClass('d-none');
@@ -171,9 +172,12 @@
         }
 
 
+
+
         $(document).on("click", '#btnSavePhieuNhapKho', function () {
 
             switch (parseInt($('#CboDangNhap').val())) {
+                case 1:
                 case 2: {
                     //nhap khac
                     $("#CboDDH").rules("remove");
@@ -462,7 +466,9 @@
         $('#CboDangNhap').on('change', function () {
             showLoadingOverlay('#GetDSPhuTungNhap');
             switch (parseInt($('#CboDangNhap').val())) {
-                case 2: {
+                case 1:
+                case 2:
+                    {
                     //nhập khác
                     LoadNguoiNhap(-1, 4);
                     $('#CboDDH').parent('.form-floating').addClass('d-none');

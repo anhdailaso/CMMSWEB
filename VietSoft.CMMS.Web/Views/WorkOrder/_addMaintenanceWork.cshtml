@@ -19,13 +19,21 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td class="w-30">+ @item.MS_BO_PHAN</td>
-                        <td class="w-50 " style="text-align:left !important">@item.MO_TA_CV</td>
+                    <tr class="parentCell odd">
+                        <td class="w-30 text-start">
+                            + @item.MS_BO_PHAN
+                            <div class="tooltip-action">
+                                <a>
+                                    @*<img src="@string.Format(Setting.MENU_ICON_FOLDER, "timesheet-white-sm.png")" class="icon-tooltip">*@
+                                    <span>@item.TEN_BO_PHAN</span>
+                                </a>
+                            </div>
+                        </td>
+                        <td class="w-50 text-start">@item.MO_TA_CV</td>
                         <td class="w-20">
                             <div class="mx-3 my-1">
                                 <input class="form-check-input input-add-work" type="checkbox"
-                                data-ms-cviec=@item.MS_CV data-ms-bophan=@item.MS_BO_PHAN>
+                                   data-ms-cviec=@item.MS_CV data-ms-bophan=@item.MS_BO_PHAN>
                             </div>
                         </td>
                         <td class="d-none">@item.TEN_BO_PHAN</td>

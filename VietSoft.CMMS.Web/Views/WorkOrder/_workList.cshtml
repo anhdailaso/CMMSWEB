@@ -6,8 +6,8 @@
     {
         <div class="accordion-item border-0 break-line">
 
-            <h2 class="accordion-header mx-3" id="flush-heading-@item.MS_CV">
-                <button class="accordion-button  collapsed parentCell" type="button" style="color: @(item.WorkOrderDetailViewModels.Any() ? "#ff870f" : "#113186")" data-bs-toggle="collapse" data-bs-target="#flush-collapse-@item.MS_CV" aria-expanded="false" aria-controls="flush-collapse-@item.MS_CV" title="Bạc đạn">
+            <h2 class="accordion-header mx-3" id="flush-heading-@item.MS_BO_PHAN.Replace('.','_')@item.MS_CV">
+                <button class="accordion-button  collapsed parentCell" type="button" style="color: @(item.WorkOrderDetailViewModels.Any() ? "#ff870f" : "#113186")" data-bs-toggle="collapse" data-bs-target="#flush-collapse-@item.MS_BO_PHAN.Replace('.','_')@item.MS_CV" aria-expanded="false" aria-controls="flush-collapse-@item.MS_BO_PHAN.Replace('.','_')@item.MS_CV" title="Bạc đạn">
                     + @item.MS_BO_PHAN  @item.MO_TA_CV
                     <div class="tooltip-action" style="margin-top:-5.2rem">
                         <a>
@@ -52,7 +52,7 @@
 
             </h2>
 
-            <div id="flush-collapse-@item.MS_CV" class="accordion-collapse collapse" aria-labelledby="flush-heading-@item.MS_CV" data-bs-parent="#accordionFlushExample">
+            <div id="flush-collapse-@item.MS_BO_PHAN.Replace('.','_')@item.MS_CV" class="accordion-collapse collapse" aria-labelledby="flush-heading-@item.MS_BO_PHAN.Replace('.','_')@item.MS_CV" data-bs-parent="#accordionFlushExample">
                 <div class="table-responsive">
                     <table class="table table-responsive table-borderless tbl-supplies">
                         <tbody>

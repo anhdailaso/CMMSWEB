@@ -70,9 +70,9 @@ namespace VietSoft.CMMS.Web.Services
         public void ExecuteNonQuery(string sp, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure)
         {
             using IDbConnection db = new SqlConnection(_connectionstring);
-            db.Execute(sp, parms, commandType: CommandType.StoredProcedure);
+            db.Execute(sp, parms, commandType: commandType);
         }
-
+ 
 
         //protected APIExcute _apiExcute;
         //protected HRMApiUrl _hrmApiUrl { get; set; }

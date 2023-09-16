@@ -185,8 +185,8 @@ namespace VietSoft.CMMS.Web.Services
                 var p = new DynamicParameters();
                 p.Add("@sDanhMuc", "SCAN_PHU_TUNG_XUAT");
                 p.Add("@sCot1", mspx);
-                p.Add("@sCot2", resulst[0]);//mspt
-                p.Add("@sCot3", resulst[1]);//msdhn
+                p.Add("@sCot2", resulst[1]);//mspt
+                p.Add("@sCot3", resulst[0]);//msdhn
                 p.Add("@NNgu", languages);
                 var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 return res != null ? res : new ResponseViewModel()

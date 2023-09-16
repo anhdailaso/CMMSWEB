@@ -7,7 +7,7 @@
         bload = false;
 
         //setDatePicker("#toDate", null, moment($("#toDate").val(), 'DD/MM/YYYY').toDate())
-        $('#cboDiaDiem').val('-1').change();
+        //$('#cboDiaDiem').val('-1').change();
         $('#cboLMay').val('-1').change();
         $('#search').on('keyup', function () {
             clearTimeout(delayTimer)

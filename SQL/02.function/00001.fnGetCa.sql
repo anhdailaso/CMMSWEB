@@ -1,5 +1,4 @@
-﻿DROP FUNCTION  [dbo].[fnGetCa]
-GO	
+﻿
 CREATE function [dbo].[fnGetCa]
 (
 	@Ngay DATETIME ='2021-12-13 14:00:00.001'

@@ -21,7 +21,12 @@
             else {
                 $('.accordion-collapse.collapse').addClass('show');
             }
-        })
+        });
+
+        $('#btnChonAll').on('click', function () {
+            alert("123");
+        });
+
         $('#btnsave').on('click', function () {
             var lstParameter = new Array();
             var cur_length = 0;

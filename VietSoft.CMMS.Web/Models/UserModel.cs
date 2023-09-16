@@ -4,6 +4,7 @@
     {
         public string Token { get; set; }
         public string UserName { get; set; }
+        public byte[] HINH_CN { get; set; }
         public string Avatar { get; set; }
         public string FullName { get; set; }
         public DateTime StartDate { get; set; }
