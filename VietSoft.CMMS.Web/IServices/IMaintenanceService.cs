@@ -25,7 +25,7 @@ namespace VietSoft.CMMS.Web.IServices
         ResponseViewModel SaveNguoiThucHien(string ticketId, string json);
         ResponseViewModel ThemCauTrucCongViec(string deviceId, string msbp, int mscv, string tenCV, int thoigian, bool them);
         ResponseViewModel SaveLogWork(string ticketId, string userName, string json);
-        ResponseViewModel SaveWorkOrder(string ticketId, DateTime date, int categoryTicketId, int priorityId, string statusDevice,string lydoBT, string userName, string deviceId, int them);
+        ResponseViewModel SaveWorkOrder(string ticketId, DateTime ngaylap,DateTime ngaybd,DateTime ngaykt, int categoryTicketId, int priorityId, string statusDevice,string lydoBT, string userName, string deviceId, int them);
         ResponseViewModel CompletedWorkOrder(string ticketId, string userName, string deviceId, int languages);
         List<CapNhatCa> CapNhatCa(DateTime TN, DateTime DN);
         ResponseViewModel SaveInputCauseOfDamageList(string ticketId, int msnn, DateTime tungay, DateTime denngay, string json, string Username);
@@ -37,5 +37,6 @@ namespace VietSoft.CMMS.Web.IServices
         bool CheckPhuTung(string ticketId);
         BaseResponseModel UpdateTinhTrang(string ticketId);
         List<ThoiGianNgungMayModel> GetListThoiGianNgungMay(string mspbt, int languages);
+        BaseResponseModel SaveImagePBT(string path, string ticketId, string com, string work);
     }
 }

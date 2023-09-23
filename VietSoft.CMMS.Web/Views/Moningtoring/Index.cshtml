@@ -1,7 +1,11 @@
-﻿@using VietSoft.CMMS.Web.Resources
+﻿@using VietSoft.CMMS.Web.Models.Maintenance;
+@using VietSoft.CMMS.Web.Resources
 @using VietSoft.CMMS.Web.Helpers
+@model VietSoft.CMMS.Web.Models.Maintenance.MorningToringViewModel;
+
 @{
     ViewBag.Title = "GIÁM SÁT TÌNH TRẠNG MÁY";
+    var priorityCategories = (IEnumerable<PriorityCategoryViewModel>)ViewBag.UuTien;
 }
 
 <style>
@@ -21,7 +25,7 @@
     .accordion-button::after {
         /*https://astronautweb.co/snippet/font-awesome/*/
         /*        content: "\f083";
-                                font-family: FontAwesome;*/
+                                            font-family: FontAwesome;*/
         background-image: none !important;
     }
 
@@ -43,6 +47,39 @@
         </div>
         @*<div class="border text-secondary m-auto mt-4 w-90 break-line"></div>*@
         <div class="border-top my-3"></div>
+
+
+
+        <div class="form-floating break-line">
+            @Html.Hidden("SO_PHIEU", @Model.SO_PHIEU, null)
+            @Html.Hidden("STT", @Model.STT, null)
+            @Html.Hidden("THEM", @Model.THEM, null)
+            <select id="cboUuTien" asp-for="@Model.MUC_UU_TIEN" name="cboUuTien" class="form-select form-select-sm" placeholder=@ViewText.BTN_DOI_MK>
+                @foreach (var item in priorityCategories)
+                {
+                    <option value="@item.MS_UU_TIEN" data-songay=@item.SO_NGAY>@item.TEN_UU_TIEN</option>
+                }
+            </select>
+            <label for="cboUuTien">@ViewText.LBL_UU_TIEN</label>
+        </div>
+
+
+        <div class="form-floating break-line input-group date">
+            @Html.TextBoxFor(model => model.NGAY_KH,"{0:dd/MM/yyyy}",new{ @class="form-control",autocomplete="off"})
+            @Html.ValidationMessageFor(model=>model.NGAY_KH)
+            <span class="input-group-append d-flex align-items-center">
+                <i class="bi bi-calendar4-week date-icon"></i>
+            </span>
+            <label for="NGAY_KH">Ngày kế hoạch</label>
+        </div>
+
+        <div class="form-floating break-line">
+            @Html.TextAreaFor(model=>model.NHAN_XET, new { @class = "form-control", maxlength = 250, autocomplete = "off" , placeholder=@ViewText.LBL_GHI_CHU })
+            <label for="NHAN_XET">Nhận xét</label>
+        </div>
+
+        <div class="border-top my-3"></div>
+
         <div class="form-floating">
             <div class="form-check">
                 @if (ViewBag.FLAG == 1)
@@ -54,7 +91,7 @@
                     <input class="form-check-input" type="radio" name="flexRadioDefault" value="1" id="flexRadioDefault1">
                 }
                 <label class="form-check-label" for="flexRadioDefault1">
-                    @ViewText.LBL_THONG_SO_DH
+                    Những thông số trong phiếu
                 </label>
             </div>
             <div class="form-check">
@@ -86,14 +123,15 @@
         </div>
 
 
-
-
-        <div class="border-top my-3"></div>
-        <br />
+        <br />      
+      
         <div class="col-md-12 offset-md-12 col-xs-12  px-0">
             <div id="GetMoningToring">
             </div>
         </div>
+
+        <br />
+        <br />
 
 
     </div>
@@ -107,21 +145,31 @@
             <a class="btn btn-outline-dark m-1" role="button" href="@Url.Action("Index","Home")" data-toggle="tooltip" title="@ViewText.BTN_TRANG_CHU">
                 <i class="fa fa-home fs-7" aria-hidden="true"></i>
             </a>
-            @if (@ViewBag.QUYEN_MENU == 1)
+            @if (Model.QUYEN_MENU == 1)
             {
                 <a class="btn btn-outline-primary m-1" id='btnsave' role="button" data-toggle="tooltip" title="@ViewText.BTN_LUU">
                     <i class="fa fa-floppy-o fs-7"></i>
                 </a>
 
-                <a class="btn btn-outline-warning m-1" id="btnhuy" role="button" data-toggle="tooltip" title="@ViewText.LBL_HUY">
-                    @*<i class="fa-solid fa-arrows-rotate fs-7"></i>*@
-                    <i class="fa fa-times fs-7"></i>
-                </a>
+                @if (Model.THEM != 1)
+                {
 
-                <a class="btn btn-outline-warning m-1" id="btnChonAll" role="button" data-toggle="tooltip" title="Chọn">
-                    @*<i class="fa-solid fa-arrows-rotate fs-7"></i>*@
-                    <i class="fa fa-times fs-7"></i>
-                </a>
+                    <a class="btn btn-outline-warning m-1" data-toggle="tooltip" title="@ViewText.BTN_XOA" id="btnhuyGS" role="button">
+                        <i class="fa fa-times fs-7"></i>
+                    </a>
+
+                    <a id="btnAddNguoiThucHien" class="btn btn-outline-primary m-1" data-toggle="tooltip" title="@ViewText.TITLE_THEN_NGUOI_THUC_HIEN">
+                        <i class="fa-regular fa-person-sign fs-7" aria-hidden="true"></i>
+                    </a>
+
+                    <!-- Hoành thành phiếu -->
+                    <a id="btnComplete" class="btn btn-outline-success m-1" data-toggle="tooltip" title="Hoàn thành">
+                        <i class="fa fa-check-circle fs-7"></i>
+                    </a>
+
+
+                }
+
             }
 
         </div>
@@ -135,7 +183,10 @@
             SAVE_MONITORING: '@Url.Action("SaveMonitoring", "Home")',
             MyEcomaint: '@Url.Action("Index", "Home")',
             MESS_VUI_LONG_CHON_DL: '@Html.Raw(Message.MESS_VUI_LONG_CHON_DL)',
-
+            ADD_NGUOI_THUC_HIEN: '@Url.Action("ChonNguoiThucHien","Home")',
+            SAVE_NGUOI_THUC_HIEN: '@Url.Action("SaveNguoiThucHien","Home")',
+            COMPLETED: '@Url.Action("Completed","Home")',
+            DELETE_GSTT: '@Url.Action("DeleteGSTT","Home")',
         }
     </script>
     <script src="~/js/pages/moningtoring.js" asp-append-version="true"></script>

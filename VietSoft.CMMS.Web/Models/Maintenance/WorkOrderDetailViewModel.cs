@@ -18,6 +18,7 @@
         public double SL_KH { get; set; }
         public double SL_TT { get; set; }
         public string PATH_HD { get; set; }
+        public string PATH_IMAGE { get; set; }
     }
 
     public class NguoiThucHienModel
@@ -57,6 +58,8 @@
         public string YEU_CAU_NS { get; set; }
         public string YEU_CAU_DUNG_CU { get; set; }
         public string PATH_HD { get; set; }
+        public string Path { get; set; }
+        public string Path64 { get; set; }
         public IEnumerable<WorkOrderDetailViewModel> WorkOrderDetailViewModels { get; set; }
 
     }

@@ -3,14 +3,15 @@
 @using VietSoft.CMMS.Web.Extensions;
 @model List<VietSoft.CMMS.Web.Models.MonitoringViewModel>
 
-<style>
+@*<style>
     input {
-        z-index: 100 !important;
+        z-index: 1000!important;
     }
-</style>
+</style>*@
 
 @if (Model != null && Model.Count > 0)
 {
+
     <div class="accordion border-0 break-line" id="accordionFlushExample">
         @foreach (var item in Model.OrderBy(x => x.ComponentID))
         {
@@ -18,7 +19,7 @@
                 <h2 class="accordion-header d-flex" id="heading-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID">
                     <button class="accordion-button collapsed parentCell" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" aria-expanded="false" aria-controls="collapse-@item.ComponentID@item.MonitoringParamsID">
                         <div class="d-flex justify-content-between w-100">
-                            <span id="title-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID">+ @item.ComponentID  @item.MonitoringParamsName</span>
+                            <span style="color:@(item.MonitoringParameters.Count(x => x.Measurement != 0) > 0 ? "#ff870f" : "")" id="title-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID">+ @item.ComponentID @item.MonitoringParamsName</span>
                         </div>
                         <div class="tooltip-action" style="margin-top:-5.2rem">
                             <a>
@@ -35,7 +36,7 @@
                     }
                     @if (ViewBag.QUYEN_MENU == 1)
                     {
-                        <a class="d-flex accordion-right-icon" data-bs-toggle="modal" data-bs-target="#exampleModal" data-mor="@item.MonitoringParamsID" data-dev="@item.DeviceID" data-com="@item.ComponentID" data-src="" data-pat="" onclick="loadhinh(this)">
+                        <a class="d-flex accordion-right-icon" data-bs-toggle="modal" data-bs-target="#exampleModal" data-mor="@item.MonitoringParamsID" data-dev="@item.DeviceID" data-com="@item.ComponentID" data-src="@item.Path64" data-pat="@item.Path" onclick="loadhinh(this)">
                             <i class="fa fa-camera-retro"></i>
                         </a>
                     }
@@ -52,16 +53,16 @@
                                         <tr>
                                             <td style="line-height:2.3rem">@item1.ValueParamName</td>
                                             <td data-pass="@item1.Pass">
-                                                <input class="form-check-input @(ViewBag.QUYEN_MENU == 0 ? "disabled" : "")" id="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" style="margin-top:0.8rem" data-pass="@item1.Pass" data-id="@item1.ValueParamID" data-msbophan="@item1.ComponentID" data-msthongso="@item1.MonitoringParamsID" type="checkbox">
+                                                <input class="form-check-input @(ViewBag.QUYEN_MENU == 0 ? "disabled" : "")" id="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" style="margin-top:0.8rem" data-pass="@item1.Pass" data-id="@item1.ValueParamID" data-msbophan="@item1.ComponentID" data-msthongso="@item1.MonitoringParamsID" type="checkbox" @(item1.Measurement == 1 ? "checked" : "")>
                                             </td>
-                                            <td> <input class="form-control @(ViewBag.QUYEN_MENU == 0 ? "disabled" : "")" style="font-size:0.8rem;" type="text" id="note" placeholder="@ViewText.LBL_GHI_CHU" aria-label="default input example" value="" /></td>
+                                            <td> <input class="form-control @(ViewBag.QUYEN_MENU == 0 ? "disabled" : "")" style="font-size:0.8rem;" type="text" id="note" placeholder="@ViewText.LBL_GHI_CHU" aria-label="default input example" value="@item1.Note" /></td>
                                         </tr>
                                     }
                                     else
                                     {
                                         <tr>
                                             <td class="parentCell odd">
-                                                <input onfocusout="myfunction(this)" class="form-control form-input @(ViewBag.QUYEN_MENU == 0 ? "disabled" : "")" type="number" min="0" max="99999" data-range="@item1.ValueParamName.Split('!')[1]" data-msbophan="@item1.ComponentID" id="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" data-msthongso="@item1.MonitoringParamsID" style="font-size:0.8rem;" placeholder="Kết quả" aria-label="default input example" value="" name="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" />
+                                                <input onfocusout="myfunction(this)" class="form-control form-input @(ViewBag.QUYEN_MENU == 0 ? "disabled" : "")" type="number" min="0" max="99999" data-range="@item1.ValueParamName.Split('!')[1]" data-msbophan="@item1.ComponentID" id="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" data-msthongso="@item1.MonitoringParamsID" style="font-size:0.8rem;" placeholder="Kết quả" aria-label="default input example" value="@item1.Measurement" name="@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" />
                                                 <div class="tooltip-action position-absolute">
                                                     <a>
                                                         <span>@Html.Raw(@item1.ValueParamName.Split('!')[0])</span>
@@ -132,10 +133,12 @@ else
     var modalImg = document.getElementById("img01");
     var file;
     var dev;
+    var com;
     function loadhinh(e) {
         file = null;
         obj = e;
         dev = $(e).attr('data-dev');
+        com = $(e).attr('data-com');
         modalImg.src = '';
         $('#exampleModal').modal('show');
         modalImg.src = $(e).attr('data-src');
@@ -155,7 +158,8 @@ else
         $('#exampleModal').modal('hide');
         var fd = new FormData();
         fd.append('image', file);
-        fd.append('dev', dev);
+        fd.append('msts', $('#SO_PHIEU').val());
+        fd.append('dev', com);  
         $.ajax({
             type: "POST",
             data: fd,

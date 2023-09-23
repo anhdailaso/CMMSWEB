@@ -16,7 +16,7 @@ namespace VietSoft.CMMS.Web.Services
     public class ChartService : IChartService
     {
         private readonly IDapperService _dapper;
-        private readonly ILogger<HomeService> _logger;
+        public readonly ILogger<HomeService> _logger;
         public ChartService(IDapperService dapper)
         {
             _dapper = dapper;

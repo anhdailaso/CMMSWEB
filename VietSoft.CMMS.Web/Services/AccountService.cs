@@ -11,7 +11,7 @@ namespace VietSoft.CMMS.Web.Services
     public class AccountService :  IAccountService
     {
         private readonly IDapperService _dapper;
-        private readonly ILogger<AccountService> _logger;
+        public readonly ILogger<AccountService> _logger;
         public AccountService(IDapperService dapper)
         {
             _dapper = dapper;

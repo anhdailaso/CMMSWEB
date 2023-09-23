@@ -32,6 +32,8 @@ namespace VietSoft.CMMS.Web.Models
         public string MeasurementUnitName { get; set; }
         public bool TypeOfParam { get; set; }
         public string DUONG_DAN { get; set; }
+        public string Path { get; set; }
+        public string Path64 { get; set; }
         public List<MonitoringParametersByDevice> MonitoringParameters { get;set; }
 
     }

@@ -14,6 +14,8 @@
         //    $('[role ="tooltip"]').css({ "background-color": "#ffff" });
         //});
 
+        setDatePicker("#NGAY_KH", new Date(), null, null);
+
         $('#chkanct').on('change', function () {
             if ($(this).is(":checked")) {
                 $('.accordion-collapse.collapse').removeClass('show');
@@ -23,9 +25,51 @@
             }
         });
 
-        $('#btnChonAll').on('click', function () {
-            alert("123");
+        $(document).on("click", '#btnComplete', function () {
+            ShowConfirm("Bạn có muốn hoàn thành phiếu GSTT này không?", 'warning', '', function (result) {
+                if (result == true) {
+                    saveComplete();
+                }
+            });
         });
+
+        $(document).on('click', '#btnhuyGS', function () {
+  
+            ShowConfirm("Bạn có muốn xóa GSTT này không?", 'warning', '', function (result) {
+                if (result == true) {
+                    $.ajax({
+                        type: "POST",
+                        url: config.DELETE_GSTT,
+                        data: {
+                            STT: $('#STT').val(),
+                        },
+                        success: function (response) {
+                            if (response.responseCode == 1) {
+                                showSuccess(response.responseMessage)
+                                window.location.href = config.MyEcomaint;
+                            }
+                            else {
+                                showWarning(response.responseMessage);
+                            }
+                        },
+                        complete: function () {
+                        }
+                    });
+
+                }
+            });
+
+        });
+
+
+        $(document).on("click", '#btnAddNguoiThucHien', function () {
+            ChonNguoiThucHien()
+        });
+
+        $(document).on("click", '#btnChonNguoiThucHien', function () {
+            SaveNguoiThucHien();
+        });
+
 
         $('#btnsave').on('click', function () {
             var lstParameter = new Array();
@@ -68,19 +112,34 @@
                 })
 
             })
-            console.log(lstParameter);
-            if (cur_length === 0) {
-                showWarning(config.MESS_VUI_LONG_CHON_DL);
-                return;
-            }
+            //if (cur_length === 0) {
+            //    showWarning(config.MESS_VUI_LONG_CHON_DL);
+            //    return;
+            //}
+
+            let model = {
+                STT: $('#STT').val(),
+                SO_PHIEU: $('#SO_PHIEU').val(),
+                NGAY_KH: $('#NGAY_KH').val(),
+                MUC_UU_TIEN: $('#cboUuTien').val(),
+                NHAN_XET: $('#NHAN_XET').val(),
+                THEM: $('#THEM').val(),
+            };
+            console.log(model);
             $.ajax({
                 type: "POST",
                 url: config.SAVE_MONITORING,
-                data: { jsonData: JSON.stringify(lstParameter) },
+                data: {
+                    model: model,
+                    msmay: $('#MS_MAY').val(),
+                    jsonData: JSON.stringify(lstParameter)
+                },
                 success: function (response) {
                     if (response.responseCode == 1) {
                         showSuccess(response.responseMessage)
-                        window.location.href = config.MyEcomaint;
+                        if (window.location.href.indexOf("flag=0") !== -1) {
+                            window.location.href = window.location.href.replace("flag=0", "flag=1").replace("msgstt=-1", "msgstt=" + response.data +"");
+                        }
                     }
                     else {
                         showWarning(response.responseMessage)
@@ -110,16 +169,90 @@
             url: config.GET_MONITORING_LIST,
             data: {
                 msmay: $('#MS_MAY').val(),
-                isDue: $('input[name = "flexRadioDefault"]:checked').val()
+                isDue: $('input[name = "flexRadioDefault"]:checked').val(),
+                stt: $('#STT').val(),
             },
             success: function (response) {
                 $(contentDataList).html(response);
+                console.log(response);
             },
             complete: function () {
                 hideLoadingOverlay(contentDataList);
             }
         });
     }
+
+    function ChonNguoiThucHien() {
+        $.ajax({
+            type: "POST",
+            url: config.ADD_NGUOI_THUC_HIEN,
+            data: {
+                stt: $('#STT').val(),
+                gstt: $('#SO_PHIEU').val(),
+                msmay: $('#MS_MAY').val(),
+            },
+            success: function (response) {
+                $('#modalLarge .modal-content').html(response);
+                $('#modalLarge').modal('show');
+            }
+        });
+    }
+
+    function SaveNguoiThucHien() {
+        let CNList = [];
+        $('input:checkbox.input-add-nth:checked').each(function () {
+            let mscn = $(this).data('ms-cn');
+            let object = {
+                MS_CONG_NHAN: mscn,
+            }
+            CNList.push(object)
+
+        });
+        $.ajax({
+            type: "POST",
+            url: config.SAVE_NGUOI_THUC_HIEN,
+            data: {
+                stt: $('#STT').val(),
+                json: JSON.stringify(CNList)
+            },
+            success: function (response) {
+                if (response.responseCode == 1) {
+                    showSuccess(response.responseMessage)
+                    $('#modalLarge').modal('hide');
+                }
+                else {
+                    showWarning(response.responseMessage)
+                }
+            },
+            complete: function () {
+            }
+        });
+    }
+
+    function saveComplete() {
+        showLoadingOverlay("#inputCauseOfDamageContent");
+        $.ajax({
+            type: "POST",
+            url: config.COMPLETED,
+            data: {
+                stt: $('#STT').val(),
+            },
+            success: function (response) {
+                if (response.responseCode == 1) {
+                    showSuccess(response.responseMessage)
+                    window.location.href = config.MyEcomaint;
+                }
+                else {
+                    showWarning(response.responseMessage)
+                }
+            },
+            complete: function () {
+                hideLoadingOverlay("#inputCauseOfDamageContent");
+            }
+        });
+    }
+
+
     return {
         init: init
     };

@@ -7,6 +7,7 @@ namespace VietSoft.CMMS.Web.Models
     {
         public Int64 STT { get; set; }
         public string MS_MAY { get; set; }
+        public string MS_YEU_CAU { get; set; }
         [Required(ErrorMessageResourceType = typeof(Message), ErrorMessageResourceName = "FIELD_REQUIRED")]
         public string MO_TA_TINH_TRANG { get; set; }
         [Required(ErrorMessageResourceType = typeof(Message), ErrorMessageResourceName = "FIELD_REQUIRED")]

@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using System.Drawing;
 using Microsoft.AspNetCore.StaticFiles;
 using System.Net.Mime;
+using VietSoft.CMMS.Web.Models.Maintenance;
 
 namespace VietSoft.HRM.Web.Controllers
 {
@@ -23,10 +24,11 @@ namespace VietSoft.HRM.Web.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IAccountService _accountService;
         private readonly IComboboxService _combobox;
-        private  IHomeService _homeService;
+        private IHomeService _homeService;
         private readonly IMaintenanceService _maintenanceService;
+        private readonly IFtpService _ftpservice;
         public HomeController(ILogger<HomeController> logger, IAccountService accountService, IHomeService homeService, IComboboxService combobox,
-            IMaintenanceService maintenanceService, IHostEnvironment hostEnvironment)
+            IMaintenanceService maintenanceService, IHostEnvironment hostEnvironment, IFtpService ftpservice)
         {
             _logger = logger;
             _accountService = accountService;
@@ -34,6 +36,7 @@ namespace VietSoft.HRM.Web.Controllers
             _combobox = combobox;
             _maintenanceService = maintenanceService;
             _hostEnvironment = hostEnvironment;
+            _ftpservice = ftpservice;
         }
 
         [AllowAnonymous]
@@ -46,20 +49,20 @@ namespace VietSoft.HRM.Web.Controllers
         {
             var listmenu = _homeService.GetMenu(SessionManager.CurrentUser.UserName);
             GetListMenu(listmenu);
-            SessionManager.ThongTinChung = _accountService.GetThongTinChung(SessionManager.CurrentUser.UserName);
+            //SessionManager.ThongTinChung = _accountService.GetThongTinChung(SessionManager.CurrentUser.UserName);
             //với data nặng thì cho theo nhà xưởng
             ViewBag.ListNhaXuong = _combobox.GetCbbDiaDiem(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1);
             ViewBag.ListLoaiMAY = _combobox.GetLoaiMayAll(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1);
             return View();
         }
 
-        public IActionResult WorkOrderLink(string mspbt,string msmay)
+        public IActionResult WorkOrderLink(string mspbt, string msmay)
         {
 
             var listmenu = _homeService.GetMenu(SessionManager.CurrentUser.UserName);
             GetListMenu(listmenu);
-            SessionManager.ThongTinChung = _accountService.GetThongTinChung(SessionManager.CurrentUser.UserName);
-            ViewBag.ListNhaXuong = _combobox.GetCbbDiaDiem(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1,1);
+            //SessionManager.ThongTinChung = _accountService.GetThongTinChung(SessionManager.CurrentUser.UserName);
+            ViewBag.ListNhaXuong = _combobox.GetCbbDiaDiem(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, 1, 1);
             ViewBag.MS_MAY = msmay;
             ViewBag.TEN_MAY = "";
             ViewBag.FLAG = 1;
@@ -82,17 +85,17 @@ namespace VietSoft.HRM.Web.Controllers
             }
         }
 
-        public IActionResult Moningtoring(string msmay, string tenmay, int flag)
+        public IActionResult Moningtoring(string msgstt, string msmay, string tenmay, int flag)
         {
             res = null;
             ViewBag.MS_MAY = msmay;
             ViewBag.TEN_MAY = tenmay;
             ViewBag.FLAG = flag;
-            ViewBag.QUYEN_MENU = _homeService.QuyenMenuGSTT(SessionManager.CurrentUser.UserName) == 0 ? 0 : 1;
-            //List<MonitoringParametersByDevice> model = _homeService.GetMonitoringParametersByDevice(SessionManager.CurrentUser.UserName,0,msmay,1,-1);
-            return View("~/Views/Moningtoring/Index.cshtml");
+            ViewBag.UuTien = _combobox.GetPriorityCategory(SessionManager.CurrentUser.TypeLangue);
+            var morningtoring = _homeService.GetMorningToring(msgstt, SessionManager.CurrentUser.UserName, msmay, flag == 1 ? true : false);
+            return View("~/Views/Moningtoring/Index.cshtml", morningtoring);
         }
-        public IActionResult UserRequest(string msyc,string msmay, string tenmay, int flag)
+        public IActionResult UserRequest(string msyc, string msmay, string tenmay, int flag)
         {
             res = null;
             ViewBag.MS_MAY = msmay;
@@ -101,7 +104,7 @@ namespace VietSoft.HRM.Web.Controllers
             UserRequestViewModel userequest = new UserRequestViewModel();
             try
             {
-                userequest = _homeService.GetUserRequest(msyc,msmay, SessionManager.CurrentUser.UserName, flag);
+                userequest = _homeService.GetUserRequest(msyc, msmay, SessionManager.CurrentUser.UserName, flag);
                 if (userequest != null && !string.IsNullOrEmpty(userequest.Files))
                 {
                     var files = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImageFiles>>(userequest.Files);
@@ -109,7 +112,10 @@ namespace VietSoft.HRM.Web.Controllers
                     var lstBase64 = new List<string>();
                     foreach (var item in lst)
                     {
-                        lstBase64.Add(item.ToBase64StringImage());
+                        if (SessionManager.ThongTinChung.LUU_FILE == 2)
+                            lstBase64.Add(_ftpservice.DownloadFileAsBase64(item));
+                        else
+                            lstBase64.Add(item.ToBase64StringImage());
                     }
                     ViewBag.DanhSachHinhAnh = lstBase64;
                 }
@@ -117,25 +123,25 @@ namespace VietSoft.HRM.Web.Controllers
             catch
             {
             }
-            if(flag == 1)
+            if (flag == 1)
             {
-                ViewBag.NguyenNhan = _combobox.DanhSachNguyenNhan("",true,SessionManager.CurrentUser.TypeLangue);
+                ViewBag.NguyenNhan = _combobox.DanhSachNguyenNhan("", true, SessionManager.CurrentUser.TypeLangue);
             }
             else
             {
                 ViewBag.NguyenNhan = _combobox.DanhSachNguyenNhan(msmay, false, SessionManager.CurrentUser.TypeLangue);
-            }    
+            }
             ViewBag.UuTien = _combobox.LoadListUuTien(SessionManager.CurrentUser.TypeLangue);
             return View("~/Views/UserRequest/Index.cshtml", userequest);
         }
         [Route("Home/WorkOrder")]
-        public IActionResult WorkOrder(string mspbt,string msmay, string tenmay, int flag, string ttmay, int msut)
+        public IActionResult WorkOrder(string mspbt, string msmay, string tenmay, int flag, string ttmay, int msut)
         {
             res = null;
             ViewBag.MS_MAY = msmay;
             ViewBag.TEN_MAY = tenmay;
             ViewBag.FLAG = flag;
-            var ticketMaintenance = _maintenanceService.GetTicketMaintenanceByDevice(mspbt,SessionManager.CurrentUser.UserName, msmay, flag == 1 ? false : true);
+            var ticketMaintenance = _maintenanceService.GetTicketMaintenanceByDevice(mspbt, SessionManager.CurrentUser.UserName, msmay, flag == 1 ? false : true);
             if (flag != 1)
             {
                 ticketMaintenance.TINH_TRANG_MAY = ttmay;
@@ -177,12 +183,12 @@ namespace VietSoft.HRM.Web.Controllers
             //kiểm user đó có quyền ngiệm thu
             foreach (var item in listmenu)
             {
-                if(item.Trim() != "")
+                if (item.Trim() != "")
                 {
                     menus.Add(GetMenuItem(item));
                 }
             }
-             //menus.Add(GetMenuItem(Menu.NghiemThuPBT));
+            //menus.Add(GetMenuItem(Menu.NghiemThuPBT));
             //menus.Add(GetMenuItem(Menu.KiemKeTB));
             //menus.Add(GetMenuItem(Menu.History));
             //menus.Add(GetMenuItem(Menu.TheoDoiYCBT));
@@ -286,14 +292,14 @@ namespace VietSoft.HRM.Web.Controllers
             }
         }
         public static List<MyEcomaintViewModel>? res;
-        public IActionResult GetMyEcomain(string keyword, int pageIndex, int pageSize, string msnx, string mslmay, string denngay, bool xuly)
+        public IActionResult GetMyEcomain(string keyword, int pageIndex, int pageSize, string msnx, string mslmay, string denngay, bool xuly, bool locNV)
         {
             PagedList<MyEcomaintViewModel>? result = null;
             if (pageIndex == 1 && keyword == null)
             {
                 var user = SessionManager.CurrentUser.UserName;
                 DateTime? endDate = DateTime.ParseExact(denngay, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                res = _homeService.GetMyEcomain(user, SessionManager.CurrentUser.TypeLangue, endDate, msnx, mslmay, xuly, pageIndex, pageSize);
+                res = _homeService.GetMyEcomain(user, SessionManager.CurrentUser.TypeLangue, endDate, msnx, mslmay, xuly, locNV, pageIndex, pageSize);
                 result = new PagedList<MyEcomaintViewModel>(res, res.Count, pageIndex, pageSize);
             }
             else
@@ -329,10 +335,10 @@ namespace VietSoft.HRM.Web.Controllers
 
             return currentByteImageArray;
         }
-        public IActionResult GetMonitoringParametersByDevice(string msmay, int isDue)
+        public IActionResult GetMonitoringParametersByDevice(string msmay, int isDue, int stt)
         {
             ViewBag.QUYEN_MENU = _homeService.QuyenMenuGSTT(SessionManager.CurrentUser.UserName) == 0 ? 0 : 1;
-            List<MonitoringParametersByDevice> model = _homeService.GetMonitoringParametersByDevice(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, msmay, isDue, -1);
+            List<MonitoringParametersByDevice> model = _homeService.GetMonitoringParametersByDevice(SessionManager.CurrentUser.UserName, SessionManager.CurrentUser.TypeLangue, msmay, isDue, stt);
             List<MonitoringViewModel> resulst = new List<MonitoringViewModel>();
             try
             {
@@ -350,6 +356,8 @@ namespace VietSoft.HRM.Web.Controllers
                         item.MeasurementUnitName = modelItem.MeasurementUnitName;
                         item.TypeOfParam = modelItem.TypeOfParam;
                         item.DUONG_DAN = modelItem.DUONG_DAN;
+                        item.Path = modelItem.Path;
+                        item.Path64 = @"data:image/png;base64," + _ftpservice.DownloadFileAsBase64(item.Path);
                         item.MonitoringParameters = model.Where(x1 => x1.ComponentID.Equals(modelItem.ComponentID) && x1.MonitoringParamsID.Equals(modelItem.MonitoringParamsID)).ToList();
                         resulst.Add(item);
                     }
@@ -365,12 +373,38 @@ namespace VietSoft.HRM.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SaveImage(IFormFile image, string dev)
+        public async Task<ActionResult> SaveImage(IFormFile image, string dev, string msts)
         {
             try
             {
-                string uploadedFiles = await SaveUploadFile(image, dev);
-                return Json(new JsonResponseViewModel { Data = new Imagemodel { Path = uploadedFiles, Path64 = uploadedFiles.ToBase64StringImage() }, ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+                string uploadedFiles = "";
+                string base64String = "";
+                if (SessionManager.ThongTinChung.LUU_FILE == 2)
+                {
+                    uploadedFiles = _ftpservice.UploadFiles(image, "GSTT\\" + msts + "\\" + dev);
+                }
+                else
+                {
+                    uploadedFiles = await SaveUploadFile(image, dev);
+
+                }
+                if (image != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await image.CopyToAsync(memoryStream);
+                        byte[] fileBytes = memoryStream.ToArray();
+                        // Convert the byte array to a Base64-encoded string.
+                        base64String = @"data:image/png;base64," + Convert.ToBase64String(fileBytes);
+                    }
+                }
+                else
+                {
+                    base64String = @"data:image/png;base64," + "";
+                }
+
+
+                return Json(new JsonResponseViewModel { Data = new Imagemodel { Path = uploadedFiles, Path64 = base64String }, ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
             }
             catch (Exception ex)
             {
@@ -383,10 +417,10 @@ namespace VietSoft.HRM.Web.Controllers
         {
             try
             {
-                if(_homeService.UpdateAvatar(SessionManager.CurrentUser.UserName, image) == 1)
+                if (_homeService.UpdateAvatar(SessionManager.CurrentUser.UserName, image) == 1)
                 {
                     return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
-                    
+
                 }
                 else
                 {
@@ -439,10 +473,36 @@ namespace VietSoft.HRM.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SaveMonitoring(string jsonData)
+        public async Task<ActionResult> SaveMonitoring(MorningToringViewModel model,string msmay, string jsonData)
         {
             //List<MonitoringParametersByDevice> lstParameter = Newtonsoft.Json.JsonConvert.DeserializeObject<List<MonitoringParametersByDevice>>(jsonData);
-            BaseResponseModel? res = _homeService.SaveMonitoring(SessionManager.CurrentUser.UserName, jsonData);
+            BaseResponseModel? res = _homeService.SaveMonitoring(model,msmay, SessionManager.CurrentUser.UserName, jsonData);
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG,Data = res.NAME });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+            }
+        }
+
+
+        [HttpPost]
+        public IActionResult ChonNguoiThucHien(int stt, string gstt, string msmay)
+        {
+            ViewBag.SO_PHIEU = gstt;
+            ViewBag.MS_MAY = msmay;
+            ViewBag.STT = stt;
+            var res = _homeService.GetNguoiThucHienGS(SessionManager.CurrentUser.UserName, msmay, stt, SessionManager.CurrentUser.TypeLangue);
+            return PartialView("~/Views/Moningtoring/_addNguoiThucHien.cshtml", res);
+        }
+
+        [HttpPost]
+        public IActionResult SaveNguoiThucHien(int stt, string json)
+        {
+            var res = _homeService.SaveNguoiThucHienGS(stt, json);
+
             if (res.MA == 1)
             {
                 return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
@@ -453,14 +513,23 @@ namespace VietSoft.HRM.Web.Controllers
             }
         }
 
+
         [HttpPost]
         public async Task<ActionResult> SaveUserRequest(IList<IFormFile> files, string data)
         {
             UserRequestViewModel? model = string.IsNullOrEmpty(data) ? new UserRequestViewModel() : Newtonsoft.Json.JsonConvert.DeserializeObject<UserRequestViewModel>(data);
             if (model != null)
             {
-                var uploadedFiles = await SaveUploadFile(files, model.MS_MAY);
-
+                List<string> uploadedFiles = new List<string>();
+                if (SessionManager.ThongTinChung.LUU_FILE == 2)
+                {
+                    model.MS_YEU_CAU = _homeService.GetSoPhieuYeu("WR");
+                    uploadedFiles = _ftpservice.UploadMultipleFiles(files, "YCNSD\\" + model.MS_YEU_CAU);
+                }
+                else
+                {
+                    uploadedFiles = await SaveUploadFile(files, model.MS_MAY);
+                }
                 model.NGUOI_YEU_CAU = SessionManager.ThongTinChung.HO_TEN;
                 if (model.HONG == true)
                 {
@@ -472,7 +541,6 @@ namespace VietSoft.HRM.Web.Controllers
                     {
                         model.NGAY_XAY_RA = null;
                     }
-
                 }
                 else
                 {
@@ -522,7 +590,7 @@ namespace VietSoft.HRM.Web.Controllers
         [HttpPost]
         public ActionResult ViewImageModal(string image)
         {
-            ViewBag.Image = image;
+            ViewBag.Image = image.Replace("data:image/png;base64,", "");
             return PartialView("~/Views/Home/_viewImageModal.cshtml");
         }
         public string LayDuoiFile(string strFile)
@@ -581,7 +649,6 @@ namespace VietSoft.HRM.Web.Controllers
                 string rootPath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year;
 
                 bool exists = System.IO.Directory.Exists(rootPath);
-
                 if (!exists)
                     System.IO.Directory.CreateDirectory(rootPath);
                 var extension = Path.GetExtension(rootPath + fileName);
@@ -633,6 +700,34 @@ namespace VietSoft.HRM.Web.Controllers
         public ActionResult SaveAcceptUserRequest(AcceptUserRequest data)
         {
             BaseResponseModel? res = _homeService.SaveAcceptUserRequest(SessionManager.CurrentUser.UserName, data);
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = res.NAME });
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Completed(int stt)
+        {
+            var res = _homeService.Completed(stt, SessionManager.CurrentUser.UserName);
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = res.NAME });
+            }
+        }
+
+        [HttpPost]
+        public IActionResult DeleteGSTT(int stt)
+        {
+            var res = _homeService.DeleteGSTT(stt);
             if (res.MA == 1)
             {
                 return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });

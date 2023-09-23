@@ -14,6 +14,9 @@
         //    $('[role ="tooltip"]').css({ "background-color": "#ffff" });
         //});
 
+        setDatePicker("#NGAY_BD_KH", null, null, null);
+        setDatePicker("#NGAY_KT_KH", null, null, null);
+
         $('#btnhuyBT').on('click', function () {
             WorkList();
         });
@@ -74,6 +77,7 @@
         LoadCongViec();
 
     }
+
 
     function initEvent() {
         CalculatePlanDate()
@@ -234,7 +238,7 @@
                 let mspt = $(this).closest('tr').find("td").eq(0).text();
                 let msvt = $(this).closest('tr').find("td").eq(1).text()
                 let sl = $(this).closest('tr').find("td").eq(2).text()
-                let rowId = `#flush-collapse-` + $('#MS_BO_PHAN').val().replace('.','_') + $('#MS_CV').val()
+                let rowId = `#flush-collapse-` + $('#MS_BO_PHAN').val().replace('.', '_') + $('#MS_CV').val()
 
                 let html = ` <tr>
                                 <td width="30%" style="line-height:2.3rem">`+ mspt + `</td>
@@ -253,14 +257,15 @@
         $(document).on("click", '#btnSaveWorkOrder', function () {
             let model = {
                 MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),
-                S_NGAY_KT_KH: $('#NGAY_KT_KH').text(),
+                S_NGAY_LAP: $('#NGAY_LAP').text(),
+                S_NGAY_BD_KH: $('#NGAY_BD_KH').val(),
+                S_NGAY_KT_KH: $('#NGAY_KT_KH').val(),
                 MS_UU_TIEN: $('#cboUuTien').val(),
                 TINH_TRANG_MAY: $('#TINH_TRANG_MAY').text(),
                 MS_LOAI_BT: $('#cboLoaiBaoTri').val(),
                 GHI_CHU: $('#GHI_CHU').val(),
                 THEM: $('#THEM').val(),
             };
-            console.log(model);
             $.ajax({
                 type: "POST",
                 url: config.SAVE_WORK_ORDER,
@@ -557,39 +562,39 @@
         }),
 
 
-        $(document).on('click', '.btnDeleteWork', function () {
-            let msbp = $(this).closest('div').find('input.MS_BO_PHAN').val();
-            let mscv = $(this).closest('div').find('input.MS_CV').val();
-            let model = {
-                MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),
-                MS_CV: mscv,
-                MS_BO_PHAN: msbp
-            }
-            ShowConfirm(config.MESS_XOA_CONG_VIEC, 'warning', '', function (result) {
-                if (result == true) {
-                    $.ajax({
-                        type: "POST",
-                        url: config.DELETE_WORK,
-                        data: {
-                            model: model
-                        },
-                        success: function (response) {
-                            if (response.responseCode == 1) {
-                                showSuccess(response.responseMessage)
-                                WorkList();
-                            }
-                            else {
-                                showWarning(response.responseMessage)
-                            }
-                        },
-                        complete: function () {
-                        }
-                    });
-
+            $(document).on('click', '.btnDeleteWork', function () {
+                let msbp = $(this).closest('div').find('input.MS_BO_PHAN').val();
+                let mscv = $(this).closest('div').find('input.MS_CV').val();
+                let model = {
+                    MS_PHIEU_BAO_TRI: $('#MS_PHIEU_BAO_TRI').val(),
+                    MS_CV: mscv,
+                    MS_BO_PHAN: msbp
                 }
-            });
+                ShowConfirm(config.MESS_XOA_CONG_VIEC, 'warning', '', function (result) {
+                    if (result == true) {
+                        $.ajax({
+                            type: "POST",
+                            url: config.DELETE_WORK,
+                            data: {
+                                model: model
+                            },
+                            success: function (response) {
+                                if (response.responseCode == 1) {
+                                    showSuccess(response.responseMessage)
+                                    WorkList();
+                                }
+                                else {
+                                    showWarning(response.responseMessage)
+                                }
+                            },
+                            complete: function () {
+                            }
+                        });
 
-        });
+                    }
+                });
+
+            });
 
         $(document).on('click', '#btnhuyBT', function () {
             let model = {
@@ -835,7 +840,8 @@
             },
             success: function (response) {
                 if (response.responseCode == 1) {
-                    showSuccess(response.responseMessage)
+                    showSuccess(response.responseMessage);
+                    window.location.href = config.MyEcomaint;
                 }
                 else if (response.responseCode == 2) {
                     GetInputCauseOfDamage();
@@ -1135,7 +1141,8 @@
             url: config.GET_WORK_LIST,
             data: {
                 deviceId: $('#MS_MAY').val(),
-                ticketId: $('#MS_PHIEU_BAO_TRI').val()
+                ticketId: $('#MS_PHIEU_BAO_TRI').val(),
+                huhong: $('#HU_HONG').val(),
             },
             success: function (response) {
                 $('#workListContent').html(response);
@@ -1216,17 +1223,99 @@
     }
 
     function CalculatePlanDate() {
-        let songay = $('#cboUuTien').find(":selected").data('songay')
-        if (songay != undefined) {
-            let date = moment($('#currentDate').val(), _formatDate).toDate();
-            let a = date.setDate(date.getDate() + songay)
-            $('#NGAY_KT_KH').text(moment(a).format(_formatDate))
+        if ($('#flag').val() == 0) {
+            let songay = $('#cboUuTien').find(":selected").data('songay')
+            if (songay != undefined) {
+                let date = moment($('#currentDate').val(), _formatDate).toDate();
+                let a = date.setDate(date.getDate() + songay)
+                $('#NGAY_KT_KH').val(moment(a).format(_formatDate))
+            }
         }
     }
+
+    var modalImg = document.getElementById("img01");
+    var file;
+    var com;
+    var work;
+    function loadhinh(e) {
+        file = null;
+        obj = e;
+        work = $(e).attr('data-work');
+        com = $(e).attr('data-com');
+        modalImg.src = '';
+        $('#exampleModal').modal('show');
+        modalImg.src = $(e).attr('data-src');
+    };
+
+    var importfile = $('#fileToUpload');
+    $('#btnXoaHinh').click(function () {
+        file = null;
+        $('#img01').attr('src', '');
+        $('#img01').attr('pat', '');
+    });
+    $('#btnLuuHinh').click(function () {
+        $('#exampleModal').modal('hide');
+        var fd = new FormData();
+        fd.append('image', file);
+        fd.append('ticketId', $('#MS_PHIEU_BAO_TRI').val());
+        fd.append('com', com);
+        fd.append('work', work);
+        $.ajax({
+            type: "POST",
+            data: fd,
+            processData: false,
+            contentType: false,
+            url: config.SAVE_IMAGE,
+            success: function (response) {
+                if (response.responseCode == 1) {
+                    showSuccess(response.responseMessage);
+                    $(obj).attr('data-src', response.data.path64);
+                    $(obj).attr('data-pat', response.data.path);
+                }
+                else {
+                    showWarning(response.responseMessage)
+                }
+            },
+            error: function (response) {
+            }
+        });
+        //$(obj).attr('data-src', $('#img01').attr('src'));
+    });
+    $('#btnChonHinh').click(function () {
+        importfile.click();
+    });
+    function uploadImgDisplay(curFile) {
+        var fileURL = window.URL.createObjectURL(curFile);
+        $('#img01').attr('src', fileURL);
+    }
+
+    importfile.change(function () {
+        if (!this.files.length) {
+            return;
+        }
+        // is image
+        file = this.files[0];
+        this.value = '';
+        switch (file.type) {
+            case 'image/bmp':
+            case 'image/jpeg':
+            case 'image/jpg':
+            case 'image/png':
+            case 'image/gif':
+                break;
+            default:
+                {
+                    alert('The uploaded file is not supported.');
+                    return;
+                }
+        }
+        uploadImgDisplay(file);
+    });
 
     return {
         init: init,
         AddCVinit: AddCVinit,
+        loadhinh: loadhinh,
     };
 
 })(window, jQuery, config);

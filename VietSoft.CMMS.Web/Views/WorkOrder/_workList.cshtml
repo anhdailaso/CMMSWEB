@@ -18,14 +18,18 @@
                 <a class="d-flex accordion-right-icon btnTaiLieu" data-file="@item.PATH_HD" data-thaotac="@item.THAO_TAC" data-tieuchuankt="@item.TIEU_CHUAN_KT" data-yeucauns="@item.YEU_CAU_NS" data-yeucaudc="@item.YEU_CAU_DUNG_CU" data-motacv="@item.MS_BO_PHAN  @item.MO_TA_CV" style="padding-right:0.5rem" @*href="@Url.Action("DownloadFile","WorkOrder", new{filepath = item.PATH_HD})"*@>
                     <i class="fa fa-paperclip" style="transform: rotate(45deg);" data-toggle="tooltip" title="@ViewText.BTN_XEM_TAI_LIEU"></i>
                 </a>
-                <a class="d-flex accordion-right-icon btnBackLog" style="padding-right:0.5rem;color:#113186" data-toggle="tooltip" title="@ViewText.BTN_LAP_KE_HOACH_TT">
-                    <i class="fa fa-arrows"></i>
+                @if (ViewBag.HU_HUONG == 1)
+                {
+                    <a class="d-flex accordion-right-icon btnBackLog" style="padding-right:0.5rem;color:#113186" data-toggle="tooltip" title="@ViewText.BTN_LAP_KE_HOACH_TT">
+                        <i class="fa fa-arrows"></i>
+                    </a>
+                    <a class="d-flex accordion-right-icon btnDeleteWork" style="padding-right:0.5rem" data-toggle="tooltip" title="@ViewText.BTN_XOA_CONG_VIEC">
+                        <i class="fa fa-trash-o text-danger"></i>
+                    </a>
+                }
+                <a class="d-flex accordion-right-icon" style="padding-right:0.5rem" data-bs-toggle="modal" data-bs-target="#exampleModal" data-com="@item.MS_BO_PHAN" data-work="@item.MS_CV" data-src="@item.Path64" data-pat="@item.Path" onclick="WorkOrderModule.loadhinh(this)">
+                    <i class="fa fa-camera-retro"></i>
                 </a>
-                <a class="d-flex accordion-right-icon btnDeleteWork" data-toggle="tooltip" title="@ViewText.BTN_XOA_CONG_VIEC">
-                    <i class="fa fa-trash-o text-danger"></i>
-                </a>
-
-
                 @* <div class="dropdown">
             <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton+@item.MS_CV" data-bs-toggle="dropdown" aria-expanded="false" style="margin-top: -14px;border: none;">
             </button>
@@ -99,15 +103,14 @@
         </div>
     }
 </div>
-
+<input type="file" id="fileToUpload" style="display: none;" />
 <script>
-    @*$('[data-toggle="tooltip"]').tooltip();*@
-
-        $('[data-toggle="tooltip"]').on("touchstart", function () {
-            $(this).tooltip('show');
-        });
+    $('[data-toggle="tooltip"]').on("touchstart", function () {
+        $(this).tooltip('show');
+    });
     $('[data-toggle="tooltip"]').on("touchmove", function () {
         $('[data-toggle="tooltip"]').tooltip('hide');
     });
+
 
 </script>

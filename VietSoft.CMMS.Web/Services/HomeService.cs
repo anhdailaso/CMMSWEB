@@ -11,18 +11,21 @@ using System.Data;
 using VietSoft.CMMS.Core.Models;
 using Newtonsoft.Json;
 using Microsoft.ApplicationBlocks.Data;
+using System.Runtime.Intrinsics.X86;
+using VietSoft.CMMS.Web.Models.Maintenance;
+using Org.BouncyCastle.Asn1.Ocsp;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VietSoft.CMMS.Web.Services
 {
     public class HomeService : IHomeService
     {
         private readonly IDapperService _dapper;
-        private readonly ILogger<HomeService> _logger;
         public HomeService(IDapperService dapper)
         {
             _dapper = dapper;
         }
-        public List<MyEcomaintViewModel> GetMyEcomain(string username, int languages, DateTime? dngay, string ms_nx, string mslmay, bool xuly, int pageIndex, int pageSize)
+        public List<MyEcomaintViewModel> GetMyEcomain(string username, int languages, DateTime? dngay, string ms_nx, string mslmay, bool xuly,bool locNV, int pageIndex, int pageSize)
         {
             try
             {
@@ -34,11 +37,16 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@sCot1", mslmay);
                 p.Add("@NNgu", languages);
                 p.Add("@bcot1", xuly);
+                p.Add("@bcot2", locNV);
                 //int TotalRows = p.Get<int>("@TotalRows");
                 List<MyEcomaintViewModel>? res = _dapper.GetAll<MyEcomaintViewModel>("spCMMSWEB", p, CommandType.StoredProcedure).OrderBy(x => x.TEN_MAY).ToList();
+
                 res.Where(x => x.sListYC != "").ToList().ForEach(r => r.ListYC = JsonConvert.DeserializeObject<List<MyEcomaintYeuCauModel>>(r.sListYC));
 
                 res.Where(x => x.sListBT != "").ToList().ForEach(r => r.ListBT = JsonConvert.DeserializeObject<List<MyEcomaintBaoTriModel>>(r.sListBT));
+
+                res.Where(x => x.sListGS != "").ToList().ForEach(r => r.ListGS = JsonConvert.DeserializeObject<List<MyEcomaintGiamSatModel>>(r.sListGS));
+
                 return res.OrderBy(x => x.MS_MAY).ToList();
             }
             catch
@@ -63,6 +71,27 @@ namespace VietSoft.CMMS.Web.Services
             //}
             //return list;
         }
+
+        public MorningToringViewModel GetMorningToring(string msgstt, string userName, string deviceId, bool flag)
+        {
+            
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "GET_MORNINGTORING");
+                p.Add("@deviceID", deviceId);
+                p.Add("@UserName", userName);
+                p.Add("@bCot1", flag);
+                p.Add("@sCot1", msgstt);
+                var res = _dapper.Execute<MorningToringViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res ?? new MorningToringViewModel();
+            }
+            catch (Exception ex)
+            {
+                return new MorningToringViewModel();
+            }
+        }
+
         public List<MonitoringParametersByDevice> GetMonitoringParametersByDevice(string username, int languages, string may, int isDue, int stt)
         {
             try
@@ -73,7 +102,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@NNgu", languages);
                 p.Add("@deviceID", may == "" ? "-1" : may);
                 p.Add("@isDue", isDue);
-                p.Add("@stt", stt);
+                p.Add("@iCot1", stt);
                 List<MonitoringParametersByDevice>? res = _dapper.GetAll<MonitoringParametersByDevice>("spCMMSWEB", p, CommandType.StoredProcedure);
                 return res;
             }
@@ -99,6 +128,8 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
+
+
         public int QuyenMenuGSTT(string username)
         {
             try
@@ -108,6 +139,29 @@ namespace VietSoft.CMMS.Web.Services
             catch (Exception ex)
             {
                 return 0;
+            }
+        }
+
+        public string GetSoPhieuYeu(string ms)
+        {
+            string resulst = "";
+            try
+            {
+                switch (ms)
+                {
+                    case "WR":
+                        {
+                            resulst = "SELECT dbo.AUTO_CREATE_SO_PHIEU_YC(GETDATE())";
+                            break;
+                        }
+                    default:
+                        break;
+                }
+                return Convert.ToString(SqlHelper.ExecuteScalar(_dapper.GetDbconnection().ConnectionString, CommandType.Text, resulst));
+            }
+            catch (Exception ex)
+            {
+                return "";
             }
         }
 
@@ -162,13 +216,18 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public BaseResponseModel SaveMonitoring(string username, string data)
+        public BaseResponseModel SaveMonitoring(MorningToringViewModel model,string msmay, string username, string data)
         {
             try
             {
                 var p = new DynamicParameters();
                 p.Add("@sDanhMuc", "SAVE_MONINGTORING");
                 p.Add("@UserName", username);
+                p.Add("@dCot1", model.NGAY_KH);
+                p.Add("@sCot1", model.NHAN_XET);
+                p.Add("@iCot1", model.MUC_UU_TIEN);
+                p.Add("@stt", model.STT);
+                p.Add("@deviceID", msmay);
                 p.Add("@json", data);
                 var res = _dapper.Execute<BaseResponseModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 return res;
@@ -238,6 +297,103 @@ namespace VietSoft.CMMS.Web.Services
             catch (Exception ex)
             {
                 return new BaseResponseModel();
+            }
+        }
+
+
+        public IEnumerable<NguoiThucHienModel> GetNguoiThucHienGS(string userName, string deviceId, int stt, int languages)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "GET_NGUOI_THUC_HIEN_GS");
+                p.Add("@stt", stt);
+                p.Add("@deviceID", deviceId);
+                p.Add("@UserName", userName);
+                p.Add("@NNgu", languages);
+                var res = _dapper.GetAll<NguoiThucHienModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public ResponseViewModel SaveNguoiThucHienGS(int stt, string json)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "SAVE_NGUOI_THU_HIEN_GS");
+                p.Add("@stt", stt);
+                p.Add("@json", json);
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                if (res != null)
+                {
+                    return res;
+                }
+                else
+                {
+                    return new ResponseViewModel
+                    {
+                        MA = 0
+                    };
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return new ResponseViewModel()
+                {
+                    MA = -1
+                };
+            }
+        }
+
+        public ResponseViewModel Completed(int stt,string username)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "COMPLETE_GSTT");
+                p.Add("@stt", stt);
+                p.Add("@UserName", username);
+                
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res != null ? res : new ResponseViewModel()
+                {
+                    MA = 0
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseViewModel()
+                {
+                    MA = -1
+                };
+            }
+        }
+     
+        public ResponseViewModel DeleteGSTT(int stt)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "DELETE_GSTT");
+                p.Add("@stt", stt);
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res != null ? res : new ResponseViewModel()
+                {
+                    MA = 0
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseViewModel()
+                {
+                    MA = -1
+                };
             }
         }
 

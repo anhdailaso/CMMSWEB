@@ -27,6 +27,9 @@
         $('#chkxuly').on('change', function () {
             GetMyEcomaint(1);
         })
+        $('#chkNV').on('change', function () {
+            GetMyEcomaint(1);
+        })
         $('#cboLMay').on('change', function () {
             GetMyEcomaint(1);
         })
@@ -85,7 +88,8 @@
                 msnx: $('#cboDiaDiem').val(),
                 mslmay: $('#cboLMay').val(),
                 denngay: $('#toDate').val(),
-                xuly: $('#chkxuly').is(":checked"), 
+                xuly: $('#chkxuly').is(":checked"),
+                locNV: $('#chkNV').is(":checked"),
             },
             success: function (response) {
                 $(contentDataList).html(response);

@@ -1,0 +1,43 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@model IEnumerable<VietSoft.CMMS.Web.Models.Maintenance.NguoiThucHienModel>
+<div class="modal-header">
+    <h5>@ViewText.TITLE_THEN_NGUOI_THUC_HIEN</h5>
+    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body modal-confirm">
+
+    <div class="row detail-page-emp-info">
+        <div class="col-12 d-flex justify-content-left gap-2 ">
+            <span class="emp-name">@ViewBag.SO_PHIEU</span>
+            <span class="emp-code">@ViewBag.MS_MAY</span>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <table class="table table-responsive table-borderless cuscess table-normal">
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="w-30 text-start">@item.MS_CONG_NHAN</td>
+                        <td class="w-50 text-start" style="text-align:left !important">@item.TEN_CONG_NHAN</td>
+                        <td class="w-20 ">
+                            <div class="mx-3 my-1">
+                                <input class="form-check-input input-add-nth"
+                                   type="checkbox"
+                                   checked="@((bool)item.CHON ? "checked" : null)"
+                                   data-ms-cn="@item.MS_CONG_NHAN">
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<div class="modal-footer justify-content-between gap-1 flex-nowrap">
+    <button type="button" class="btn btn-outline-danger w-50" onclick="ClosePopup(this)" id="btnCancel">@ViewText.BTN_DONG</button>
+    <button type="button" class="btn btn-primary w-50" id="btnChonNguoiThucHien">@ViewText.BTN_LUU</button>
+</div>

@@ -20,12 +20,15 @@ namespace VietSoft.CMMS.Web.Controllers
     {
         private readonly IMaintenanceService _maintenanceService;
         private readonly IComboboxService _combobox;
+        private readonly IFtpService _ftpservice;
         private readonly string userName;
-        public WorkOrderController(IMaintenanceService maintenanceService, IComboboxService combobox)
+
+        public WorkOrderController(IMaintenanceService maintenanceService, IComboboxService combobox, IFtpService ftpservice)
         {
             _maintenanceService = maintenanceService;
             _combobox = combobox;
             userName = SessionManager.CurrentUser.UserName;
+            _ftpservice = ftpservice;
         }
 
         public IActionResult GetCauseOfDamageList(string keyword, string deviceId)
@@ -79,7 +82,7 @@ namespace VietSoft.CMMS.Web.Controllers
             return PartialView("_logWork", res);
         }
 
-        public IActionResult ViewInventory(string ticketId,string deviceId)
+        public IActionResult ViewInventory(string ticketId, string deviceId)
         {
             ViewBag.MS_PBT = ticketId;
             ViewBag.MS_MAY = deviceId;
@@ -115,10 +118,11 @@ namespace VietSoft.CMMS.Web.Controllers
             return PartialView("_Inventory", res);
         }
 
-        public IActionResult GetWorkList(string deviceId, string ticketId)
+        public IActionResult GetWorkList(string deviceId, string ticketId, int huhong)
         {
-            var res = _maintenanceService.GetWorkOrderList(userName, deviceId, ticketId, SessionManager.CurrentUser.TypeLangue);
-            return PartialView("_workList", res);
+            ViewBag.HU_HUONG = huhong;
+            IEnumerable<WorkOrdersViewModel> res = _maintenanceService.GetWorkOrderList(userName, deviceId, ticketId, SessionManager.CurrentUser.TypeLangue);
+                    return PartialView("_workList", res);
         }
 
         public FileResult DownloadFile(string filepath)
@@ -149,7 +153,7 @@ namespace VietSoft.CMMS.Web.Controllers
                 return File(Array.Empty<byte>(), "application/octet-stream");
             }
         }
-        
+
         public IActionResult AddSupplies(string suppliesSelectedJson, string deviceId, string dept, int workId, string ticketId)
         {
             @ViewBag.MS_CV = workId;
@@ -177,7 +181,7 @@ namespace VietSoft.CMMS.Web.Controllers
             return PartialView("_ThemCongViec");
         }
 
-        public IActionResult XEM_HUONG_DAN(string thaotac, string tieuchuanKT, string yeucauNS, string yeucauDC ,string MotaCV)
+        public IActionResult XEM_HUONG_DAN(string thaotac, string tieuchuanKT, string yeucauNS, string yeucauDC, string MotaCV)
         {
             ViewBag.ThaoTac = thaotac;
             ViewBag.TieuChuanKT = tieuchuanKT;
@@ -233,7 +237,7 @@ namespace VietSoft.CMMS.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult ThemCongViecPhuTung(string deviceId, string msbp, int mscv,string tenCV,int thoigian,bool them)
+        public IActionResult ThemCongViecPhuTung(string deviceId, string msbp, int mscv, string tenCV, int thoigian, bool them)
         {
             var res = _maintenanceService.ThemCauTrucCongViec(deviceId, msbp, mscv, tenCV, thoigian, them);
 
@@ -349,7 +353,7 @@ namespace VietSoft.CMMS.Web.Controllers
             return PartialView("_logWork", list);
         }
 
-        
+
 
 
         [HttpPost]
@@ -376,7 +380,7 @@ namespace VietSoft.CMMS.Web.Controllers
                     return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.MESS_KHOAN_TG_TON_TAI });
                 }
             }
-           
+
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(model.LogWorkList);
             var res = _maintenanceService.SaveLogWork(model.MS_PHIEU_BAO_TRI, userName, json);
             if (res.MA == 1)
@@ -441,9 +445,16 @@ namespace VietSoft.CMMS.Web.Controllers
         [HttpPost]
         public IActionResult SaveWorkOrder(TicketMaintenanceViewModel model, string deviceId)
         {
-            DateTime dateOut;
-            DateTime.TryParseExact(model.S_NGAY_KT_KH, Setting.FORMAT_DATE, null, DateTimeStyles.None, out dateOut);
-            var res = _maintenanceService.SaveWorkOrder(model.MS_PHIEU_BAO_TRI, dateOut, model.MS_LOAI_BT, model.MS_UU_TIEN, model.TINH_TRANG_MAY,model.GHI_CHU, userName, deviceId, model.THEM);
+            DateTime ngaylap;
+            DateTime.TryParseExact(model.S_NGAY_LAP, Setting.FORMAT_DATE, null, DateTimeStyles.None, out ngaylap);
+
+            DateTime ngayBD;
+            DateTime.TryParseExact(model.S_NGAY_BD_KH, Setting.FORMAT_DATE, null, DateTimeStyles.None, out ngayBD);
+
+            DateTime ngayKT;
+            DateTime.TryParseExact(model.S_NGAY_KT_KH, Setting.FORMAT_DATE, null, DateTimeStyles.None, out ngayKT);
+
+            var res = _maintenanceService.SaveWorkOrder(model.MS_PHIEU_BAO_TRI, ngaylap, ngayBD, ngayKT, model.MS_LOAI_BT, model.MS_UU_TIEN, model.TINH_TRANG_MAY, model.GHI_CHU, userName, deviceId, model.THEM);
 
             if (res.MA == 1)
             {
@@ -463,7 +474,7 @@ namespace VietSoft.CMMS.Web.Controllers
             {
                 //if (res.NAME == "SHOW_HH")
                 //{
-                return Json(new JsonResponseViewModel { ResponseCode = 2, ResponseMessage = Message.CAPNHAT_THANHCONG });
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
                 //}
                 //else
                 //{
@@ -475,5 +486,39 @@ namespace VietSoft.CMMS.Web.Controllers
                 return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = res.NAME });
             }
         }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveImage(IFormFile image, string ticketId,string com, string work)
+        {
+            try
+            {
+                string uploadedFiles = "";
+                string base64String = "";
+                uploadedFiles = _ftpservice.UploadFiles(image, "BTDK\\" + ticketId + "\\" + com+"_"+ work);
+                _maintenanceService.SaveImagePBT(uploadedFiles, ticketId, com, work);
+                if (image != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await image.CopyToAsync(memoryStream);
+                        byte[] fileBytes = memoryStream.ToArray();
+                        // Convert the byte array to a Base64-encoded string.
+                        base64String = @"data:image/png;base64," + Convert.ToBase64String(fileBytes);
+                    }
+                }
+                else
+                {
+                    base64String = @"data:image/png;base64," + "";
+                }
+
+
+                return Json(new JsonResponseViewModel { Data = new Imagemodel { Path = uploadedFiles, Path64 = base64String }, ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            catch (Exception ex)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+            }
+        }
+
     }
 }

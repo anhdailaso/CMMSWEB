@@ -28,11 +28,11 @@ namespace VietSoft.CMMS.Web.Controllers
                 string? userNameEncrypt = Request.Cookies[CookieKey.UserName.ToString()];
                 string? userName = MaHoamd5.MaHoamd5.Decrypt(userNameEncrypt, true);
                 //string? TypeLangue = Request.Cookies[CookieKey.TypeLangue.ToString()];
-
                 // init session
                 UserModel? user = _accountService.GetProfile(userName);
                 user.TypeLangue = 0;
                 SessionManager.CurrentUser = user;
+                SessionManager.ThongTinChung = _accountService.GetThongTinChung(userName);
                 if (string.IsNullOrEmpty(returnUrl))
                 {
                     return RedirectToAction("Index", "Home");
@@ -62,16 +62,14 @@ namespace VietSoft.CMMS.Web.Controllers
             {
 
                 UserModel? user = new();
-                SessionManager.Module = userViewModel.Module;
                 int res = _accountService.Login(userViewModel.UserName, userViewModel.Password);
                 if (res == 1)
                 {
-                    user.UserName = userViewModel.UserName;
+                    user = _accountService.GetProfile(userViewModel.UserName);
                     user.RememberMe = userViewModel.RememberMe;
                     user.TypeLangue = 0;
-                    //user.Avatar = _accountService.GetProfile(user.UserName).Avatar;
                     SessionManager.CurrentUser = user;
-
+                    SessionManager.ThongTinChung = _accountService.GetThongTinChung(userViewModel.UserName);
                     // save cookie
                     CookieOptions cookieOptions = new()
                     {

@@ -174,20 +174,6 @@
     }
 
     function nghiemthuPBT(e) {
-    //    $.ajax({
-    //        type: "POST",
-    //        url: config.urlSaveAcceptMaintenance,
-    //        data: { mspbt: $(e).attr('data-src') },
-    //        success: function (response) {
-    //            if (response.responseCode == 1) {
-    //                showSuccess(response.responseMessage);
-    //                GetListAcceptMaintenance(1);
-    //            }
-    //            else {
-    //                showWarning(response.responseMessage);
-    //            }
-    //        }
-    //    });
         $.ajax({
             type: "GET",
             data: {
@@ -201,6 +187,23 @@
             }
         });
     }
+    
+    function nhapThoiGianNgungMay(e) {
+        $.ajax({
+            type: "GET",
+            data: {
+                mspbt: $(e).attr('data-src'),
+                msmay: $(e).attr('data-msmay'),
+            },
+            url: config.urlViewNgungMay,
+            success: function (response) {
+                $('#modal .modal-content').html(response);
+                $('#modal').modal('show');
+                DanhSachNgungMay();
+            }
+        });
+    }
+
     //form-control input-validation-error
     //aria-invalid="true"
     //span class="field-validation-error"
@@ -270,7 +273,8 @@
 
     return {
         init: init,
-        nghiemthuPBT: nghiemthuPBT
+        nghiemthuPBT: nghiemthuPBT,
+        nhapThoiGianNgungMay: nhapThoiGianNgungMay,
     };
 
 })(window, jQuery, config);

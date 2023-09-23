@@ -14,6 +14,7 @@
         public int TypeLangue { get; set; }
         public string Email { get; set; }
         public string MS_CONG_NHAN { get; set; }
+        public bool HT_MAY_CV { get; set; }
 
     }
 }

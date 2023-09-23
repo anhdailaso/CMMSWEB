@@ -1,6 +1,7 @@
 ﻿@using VietSoft.CMMS.Web.Resources
 @using VietSoft.CMMS.Web.Helpers
 @{
+    var user = SessionManager.CurrentUser;
     ViewBag.Title = @ViewText.TITLE_MY_ECOMAIN;
     ViewData["RemoveTitle"] = false;
 }
@@ -24,7 +25,7 @@
                                     <img src="~/images/barcode.png" alt="image" class="icon-barcode">
                                 </a>
                             </div>
-                             <div class="form-floating break-line">
+                            <div class="form-floating break-line">
                                 <select id="cboLMay" name="cboLMay" asp-items="@ViewBag.ListLoaiMAY" class="form-control form-select form-select-sm">
                                 </select>
                                 <label for="cboLMay">@ViewText.LBL_LOAI_MAY</label>
@@ -33,14 +34,14 @@
                                     <img src="~/images/barcode.png" alt="image" class="icon-barcode">
                                 </a>
                             </div>
-                           @* <div class="form-floating break-line">
-                                <select id="cboMay" name="cboMay" asp-items="@ViewBag.ListMAY" class="form-control form-select form-select-sm">
-                                </select>
-                                <label for="cboMay">@ViewText.TXT_THIET_BI</label>
-                                <div id="cboMay-error"></div>
-                                <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
-                                    <img src="~/images/barcode.png" alt="image" class="icon-barcode">
-                                </a>
+                            @* <div class="form-floating break-line">
+                            <select id="cboMay" name="cboMay" asp-items="@ViewBag.ListMAY" class="form-control form-select form-select-sm">
+                            </select>
+                            <label for="cboMay">@ViewText.TXT_THIET_BI</label>
+                            <div id="cboMay-error"></div>
+                            <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
+                            <img src="~/images/barcode.png" alt="image" class="icon-barcode">
+                            </a>
                             </div>*@
                             <div class="form-floating input-group break-line date" id="toDateContainer">
                                 <input type="text" class="form-control" id="toDate" name="toDate" autocomplete="off" />
@@ -50,12 +51,21 @@
                                 <label for="toDate">@ViewText.LBL_DENNGAY</label>
                                 <div id="toDate-error"></div>
                             </div>
-                            <div class="form-check text-nowrap">
-                                <input class="form-check-input" type="checkbox" value="" checked id="chkxuly">
-                                <label class="form-check-label" for="chkAll">
-                                    @ViewText.LBL_MAY_CAN_XL
-                                </label>
+                            <div class="d-flex justify-content-between mb-3">
+                                <div class="form-check text-nowrap">
+                                    <input class="form-check-input" type="checkbox" value="" checked id="chkxuly">
+                                    <label class="form-check-label" for="chkxuly">
+                                        @ViewText.LBL_MAY_CAN_XL
+                                    </label>
+                                </div>
+                                <div class="form-check text-nowrap">
+                                    <input class="form-check-input" type="checkbox" @(user.HT_MAY_CV ? "checked" : "") value="" id="chkNV">
+                                    <label class="form-check-label" for="chkNV">
+                                        Lọc theo NV
+                                    </label>
+                                </div>
                             </div>
+
 
                         </form>
                     </div>

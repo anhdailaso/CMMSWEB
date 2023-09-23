@@ -6,6 +6,7 @@ using VietSoft.CMMS.Web.Helpers;
 using VietSoft.CMMS.Web.IServices;
 using VietSoft.CMMS.Web.Models;
 using VietSoft.CMMS.Web.Models.Maintenance;
+using static iTextSharp.text.pdf.AcroFields;
 
 namespace VietSoft.CMMS.Web.Services
 {
@@ -30,12 +31,12 @@ namespace VietSoft.CMMS.Web.Services
                 List<AcceptMaintenanceModel>? res = _dapper.GetAll<AcceptMaintenanceModel>("spCMMSWEB", p, CommandType.StoredProcedure);
                 return res;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return null;
             }
         }
-        public TicketMaintenanceViewModel GetTicketMaintenanceByDevice(string mspbt,string userName, string deviceId, bool isNewTicket)
+        public TicketMaintenanceViewModel GetTicketMaintenanceByDevice(string mspbt, string userName, string deviceId, bool isNewTicket)
         {
             try
             {
@@ -45,7 +46,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@UserName", userName);
                 p.Add("@bCot1", !isNewTicket);
                 p.Add("@sCot1", mspbt);
-                var res =  _dapper.Execute<TicketMaintenanceViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                var res = _dapper.Execute<TicketMaintenanceViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
 
                 return res ?? new TicketMaintenanceViewModel();
 
@@ -75,10 +76,11 @@ namespace VietSoft.CMMS.Web.Services
         }
 
 
-        public IEnumerable<WorkOrdersViewModel> GetWorkOrderList(string userName, string deviceId, string ticketId,int languages)
+        public IEnumerable<WorkOrdersViewModel> GetWorkOrderList(string userName, string deviceId, string ticketId, int languages)
         {
             try
             {
+                FtpService ftp = new FtpService();
                 var p = new DynamicParameters();
                 p.Add("@sDanhMuc", CategoryType.GET_WORDORDER_DETAILS.ToString());
                 p.Add("@sCot1", ticketId);
@@ -90,8 +92,8 @@ namespace VietSoft.CMMS.Web.Services
                 if (res != null)
                 {
                     var lst = res.GroupBy(
-                        x => (x.MS_CV, x.MO_TA_CV,x.THAO_TAC,x.TIEU_CHUAN_KT,x.YEU_CAU_NS,x.YEU_CAU_DUNG_CU,x.MS_BO_PHAN, x.TEN_BO_PHAN, x.PATH_HD),
-                        (key, data) => new { MS_CV = key.MS_CV, MO_TA_CV = key.MO_TA_CV, THAO_TAC = key.THAO_TAC, TIEU_CHUAN_KT = key.TIEU_CHUAN_KT, YEU_CAU_NS = key.YEU_CAU_NS, YEU_CAU_DUNG_CU = key.YEU_CAU_DUNG_CU,PATH_HD = key.PATH_HD, MS_BO_PHAN = key.MS_BO_PHAN, TEN_BO_PHAN = key.TEN_BO_PHAN, WorkOrderDetailViewModels = data }).ToList();
+                        x => (x.MS_CV, x.MO_TA_CV, x.THAO_TAC, x.TIEU_CHUAN_KT, x.YEU_CAU_NS, x.YEU_CAU_DUNG_CU, x.MS_BO_PHAN, x.TEN_BO_PHAN, x.PATH_HD, x.PATH_IMAGE),
+                        (key, data) => new { MS_CV = key.MS_CV, MO_TA_CV = key.MO_TA_CV, THAO_TAC = key.THAO_TAC, TIEU_CHUAN_KT = key.TIEU_CHUAN_KT, YEU_CAU_NS = key.YEU_CAU_NS, YEU_CAU_DUNG_CU = key.YEU_CAU_DUNG_CU, PATH_HD = key.PATH_HD, PATH_IMAGE = key.PATH_IMAGE, MS_BO_PHAN = key.MS_BO_PHAN, TEN_BO_PHAN = key.TEN_BO_PHAN, WorkOrderDetailViewModels = data }).ToList();
                     var workOrders = lst.Select(x =>
                     new WorkOrdersViewModel()
                     {
@@ -103,15 +105,17 @@ namespace VietSoft.CMMS.Web.Services
                         TIEU_CHUAN_KT = x.TIEU_CHUAN_KT,
                         YEU_CAU_NS = x.YEU_CAU_NS,
                         YEU_CAU_DUNG_CU = x.YEU_CAU_DUNG_CU,
-                        PATH_HD = @x.PATH_HD,
+                        PATH_HD = x.PATH_HD,
+                        Path = x.PATH_IMAGE,
+                        Path64 = @"data:image/png;base64," + ftp.DownloadFileAsBase64(x.PATH_IMAGE),
                         WorkOrderDetailViewModels = x.WorkOrderDetailViewModels.Where(x => !string.IsNullOrEmpty(x.MS_PT)).Select(x => new WorkOrderDetailViewModel()
                         {
-                           MS_PT = x.MS_PT,
-                           MS_VI_TRI_PT = x.MS_VI_TRI_PT,
-                           TEN_PT = x.TEN_PT,
-                           SL_CT = x.SL_CT,
-                           SL_KH = x.SL_KH,
-                           SL_TT = x.SL_TT
+                            MS_PT = x.MS_PT,
+                            MS_VI_TRI_PT = x.MS_VI_TRI_PT,
+                            TEN_PT = x.TEN_PT,
+                            SL_CT = x.SL_CT,
+                            SL_KH = x.SL_KH,
+                            SL_TT = x.SL_TT
 
                         })
                     }).AsEnumerable();
@@ -126,7 +130,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public IEnumerable<WorkOrderDetailViewModel> GetJobList(string userName, string deviceId, string ticketId , int languages)
+        public IEnumerable<WorkOrderDetailViewModel> GetJobList(string userName, string deviceId, string ticketId, int languages)
         {
             try
             {
@@ -164,7 +168,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public ThoiGianNgungMayModel GetThoiGianNgungMay(string ticketId, string userName, int languages,bool add)
+        public ThoiGianNgungMayModel GetThoiGianNgungMay(string ticketId, string userName, int languages, bool add)
         {
             try
             {
@@ -256,9 +260,9 @@ namespace VietSoft.CMMS.Web.Services
                     var lst = query.GroupBy(
                         x => (x.MS_BO_PHAN, x.PROBLEM_CODE, x.PROBLEM_ID, x.PROBLEM_NAME, x.GR_PROLEM),
                         (key, data) => new TreeViewModel
-                        { 
-                            ItemCode = key.MS_BO_PHAN, 
-                            Id = key.PROBLEM_ID, 
+                        {
+                            ItemCode = key.MS_BO_PHAN,
+                            Id = key.PROBLEM_ID,
                             ItemName = key.PROBLEM_NAME,
                             Amount = key.GR_PROLEM,
                             Childs = data.GroupBy(c => (c.MS_BO_PHAN, c.PROBLEM_CODE, c.PROBLEM_ID, c.PROBLEM_NAME, c.CAUSE_ID, c.CAUSE_NAME, c.CAUSE_CODE, c.GR_CAUSE), (key, data) => new
@@ -345,7 +349,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@sCot2", dept);
                 p.Add("@json", json);
                 var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
-                return res != null ? res  : new ResponseViewModel()
+                return res != null ? res : new ResponseViewModel()
                 {
                     MA = 0
                 };
@@ -449,7 +453,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@json", json);
 
                 var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
-                if(res != null)
+                if (res != null)
                 {
                     return res;
                 }
@@ -460,7 +464,7 @@ namespace VietSoft.CMMS.Web.Services
                         MA = 0
                     };
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -475,7 +479,7 @@ namespace VietSoft.CMMS.Web.Services
             try
             {
                 var p = new DynamicParameters();
-                p.Add("@sDanhMuc","SAVE_NGUOI_THU_HIEN");
+                p.Add("@sDanhMuc", "SAVE_NGUOI_THU_HIEN");
                 p.Add("@sCot1", ticketId);
                 p.Add("@json", json);
                 var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
@@ -559,14 +563,16 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public ResponseViewModel SaveWorkOrder(string ticketId, DateTime date, int categoryTicketId, int priorityId, string statusDevice, string lydoBT, string userName, string deviceId, int them)
+        public ResponseViewModel SaveWorkOrder(string ticketId, DateTime ngaylap, DateTime ngaybd, DateTime ngaykt, int categoryTicketId, int priorityId, string statusDevice, string lydoBT, string userName, string deviceId, int them)
         {
             try
             {
                 var p = new DynamicParameters();
                 p.Add("@sDanhMuc", CategoryType.SAVE_WORDORDER.ToString());
                 p.Add("@sCot1", ticketId);
-                p.Add("@dCot1", date);
+                p.Add("@dCot1", ngaylap);
+                p.Add("@dCot2", ngaybd);
+                p.Add("@dCot3", ngaykt);
                 p.Add("@iCot1", categoryTicketId);
                 p.Add("@iCot2", priorityId);
                 p.Add("@iCot3", them);
@@ -671,7 +677,7 @@ namespace VietSoft.CMMS.Web.Services
             return listResulst;
         }
 
-        public ResponseViewModel SaveInputCauseOfDamageList(string ticketId, int msnn, DateTime tungay, DateTime denngay, string json,string Username)
+        public ResponseViewModel SaveInputCauseOfDamageList(string ticketId, int msnn, DateTime tungay, DateTime denngay, string json, string Username)
         {
             try
             {
@@ -683,14 +689,14 @@ namespace VietSoft.CMMS.Web.Services
                 _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
 
                 //save thời gian ngừng máy
-                List<CapNhatCa> Resulst = CapNhatCa(tungay,denngay);
+                List<CapNhatCa> Resulst = CapNhatCa(tungay, denngay);
                 int n = Resulst.Count;
                 foreach (var item1 in Resulst)
                 {
                     p.Add("@sDanhMuc", "ADD_NGUNG_MAY");
                     p.Add("@sCot1", ticketId);
                     p.Add("@iCot1", msnn);
-                    p.Add("@dCot1", n ==1 ?tungay : item1.NGAY_BD);
+                    p.Add("@dCot1", n == 1 ? tungay : item1.NGAY_BD);
                     p.Add("@dCot2", n == 1 ? denngay : item1.NGAY_KT);
                     p.Add("@UserName", Username);
                     _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
@@ -702,7 +708,7 @@ namespace VietSoft.CMMS.Web.Services
                     p.Add("@json", json);
                     _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 }
-                return  new ResponseViewModel()
+                return new ResponseViewModel()
                 {
                     MA = 1
                 };
@@ -716,7 +722,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public BaseResponseModel SaveAcceptMaintenance(string username, AcceptWorkOrderModel model,int languages )
+        public BaseResponseModel SaveAcceptMaintenance(string username, AcceptWorkOrderModel model, int languages)
         {
             try
             {
@@ -730,13 +736,13 @@ namespace VietSoft.CMMS.Web.Services
                 var res = _dapper.Execute<BaseResponseModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
                 return res;
             }
-            catch 
+            catch
             {
                 return new BaseResponseModel();
             }
         }
 
-        public BaseResponseModel SaveThoiGianNgungMay(string username,string mspbt, string json)
+        public BaseResponseModel SaveThoiGianNgungMay(string username, string mspbt, string json)
         {
             try
             {
@@ -757,14 +763,14 @@ namespace VietSoft.CMMS.Web.Services
         public bool CheckPhuTung(string ticketId)
         {
             int n = Convert.ToInt32(SqlHelper.ExecuteScalar(_dapper.GetDbconnection().ConnectionString, CommandType.Text, "SELECT COUNT(*) FROM dbo.PHIEU_BAO_TRI_CONG_VIEC_PHU_TUNG WHERE MS_PHIEU_BAO_TRI ='" + ticketId + "'"));
-            if(n == 0)
+            if (n == 0)
             {
                 return false;
-            }    
+            }
             else
             {
                 return true;
-            }    
+            }
         }
 
         public BaseResponseModel UpdateTinhTrang(string ticketId)
@@ -783,7 +789,6 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-
         public List<ThoiGianNgungMayModel> GetListThoiGianNgungMay(string mspbt, int languages)
         {
             try
@@ -799,5 +804,25 @@ namespace VietSoft.CMMS.Web.Services
                 return null;
             }
         }
+
+        public BaseResponseModel SaveImagePBT(string path, string ticketId, string com, string work)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "UPDATE_IMAGE_PBT");
+                p.Add("@sCot1", ticketId);
+                p.Add("@sCot2", com);
+                p.Add("@sCot3", path);
+                p.Add("@iCot1", work);
+                var res = _dapper.Execute<BaseResponseModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch
+            {
+                return new BaseResponseModel();
+            }
+        }
+
     }
 }

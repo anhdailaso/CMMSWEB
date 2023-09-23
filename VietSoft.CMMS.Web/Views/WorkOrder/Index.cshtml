@@ -1,4 +1,4 @@
-﻿ @using VietSoft.CMMS.Web.Resources
+﻿@using VietSoft.CMMS.Web.Resources
 @using VietSoft.CMMS.Web.Helpers
 @using VietSoft.CMMS.Web.Models.Maintenance;
 @model VietSoft.CMMS.Web.Models.Maintenance.TicketMaintenanceViewModel;
@@ -11,7 +11,6 @@
     .btn-group .d-flex .justify-content-end a i {
         width: 3rem !important;
     }
-
     .navbar-button {
         /*padding-left: 100px;*/
         padding-top: unset;
@@ -28,7 +27,7 @@
     .accordion-button::after {
         /*https://astronautweb.co/snippet/font-awesome/*/
         /*        content: "\f083";
-                                font-family: FontAwesome;*/
+                                            font-family: FontAwesome;*/
         background-image: none !important;
     }
 
@@ -44,6 +43,7 @@
                 @Html.Hidden("MS_MAY", @ViewBag.MS_MAY, null)
                 @Html.Hidden("MS_LOAI_BT", @Model.MS_LOAI_BT, null)
                 @Html.Hidden("MS_UU_TIEN", Model.MS_UU_TIEN, null)
+                @Html.Hidden("HU_HONG", Model.HU_HONG, null)
                 <input type="hidden" id="flag" name="flag" value="@ViewBag.FLAG">
                 <span class="emp-name">@ViewBag.MS_MAY</span>
                 <span class="emp-code">@ViewBag.TEN_MAY</span>
@@ -58,8 +58,8 @@
             @Html.Hidden("MS_PHIEU_BAO_TRI", @Model.MS_PHIEU_BAO_TRI, null)
             @Html.Hidden("THEM", @Model.THEM, null)
             <div><span>@Model.MS_PHIEU_BAO_TRI</span></div>
-            @Html.Hidden("currentDate", @Model.NGAY_KT_KH.ToString(Setting.FORMAT_DATE), null)
-            <div><span id="NGAY_KT_KH">@Model.NGAY_KT_KH.ToString(Setting.FORMAT_DATE)</span></div>
+            @Html.Hidden("currentDate", @Model.NGAY_BD_KH.ToString(Setting.FORMAT_DATE), null)
+            <div><span id="NGAY_LAP" data-toggle="tooltip" title="Ngày lập">@Model.NGAY_LAP.ToString(Setting.FORMAT_DATE)</span></div>
         </div>
 
         <div class="form-floating break-line">
@@ -85,13 +85,34 @@
             </select>
             <label for="cboUuTien">@ViewText.LBL_UU_TIEN</label>
         </div>
+        <div class="form-floating break-line">
+            <div class="d-flex justify-content-between gap-2">
+                <div class="form-floating input-group date">
+                    @Html.TextBoxFor(model => model.NGAY_BD_KH,"{0:dd/MM/yyyy}",new{ @class="form-control",autocomplete="off"})
+                    <span class="input-group-append d-flex align-items-center">
+                        <i class="bi bi-calendar4-week date-icon "></i>
+                    </span>
+                    <label for="NGAY_BD_KH">Ngày BD kế hoạch</label>
+                    <div id="NGAY_BD_KH-error"></div>
+                </div>
+
+                <div class="form-floating input-group date">
+                    @Html.TextBoxFor(model => model.NGAY_KT_KH,"{0:dd/MM/yyyy}",new{ @class="form-control",autocomplete="off"})
+                    <span class="input-group-append d-flex align-items-center">
+                        <i class="bi bi-calendar4-week date-icon"></i>
+                    </span>
+                    <label for="NGAY_KT_KH">Ngày KT kế hoạch</label>
+                    <div id="NGAY_KT_KH-error"></div>
+                </div>
+            </div>
+        </div>
 
         <div class="form-floating break-line">
             @Html.TextAreaFor(model=>model.GHI_CHU, new { @class = "form-control", maxlength = 250, autocomplete = "off" , placeholder=@ViewText.LBL_GHI_CHU })
             <label for="GHI_CHU">@ViewText.LBL_GHI_CHU</label>
         </div>
 
-      
+
         <div class="break-line d-flex justify-content-between">
             <p id="TINH_TRANG_MAY">@Model.TINH_TRANG_MAY</p>
             @if (Model.QUYEN_MENU == 1)
@@ -101,7 +122,7 @@
                 </a>
             }
         </div>
-      
+
         <div class="border-top my-3"></div>
         <br />
         <div id="workListContent"></div>
@@ -115,13 +136,12 @@
         <div class="navbar-button  text-center text-white">
             <div id="button-container" class="btn-group">
 
-                @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() && Model.QUYEN_CN > 0)
+                @if ((Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() && Model.QUYEN_CN > 0) || Model.HU_HONG == 1)
                 {
                     <a id="btnAddMaintenanceWork" class="btn btn-outline-primary m-1" data-toggle="tooltip" title="@ViewText.LBL_THEM_CONGVIEC_BAOTRI">
                         <i class="fa fa-plus fs-7" aria-hidden="true"></i>
                     </a>
                 }
-
                 <!-- Twitter -->
                 <a id="btnXemtonkho" class="btn btn-outline-secondary m-1" data-toggle="tooltip" title="@ViewText.LBL_XEM_TON_KHO">
                     <i class="fa-solid fa-warehouse-full fa-2xs fs-7"></i>
@@ -135,11 +155,17 @@
                     <i class="fa fa-check-circle fs-7"></i>
                 </a>
 
-                @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() && Model.QUYEN_CN > 0)
+                <!-- kiểm tra nếu là hư hỏng thì mở chọn công việc -->
+                @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() && Model.QUYEN_CN > 0 || Model.HU_HONG == 1)
                 {
                     <a class="btn btn-outline-warning m-1" data-toggle="tooltip" title="@ViewText.BTN_XOA" id="btnhuyBT" role="button">
                         <i class="fa fa-times fs-7"></i>
                     </a>
+
+               
+                }
+                   @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() && Model.QUYEN_CN > 0)
+                {
 
                     <a id="btnAddNguoiThucHien" class="btn btn-outline-primary m-1" data-toggle="tooltip" title="@ViewText.TITLE_THEN_NGUOI_THUC_HIEN">
                         <i class="fa-regular fa-person-sign fs-7" aria-hidden="true"></i>
@@ -149,7 +175,39 @@
         </div>
     </nav>
 }
+else
+{
+    @if (Model.HU_HONG == 1)
+    {
+        <nav class="fixed-bottom">
+            <div class="navbar-button  text-center text-white">
+                <div id="button-container" class="btn-group">
+                    <a id="btnAddMaintenanceWork" class="btn btn-outline-primary m-1" data-toggle="tooltip" title="@ViewText.LBL_THEM_CONGVIEC_BAOTRI">
+                        <i class="fa fa-plus fs-7" aria-hidden="true"></i>
+                    </a>
+                    <!-- Twitter -->
+                    <a id="btnXemtonkho" class="btn btn-outline-secondary m-1" data-toggle="tooltip" title="@ViewText.LBL_XEM_TON_KHO">
+                        <i class="fa-solid fa-warehouse-full fa-2xs fs-7"></i>
+                    </a>
 
+                    <a id="logWork" class="btn btn-outline-dark m-1" data-toggle="tooltip" title="@ViewText.LBL_GHINHAN_THOIGIAN_LAMVIEC">
+                        <i class="fa fa-clock-o fs-7"></i>
+                    </a>
+                    <!-- Google -->
+                    <a id="btnCompletePBT" class="btn btn-outline-success m-1" data-toggle="tooltip" title="@ViewText.BTN_HOAN_THANH_PBT">
+                        <i class="fa fa-check-circle fs-7"></i>
+                    </a>
+                    <!-- kiểm tra nếu là hư hỏng thì mở chọn công việc -->
+                    <a class="btn btn-outline-warning m-1" data-toggle="tooltip" title="@ViewText.BTN_XOA" id="btnhuyBT" role="button">
+                        <i class="fa fa-times fs-7"></i>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    }
+}
+@Html.Partial("~/Views/Camera/_loadimagePBT.cshtml")
+<input type="file" id="fileToUpload" style="display: none;" />
 @section scripts {
     <script src="~/js/pages/jquery.imagesloader-1.0.1.js"></script>
     <script>
@@ -192,6 +250,7 @@
             CHECK_TON_KHO: '@Url.Action("CHECK_TON_KHO","WorkOrder")',
             UPDATE_TT_HT: '@Url.Action("UPDATE_TT_HT","WorkOrder")',
             MESS_GIA_TRI_KHONG_HOP_LE: '@Html.Raw(Message.MESS_GIA_TRI_KHONG_HOP_LE)',
+            SAVE_IMAGE: '@Url.Action("SaveImage","WorkOrder")',
         }
     </script>
     <script src="~/js/pages/workorder.js" asp-append-version="true"></script>
