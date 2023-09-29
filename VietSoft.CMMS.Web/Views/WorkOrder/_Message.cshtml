@@ -1,0 +1,51 @@
+﻿@using VietSoft.CMMS.Web.Resources
+<div class="modal-header">
+    <h5>Trao đổi thông tin</h5>
+    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body modal-confirm" id="modalResultContent">
+    <div class="row detail-page-emp-info break-line">
+        <div class="col-12 d-flex justify-content-left gap-2 ">
+            <span class="emp-name">@ViewBag.MS_PBT</span>
+            <span class="emp-code">@ViewBag.MS_MAY</span>
+        </div>
+    </div>
+
+    <div class="col-md-12 offset-md-12 col-xs-12">
+        <div class="form-floating break-line">
+                @Html.TextArea("NOI_DUNG", new { @class = "form-control", maxlength = 250, autocomplete = "off" , placeholder="Nội dung" })
+            <label for="NOI_DUNG">Nội dung</label>
+        </div>
+
+        <div class="break-line d-flex">
+            <div class="form-floating flex-grow-1">
+                @Html.DropDownList("cboCongNhan",(IEnumerable<SelectListItem>)@ViewBag.CongNhan, new { id="cboCongNhan",name="cboCongNhan", @class = "form-control form-select form-select-sm"})
+                <label for="cboCongNhan">Gửi thêm</label>
+            </div>
+            <a id="btnAddMess" class="btn btn-outline-primary m-1">
+                <i class="fa fa-plus fs-7" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-md-12 offset-md-12 col-xs-12">
+                <div id="GetThongTin" style="height:380px;">
+                </div>
+            </div>
+        </div>  
+        <br />
+    </div>
+</div>
+
+<div class="modal-footer justify-content-between gap-1 flex-nowrap">
+    <button type="button" class="btn btn-outline-danger w-50" onclick="ClosePopup(this)" id="btnCancel">@ViewText.BTN_DONG</button>
+    <button type="button" class="btn btn-primary w-50" id="btnRefresh">Refresh</button>
+</div>
+
+<script>
+    $("#cboCongNhan").select2({
+        theme: "bootstrap-5",
+        width: "100%",
+        dropdownParent: $('#modalResultContent'),
+    });
+</script>

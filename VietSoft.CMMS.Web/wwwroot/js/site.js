@@ -467,6 +467,18 @@ function ShowConfirm (message, type = Type.error, title = '', callback) {
     }).catch(swal.noop);
 }
 
+function ShowThongBao(message, type = 'error', title = '') {
+    swal({
+        title: title,
+        text: message,
+        type: type,
+        confirmButtonColor: '#ea8a1f',
+        confirmButtonText: 'OK',
+        allowOutsideClick: false,
+        reverseButtons: true
+    });
+}
+
 
 function ShowConfirmModal(message) {
     $.ajax({

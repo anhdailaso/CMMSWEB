@@ -19,7 +19,15 @@
                 <h2 class="accordion-header d-flex" id="heading-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID">
                     <button class="accordion-button collapsed parentCell" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID" aria-expanded="false" aria-controls="collapse-@item.ComponentID@item.MonitoringParamsID">
                         <div class="d-flex justify-content-between w-100">
-                            <span style="color:@(item.MonitoringParameters.Count(x => x.Measurement != 0) > 0 ? "#ff870f" : "")" id="title-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID">+ @item.ComponentID @item.MonitoringParamsName</span>
+                            @if (item.TypeOfParam == true)
+                            {
+                                <span class="Measurement-true" style="color:@(item.MonitoringParameters.Count(x => x.Measurement != 0) > 0 ? "#ff870f" : "")" id="title-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID">+ @item.ComponentID @item.MonitoringParamsName</span>
+                            }
+                            else
+                            {
+                                <span style="color:@(item.MonitoringParameters.Count(x => x.Measurement != null) > 0 ? "#ff870f" : "")" id="title-@item.ComponentID.Replace('.','_')@item.MonitoringParamsID">+ @item.ComponentID @item.MonitoringParamsName</span>
+
+                            }
                         </div>
                         <div class="tooltip-action" style="margin-top:-5.2rem">
                             <a>

@@ -25,7 +25,7 @@
     .accordion-button::after {
         /*https://astronautweb.co/snippet/font-awesome/*/
         /*        content: "\f083";
-                                            font-family: FontAwesome;*/
+                                                font-family: FontAwesome;*/
         background-image: none !important;
     }
 
@@ -91,7 +91,7 @@
                     <input class="form-check-input" type="radio" name="flexRadioDefault" value="1" id="flexRadioDefault1">
                 }
                 <label class="form-check-label" for="flexRadioDefault1">
-                    Những thông số trong phiếu
+                    Những thông số trong phiếu @Model.SO_PHIEU
                 </label>
             </div>
             <div class="form-check">
@@ -123,8 +123,8 @@
         </div>
 
 
-        <br />      
-      
+        <br />
+
         <div class="col-md-12 offset-md-12 col-xs-12  px-0">
             <div id="GetMoningToring">
             </div>
@@ -142,9 +142,9 @@
 <nav class="fixed-bottom">
     <div class="navbar-button  text-center text-white">
         <div id="button-container" class="btn-group">
-            <a class="btn btn-outline-dark m-1" role="button" href="@Url.Action("Index","Home")" data-toggle="tooltip" title="@ViewText.BTN_TRANG_CHU">
+           @* <a class="btn btn-outline-dark m-1" role="button" href="@Url.Action("Index","Home")" data-toggle="tooltip" title="@ViewText.BTN_TRANG_CHU">
                 <i class="fa fa-home fs-7" aria-hidden="true"></i>
-            </a>
+            </a>*@
             @if (Model.QUYEN_MENU == 1)
             {
                 <a class="btn btn-outline-primary m-1" id='btnsave' role="button" data-toggle="tooltip" title="@ViewText.BTN_LUU">
@@ -153,11 +153,6 @@
 
                 @if (Model.THEM != 1)
                 {
-
-                    <a class="btn btn-outline-warning m-1" data-toggle="tooltip" title="@ViewText.BTN_XOA" id="btnhuyGS" role="button">
-                        <i class="fa fa-times fs-7"></i>
-                    </a>
-
                     <a id="btnAddNguoiThucHien" class="btn btn-outline-primary m-1" data-toggle="tooltip" title="@ViewText.TITLE_THEN_NGUOI_THUC_HIEN">
                         <i class="fa-regular fa-person-sign fs-7" aria-hidden="true"></i>
                     </a>
@@ -167,6 +162,14 @@
                         <i class="fa fa-check-circle fs-7"></i>
                     </a>
 
+                    <!-- Hoành thành phiếu -->
+                    <a id="btnChondat" class="btn btn-outline-success m-1" data-toggle="tooltip" title="Hoàn thành">
+                        <i class="fa fa-square-check fs-7"></i>
+                    </a>    
+
+                    <a class="btn btn-outline-warning m-1" data-toggle="tooltip" title="@ViewText.BTN_XOA" id="btnhuyGS" role="button">
+                        <i class="fa fa-times fs-7"></i>
+                    </a>
 
                 }
 

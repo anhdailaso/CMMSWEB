@@ -357,6 +357,35 @@
         $(document).on("click", '#btnChonNguoiThucHien', function () {
             SaveNguoiThucHien();
         });
+        $(document).on("click", '#btnAddMess', function () {
+            $.ajax({
+                type: "POST",
+                url: config.ADD_MESSAGE,
+                data: {
+                    ticketId: $('#MS_PHIEU_BAO_TRI').val(),
+                    noidung: $('#NOI_DUNG').val(),
+                    guithem: $('#cboCongNhan').val(),
+                },
+                success: function (response) {
+                    if (response.responseCode == 1) {
+                        GetListMessage();
+                        $('#NOI_DUNG').val('');
+                        $('#cboCongNhan').val('').change();
+                    }
+                    else {
+                        showWarning(response.responseMessage)
+                    }
+                },
+            });
+        });
+
+        $(document).on("click", '#btnMessage', function () {
+            ShowMessage();
+        });
+
+        $(document).on("click", '#btnRefresh', function () {
+            GetListMessage();
+        });
 
         $(document).on('click', '#btnCancelHT', function () {
             ShowConfirm(config.MESS_XACNHAN_HOANTHANH_PHIEUBAOTRI, 'warning', '', function (result) {
@@ -550,7 +579,6 @@
                     clickCount = 0;
                 }, 300);
             } else if (clickCount === 2) {
-                //alert("dbClick");
                 var filePath = $(this).data('file');
                 if (filePath !== '') {
                     var url = "/WorkOrder/DownloadFile?filepath=" + filePath;
@@ -945,6 +973,9 @@
         });
     }
 
+  
+
+
     function GetInputCauseOfDamage() {
         showLoadingOverlay("#inputCauseOfDamageContent");
         $.ajax({
@@ -1218,6 +1249,40 @@
             success: function (response) {
                 $('#modalLarge .modal-content').html(response);
                 $('#modalLarge').modal('show');
+            }
+        });
+    }
+
+
+    function ShowMessage() {
+        $.ajax({
+            type: "GET",
+            url: config.SHOW_MESSAGE,
+            data: {
+                deviceId: $('#MS_MAY').val(),
+                ticketId: $('#MS_PHIEU_BAO_TRI').val()
+            },
+            success: function (response) {
+                $('#modalLarge .modal-content').html(response);
+                $('#modalLarge').modal('show');
+                GetListMessage();
+            }
+        });
+    }
+    //gét list message
+    function GetListMessage() {
+        showLoadingOverlay("#GetThongTin");
+        $.ajax({
+            type: "GET",
+            url: config.GET_MESSAGE,
+            data: {
+                ticketId: $('#MS_PHIEU_BAO_TRI').val()
+            },
+            success: function (response) {
+                $("#GetThongTin").html(response);
+            },
+            complete: function () {
+                hideLoadingOverlay("#GetThongTin");
             }
         });
     }

@@ -641,23 +641,29 @@ namespace VietSoft.HRM.Web.Controllers
         {
             var uploadedFiles = new List<string>();
             int stt = 1;
-            foreach (var dataSource in files)
+            try
             {
-                string fullFilePath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year + "\\" + "YCNSD" + "_" + msmay + "_" + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "_" + stt.ToString() + LayDuoiFile(dataSource.FileName);
-                stt++;
-                var fileName = "\\" + "YCNSD" + "_" + msmay + "_" + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "_" + stt.ToString() + LayDuoiFile(dataSource.FileName);
-                string rootPath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year;
-
-                bool exists = System.IO.Directory.Exists(rootPath);
-                if (!exists)
-                    System.IO.Directory.CreateDirectory(rootPath);
-                var extension = Path.GetExtension(rootPath + fileName);
-                if (System.IO.File.Exists(fullFilePath)) continue;
-                using (var stream = System.IO.File.Create(fullFilePath))
+                foreach (var dataSource in files)
                 {
-                    await dataSource.CopyToAsync(stream);
-                    uploadedFiles.Add(fullFilePath);
+                    string fullFilePath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year + "\\" + "YCNSD" + "_" + msmay + "_" + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "_" + stt.ToString() + LayDuoiFile(dataSource.FileName);
+                    stt++;
+                    var fileName = "\\" + "YCNSD" + "_" + msmay + "_" + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "_" + stt.ToString() + LayDuoiFile(dataSource.FileName);
+                    string rootPath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year;
+
+                    bool exists = System.IO.Directory.Exists(rootPath);
+                    if (!exists)
+                        System.IO.Directory.CreateDirectory(rootPath);
+                    var extension = Path.GetExtension(rootPath + fileName);
+                    if (System.IO.File.Exists(fullFilePath)) continue;
+                    using (var stream = System.IO.File.Create(fullFilePath))
+                    {
+                        await dataSource.CopyToAsync(stream);
+                        uploadedFiles.Add(fullFilePath);
+                    }
                 }
+            }
+            catch
+            {
             }
             return uploadedFiles;
         }

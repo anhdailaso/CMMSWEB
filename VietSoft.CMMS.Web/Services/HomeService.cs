@@ -273,6 +273,11 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@UserName", username);
                 p.Add("@json", request.Files);
                 var res = _dapper.Execute<BaseResponseModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                if (request.HONG == true)
+                {
+                    //2.Lập Yêu cầu bảo trì có hư hỏng máy đột xuất  
+                    Commons.SendThongBao(2, "YEU_CAU_NSD", res.NAME, request.MS_MAY, _dapper.GetDbconnection().ConnectionString);
+                }
                 return res;
             }
             catch (Exception ex)

@@ -26,6 +26,9 @@
         });
 
         $(document).on("click", '#btnComplete', function () {
+            if (SaveMor() == false) {
+                return;
+            }
             ShowConfirm("Bạn có muốn hoàn thành phiếu GSTT này không?", 'warning', '', function (result) {
                 if (result == true) {
                     saveComplete();
@@ -33,8 +36,13 @@
             });
         });
 
+        $(document).on("click", '#btnChondat', function () {
+            $("td[data-pass=1] input[type=checkbox]").prop('checked', true);  
+            $(".Measurement-true").css("color", "#ff870f");
+        });
+
         $(document).on('click', '#btnhuyGS', function () {
-  
+
             ShowConfirm("Bạn có muốn xóa GSTT này không?", 'warning', '', function (result) {
                 if (result == true) {
                     $.ajax({
@@ -125,7 +133,6 @@
                 NHAN_XET: $('#NHAN_XET').val(),
                 THEM: $('#THEM').val(),
             };
-            console.log(model);
             $.ajax({
                 type: "POST",
                 url: config.SAVE_MONITORING,
@@ -138,7 +145,7 @@
                     if (response.responseCode == 1) {
                         showSuccess(response.responseMessage)
                         if (window.location.href.indexOf("flag=0") !== -1) {
-                            window.location.href = window.location.href.replace("flag=0", "flag=1").replace("msgstt=-1", "msgstt=" + response.data +"");
+                            window.location.href = window.location.href.replace("flag=0", "flag=1").replace("msgstt=-1", "msgstt=" + response.data + "");
                         }
                     }
                     else {
@@ -174,10 +181,80 @@
             },
             success: function (response) {
                 $(contentDataList).html(response);
-                console.log(response);
             },
             complete: function () {
                 hideLoadingOverlay(contentDataList);
+            }
+        });
+    }
+
+    function SaveMor() {
+        var lstParameter = new Array();
+        var cur_length = 0;
+        $("#accordionFlushExample table").each(function () {
+            $(this).find('tr input[type=checkbox]:checked').each(function (i, obj) {
+                lstParameter[cur_length] = new Object();
+                lstParameter[cur_length].DeviceID = $('#MS_MAY').val(),
+                    lstParameter[cur_length].MonitoringParamsID = $(obj).attr('data-msthongso');
+                lstParameter[cur_length].ComponentID = $(obj).attr('data-msbophan');
+                lstParameter[cur_length].TypeOfParam = 1;
+                lstParameter[cur_length].ID = 1;
+                lstParameter[cur_length].ValueParamID = $(obj).attr('data-id');
+                lstParameter[cur_length].Measurement = 1;
+                lstParameter[cur_length].Note = $(obj).closest('tr').find('#note').val();
+                lstParameter[cur_length].DUONG_DAN = $(obj).closest('.accordion-item.border-0.break-line').find('[data-com="' + $(obj).attr('data-msbophan') + '"][data-mor="' + $(obj).attr('data-msthongso') + '"]').attr('data-pat');
+                cur_length = cur_length + 1;
+            })
+            $(this).find('tr input[type=number]').each(function (i, obj) {
+                if ($(obj).val() !== '') {
+                    lstParameter[cur_length] = new Object();
+                    lstParameter[cur_length].DeviceID = $('#MS_MAY').val(),
+                        lstParameter[cur_length].MonitoringParamsID = $(obj).attr('data-msthongso');
+                    lstParameter[cur_length].ComponentID = $(obj).attr('data-msbophan');
+                    lstParameter[cur_length].TypeOfParam = 0;
+                    lstParameter[cur_length].ValueParamID = -1;
+                    var data = JSON.parse($(obj).attr('data-range'));
+                    var j = 0;
+                    for (j = 0; j < data.length; j++) {
+                        if (parseFloat(data[j].GiaTriTren) >= parseFloat($(obj).val()) && parseFloat($(obj).val()) >= parseFloat(data[j].GiaTriDuoi)) {
+                            lstParameter[cur_length].ID = data[j].ID
+                            break;
+                        }
+                    }
+                    lstParameter[cur_length].Measurement = $(obj).val();
+                    lstParameter[cur_length].Note = $(obj).closest('tr').find('#note').val();
+                    lstParameter[cur_length].DUONG_DAN = $(obj).closest('.accordion-item.border-0.break-line').find('[data-com="' + $(obj).attr('data-msbophan') + '"][data-mor="' + $(obj).attr('data-msthongso') + '"]').attr('data-pat');
+                    cur_length = cur_length + 1;
+                }
+            })
+        })
+        if (cur_length < $("#accordionFlushExample table").length) {
+            ShowThongBao("Còn thông số giám sát chưa được giám sát!", 'warning');
+            return false;
+        }
+        let model = {
+            STT: $('#STT').val(),
+            SO_PHIEU: $('#SO_PHIEU').val(),
+            NGAY_KH: $('#NGAY_KH').val(),
+            MUC_UU_TIEN: $('#cboUuTien').val(),
+            NHAN_XET: $('#NHAN_XET').val(),
+            THEM: $('#THEM').val(),
+        };
+        $.ajax({
+            type: "POST",
+            url: config.SAVE_MONITORING,
+            data: {
+                model: model,
+                msmay: $('#MS_MAY').val(),
+                jsonData: JSON.stringify(lstParameter)
+            },
+            success: function (response) {
+                if (response.responseCode == 1) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
             }
         });
     }
@@ -199,6 +276,7 @@
     }
 
     function SaveNguoiThucHien() {
+
         let CNList = [];
         $('input:checkbox.input-add-nth:checked').each(function () {
             let mscn = $(this).data('ms-cn');
@@ -230,6 +308,7 @@
     }
 
     function saveComplete() {
+
         showLoadingOverlay("#inputCauseOfDamageContent");
         $.ajax({
             type: "POST",

@@ -72,12 +72,14 @@ namespace VietSoft.CMMS.Web.Controllers
             ViewBag.MS_PBT = ticketId;
             ViewBag.MS_MAY = deviceId;
             var cboCongNhan = _maintenanceService.GetNguoiThucHien(userName, deviceId, ticketId, SessionManager.CurrentUser.TypeLangue);
-            @ViewBag.CongNhan = cboCongNhan.Select(
+
+            ViewBag.CongNhan = cboCongNhan.Select(
             x => new SelectListItem
             {
                 Text = x.TEN_CONG_NHAN,
                 Value = x.MS_CONG_NHAN
             });
+
             var res = _maintenanceService.GetLogWorkList(ticketId, userName);
             return PartialView("_logWork", res);
         }
@@ -122,7 +124,7 @@ namespace VietSoft.CMMS.Web.Controllers
         {
             ViewBag.HU_HUONG = huhong;
             IEnumerable<WorkOrdersViewModel> res = _maintenanceService.GetWorkOrderList(userName, deviceId, ticketId, SessionManager.CurrentUser.TypeLangue);
-                    return PartialView("_workList", res);
+            return PartialView("_workList", res);
         }
 
         public FileResult DownloadFile(string filepath)
@@ -134,7 +136,6 @@ namespace VietSoft.CMMS.Web.Controllers
 
                 string filename = Path.GetFileName(filepath);
                 byte[] filedata = System.IO.File.ReadAllBytes(filepath);
-
                 string contentType;
                 new FileExtensionContentTypeProvider().TryGetContentType(filename, out contentType);
                 contentType = contentType ?? "application/octet-stream";
@@ -204,6 +205,55 @@ namespace VietSoft.CMMS.Web.Controllers
             var res = _maintenanceService.GetNguoiThucHien(userName, deviceId, ticketId, SessionManager.CurrentUser.TypeLangue);
             return PartialView("_addNguoiThucHien", res);
         }
+
+        public IActionResult ShowMessage(string deviceId, string ticketId)
+        {
+            ViewBag.MS_PBT = ticketId;
+            ViewBag.MS_MAY = deviceId;
+            // Tạo một SelectListItem rỗng
+            var emptyItem = new SelectListItem
+            {
+                Text = "", // Đặt Text là chuỗi trống
+                Value = ""  // Đặt Value là chuỗi trống
+            };
+            // Lấy danh sách công nhân từ _maintenanceService
+            var cboCongNhan = _maintenanceService.GetNguoiThucHien(userName, deviceId, ticketId, SessionManager.CurrentUser.TypeLangue);
+
+            // Tạo danh sách SelectListItem từ danh sách công nhân, bao gồm cả emptyItem
+            var selectListItems = new List<SelectListItem>
+            {
+                emptyItem
+            };
+            selectListItems.AddRange(cboCongNhan.Select(x => new SelectListItem
+            {
+                Text = x.TEN_CONG_NHAN,
+                Value = x.MS_CONG_NHAN
+            }));
+            // Đặt danh sách SelectListItem vào ViewBag.CongNhan
+            ViewBag.CongNhan = selectListItems;
+
+            return PartialView("_Message");
+        }
+        public IActionResult GetMessage(string ticketId)
+        {
+            var res = _maintenanceService.GetThongtinTraoDoi(ticketId);
+            return PartialView("_addMessage", res);
+        }
+        [HttpPost]
+        public IActionResult AddMessage(string ticketId, string noidung,string guithem)
+        {
+            var res = _maintenanceService.AddMessage(ticketId,noidung,guithem,SessionManager.CurrentUser.UserName);
+
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
+            }
+        }
+
 
         [HttpPost]
         public IActionResult SaveMaintenanceWork(SaveMaintenanceWorkModel model)
@@ -313,7 +363,7 @@ namespace VietSoft.CMMS.Web.Controllers
         public IActionResult AddRowLogwork(SaveLogWorkModel model, string deviceId)
         {
             var cboCongNhan = _maintenanceService.GetNguoiThucHien(userName, deviceId, "-1", SessionManager.CurrentUser.TypeLangue);
-            @ViewBag.CongNhan = cboCongNhan.Select(
+            ViewBag.CongNhan = cboCongNhan.Select(
             x => new SelectListItem
             {
                 Text = x.TEN_CONG_NHAN,
@@ -488,13 +538,13 @@ namespace VietSoft.CMMS.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SaveImage(IFormFile image, string ticketId,string com, string work)
+        public async Task<ActionResult> SaveImage(IFormFile image, string ticketId, string com, string work)
         {
             try
             {
                 string uploadedFiles = "";
                 string base64String = "";
-                uploadedFiles = _ftpservice.UploadFiles(image, "BTDK\\" + ticketId + "\\" + com+"_"+ work);
+                uploadedFiles = _ftpservice.UploadFiles(image, "BTDK\\" + ticketId + "\\" + com + "_" + work);
                 _maintenanceService.SaveImagePBT(uploadedFiles, ticketId, com, work);
                 if (image != null)
                 {

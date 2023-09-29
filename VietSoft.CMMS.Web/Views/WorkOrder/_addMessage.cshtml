@@ -1,0 +1,46 @@
+﻿@using VietSoft.CMMS.Web.Resources;
+@using VietSoft.CMMS.Web.Helpers;
+@model List<VietSoft.CMMS.Web.Models.Maintenance.Thongtintraodoi>
+
+
+
+@if (Model != null && Model.Count > 0)
+{ @foreach (var item in Model)
+    {
+        <div class="row">
+            <div class="col-12 approval-request-content">
+
+                <div class="card card-list card-hover">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex flex-column w-50 fs-sm">
+                                <span class="fw-600">@item.THOI_GIAN</span>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <span class="fw-600 fs-sm">@item.NGUOI_GUI</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="separate-line"></div>
+                    <div class="card-body">
+                       <div class="d-flex mt-1">
+                            <div class="d-flex w-100 gap-1">
+                                <span class="text-secondary">@item.NOI_DUNG</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+@*    <input type="hidden" id="hfTotalPage" value="@Model.TotalPages" data-total-rows="@Model.TotalItems">
+    <div id="paggingResult"></div>*@
+}
+else
+{
+    <div class="col-12">
+        <div class="no-data">
+            <span>@ViewText.LBL_KHONGCO_DULIEU</span>
+        </div>
+    </div>
+}

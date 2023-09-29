@@ -102,6 +102,9 @@
         });
     }
 
+    function showthongbao() {
+        ShowThongBao('Máy này chưa có thông số giám sát!', 'warning', '');
+    }
     function LoadMay() {
         $('#cboMay option').remove();
         $.ajax({
@@ -132,7 +135,8 @@
     }
 
     return {
-        init: init
+        init: init,
+        showthongbao: showthongbao
     };
 
 })(window, jQuery, config);

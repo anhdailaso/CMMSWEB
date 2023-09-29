@@ -27,6 +27,8 @@ namespace VietSoft.CMMS.Web.IServices
         ResponseViewModel SaveLogWork(string ticketId, string userName, string json);
         ResponseViewModel SaveWorkOrder(string ticketId, DateTime ngaylap,DateTime ngaybd,DateTime ngaykt, int categoryTicketId, int priorityId, string statusDevice,string lydoBT, string userName, string deviceId, int them);
         ResponseViewModel CompletedWorkOrder(string ticketId, string userName, string deviceId, int languages);
+
+        ResponseViewModel AddMessage(string ticketId, string noidung, string guithem, string userName);
         List<CapNhatCa> CapNhatCa(DateTime TN, DateTime DN);
         ResponseViewModel SaveInputCauseOfDamageList(string ticketId, int msnn, DateTime tungay, DateTime denngay, string json, string Username);
 
@@ -38,5 +40,6 @@ namespace VietSoft.CMMS.Web.IServices
         BaseResponseModel UpdateTinhTrang(string ticketId);
         List<ThoiGianNgungMayModel> GetListThoiGianNgungMay(string mspbt, int languages);
         BaseResponseModel SaveImagePBT(string path, string ticketId, string com, string work);
+        List<Thongtintraodoi> GetThongtinTraoDoi(string mspbt);
     }
 }

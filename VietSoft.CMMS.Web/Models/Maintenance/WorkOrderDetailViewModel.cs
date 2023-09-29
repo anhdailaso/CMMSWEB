@@ -44,7 +44,12 @@
         public DateTime TU_GIO { get; set; }
         public DateTime DEN_GIO { get; set; }
     }
-
+    public class Thongtintraodoi
+    {
+        public string NOI_DUNG { get; set; }
+        public string NGUOI_GUI { get; set; }
+        public string THOI_GIAN { get; set; }
+    }
 
     public class WorkOrdersViewModel
     {

@@ -11,6 +11,7 @@
     .btn-group .d-flex .justify-content-end a i {
         width: 3rem !important;
     }
+
     .navbar-button {
         /*padding-left: 100px;*/
         padding-top: unset;
@@ -27,7 +28,7 @@
     .accordion-button::after {
         /*https://astronautweb.co/snippet/font-awesome/*/
         /*        content: "\f083";
-                                            font-family: FontAwesome;*/
+                                                            font-family: FontAwesome;*/
         background-image: none !important;
     }
 
@@ -155,20 +156,24 @@
                     <i class="fa fa-check-circle fs-7"></i>
                 </a>
 
-                <!-- kiểm tra nếu là hư hỏng thì mở chọn công việc -->
-                @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() && Model.QUYEN_CN > 0 || Model.HU_HONG == 1)
-                {
-                    <a class="btn btn-outline-warning m-1" data-toggle="tooltip" title="@ViewText.BTN_XOA" id="btnhuyBT" role="button">
-                        <i class="fa fa-times fs-7"></i>
-                    </a>
-
-               
-                }
-                   @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() && Model.QUYEN_CN > 0)
+                @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() && Model.QUYEN_CN > 0)
                 {
 
                     <a id="btnAddNguoiThucHien" class="btn btn-outline-primary m-1" data-toggle="tooltip" title="@ViewText.TITLE_THEN_NGUOI_THUC_HIEN">
                         <i class="fa-regular fa-person-sign fs-7" aria-hidden="true"></i>
+                    </a>
+                }
+
+                <a class="btn btn-outline-info m-1" data-toggle="tooltip" title="Trao đổi thông tin" id="btnMessage" role="button">
+                    <i class="fa-regular fa-message"></i>
+                </a>
+
+                <!-- kiểm tra nếu là hư hỏng thì mở chọn công việc -->
+                @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() && Model.QUYEN_CN > 0 || Model.HU_HONG == 1)
+                {
+
+                    <a class="btn btn-outline-warning m-1" data-toggle="tooltip" title="@ViewText.BTN_XOA" id="btnhuyBT" role="button">
+                        <i class="fa fa-times fs-7"></i>
                     </a>
                 }
             </div>
@@ -224,6 +229,9 @@ else
             ADD_SUPPLIES: '@Url.Action("AddSupplies","WorkOrder")',
             ADD_MAINTENANCE_WORK: '@Url.Action("AddMaintenanceWork","WorkOrder")',
             ADD_NGUOI_THUC_HIEN: '@Url.Action("ChonNguoiThucHien","WorkOrder")',
+            SHOW_MESSAGE: '@Url.Action("ShowMessage","WorkOrder")',
+            GET_MESSAGE: '@Url.Action("GetMessage","WorkOrder")',
+            ADD_MESSAGE: '@Url.Action("AddMessage","WorkOrder")',
             THEM_CONG_VIEC: '@Url.Action("THEM_CONG_VIEC","WorkOrder")',
             XEM_HUONG_DAN: '@Url.Action("XEM_HUONG_DAN","WorkOrder")',
             LOAD_COMBO_CONG_VIEC: '@Url.Action("LoadComBoCongViec","WorkOrder")',
