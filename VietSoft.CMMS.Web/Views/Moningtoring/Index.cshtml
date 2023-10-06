@@ -153,7 +153,7 @@
 
                 @if (Model.THEM != 1)
                 {
-                    <a id="btnAddNguoiThucHien" class="btn btn-outline-primary m-1" data-toggle="tooltip" title="@ViewText.TITLE_THEN_NGUOI_THUC_HIEN">
+                    <a id="btnAddNguoiThucHien" class="btn btn-outline-secondary m-1" data-toggle="tooltip" title="@ViewText.TITLE_THEN_NGUOI_THUC_HIEN">
                         <i class="fa-regular fa-person-sign fs-7" aria-hidden="true"></i>
                     </a>
 
@@ -163,9 +163,14 @@
                     </a>
 
                     <!-- Hoành thành phiếu -->
-                    <a id="btnChondat" class="btn btn-outline-success m-1" data-toggle="tooltip" title="Hoàn thành">
+                    <a id="btnChondat" class="btn btn-outline-primary m-1" data-toggle="tooltip" title="Chọn đạt">
                         <i class="fa fa-square-check fs-7"></i>
-                    </a>    
+                    </a>
+
+                    <!-- Hoành thành phiếu -->
+                    <a id="btnBochon" class="btn btn-outline-info m-1" data-toggle="tooltip" title="Bỏ chọn">
+                        <i class="fa-regular fa-square fs-7"></i>
+                    </a>
 
                     <a class="btn btn-outline-warning m-1" data-toggle="tooltip" title="@ViewText.BTN_XOA" id="btnhuyGS" role="button">
                         <i class="fa fa-times fs-7"></i>

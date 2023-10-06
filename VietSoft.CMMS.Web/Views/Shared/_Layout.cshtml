@@ -40,6 +40,27 @@
             a:hover {
                 color: #ced4da;
             }
+
+        p i {
+            font-size: small;
+        }
+
+        h5 {
+            font-style: unset;
+        }
+
+        h6 {
+            font-weight: bold;
+        }
+
+        .flex-container {
+            display: flex;
+            align-items: center; /* Canh các phần tử theo trục dọc (vertical) */
+        }
+
+        .row.page-title {
+            margin-right: 10px; /* Tạo khoảng cách giữa hai phần tử */
+        }
     </style>
 </head>
 <body class="d-flex flex-column">
@@ -76,7 +97,12 @@
                 </ul>
                 *@
                 </div>
-                <div class="row page-title">@ViewData["Title"] </div>
+                <div class="flex-container">
+                    <div class="row page-title">@ViewData["Title"]</div>
+                    <div>
+                        <a class="fa-sharp fa-regular fa-circle-info" data-bs-toggle="modal" data-bs-target="#myModalEcoMaint" style="color: #ffffff;"></a>
+                    </div>
+                </div>
             }
 
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -234,6 +260,41 @@
     </div>
     </div>*@
 
+    <div class="modal" id="myModalEcoMaint">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title" style="color:#ff870f">CÁC KÝ HIỆU SỬ DỤNG</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <h5><u>Màu sắc</u></h5>
+                    <p>&nbsp;&nbsp;Mức mưu tiên cao: <span style="color:red">Màu đỏ</span></p>
+                    <p>&nbsp;&nbsp;Mức mưu tiên trung bình: <span style="color:blue">Xanh dương</span> </p>
+                    <p>&nbsp;&nbsp;Mức mưu tiên thấp: <span style="color:green">Xanh lá</span></p>
+                    <h5><u>Có vòng tròn bao quanh</u></h5>
+                    <p>&nbsp;&nbsp;Những nội dung trễ hạn</p>
+                    <h5><u>Chữ cái</u></h5>
+
+                    <h6>&nbsp;Yêu cầu bảo trì</h6>
+                    <p>&nbsp;&nbsp;Đã duyệt: <i class="fas fa-a" style="color:#ff0000"></i></p>
+                    <p>&nbsp;&nbsp;Chưa duyệt: <i class="fas fa-n" style="color:#ff0000"></i></p>
+
+                    <h6>&nbsp;Phiếu bảo trì</h6>
+                    <p>&nbsp;&nbsp;Bảo trì có kế hoạch: <i class="fas fa-p" style="color:#ff0000"></i></p>
+                    <p>&nbsp;&nbsp;Bảo trì không có kế hoạch: <i class="fas fa-c" style="color:#ff0000"></i></p>
+
+                    <h6>&nbsp;Giám sát tình trạng</h6>
+                    <p>&nbsp;&nbsp;Cần giám sát thiết bị: <i class="fas fa-x" style="color:blue"></i></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="modalCameraScanner" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -305,6 +366,9 @@
             })
 
         });
+
+
+       
     </script>
 
 </body>

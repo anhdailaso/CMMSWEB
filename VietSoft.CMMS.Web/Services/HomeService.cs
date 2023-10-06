@@ -97,7 +97,7 @@ namespace VietSoft.CMMS.Web.Services
             try
             {
                 var p = new DynamicParameters();
-                p.Add("@sDanhMuc", "MORNINGTORING");
+                p.Add("@sDanhMuc", "MORNINGTORING");    
                 p.Add("@UserName", username);
                 p.Add("@NNgu", languages);
                 p.Add("@deviceID", may == "" ? "-1" : may);

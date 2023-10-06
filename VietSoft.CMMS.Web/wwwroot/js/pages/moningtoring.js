@@ -41,6 +41,11 @@
             $(".Measurement-true").css("color", "#ff870f");
         });
 
+        $(document).on("click", '#btnBochon', function () {
+            $("td[data-pass=1] input[type=checkbox]").prop('checked', false);
+            $(".Measurement-true").css("color", "#113186");
+        });
+
         $(document).on('click', '#btnhuyGS', function () {
 
             ShowConfirm("Bạn có muốn xóa GSTT này không?", 'warning', '', function (result) {

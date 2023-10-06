@@ -1319,6 +1319,12 @@
         $('#img01').attr('pat', '');
     });
     $('#btnLuuHinh').click(function () {
+
+        if (file == null) {
+            showWarning('Bạn chưa chọn file cần lưu!');
+            return;
+        }
+
         $('#exampleModal').modal('hide');
         var fd = new FormData();
         fd.append('image', file);

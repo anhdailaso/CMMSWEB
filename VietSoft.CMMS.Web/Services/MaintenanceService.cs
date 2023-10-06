@@ -112,7 +112,7 @@ namespace VietSoft.CMMS.Web.Services
                         YEU_CAU_DUNG_CU = x.YEU_CAU_DUNG_CU,
                         PATH_HD = x.PATH_HD,
                         Path = x.PATH_IMAGE,
-                        Path64 = @"data:image/png;base64," + ftp.DownloadFileAsBase64(x.PATH_IMAGE),
+                        Path64 = @"data:image/png;base64," + Commons.DownloadFileAsBase64(x.PATH_IMAGE).Result.ToString(),
                         WorkOrderDetailViewModels = x.WorkOrderDetailViewModels.Where(x => !string.IsNullOrEmpty(x.MS_PT)).Select(x => new WorkOrderDetailViewModel()
                         {
                             MS_PT = x.MS_PT,

@@ -5,6 +5,7 @@ using VietSoft.CMMS.Web.Models;
 using VietSoft.CMMS.Web.Serilog;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.VisualBasic;
+using Microsoft.AspNetCore.Http;
 
 namespace VietSoft.CMMS.Web.Services
 {
@@ -12,9 +13,11 @@ namespace VietSoft.CMMS.Web.Services
     {
         private readonly IDapperService _dapper;
         public readonly ILogger<AccountService> _logger;
-        public AccountService(IDapperService dapper)
+        private readonly IConfiguration _config;
+        public AccountService(IDapperService dapper, IConfiguration config)
         {
             _dapper = dapper;
+            _config = config;
         }
         public int Login(string userName, string passWord)
         {
@@ -76,6 +79,11 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@sDanhMuc", "GENERAL");
                 p.Add("@UserName", userName);
                 var res = _dapper.Execute<ThongTinChungViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                if(res.DUONG_DAN_TL == "")
+                {
+                    res.DUONG_DAN_TL = _config["RootPath"];
+
+                }    
                 return res;
             }
             catch (Exception ex)

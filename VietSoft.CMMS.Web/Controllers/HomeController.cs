@@ -15,6 +15,7 @@ using System.Drawing;
 using Microsoft.AspNetCore.StaticFiles;
 using System.Net.Mime;
 using VietSoft.CMMS.Web.Models.Maintenance;
+using VietSoft.CMMS.Web;
 
 namespace VietSoft.HRM.Web.Controllers
 {
@@ -112,10 +113,10 @@ namespace VietSoft.HRM.Web.Controllers
                     var lstBase64 = new List<string>();
                     foreach (var item in lst)
                     {
-                        if (SessionManager.ThongTinChung.LUU_FILE == 2)
-                            lstBase64.Add(_ftpservice.DownloadFileAsBase64(item));
-                        else
-                            lstBase64.Add(item.ToBase64StringImage());
+                        //if (SessionManager.ThongTinChung.LUU_FILE == 2)
+                        //    lstBase64.Add(_ftpservice.DownloadFileAsBase64(item));
+                        //else
+                            lstBase64.Add(item.ToBase64StringImage().Replace("data:image/png;base64,",""));
                     }
                     ViewBag.DanhSachHinhAnh = lstBase64;
                 }
@@ -357,7 +358,7 @@ namespace VietSoft.HRM.Web.Controllers
                         item.TypeOfParam = modelItem.TypeOfParam;
                         item.DUONG_DAN = modelItem.DUONG_DAN;
                         item.Path = modelItem.Path;
-                        item.Path64 = @"data:image/png;base64," + _ftpservice.DownloadFileAsBase64(item.Path);
+                        item.Path64 = @"data:image/png;base64," + Commons.DownloadFileAsBase64(item.Path).Result;
                         item.MonitoringParameters = model.Where(x1 => x1.ComponentID.Equals(modelItem.ComponentID) && x1.MonitoringParamsID.Equals(modelItem.MonitoringParamsID)).ToList();
                         resulst.Add(item);
                     }
@@ -379,15 +380,14 @@ namespace VietSoft.HRM.Web.Controllers
             {
                 string uploadedFiles = "";
                 string base64String = "";
-                if (SessionManager.ThongTinChung.LUU_FILE == 2)
-                {
-                    uploadedFiles = _ftpservice.UploadFiles(image, "GSTT\\" + msts + "\\" + dev);
-                }
-                else
-                {
-                    uploadedFiles = await SaveUploadFile(image, dev);
-
-                }
+                //if (SessionManager.ThongTinChung.LUU_FILE == 2)
+                //{
+                //    uploadedFiles = _ftpservice.UploadFiles(image, "GSTT\\" + msts + "\\" + dev);
+                //}
+                //else
+                //{
+                    uploadedFiles = await Commons.SaveUploadFile(image, "GSTT\\" + msts + "\\" + dev);
+                //}
                 if (image != null)
                 {
                     using (var memoryStream = new MemoryStream())
@@ -443,8 +443,16 @@ namespace VietSoft.HRM.Web.Controllers
                     return File(Array.Empty<byte>(), "application/octet-stream");
 
                 string filename = Path.GetFileName(filepath);
-                byte[] filedata = System.IO.File.ReadAllBytes(filepath);
-
+                byte[] filedata;
+                //if (SessionManager.ThongTinChung.LUU_FILE == 2)
+                //{
+                //    filedata = _ftpservice.DownloadFileAsBytes(filepath);
+                //}
+                //else
+                //{
+                //    filedata = System.IO.File.ReadAllBytes(filepath);
+                //}
+                filedata = Commons.DownloadFileAsBytes(filepath).Result;
                 string contentType;
                 new FileExtensionContentTypeProvider().TryGetContentType(filename, out contentType);
                 contentType = contentType ?? "application/octet-stream";
@@ -512,8 +520,6 @@ namespace VietSoft.HRM.Web.Controllers
                 return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = Message.COLOI_XAYRA });
             }
         }
-
-
         [HttpPost]
         public async Task<ActionResult> SaveUserRequest(IList<IFormFile> files, string data)
         {
@@ -521,15 +527,16 @@ namespace VietSoft.HRM.Web.Controllers
             if (model != null)
             {
                 List<string> uploadedFiles = new List<string>();
-                if (SessionManager.ThongTinChung.LUU_FILE == 2)
-                {
-                    model.MS_YEU_CAU = _homeService.GetSoPhieuYeu("WR");
-                    uploadedFiles = _ftpservice.UploadMultipleFiles(files, "YCNSD\\" + model.MS_YEU_CAU);
-                }
-                else
-                {
-                    uploadedFiles = await SaveUploadFile(files, model.MS_MAY);
-                }
+                //if (SessionManager.ThongTinChung.LUU_FILE == 2)
+                //{
+                //    model.MS_YEU_CAU = _homeService.GetSoPhieuYeu("WR");
+                //    uploadedFiles = _ftpservice.UploadMultipleFiles(files, "YCNSD\\" + model.MS_YEU_CAU);
+                //}
+                //else
+                //{
+                //    uploadedFiles = await Commons.SaveUploadMultiFile(files, model.MS_MAY);
+                //}
+                uploadedFiles = await Commons.SaveUploadMultiFile(files, model.MS_MAY);
                 model.NGUOI_YEU_CAU = SessionManager.ThongTinChung.HO_TEN;
                 if (model.HONG == true)
                 {
@@ -592,80 +599,6 @@ namespace VietSoft.HRM.Web.Controllers
         {
             ViewBag.Image = image.Replace("data:image/png;base64,", "");
             return PartialView("~/Views/Home/_viewImageModal.cshtml");
-        }
-        public string LayDuoiFile(string strFile)
-        {
-            string[] FILE_NAMEArr, arr;
-            string FILE_NAME = "";
-            string str = "";
-            FILE_NAMEArr = strFile.Split(@"\");
-            FILE_NAME = FILE_NAMEArr[FILE_NAMEArr.Length - 1];
-            arr = FILE_NAME.Split(".");
-            return "." + arr[arr.Length - 1];
-        }
-        public async Task<string> SaveUploadFile(IFormFile dataSource, string msmay)
-        {
-            try
-            {
-                int stt = 1;
-
-                //\\192.168.1.6\TaiLieu\Hinh_May\AIC-0002\15_3_2023\GSTT_AIC-0002_20230315_9.png
-                string rootPath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year;
-                try
-                {
-                    string[] files = Directory.GetFiles(rootPath).Where(x => x.Contains("GSTT")).ToArray();
-                    stt = files.Length + 1;
-                }
-                catch
-                {
-                    stt = 1;
-                }
-                string fullFilePath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year + "\\" + "GSTT" + "_" + msmay + "_" + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "_" + stt.ToString() + LayDuoiFile(dataSource.FileName);
-                bool exists = System.IO.Directory.Exists(rootPath);
-                if (!exists)
-                    System.IO.Directory.CreateDirectory(rootPath);
-                var extension = Path.GetExtension(rootPath + dataSource.FileName);
-                if (System.IO.File.Exists(fullFilePath)) return fullFilePath;
-                using (var stream = System.IO.File.Create(fullFilePath))
-                {
-                    await dataSource.CopyToAsync(stream);
-                }
-                return fullFilePath;
-            }
-            catch
-            {
-                return "";
-            }
-        }
-        public async Task<List<string>> SaveUploadFile(IList<IFormFile> files, string msmay)
-        {
-            var uploadedFiles = new List<string>();
-            int stt = 1;
-            try
-            {
-                foreach (var dataSource in files)
-                {
-                    string fullFilePath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year + "\\" + "YCNSD" + "_" + msmay + "_" + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "_" + stt.ToString() + LayDuoiFile(dataSource.FileName);
-                    stt++;
-                    var fileName = "\\" + "YCNSD" + "_" + msmay + "_" + DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "_" + stt.ToString() + LayDuoiFile(dataSource.FileName);
-                    string rootPath = SessionManager.ThongTinChung.DUONG_DAN_TL + "\\" + "Hinh_May" + "\\" + msmay + "\\" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Year;
-
-                    bool exists = System.IO.Directory.Exists(rootPath);
-                    if (!exists)
-                        System.IO.Directory.CreateDirectory(rootPath);
-                    var extension = Path.GetExtension(rootPath + fileName);
-                    if (System.IO.File.Exists(fullFilePath)) continue;
-                    using (var stream = System.IO.File.Create(fullFilePath))
-                    {
-                        await dataSource.CopyToAsync(stream);
-                        uploadedFiles.Add(fullFilePath);
-                    }
-                }
-            }
-            catch
-            {
-            }
-            return uploadedFiles;
         }
 
 

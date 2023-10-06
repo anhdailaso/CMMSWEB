@@ -4,6 +4,8 @@ var _formatDate = 'DD/MM/YYYY';
 var _notifyTimeout = 3000;
 
 $(function () {
+
+
     var file;
     var importfile = $('#fileToUploadavt');
     $('#btnXoaHinhavt').click(function () {

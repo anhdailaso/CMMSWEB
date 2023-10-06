@@ -1,18 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.StaticFiles;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Net.Mime;
-using System.Runtime.CompilerServices;
 using System.Text.Json;
 using VietSoft.CMMS.Web.Helpers;
 using VietSoft.CMMS.Web.IServices;
 using VietSoft.CMMS.Web.Models;
 using VietSoft.CMMS.Web.Models.Maintenance;
 using VietSoft.CMMS.Web.Resources;
-using JsonConvert = Newtonsoft.Json;
 
 namespace VietSoft.CMMS.Web.Controllers
 {
@@ -135,7 +131,15 @@ namespace VietSoft.CMMS.Web.Controllers
                     return File(Array.Empty<byte>(), "application/octet-stream");
 
                 string filename = Path.GetFileName(filepath);
-                byte[] filedata = System.IO.File.ReadAllBytes(filepath);
+                byte[] filedata;
+                //if (SessionManager.ThongTinChung.LUU_FILE == 2)
+                //{
+                //    filedata = _ftpservice.DownloadFileAsBytes(filepath);
+                //}   
+                //else
+                //{
+                    filedata = Commons.DownloadFileAsBytes(filepath).Result;
+                //}
                 string contentType;
                 new FileExtensionContentTypeProvider().TryGetContentType(filename, out contentType);
                 contentType = contentType ?? "application/octet-stream";
@@ -544,7 +548,8 @@ namespace VietSoft.CMMS.Web.Controllers
             {
                 string uploadedFiles = "";
                 string base64String = "";
-                uploadedFiles = _ftpservice.UploadFiles(image, "BTDK\\" + ticketId + "\\" + com + "_" + work);
+                //uploadedFiles = _ftpservice.UploadFiles(image, "BTDK\\" + ticketId + "\\" + com + "_" + work);
+                uploadedFiles = await Commons.SaveUploadFile(image, "BTDK\\" + ticketId + "\\" + com + "_" + work);
                 _maintenanceService.SaveImagePBT(uploadedFiles, ticketId, com, work);
                 if (image != null)
                 {

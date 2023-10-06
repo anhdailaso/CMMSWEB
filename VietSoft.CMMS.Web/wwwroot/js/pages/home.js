@@ -8,6 +8,9 @@
 
         //setDatePicker("#toDate", null, moment($("#toDate").val(), 'DD/MM/YYYY').toDate())
         //$('#cboDiaDiem').val('-1').change();
+
+        pushAlert('Nội dung thông báo');
+
         $('#cboLMay').val('-1').change();
         $('#search').on('keyup', function () {
             clearTimeout(delayTimer)
@@ -63,14 +66,17 @@
 
             tr.addClass("row-selected")
         })
+        const futureDate = new Date();
+        futureDate.setDate(futureDate.getDate() + 7);
+        console.log(futureDate);
 
-        setDatePicker("#toDate", null, null, null);
+        // Truyền futureDate vào hàm setDatePicker()
+        setDatePicker("#toDate", futureDate, null, null);
         $(document).on('touchend', '#tbGetMyEcomain tbody tr', function () {
             $(this).removeClass("row-selected")
         })
         bload = true;
         GetMyEcomaint(1)
-
 
     }
 

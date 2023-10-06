@@ -30,7 +30,6 @@ public class FtpService : IFtpService
             ftpClient.Disconnect();
         }
     }
-
     public List<string> UploadMultipleFiles(IList<IFormFile> files, string remoteDirectory)
     {
         var resulst = new List<string>();
@@ -163,6 +162,40 @@ public class FtpService : IFtpService
         }
         return resulst;
     }
+
+    public byte[] DownloadFileAsBytes(string remoteFilePath)
+    {
+        byte[] resulst = null;
+        if (ftpServer != "")
+        {
+            using (var ftpClient = new FtpClient(ftpServer, credentials, port))
+            {
+                ftpClient.Connect();
+                try
+                {
+                    // Đường dẫn tới tệp trên máy cục bộ để lưu trữ
+                    string localFilePath = Path.GetTempFileName();
+                    // Tải tệp từ máy chủ FTP xuống máy cục bộ
+                    ftpClient.DownloadFile(localFilePath, remoteFilePath);
+                    // Đọc tệp từ máy cục bộ và chuyển đổi thành chuỗi Base64
+                    resulst = File.ReadAllBytes(localFilePath);
+                    // Xóa tệp tạm thời trên máy cục bộ
+                    File.Delete(localFilePath);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error: " + ex.Message);
+                    resulst = null;
+                }
+                finally
+                {
+                    ftpClient.Disconnect();
+                }
+            }
+        }
+        return resulst;
+    }
+
     public void DeleteFile(string remoteFilePath)
     {
         if (ftpServer != "")
@@ -175,7 +208,6 @@ public class FtpService : IFtpService
             }
         }
     }
-
     public void CreateDirectory(string remoteDirectory)
     {
         if (ftpServer != "")
