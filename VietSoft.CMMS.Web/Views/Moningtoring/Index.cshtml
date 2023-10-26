@@ -10,9 +10,9 @@
 
 <style>
     .navbar-button {
-        padding-left: 100px;
+        /*padding-left: 100px;*/
         padding-top: unset;
-        padding-right: 100px;
+        /*padding-right: 100px;*/
         /* overflow: hidden; */
         position: absolute;
         line-height: 42px;
@@ -25,7 +25,7 @@
     .accordion-button::after {
         /*https://astronautweb.co/snippet/font-awesome/*/
         /*        content: "\f083";
-                                                font-family: FontAwesome;*/
+                                                    font-family: FontAwesome;*/
         background-image: none !important;
     }
 
@@ -77,6 +77,25 @@
             @Html.TextAreaFor(model=>model.NHAN_XET, new { @class = "form-control", maxlength = 250, autocomplete = "off" , placeholder=@ViewText.LBL_GHI_CHU })
             <label for="NHAN_XET">Nhận xét</label>
         </div>
+
+        @if(Model.NGAY_CHAY != "")
+        {
+             <div class="form-floating input-group break-line">
+            @Html.TextBoxFor(model=>model.SO_GIO_LUY_KE,new {@class = "form-control", maxlength = 250, autocomplete = "off" , placeholder="Số giờ lũy kế", required ="required",title="Không được để trống." })
+            <span class="input-group-append d-flex align-items-center">
+                <i class="fa-light fa-eye" id="btnShowView"></i>
+            </span>
+            <label for="TT_SAU_BT">Số giờ lũy kế (@Model.NGAY_CHAY) </label>
+            </div>
+        }
+        else
+        {
+            <div class="form-floating input-group break-line">
+                @Html.TextBoxFor(model=>model.SO_GIO_LUY_KE,new {@class = "form-control", maxlength = 250, autocomplete = "off" , placeholder="Số giờ lũy kế", required ="required",title="Không được để trống." })
+                <label for="TT_SAU_BT">Số giờ lũy kế</label>
+            </div>
+        }
+
 
         <div class="border-top my-3"></div>
 
@@ -142,8 +161,8 @@
 <nav class="fixed-bottom">
     <div class="navbar-button  text-center text-white">
         <div id="button-container" class="btn-group">
-           @* <a class="btn btn-outline-dark m-1" role="button" href="@Url.Action("Index","Home")" data-toggle="tooltip" title="@ViewText.BTN_TRANG_CHU">
-                <i class="fa fa-home fs-7" aria-hidden="true"></i>
+            @* <a class="btn btn-outline-dark m-1" role="button" href="@Url.Action("Index","Home")" data-toggle="tooltip" title="@ViewText.BTN_TRANG_CHU">
+            <i class="fa fa-home fs-7" aria-hidden="true"></i>
             </a>*@
             @if (Model.QUYEN_MENU == 1)
             {
@@ -192,6 +211,7 @@
             MyEcomaint: '@Url.Action("Index", "Home")',
             MESS_VUI_LONG_CHON_DL: '@Html.Raw(Message.MESS_VUI_LONG_CHON_DL)',
             ADD_NGUOI_THUC_HIEN: '@Url.Action("ChonNguoiThucHien","Home")',
+            SHOW_TG_CHAY_MAY: '@Url.Action("ShowThoiGianChayMay","Home")',
             SAVE_NGUOI_THUC_HIEN: '@Url.Action("SaveNguoiThucHien","Home")',
             COMPLETED: '@Url.Action("Completed","Home")',
             DELETE_GSTT: '@Url.Action("DeleteGSTT","Home")',

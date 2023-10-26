@@ -35,11 +35,13 @@ namespace VietSoft.CMMS.Web.IServices
         
         List<AcceptMaintenanceModel> GetListAcceptMaintenance(string username, int languages, DateTime? tngay, DateTime? dngay , int NNgu);
         BaseResponseModel SaveAcceptMaintenance(string username, AcceptWorkOrderModel model, int languages);
+        BaseResponseModel NoAcceptMaintenance(string username, AcceptWorkOrderModel model, int languages);
         BaseResponseModel SaveThoiGianNgungMay(string username, string mspbt, string json);
         bool CheckPhuTung(string ticketId);
         BaseResponseModel UpdateTinhTrang(string ticketId);
         List<ThoiGianNgungMayModel> GetListThoiGianNgungMay(string mspbt, int languages);
         BaseResponseModel SaveImagePBT(string path, string ticketId, string com, string work);
         List<Thongtintraodoi> GetThongtinTraoDoi(string mspbt);
+        List<NoAcceptWorkOrderModel> GetListPhieuBaoTriKhongChapNhan(string mspbt);
     }
 }

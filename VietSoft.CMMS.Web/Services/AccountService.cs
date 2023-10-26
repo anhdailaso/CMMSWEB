@@ -6,6 +6,7 @@ using VietSoft.CMMS.Web.Serilog;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.VisualBasic;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace VietSoft.CMMS.Web.Services
 {
@@ -79,7 +80,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@sDanhMuc", "GENERAL");
                 p.Add("@UserName", userName);
                 var res = _dapper.Execute<ThongTinChungViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
-                if(res.DUONG_DAN_TL == "")
+                if(res.DUONG_DAN_TL == "" || res.DUONG_DAN_TL == null)
                 {
                     res.DUONG_DAN_TL = _config["RootPath"];
 
@@ -91,6 +92,20 @@ namespace VietSoft.CMMS.Web.Services
                 return new ThongTinChungViewModel();
             }
         }
+
+
+        public List<SelectListItem> GetDatabaseList()
+        {
+            string sql = "SELECT DISTINCT name FROM sys.databases WHERE state_desc = 'ONLINE' AND name LIKE 'CMMS%' ORDER BY name";
+            var lstDbName = _dapper.GetAll<string>(sql, null, System.Data.CommandType.Text);
+
+            return lstDbName.Select(x => new SelectListItem()
+            {
+                Text = x,
+                Value = x
+            }).ToList();
+        }
+
 
     }
 }

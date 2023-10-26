@@ -8,9 +8,6 @@
 
         //setDatePicker("#toDate", null, moment($("#toDate").val(), 'DD/MM/YYYY').toDate())
         //$('#cboDiaDiem').val('-1').change();
-
-        pushAlert('Nội dung thông báo');
-
         $('#cboLMay').val('-1').change();
         $('#search').on('keyup', function () {
             clearTimeout(delayTimer)

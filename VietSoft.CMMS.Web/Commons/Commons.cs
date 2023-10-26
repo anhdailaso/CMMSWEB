@@ -32,7 +32,6 @@ namespace VietSoft.CMMS.Web
         {
             try
             {
-
                 DataSet set = SqlHelper.ExecuteDataset(connect, "spGetThongBao", iHD, Username, tableName, sSoPhieu, scot1);
                 //gửi cho đữ liệu table 1
                 DataTable table1 = set.Tables[0];
@@ -74,7 +73,6 @@ namespace VietSoft.CMMS.Web
                     //đăng nhập
                     DataTable dt = new DataTable();
                     dt.Load(SqlHelper.ExecuteReader(connect, CommandType.Text, "SELECT AppID, SecretKey API_HASH, PHONE_NUMBER_LOGIN, API FROM dbo.ACCESS_TOKEN WHERE ID_TOKEN = 1"));
-
                     apiLocal = dt.Rows[0]["API"].ToString();
                     appID = dt.Rows[0]["AppID"].ToString();
                     apiHash = dt.Rows[0]["API_HASH"].ToString();
@@ -85,7 +83,11 @@ namespace VietSoft.CMMS.Web
                 {
 
                 }
-                sdt = "84" + sdt.Substring(1, 9);
+                //kiểm tra 2 ký tự đầu là 09 thì mới gán còn không dữ nguyên
+                if(sdt.Substring(0,1) == "0")
+                {
+                    sdt = "84" + sdt.Substring(1, 9);
+                }
                 string apiLogin = apiLocal + "mTeleSend";
                 string jsonContent = "";
                 string queryString = "";
@@ -213,6 +215,7 @@ namespace VietSoft.CMMS.Web
         public static async Task<string> DownloadFileAsBase64(string localFilePath)
         {
             string result = "";
+            if (localFilePath == null) localFilePath = "";
             string pathfile = Path.Combine(SessionManager.ThongTinChung.DUONG_DAN_TL, localFilePath);
             try
             {

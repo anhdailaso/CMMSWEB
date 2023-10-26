@@ -19,7 +19,13 @@
                     @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginForm", name = "loginForm", autocomplete = "off" }))
                     {
                         @Html.AntiForgeryToken()
-                        @Html.HiddenFor(x=>x.ReturnUrl);
+                        @Html.HiddenFor(x=>x.ReturnUrl)
+                        ;
+
+                        <div class="d-flex gap-1 align-items-center mb-4">
+                            <select asp-for="@Model.Database" asp-items="@(new SelectList(ViewBag.Databases, "Value", "Text"))" class="form-select"></select>
+                        </div>
+
                         <div class="form-group mb-4">
                             @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", maxlength = 50, autofocus = "true", placeholder = @ViewText.LBL_TEN_DANG_NHAP, autocomplete = "off" })
                             @Html.ValidationMessageFor(m => m.UserName)

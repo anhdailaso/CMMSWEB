@@ -26,16 +26,19 @@
     {
         public int STT { get; set; }
         public string SO_PHIEU { get; set; }
-        public DateTime NGAY_KT { get; set; }
-        public DateTime NGAY_KH { get; set; }
+        public DateTime? NGAY_KT { get; set; }
+        public DateTime? NGAY_KH { get; set; }
         public int MUC_UU_TIEN { get; set; }
         public string NHAN_XET { get; set; }
         public string? USERNAME { get; set; }
         public int QUYEN_MENU { get; set; }
         public int HOAN_THANH { get; set; }
         public int THEM { get; set; }
-
+        public string NGAY_CHAY { get; set; }
+        public double? SO_GIO_LUY_KE { get; set; }
     }
+
+   
 }
 
 

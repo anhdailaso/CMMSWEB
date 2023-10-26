@@ -448,7 +448,7 @@ function ClosePopup(element) {
 
 
 function goBack() {
-    window.location.href = document.referrer;
+    window.location.href = "/Home/Index";
 }
 
 function ShowConfirm (message, type = Type.error, title = '', callback) {

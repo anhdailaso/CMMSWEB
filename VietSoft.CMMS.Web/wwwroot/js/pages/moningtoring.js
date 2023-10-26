@@ -76,7 +76,11 @@
 
 
         $(document).on("click", '#btnAddNguoiThucHien', function () {
-            ChonNguoiThucHien()
+            ChonNguoiThucHien();
+        });
+
+        $(document).on("click", '#btnShowView', function () {
+            ShowThoigianChaymay();
         });
 
         $(document).on("click", '#btnChonNguoiThucHien', function () {
@@ -137,6 +141,7 @@
                 MUC_UU_TIEN: $('#cboUuTien').val(),
                 NHAN_XET: $('#NHAN_XET').val(),
                 THEM: $('#THEM').val(),
+                SO_GIO_LUY_KE: $('#SO_GIO_LUY_KE').val(),
             };
             $.ajax({
                 type: "POST",
@@ -280,6 +285,20 @@
         });
     }
 
+    function ShowThoigianChaymay() {
+        $.ajax({
+            type: "GET",
+            url: config.SHOW_TG_CHAY_MAY,
+            data: {
+                msmay: $('#MS_MAY').val(),
+            },
+            success: function (response) {
+                $('#modalLarge .modal-content').html(response);
+                $('#modalLarge').modal('show');
+            }
+        });
+    }
+
     function SaveNguoiThucHien() {
 
         let CNList = [];
@@ -320,6 +339,7 @@
             url: config.COMPLETED,
             data: {
                 stt: $('#STT').val(),
+                msmay: $('#MS_MAY').val(),
             },
             success: function (response) {
                 if (response.responseCode == 1) {

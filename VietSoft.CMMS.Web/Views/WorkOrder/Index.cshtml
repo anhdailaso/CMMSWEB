@@ -115,7 +115,17 @@
 
 
         <div class="break-line d-flex justify-content-between">
-            <p id="TINH_TRANG_MAY">@Model.TINH_TRANG_MAY</p>
+
+              @if(Model.TINH_TRANG_MAY.Contains("CM-"))
+            {
+                <a id="TINH_TRANG_MAY" class="tinhtrangmay" style="color:#6610f2" >@Model.TINH_TRANG_MAY</a>
+
+            }
+            else
+            {
+                <p id="TINH_TRANG_MAY">@Model.TINH_TRANG_MAY</p>
+
+            }
             @if (Model.QUYEN_MENU == 1)
             {
                 <a id="btnSaveWorkOrder" class="btn btn-outline-dark m-1">
@@ -134,7 +144,7 @@
 @if (ViewBag.FLAG == 1 && Model.QUYEN_MENU == 1)
 {
     <nav class="fixed-bottom">
-        <div class="navbar-button  text-center text-white">
+        <div class="navbar-button text-center text-white">
             <div id="button-container" class="btn-group">
 
                 @if ((Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() && Model.QUYEN_CN > 0) || Model.HU_HONG == 1)
@@ -259,6 +269,7 @@ else
             UPDATE_TT_HT: '@Url.Action("UPDATE_TT_HT","WorkOrder")',
             MESS_GIA_TRI_KHONG_HOP_LE: '@Html.Raw(Message.MESS_GIA_TRI_KHONG_HOP_LE)',
             SAVE_IMAGE: '@Url.Action("SaveImage","WorkOrder")',
+            SHOW_THONG_SO_KD: '@Url.Action("ShowThongSoKhongDat", "Home")',
         }
     </script>
     <script src="~/js/pages/workorder.js" asp-append-version="true"></script>

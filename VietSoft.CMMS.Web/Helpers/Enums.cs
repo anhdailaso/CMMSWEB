@@ -44,7 +44,8 @@
         NhapKho,
         XuatKho,
         BCXuatNhapTon,
-        Dashboard
+        Dashboard,
+        ThoigianChaymay
     }
     public enum UserType
     {

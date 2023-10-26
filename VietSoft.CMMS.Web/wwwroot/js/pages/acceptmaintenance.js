@@ -22,6 +22,9 @@
             GetListAcceptMaintenance(1);
         })
 
+
+
+
         //chọn phụ tùng
         $(document).on("click", '#btnNgungMay', function () {
             $.ajax({
@@ -71,6 +74,22 @@
         $(document).on("click", '.remove-row', function () {
             $(this).closest("tr").remove();
         });
+
+        //show những nội dung phiếu bảo trì không nghiệm thu
+        $(document).on("click", '#btnShowView', function () {
+            $.ajax({
+                type: "GET",
+                url: config.urlShowkhongduyetPBT,
+                data: {
+                    sophieu: $('#MS_PBT').text(),
+                },
+                success: function (response) {
+                    $('#modalLarge .modal-content').html(response);
+                    $('#modalLarge').modal('show');
+                }
+            });
+        });
+
 
         //add thời gian ngừng máy
         $(document).on("click", '#btnAddTGNM', function () {
@@ -158,7 +177,7 @@
                 },
                 complete: function () {
                     hideLoadingOverlay("#resultContent");
-                  
+
                 }
             });
         }
@@ -187,7 +206,7 @@
             }
         });
     }
-    
+
     function nhapThoiGianNgungMay(e) {
         $.ajax({
             type: "GET",
@@ -204,28 +223,57 @@
         });
     }
 
-    //form-control input-validation-error
-    //aria-invalid="true"
-    //span class="field-validation-error"
-    $(document).on('click', '#btnYes', function () {
-        console.log($("#TT_SAU_BT").is(":invalid"));
-        if ($('#AcceptWorkOrderForm').valid()) {
-            $.ajax({
-                url: config.urlSaveAcceptMaintenance,
-                type: "POST",
-                data: $('#AcceptWorkOrderForm').serialize(),
-                success: function (response) {
-                    if (response.responseCode == 1) {
-                        showSuccess(response.responseMessage);
-                        $('#modal').modal('hide');
-                        GetListAcceptMaintenance(1);
-                    }
-                    else {
-                        showWarning(response.responseMessage)
-                    }
-                }
 
-            });
+    $(document).on('click', '#btnYes', function () {
+        /*        console.log($("#TT_SAU_BT").is(":invalid"));*/
+        if ($('#AcceptWorkOrderForm').valid()) {
+            ShowConfirm("Nghiệm thu PBT này?", 'question', '', function (result) {
+                if (result == true) {
+                    $.ajax({
+                        url: config.urlSaveAcceptMaintenance,
+                        type: "POST",
+                        data: $('#AcceptWorkOrderForm').serialize(),
+                        success: function (response) {
+                            if (response.responseCode == 1) {
+                                showSuccess(response.responseMessage);
+                                $('#modal').modal('hide');
+                                GetListAcceptMaintenance(1);
+                            }
+                            else {
+                                showWarning(response.responseMessage)
+                            }
+                        }
+
+                    });
+                }
+            })
+        }
+    })
+
+    $(document).on('click', '#btnNoAccept', function () {
+        /*        console.log($("#TT_SAU_BT").is(":invalid"));*/
+
+        if ($('#AcceptWorkOrderForm').valid()) {
+            ShowConfirm("Không nghiệm thu PBT này?", 'question', '', function (result) {
+                if (result == true) {
+                    $.ajax({
+                        url: config.urNoAcceptMaintenance,
+                        type: "POST",
+                        data: $('#AcceptWorkOrderForm').serialize(),
+                        success: function (response) {
+                            if (response.responseCode == 1) {
+                                showSuccess(response.responseMessage);
+                                $('#modal').modal('hide');
+                                GetListAcceptMaintenance(1);
+                            }
+                            else {
+                                showWarning(response.responseMessage)
+                            }
+                        }
+
+                    });
+                }
+            })
         }
     })
 

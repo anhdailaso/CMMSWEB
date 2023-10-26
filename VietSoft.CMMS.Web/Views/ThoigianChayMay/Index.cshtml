@@ -1,0 +1,106 @@
+﻿@using VietSoft.CMMS.Web.Resources
+@using VietSoft.CMMS.Web.Helpers
+@{
+    ViewBag.Title = "THỜI GIAN CHẠY MÁY";
+}
+
+<div class="row">
+    <div class="col-md-6 offset-md-3 col-xs-12">
+        <div class="accordion" id="accordionPanelsStayOpenExample">
+            <div class="accordion-item border-0">
+                <p class="accordion" id="panelsStayOpen-headingOne">
+                    <button class="accordion-button collapsed w-50" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                    </button>
+                </p>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="accordion-body">
+                        <form id="formSubmitRequest">
+
+                            <div class="form-floating break-line">
+                                <select id="cboDiaDiem" name="cboDiaDiem" asp-items="@ViewBag.ListNhaXuong" class="form-control form-select form-select-sm" placeholder=@ViewText.LBL_DIA_DIEM>
+                                </select>
+                                <label for="cboDiaDiem">@ViewText.LBL_DIA_DIEM</label>
+                                <div id="cboDiaDiem-error"></div>
+                                <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
+                                    <img src="~/images/barcode.png" alt="image" class="icon-barcode">
+                                </a>
+                            </div>
+
+
+                            <div class="d-flex justify-content-between gap-2">
+                                <div class="form-floating input-group break-line date" id="toDateContainer">
+                                    <input type="text" class="form-control" id="fromDate" name="fromDate" autocomplete="off" />
+                                    <span class="input-group-append d-flex align-items-center">
+                                        <i class="bi bi-calendar4-week date-icon "></i>
+                                    </span>
+                                    <label for="from">@ViewText.LBL_TUNGAY</label>
+                                    <div id="from-error"></div>
+                                </div>
+
+                                <div class="form-floating input-group break-line date" id="toDateContainer">
+                                    <input type="text" class="form-control" id="toDate" name="toDate" autocomplete="off" />
+                                    <span class="input-group-append d-flex align-items-center">
+                                        <i class="bi bi-calendar4-week date-icon"></i>
+                                    </span>
+                                    <label for="toDate">@ViewText.LBL_DENNGAY</label>
+                                    <div id="toDate-error"></div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+        <div class="row mb-2">
+            <div class="form-floating break-line">
+                <select id="cboMay" name="cboMay" asp-items="@ViewBag.ListMAY" class="form-control form-select form-select-sm">
+                </select>
+                <label for="cboMay">@ViewText.LBL_THIET_BI</label>
+                <a data-bs-toggle="modal" data-bs-target="#modalCameraScanner" onclick="SetActive(this)" data-url="@Url.Action("CamareaScanner", "Camera")">
+                    <img src="~/images/barcode.png" alt="image" style="margin-right: 1rem;" class="icon-barcode">
+                </a>
+            </div>
+
+            <div class="col-md-12 offset-md-12 col-xs-12  px-0">
+                <div id="GetThoigianChayMay">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<nav class="fixed-bottom">
+    <div class="navbar-button text-center text-white">
+        <div id="button-container" class="btn-group">
+            <a id="btnAdd" class="btn btn-outline-primary m-1" role="button" data-toggle="tooltip" title="@ViewText.BTN_THEM">
+                <i class="fa fa-plus fs-7" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<br />
+<br />
+
+@section scripts {
+    <script src="~/lib/jquery.twbsPagination/jquery.twbsPagination.min.js"></script>
+
+    <script>
+        var config = {
+            GET_ThoigianChayMay: '@Url.Action("GetBaoCaoThoigianChayMay", "ThoigianChayMay")',
+            GET_MAY: '@Url.Action("getDevices", "Home")',
+            DELETE_TGCM: '@Url.Action("DeleteThoigianchaymay","ThoigianChayMay")',
+            INSERT_TGCM: '@Url.Action("InsertThoigianchaymay","ThoigianChayMay")',
+            EDIT_TGCM: '@Url.Action("EditThoigianchaymay","ThoigianChayMay")',
+            SAVE_TGCM: '@Url.Action("SaveThoigianchaymay","ThoigianChayMay")',
+            PAGE_SIZE: 10
+        }
+    </script>
+    <script src="~/js/pages/thoigianchaymay.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            ThoigianChayMayModule.init();
+        });
+    </script>
+}

@@ -26,6 +26,17 @@ namespace VietSoft.CMMS.Web.Models
         [Required(ErrorMessageResourceType = typeof(Message), ErrorMessageResourceName = "FIELD_REQUIRED")]
         public string TT_SAU_BT { get; set; }
         public float? CHI_PHI_KHAC { get; set; }
+        public List<NoAcceptWorkOrderModel> lstNoAccepWorkOrderMode { get; set; }
+
+    }
+    public class NoAcceptWorkOrderModel
+    {
+        public string MS_PHIEU_BAO_TRI { get; set; }
+        public int STT { get; set; }
+        public string NGAY { get; set; }
+        public string USER_NT { get; set; }
+        public string HO_TEN { get; set; }
+        public string LY_DO { get; set; }
     }
 
     public class SParePartViewModel

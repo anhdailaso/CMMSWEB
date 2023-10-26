@@ -3,6 +3,18 @@ using VietSoft.CMMS.Web.Resources;
 
 namespace VietSoft.CMMS.Web.Models
 {
+
+    public class ThoiGianChayMayViewModel
+    {
+        public string MS_MAY { get; set; }
+        public DateTime NGAY { get; set; }
+        public string sNGAY { get; set; }
+        public double CHI_SO_DONG_HO { get; set; }
+        public string USERNAME { get; set; }
+        public double SO_GIO_LUY_KE { get; set; }
+        public int THEM { get; set; }
+    }
+
     public class MonitoringParametersByDevice
     {
         public string DeviceID { get; set; }
@@ -42,4 +54,20 @@ namespace VietSoft.CMMS.Web.Models
         public string Path { get; set; }
         public string Path64 { get; set; }
     }
+    //SELECT A.MS_MAY, B.TEN_MAY, C.MS_BO_PHAN, C.TEN_BO_PHAN, D.TEN_TS_GSTT, A.TEN_GIA_TRI
+    public class ThongSoKhongDat
+    {
+        public string MS_MAY { get; set; }
+        public string TEN_MAY { get; set; }
+        public string MS_BO_PHAN { get; set; }
+        public string TEN_BO_PHAN { get; set; }
+        public string TEN_TS_GSTT { get; set; }
+        public string TEN_GIA_TRI { get; set; }
+
+    }
+
+
+
+
+
 }

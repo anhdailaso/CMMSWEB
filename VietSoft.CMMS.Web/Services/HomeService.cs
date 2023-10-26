@@ -25,7 +25,7 @@ namespace VietSoft.CMMS.Web.Services
         {
             _dapper = dapper;
         }
-        public List<MyEcomaintViewModel> GetMyEcomain(string username, int languages, DateTime? dngay, string ms_nx, string mslmay, bool xuly,bool locNV, int pageIndex, int pageSize)
+        public List<MyEcomaintViewModel> GetMyEcomain(string username, int languages, DateTime? dngay, string ms_nx, string mslmay, bool xuly, bool locNV, int pageIndex, int pageSize)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace VietSoft.CMMS.Web.Services
 
         public MorningToringViewModel GetMorningToring(string msgstt, string userName, string deviceId, bool flag)
         {
-            
+
             try
             {
                 var p = new DynamicParameters();
@@ -97,7 +97,7 @@ namespace VietSoft.CMMS.Web.Services
             try
             {
                 var p = new DynamicParameters();
-                p.Add("@sDanhMuc", "MORNINGTORING");    
+                p.Add("@sDanhMuc", "MORNINGTORING");
                 p.Add("@UserName", username);
                 p.Add("@NNgu", languages);
                 p.Add("@deviceID", may == "" ? "-1" : may);
@@ -111,6 +111,24 @@ namespace VietSoft.CMMS.Web.Services
                 return null;
             }
         }
+
+
+        public List<ThongSoKhongDat> GetThongsokhongdat(string sophieu)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "GET_THONG_SO_KHONG_DAT");
+                p.Add("@sCot1", sophieu);
+                List<ThongSoKhongDat>? res = _dapper.GetAll<ThongSoKhongDat>("spCMMSWEB", p, CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
 
         public List<string> GetMenu(string username)
         {
@@ -170,25 +188,29 @@ namespace VietSoft.CMMS.Web.Services
             try
             {
                 byte[] fileData = null;
-                if(image != null)
+                if (image != null)
                 {
                     using (var memoryStream = new MemoryStream())
                     {
                         image.CopyTo(memoryStream);
                         fileData = memoryStream.ToArray();
                     }
-                    SessionManager.CurrentUser.Avatar = Convert.ToBase64String(fileData);
+                    var user = SessionManager.CurrentUser;
+                    user.Avatar = Convert.ToBase64String(fileData);
+                    SessionManager.CurrentUser = user;
 
                 }
                 else
                 {
-                    SessionManager.CurrentUser.Avatar = null;
-                }    
+                    var user = SessionManager.CurrentUser;
+                    user.Avatar = "";
+                    SessionManager.CurrentUser = user;
+                }
                 string sql = "UPDATE dbo.USERS SET AVATAR = @FileData WHERE USERNAME = @Username";
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@FileData", fileData, DbType.Binary); // Thêm giá trị của tệp vào tham số @FileData
                 parameters.Add("@Username", username);
-                _dapper.ExecuteNonQuery(sql, parameters,CommandType.Text);
+                _dapper.ExecuteNonQuery(sql, parameters, CommandType.Text);
                 return 1;
             }
             catch (Exception ex)
@@ -216,7 +238,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public BaseResponseModel SaveMonitoring(MorningToringViewModel model,string msmay, string username, string data)
+        public BaseResponseModel SaveMonitoring(MorningToringViewModel model, string msmay, string username, string data)
         {
             try
             {
@@ -226,6 +248,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@dCot1", model.NGAY_KH);
                 p.Add("@sCot1", model.NHAN_XET);
                 p.Add("@iCot1", model.MUC_UU_TIEN);
+                p.Add("@fcot1", model.SO_GIO_LUY_KE);
                 p.Add("@stt", model.STT);
                 p.Add("@deviceID", msmay);
                 p.Add("@json", data);
@@ -273,10 +296,20 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@UserName", username);
                 p.Add("@json", request.Files);
                 var res = _dapper.Execute<BaseResponseModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
-                if (request.HONG == true)
+                //2.Lập Yêu cầu bảo trì có hư hỏng máy đột xuất  
+                if(res.MA == 1)
                 {
-                    //2.Lập Yêu cầu bảo trì có hư hỏng máy đột xuất  
-                    Commons.SendThongBao(2, "YEU_CAU_NSD", res.NAME, request.MS_MAY, _dapper.GetDbconnection().ConnectionString);
+                    if(request.STT == -1)
+                    {
+                        //thêm mới
+                        Commons.SendThongBao(request.HONG == true ? 2 : 1, "YEU_CAU_NSD", res.NAME, request.MS_MAY, _dapper.GetDbconnection().ConnectionString);
+                    }
+                    else
+                    {
+                        //duyệt yêu cầu
+                        Commons.SendThongBao(request.HONG == true ? 6 : 4, "YEU_CAU_NSD", res.NAME, request.MS_MAY, _dapper.GetDbconnection().ConnectionString);
+                    }
+
                 }
                 return res;
             }
@@ -325,6 +358,77 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
+        public List<ThoiGianChayMayViewModel> GetThoiGianChayMay(string userName,DateTime TuNgay,DateTime DenNgay, string deviceId, int languages)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "GET_THOI_GIAN_CHAY_MAY");
+                p.Add("@deviceID", deviceId);
+                p.Add("@UserName", userName);
+                p.Add("@dCot1", TuNgay);
+                p.Add("@dCot2", DenNgay);
+                p.Add("@UserName", userName);
+                p.Add("@NNgu", languages);
+                var res = _dapper.GetAll<ThoiGianChayMayViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
+        public ResponseViewModel DeleteThoigianchaymay(string msmay, DateTime Ngay)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "DELETE_THOI_GIAN_CHAY_MAY");
+                p.Add("@deviceID", msmay);
+                p.Add("@dCot1", Ngay);
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res != null ? res : new ResponseViewModel()
+                {
+                    MA = 0
+                };
+            }
+            catch
+            {
+                return new ResponseViewModel()
+                {
+                    MA = -1
+                };
+            }
+        }
+
+        public ResponseViewModel SaveThoigianchaymay(ThoiGianChayMayViewModel model)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "SAVE_THOI_GIAN_CHAY_MAY");
+                p.Add("@deviceID", model.MS_MAY);
+                p.Add("@dCot1", model.NGAY);
+                p.Add("@fCot1", model.SO_GIO_LUY_KE);
+                p.Add("@iCot1", model.THEM);
+                p.Add("@UserName", model.USERNAME);
+                var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                return res != null ? res : new ResponseViewModel()
+                {
+                    MA = 0
+                };
+            }
+            catch
+            {
+                return new ResponseViewModel()
+                {
+                    MA = -1
+                };
+            }
+        }
+
         public ResponseViewModel SaveNguoiThucHienGS(int stt, string json)
         {
             try
@@ -356,7 +460,7 @@ namespace VietSoft.CMMS.Web.Services
             }
         }
 
-        public ResponseViewModel Completed(int stt,string username)
+        public ResponseViewModel Completed(int stt,string deviceId, string username)
         {
             try
             {
@@ -364,8 +468,11 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@sDanhMuc", "COMPLETE_GSTT");
                 p.Add("@stt", stt);
                 p.Add("@UserName", username);
-                
                 var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                if (res.MA == 1)
+                {
+                    Commons.SendThongBao(3, "YEU_CAU_NSD", res.NAME, deviceId, _dapper.GetDbconnection().ConnectionString);
+                }
                 return res != null ? res : new ResponseViewModel()
                 {
                     MA = 0
@@ -379,7 +486,7 @@ namespace VietSoft.CMMS.Web.Services
                 };
             }
         }
-     
+
         public ResponseViewModel DeleteGSTT(int stt)
         {
             try
@@ -401,6 +508,7 @@ namespace VietSoft.CMMS.Web.Services
                 };
             }
         }
+
 
 
     }

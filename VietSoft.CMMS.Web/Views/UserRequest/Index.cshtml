@@ -22,11 +22,22 @@
             </div>
         </div>
         <div class="border-top my-3"></div>
-        <div class="form-floating  break-line">
+
+        <div class="form-floating input-group break-line">
             @Html.TextAreaFor(model=>model.MO_TA_TINH_TRANG,new {@class = "form-control", maxlength = 250, autocomplete = "off",@Value = "1", placeholder= @ViewText.LBL_MO_TA_TINH_TRANG })
             @Html.ValidationMessageFor(model=>model.MO_TA_TINH_TRANG)
+                @if(Model.MO_TA_TINH_TRANG.Contains("CM-"))
+                {
+                    <span class="input-group-append d-flex align-items-center">
+                        <i class="fa-light fa-eye" id="btnShowView"></i>
+                    </span>
+                }
+           
+
             <label for="MO_TA_TINH_TRANG">@ViewText.LBL_MO_TA_TINH_TRANG</label>
         </div>
+
+
 
         <div class="form-floating break-line">
             @Html.TextAreaFor(model=>model.YEU_CAU, new { @class = "form-control", maxlength = 250, autocomplete = "off" , placeholder=@ViewText.LBL_YEU_CAU })
@@ -176,7 +187,8 @@
                             <div data-type="loading" class="img-loading" style="color:#218838; display:none;">
                                 <span class="fa fa-2x fa-spin fa-spinner"></span>
                             </div>
-                            <img data-type="preview" class="btn btn-light ratio-img img-fluid p-2 image border dashed rounded" src="data:image/png;base64, @item" style="cursor: default;">
+                            @*data:image/png;base64,*@
+                            <img data-type="preview" class="btn btn-light ratio-img img-fluid p-2 image border dashed rounded" src="@item" style="cursor: default;">
                         </div>
                     </div>
                 }
@@ -197,6 +209,7 @@
             DELETE_USER_REQUEST: '@Url.Action("DeleteUserRequest", "Home")',
             MyEcomaint: '@Url.Action("Index", "Home")',
             KHONG_DUYET_YC: '@Url.Action("ShowConfirmKhongDuyet", "Home")',
+            SHOW_THONG_SO_KD: '@Url.Action("ShowThongSoKhongDat", "Home")',
             SAVE_ACCEPT_USERREQUEST: '@Url.Action("SaveAcceptUserRequest", "Home")',
             MESS_XOA_YEU_CAU: '@Html.Raw(Message.XOA_YEU_CAU)',
         }

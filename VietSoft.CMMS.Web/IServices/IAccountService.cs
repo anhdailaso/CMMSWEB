@@ -8,5 +8,6 @@ namespace VietSoft.CMMS.Web.IServices
         public int Login(string userName, string passWord);
         UserModel GetProfile(string userName);
         ThongTinChungViewModel GetThongTinChung(string userName);
+        List<SelectListItem> GetDatabaseList();
     }
 }

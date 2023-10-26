@@ -1,0 +1,65 @@
+﻿@using System.Globalization;
+@using VietSoft.CMMS.Web.Resources;
+@using VietSoft.CMMS.Web.Helpers;
+@model IEnumerable<VietSoft.CMMS.Web.Models.ThoiGianChayMayViewModel>
+<div class="modal-header">
+    <h5>Thời gian chạy máy</h5>
+    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body modal-confirm" style="height:380px;"  id="modalResultContent">
+
+    <div class="row mb-2">
+        <div class="col-12">
+            <div>
+                <table class="table table-striped tbPhuTungNhap" cellspacing="0" style="width:100% !important">
+                    <thead>
+                        <tr>
+                            <td width="50%" class="col-grid-table">
+                               Ngày
+                            </td>
+                            <td width="25%">
+                                Chỉ số
+                            </td>
+                            <td width="25%">
+                                Lũy kế
+                            </td>
+                        </tr>
+                    </thead>
+                    @if (@Model.Count() > 0)
+                    {
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+
+                                <tr>
+                                    <td>
+                                        @item.NGAY.ToString(Setting.FORMAT_DATE)
+                                    </td>
+                                    <td >
+                                        @item.CHI_SO_DONG_HO
+                                    </td>
+                                    <td>
+                                        @item.SO_GIO_LUY_KE
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    }
+                    else
+                    {
+                        <div class="col-12">
+                            <div class="no-data">
+                                <span>@ViewText.LBL_KHONGCO_DULIEU</span>
+                            </div>
+                        </div>
+                    }
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

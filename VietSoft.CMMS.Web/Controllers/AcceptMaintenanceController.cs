@@ -88,6 +88,7 @@ namespace VietSoft.CMMS.Web.Controllers
             {
                 resulst = new PagedList<AcceptMaintenanceViewModel>(res, res.Count, pageIndex, pageSize);
             }
+            
             return PartialView("_acceptDetail", resulst);
         }
 
@@ -97,6 +98,7 @@ namespace VietSoft.CMMS.Web.Controllers
             model.MS_PHIEU_BAO_TRI = mspbt;
             model.MS_MAY = msmay;
             model.TT_SAU_BT = "";
+            model.lstNoAccepWorkOrderMode = _maintenance.GetListPhieuBaoTriKhongChapNhan(mspbt);
             return PartialView("_ConfirmAccept", model);
         }
 
@@ -235,5 +237,30 @@ namespace VietSoft.CMMS.Web.Controllers
                 return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = res.NAME });
             }
         }
+
+
+        [HttpPost]
+        public ActionResult NoAcceptMaintenance(AcceptWorkOrderModel data)
+        {
+            //List<MonitoringParametersByDevice> lstParameter = Newtonsoft.Json.JsonConvert.DeserializeObject<List<MonitoringParametersByDevice>>(data);
+            BaseResponseModel? res = _maintenance.NoAcceptMaintenance(SessionManager.CurrentUser.UserName, data, SessionManager.CurrentUser.TypeLangue);
+            if (res.MA == 1)
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
+            }
+            else
+            {
+                return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = res.NAME });
+            }
+        }
+
+
+        public IActionResult ShowKhongDuyetPBT(string sophieu)
+        {
+            List<NoAcceptWorkOrderModel>? result = null;
+            result = _maintenance.GetListPhieuBaoTriKhongChapNhan(sophieu);
+            return PartialView("_listKhongNghiemThu", result);
+        }
+
     }
 }

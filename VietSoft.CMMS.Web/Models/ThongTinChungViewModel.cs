@@ -17,5 +17,6 @@ namespace VietSoft.CMMS.Web.Models
         public string PASS_FTP { get; set; }
         public int PORT_FTP { get; set; }
         public string HOST_FTP { get; set; }
+        public bool SHOW_NN { get; set; }
     }
 }

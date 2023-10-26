@@ -2,7 +2,9 @@
 @using VietSoft.CMMS.Web.Helpers;
 @using VietSoft.CMMS.Web.Extensions;
 @model PagedList<VietSoft.CMMS.Web.Models.AcceptMaintenanceViewModel>
-
+@{
+    var TTC = SessionManager.ThongTinChung;
+}
 <br />
 <br />
 @if (Model != null && Model.Data.Count > 0)
@@ -16,7 +18,7 @@
                         <div class="d-flex justify-content-between w-100">
                             <div class="col-12 d-flex justify-content-left gap-2 ">
                                 <span style="color:black">@item.NGAY_HOAN_THANH</span>
-                                <span style="color:#ff870f">@item.MS_MAY</span>
+                                 <span style="color:#ff870f">@item.MS_MAY</span>
                                 <span style="color:#113186">@item.TEN_LOAI_BT</span>
                             </div>
                         </div>
@@ -26,10 +28,13 @@
                             </a>
                         </div>
                     </button>
-                    <a class="d-flex accordion-right-icon" style="padding-right:0.5rem" data-msmay="@item.MS_MAY" data-src="@item.MS_PHIEU_BAO_TRI" onclick="AcceptMaintenanceModule.nhapThoiGianNgungMay(this)">
-                        <i class="fa fa-circle-stop text-danger"></i>
-                    </a>
-                    <a class="d-flex accordion-right-icon"  data-msmay ="@item.MS_MAY" data-src="@item.MS_PHIEU_BAO_TRI" onclick="AcceptMaintenanceModule.nghiemthuPBT(this)">
+                    @if (TTC.SHOW_NN == true)
+                    {
+                        <a class="d-flex accordion-right-icon" style="padding-right:0.5rem" data-msmay="@item.MS_MAY" data-src="@item.MS_PHIEU_BAO_TRI" onclick="AcceptMaintenanceModule.nhapThoiGianNgungMay(this)">
+                            <i class="fa fa-circle-stop text-danger"></i>
+                        </a>
+                    }
+                    <a class="d-flex accordion-right-icon" data-msmay="@item.MS_MAY" data-src="@item.MS_PHIEU_BAO_TRI" onclick="AcceptMaintenanceModule.nghiemthuPBT(this)">
                         <i class="fa fa-circle-check text-success"></i>
                     </a>
                 </h2>

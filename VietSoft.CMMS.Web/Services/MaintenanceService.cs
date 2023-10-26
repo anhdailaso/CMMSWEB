@@ -66,11 +66,7 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@sDanhMuc", "GET_WORDORDER_BY_MSBT");
                 p.Add("@sCot1", mspbt);
                 var res = _dapper.Execute<TicketMaintenanceViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
-
-                if(res.HU_HONG == 1)
-                {
-                    Commons.SendThongBao(2, "NGUOI_CO_TRACH_NHIEM", mspbt, res.USERNAME, _dapper.GetDbconnection().ConnectionString,SessionManager.CurrentUser.UserName);
-                }    
+                Commons.SendThongBao(14, "NGUOI_CO_TRACH_NHIEM", mspbt, res.USERNAME, _dapper.GetDbconnection().ConnectionString, SessionManager.CurrentUser.UserName);
                 return res ?? new TicketMaintenanceViewModel();
 
             }
@@ -85,7 +81,6 @@ namespace VietSoft.CMMS.Web.Services
         {
             try
             {
-                FtpService ftp = new FtpService();
                 var p = new DynamicParameters();
                 p.Add("@sDanhMuc", CategoryType.GET_WORDORDER_DETAILS.ToString());
                 p.Add("@sCot1", ticketId);
@@ -493,9 +488,9 @@ namespace VietSoft.CMMS.Web.Services
                     string[] aray = res.NAME.ToString().Split(';');
                     foreach (var item in aray)
                     {
-                        if(item!= "")
+                        if (item != "")
                         {
-                            Commons.SendThongBao(2, "NGUOI_DUOC_GIAO_BAO_TRI", ticketId,item,_dapper.GetDbconnection().ConnectionString,item);
+                            Commons.SendThongBao(2, "NGUOI_DUOC_GIAO_BAO_TRI", ticketId, item, _dapper.GetDbconnection().ConnectionString, item);
                         }
 
                     }
@@ -595,6 +590,12 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@UserName", userName);
                 p.Add("@deviceID", deviceId);
                 var res = _dapper.Execute<ResponseViewModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+
+                //gửi thông báo khi thêm = 1 và statusDevice có giá trị
+                if (res.MA == 1 && !string.IsNullOrEmpty(statusDevice) && them == 1)
+                {
+                    Commons.SendThongBao(res.NAME.Split('!')[0] == "SHOW_HH" ? 8 : 7, "YEU_CAU_NSD", res.NAME.Split('!')[1], deviceId, _dapper.GetDbconnection().ConnectionString);
+                }
                 return res != null ? res : new ResponseViewModel()
                 {
                     MA = 0
@@ -622,7 +623,11 @@ namespace VietSoft.CMMS.Web.Services
 
                 if (res.NAME == "SHOW_HH")
                 {
-                    Commons.SendThongBao(12, "PHIEU_BAO_TRI_HOAN_THANH", ticketId,deviceId, _dapper.GetDbconnection().ConnectionString, userName);
+                    Commons.SendThongBao(12, "PHIEU_BAO_TRI_HOAN_THANH", ticketId, deviceId, _dapper.GetDbconnection().ConnectionString, userName);
+                }
+                else
+                {
+                    Commons.SendThongBao(11, "PHIEU_BAO_TRI_HOAN_THANH", ticketId, deviceId, _dapper.GetDbconnection().ConnectionString, userName);
                 }
                 return res != null ? res : new ResponseViewModel()
                 {
@@ -651,6 +656,10 @@ namespace VietSoft.CMMS.Web.Services
                 if (res.NAME == "SHOW_HH")
                 {
                     Commons.SendThongBao(10, "TRAO_DOI_THONG_TIN", ticketId, "", _dapper.GetDbconnection().ConnectionString, guithem);
+                }
+                else
+                {
+                    Commons.SendThongBao(9, "TRAO_DOI_THONG_TIN", ticketId, "", _dapper.GetDbconnection().ConnectionString, guithem);
                 }
                 return res;
             }
@@ -778,6 +787,28 @@ namespace VietSoft.CMMS.Web.Services
                 p.Add("@fCot1", model.CHI_PHI_KHAC);
                 p.Add("@NNgu", languages);
                 var res = _dapper.Execute<BaseResponseModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                Commons.SendThongBao(13, "NGHIEM_THU_PBT", model.MS_PHIEU_BAO_TRI, "", _dapper.GetDbconnection().ConnectionString, username);
+                return res;
+            }
+            catch
+            {
+                return new BaseResponseModel();
+            }
+        }
+
+        public BaseResponseModel NoAcceptMaintenance(string username, AcceptWorkOrderModel model, int languages)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "NO_ACCEPTANCE_WORDORDER");
+                p.Add("@UserName", username);
+                p.Add("@sCot1", model.MS_PHIEU_BAO_TRI);
+                p.Add("@sCot2", model.TT_SAU_BT);
+                p.Add("@fCot1", model.CHI_PHI_KHAC);
+                p.Add("@NNgu", languages);
+                var res = _dapper.Execute<BaseResponseModel>("spCMMSWEB", p, System.Data.CommandType.StoredProcedure);
+                Commons.SendThongBao(10, "TRAO_DOI_THONG_TIN", model.MS_PHIEU_BAO_TRI, "", _dapper.GetDbconnection().ConnectionString, username);
                 return res;
             }
             catch
@@ -883,5 +914,24 @@ namespace VietSoft.CMMS.Web.Services
                 return null;
             }
         }
+
+        public List<NoAcceptWorkOrderModel> GetListPhieuBaoTriKhongChapNhan(string mspbt)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@sDanhMuc", "GET_PHIEU_BAO_TRI_KHONG_NT");
+                p.Add("@sCot1", mspbt);
+                List<NoAcceptWorkOrderModel>? res = _dapper.GetAll<NoAcceptWorkOrderModel>("spCMMSWEB", p, CommandType.StoredProcedure);
+
+
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
     }
 }

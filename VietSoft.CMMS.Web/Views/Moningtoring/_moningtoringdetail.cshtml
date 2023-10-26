@@ -39,12 +39,12 @@
                     {
                         <a class="d-flex accordion-right-icon" target="_blank" href="@Url.Action("DownloadFile", "Home", new { filepath = @item.DUONG_DAN })" style="padding-right:0.5rem" data-patfile="@item.MonitoringParamsID">
                             @*<i class="fa fa-file-pdf-o"></i>*@
-                            <i class="fa fa-paperclip" style="transform: rotate(45deg);"></i>
+                            <i class="fa fa-paperclip"></i>
                         </a>
                     }
                     @if (ViewBag.QUYEN_MENU == 1)
                     {
-                        <a class="d-flex accordion-right-icon" data-bs-toggle="modal" data-bs-target="#exampleModal" data-mor="@item.MonitoringParamsID" data-dev="@item.DeviceID" data-com="@item.ComponentID" data-src="@item.Path64" data-pat="@item.Path" onclick="loadhinh(this)">
+                        <a class="d-flex accordion-right-icon" data-bs-toggle="modal" data-bs-target="#exampleModal" data-mor="@item.MonitoringParamsID" data-dev="@item.DeviceID" data-com="@item.ComponentID" data-src="@item.Path64" data-pat="@item.Path" onclick="loadhinh1(this)">
                             <i class="fa fa-camera-retro"></i>
                         </a>
                     }
@@ -142,7 +142,7 @@ else
     var file;
     var dev;
     var com;
-    function loadhinh(e) {
+    function loadhinh1(e) {
         file = null;
         obj = e;
         dev = $(e).attr('data-dev');

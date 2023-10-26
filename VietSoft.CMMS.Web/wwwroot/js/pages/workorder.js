@@ -20,13 +20,27 @@
         $('#btnhuyBT').on('click', function () {
             WorkList();
         });
-        $('#cboLoaiBaoTri').val($('#MS_LOAI_BT').val()).change();
         //$('#cboUuTien').val($('#MS_UU_TIEN').val()).change();
         if ($('#flag').val() != 0) {
+            $('#cboLoaiBaoTri').val($('#MS_LOAI_BT').val()).change();
             $("#cboLoaiBaoTri").prop("disabled", true);
             $("#cboUuTien").prop("disabled", true);
             $('span [role=combobox]').css('background-color', '#FFFFFF');
         }
+        $(document).on("click", '.tinhtrangmay', function () {
+            $.ajax({
+                type: "GET",
+                url: config.SHOW_THONG_SO_KD,
+                data: {
+                    sophieu: $('#TINH_TRANG_MAY').text(),
+                },
+                success: function (response) {
+                    $('#modalLarge .modal-content').html(response);
+                    $('#modalLarge').modal('show');
+                }
+            });
+        });
+
 
         bload = true;
 
@@ -58,6 +72,7 @@
         $('#btnAddCVPT').on('click', function () {
             ThemCongViecChoBoPhan();
         });
+
 
         $('#cboBP').select2({
             theme: "bootstrap-5",
@@ -973,7 +988,7 @@
         });
     }
 
-  
+
 
 
     function GetInputCauseOfDamage() {

@@ -54,6 +54,19 @@
         $(function () {
             showRelevantPopUp(msg);
 
+            $(document).on('change', '#Database', function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Account/ChangeDatabase',
+                    data: {
+                        db: $('#Database').val()
+                    },
+                    success: function (response) {
+                        console.log(response)
+                    }
+                });
+            });
+
             // clear all message in session
             $.post("/Base/ClearMessage", function (data) {});
         });

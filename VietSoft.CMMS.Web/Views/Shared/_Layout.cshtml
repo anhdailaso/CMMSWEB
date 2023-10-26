@@ -71,7 +71,15 @@
             {
                 @*<a id="btn-back" class="btn-back" onclick= "history.go(-1)">*@
                 <a id="btn-back" class="btn-back" onclick="goBack()">
-                    <img class="arror-left-icon" src="/images/icons/arrow-left.png" alt="arrow left">
+                    @*<img class="arror-left-icon" src="/images/icons/arrow-left.png" alt="arrow left">*@
+                    @if (@user.Avatar != "")
+                    {
+                        <img class="avatar" src="data:image/png;base64, @user.Avatar" alt="avatar">
+                    }
+                    else
+                    {
+                        <img class="avatar" src="~/images/nhan-vien-van-phong.jpg" alt="avatar">
+                    }
                 </a>
                 <div class="row page-title">@ViewData["Title"] </div>
             }
@@ -174,10 +182,10 @@
                         </ul>
                         <div class="border-bottom text-secondary m-auto mt-3 w-90"></div>
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 mt-2 ps-3">
-                            <li class="nav-item">
+                            @*<li class="nav-item">
                                 <img src="~/images/icons/changepass.png" alt="@ViewText.TITLE_DOI_MK" class="icon-menu">
                                 <a class="nav-link active collapsed" aria-current="page" href="@Url.Action("ChangePassword", "Account")">@ViewText.TITLE_DOI_MK</a>
-                            </li>
+                            </li>*@
                             <li class="nav-item">
                                 <img src="~/images/icons/log-out.png" alt="@ViewText.TITLE_DOI_MK" class="icon-menu">
                                 <a class="nav-link active collapsed" aria-current="page" href="@Url.Action("LogOut", "Account")">@ViewText.BTN_DANGXUAT</a>
@@ -225,7 +233,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <img class="modal-content" id="imgavt">
+                    @if (@user.Avatar != "")
+                    {
+                        <img class="modal-content" src="data:image/png;base64, @user.Avatar" id="imgavt">
+                    }
+                    else
+                    {
+                        <img class="modal-content" src="~/images/nhan-vien-van-phong.jpg" id="imgavt">
+                    }
                 </div>
                 <div class="modal-footer">
                     <div class="d-flex flex-row-reverse">
@@ -340,7 +355,6 @@
     <script src="~/lib/jquery/dist/moment-with-locales.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap-datetimepicker.min.js"></script>
     <script src="~/lib/print/print.min.js"></script>
-
     <!-- jQuery -->
     <!-- DataTables CSS -->
     @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
@@ -348,6 +362,8 @@
     <!-- DataTables JS -->
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>*@
 
+    <script src='https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js' type="module"></script>
+    <script src='https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js' type="module"></script>
 
 
     @await RenderSectionAsync("Scripts", required: false)
@@ -368,7 +384,93 @@
         });
 
 
-       
+        $(function () {
+
+            var msg = @Html.Raw(Json.Serialize(@SessionManager.Message));
+            $(function () {
+                showRelevantPopUp(msg);
+                $.post("/Base/ClearMessage", function (data) { });
+
+                let dropdowns = document.querySelectorAll('.dropdown-toggle')
+                dropdowns.forEach((dd) => {
+                    dd.addEventListener('click', function (e) {
+                        var el = this.nextElementSibling
+                        el.style.display = el.style.display === 'block' ? 'none' : 'block'
+                    })
+                })
+
+            });
+
+
+            //var token = null;
+            //var config = {
+            //    apiKey: "AIzaSyBz8OBDiiHmefXc9RvJ1vB1fMlTtpCuwu0",
+            //    authDomain: "notcode-1df8d.firebaseapp.com",
+            //    databaseURL: "https://notcode-1df8d-default-rtdb.asia-southeast1.firebasedatabase.app",
+            //    projectId: "notcode-1df8d",
+            //    storageBucket: "notcode-1df8d.appspot.com",
+            //    messagingSenderId: "472227032173",
+            //    appId: "1:472227032173:web:78303ef446e57409c0a364",
+            //    measurementId: "G-TGV7QKTFJ6"
+            //};
+            //firebase.initializeApp(config);
+
+            //const messaging = firebase.messaging();
+
+            //messaging.requestPermission()
+            //    .then(function () {
+            //        console.log("granted");
+            //        if (isTokenSentToServer()) {
+            //            console.log("already granted");
+            //        } else {
+            //            getRegtoken();
+            //        }
+            //    });
+
+
+            //function getRegtoken() {
+            //    messaging.getToken().then((currentToken) => {
+            //        if (currentToken) {
+            //            console.log(currentToken);
+            //            alert(currentToken);
+            //            setTokenSentToServer(true);
+            //            saveToken(currentToken)
+            //            //   updateUIForPushEnabled(currentToken);
+            //        } else {
+            //            console.log('No Instance ID token available. Request permission to generate one.');
+            //            setTokenSentToServer(false);
+            //        }
+            //    }).catch((err) => {
+            //        console.log('An error occurred while retrieving token. ', err);
+            //        setTokenSentToServer(false);
+            //    });
+
+            //}
+            //function setTokenSentToServer(sent) {
+            //    window.localStorage.setItem('sentToServer', sent ? 1 : 0);
+            //}
+            //function isTokenSentToServer() {
+            //    return window.localStorage.getItem('sentToServer') === '1';
+            //}
+            //messaging.onMessage(function (payload) {
+            //    console.log('Message received. ', payload);
+
+            //    notificationTitle = payload.notification.title;
+            //    notificationOptions = {
+            //        body: payload.notification.body,
+            //        icon: payload.notification.icon
+            //    };
+
+            //    var notification = new Notification(notificationTitle, notificationOptions);
+
+            //});
+
+
+
+        });
+
+
+
     </script>
 
 </body>

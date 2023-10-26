@@ -11,6 +11,7 @@ namespace VietSoft.CMMS.Web.IServices
         List<MyEcomaintViewModel> GetMyEcomain(string username, int languages, DateTime? dngay, string ms_nx, string mslmay, bool xuly,bool locNV, int pageIndex, int pageSize);
         MorningToringViewModel GetMorningToring(string msgstt, string userName, string deviceId, bool flag);
         List<MonitoringParametersByDevice> GetMonitoringParametersByDevice(string username, int languages,string may,int isDue,int stt);
+        List<ThongSoKhongDat> GetThongsokhongdat(string sophieu);
         List<string> GetMenu(string username);
         int QuyenMenuGSTT(string username);
         string GetSoPhieuYeu(string ms);
@@ -22,8 +23,11 @@ namespace VietSoft.CMMS.Web.IServices
 
         BaseResponseModel SaveAcceptUserRequest(string username, AcceptUserRequest model);
         IEnumerable<NguoiThucHienModel> GetNguoiThucHienGS(string userName, string deviceId, int stt, int languages);
+        List<ThoiGianChayMayViewModel> GetThoiGianChayMay(string userName, DateTime TuNgay, DateTime DenNgay, string deviceId, int languages);
+        ResponseViewModel DeleteThoigianchaymay(string msmay, DateTime Ngay);
+        ResponseViewModel SaveThoigianchaymay(ThoiGianChayMayViewModel model);
         ResponseViewModel SaveNguoiThucHienGS(int stt, string json);
-        ResponseViewModel Completed(int stt,string Completed);
+        ResponseViewModel Completed(int stt,string deviceId, string Completed);
         ResponseViewModel DeleteGSTT(int stt);
 
     }

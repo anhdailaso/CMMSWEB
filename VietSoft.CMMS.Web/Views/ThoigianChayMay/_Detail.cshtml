@@ -1,0 +1,65 @@
+﻿@using VietSoft.CMMS.Web.Resources;
+@using VietSoft.CMMS.Web.Helpers;
+@model PagedList<VietSoft.CMMS.Web.Models.ThoiGianChayMayViewModel>
+
+@if (Model != null && Model.Data.Count > 0)
+{
+    <table class="table table-striped" cellspacing="0" id="tbTGCM" style="width:100% !important">
+        <thead>
+            <tr>
+                <td width="30%" class="col-grid-table">
+                    Ngày
+                </td>
+                <td width="20%">
+                    User
+                </td>
+                <td width="20%">
+                    Chỉ số
+                </td>
+                <td width="20%">
+                    Lũy kế
+                </td>
+                <td width="5%">
+                </td>
+                <td width="5%">
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Data)
+            {
+                <tr>
+                    <td class="text-start">
+                        @item.NGAY.ToString(Setting.FORMAT_DATE)
+                    </td>
+                    <td class="text-start">
+                        @item.USERNAME
+                    </td>
+                    <td>
+                        @item.CHI_SO_DONG_HO.ToString("N2")
+                    </td>
+                    <td>
+                        @item.SO_GIO_LUY_KE.ToString("N2")
+                    </td>
+                    <td>
+                        <p style=""><a class="remove-row btnEdit" data-ngay="@item.NGAY.ToString(Setting.FORMAT_DATE)"><i class="fa fa-pen-to-square" style="color:#113186"></i></a></p>
+                    </td>
+                    <td>
+                        <p style=""><a class="remove-row btnDelete" data-ngay="@item.NGAY.ToString(Setting.FORMAT_DATE)"><i class="fa fa-trash-o text-danger"></i></a></p>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <input type="hidden" id="hfTotalPage" value="@Model.TotalPages" data-total-rows="@Model.TotalItems">
+    <div id="paggingResult"></div>
+}
+else
+{
+    <div class="col-12">
+        <div class="no-data">
+            <span>@ViewText.LBL_KHONGCO_DULIEU</span>
+        </div>
+    </div>
+}

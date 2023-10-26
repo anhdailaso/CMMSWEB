@@ -5,6 +5,8 @@ using VietSoft.CMMS.Web.Helpers;
 using VietSoft.CMMS.Web.Models;
 using VietSoft.CMMS.Web.IServices;
 using VietSoft.CMMS.Web.Resources;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 namespace VietSoft.CMMS.Web.Controllers
 {
     public class AccountController : Controller
@@ -21,6 +23,9 @@ namespace VietSoft.CMMS.Web.Controllers
         public IActionResult Login(string returnUrl = null)
         {
             MessageUtil.ClearMessage();
+            string? dbEncrypt = Request.Cookies[CookieKey.Database.ToString()];
+            string database = string.IsNullOrEmpty(dbEncrypt) ? _config["ConnectionStrings:DatabaseDefault"] : MaHoamd5.MaHoamd5.Decrypt(dbEncrypt, true);
+
             string? isRememberMeEncrypt = Request.Cookies[CookieKey.IsRememberMe.ToString()];
             bool isRememberMeCookie = !string.IsNullOrEmpty(isRememberMeEncrypt) && Convert.ToBoolean(MaHoamd5.MaHoamd5.Decrypt(isRememberMeEncrypt, true));
             if (isRememberMeCookie)
@@ -43,10 +48,14 @@ namespace VietSoft.CMMS.Web.Controllers
                 }
             }
 
+            List<SelectListItem>? databases = _accountService.GetDatabaseList();
+            ViewBag.Databases = new SelectList(databases, "Value", "Text");
+
             LoginViewModel? model = new()
             {
                 RememberMe = isRememberMeCookie,
-                ReturnUrl = returnUrl
+                ReturnUrl = returnUrl,
+                Database = database
             };
             return View(model);
         }
@@ -77,6 +86,12 @@ namespace VietSoft.CMMS.Web.Controllers
                         HttpOnly = true,
                         IsEssential = true
                     };
+
+
+                    string? dbEncrypt = MaHoamd5.MaHoamd5.Encrypt(userViewModel.Database, true);
+                    Response.Cookies.Append(CookieKey.Database.ToString(), dbEncrypt, cookieOptions);
+
+
                     // save cookie remember me
                     if (userViewModel.RememberMe)
                     {
@@ -91,6 +106,11 @@ namespace VietSoft.CMMS.Web.Controllers
                 else
                 {
                     MessageUtil.ShowError(Message.LOGIN_FAILED, false);
+
+                    List<SelectListItem>? databases = _accountService.GetDatabaseList();
+                    ViewBag.Databases = new SelectList(databases, "Value", "Text");
+
+
                     return View(userViewModel);
                 }
                 if(userViewModel.ReturnUrl == null)
@@ -104,6 +124,16 @@ namespace VietSoft.CMMS.Web.Controllers
                 //return RedirectToAction("HistoryIndex", "History");
             }
             return View(userViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult ChangeDatabase(string db)
+        {
+            // change connection string
+            string connString = MaHoamd5.MaHoamd5.Decrypt(_config["ConnectionStrings:CMMSConnection"], true);
+            SessionManager.ConnectionString = string.Format(connString, db);
+
+            return Json(new { Message = "Success" });
         }
 
         public IActionResult ChangePassword()

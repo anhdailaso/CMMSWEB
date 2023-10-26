@@ -116,7 +116,7 @@ namespace VietSoft.HRM.Web.Controllers
                         //if (SessionManager.ThongTinChung.LUU_FILE == 2)
                         //    lstBase64.Add(_ftpservice.DownloadFileAsBase64(item));
                         //else
-                            lstBase64.Add(item.ToBase64StringImage().Replace("data:image/png;base64,",""));
+                            lstBase64.Add(item.ToBase64StringImage());
                     }
                     ViewBag.DanhSachHinhAnh = lstBase64;
                 }
@@ -156,6 +156,10 @@ namespace VietSoft.HRM.Web.Controllers
             {
                 ticketMaintenance.MS_UU_TIEN = msut;
             }
+            if (ticketMaintenance.TINH_TRANG_MAY == null)
+            {
+                ticketMaintenance.TINH_TRANG_MAY = "";
+            }    
             ViewBag.UuTien = _combobox.GetPriorityCategory(SessionManager.CurrentUser.TypeLangue);
             return View("~/Views/WorkOrder/Index.cshtml", ticketMaintenance);
         }
@@ -286,6 +290,15 @@ namespace VietSoft.HRM.Web.Controllers
                         MenuName = ViewText.MNU_DASHBOARD,
                         MenuIcon = "daskbord.png",
                         MenuUrl = "/Dashboard/Index",
+                    };
+                case "ThoigianChaymay":
+                    return new MenuViewModel
+                    {
+                        MenuId = (int)Menu.ThoigianChaymay,
+                        //MenuName = ViewText.TITLE_DANGKY_NGHI,
+                        MenuName = "Thời gian chạy máy",
+                        MenuIcon = "runtime.png",
+                        MenuUrl = "/ThoigianChayMay/Index",
                     };
 
                 default:
@@ -506,6 +519,14 @@ namespace VietSoft.HRM.Web.Controllers
             return PartialView("~/Views/Moningtoring/_addNguoiThucHien.cshtml", res);
         }
 
+        [HttpGet]
+        public IActionResult ShowThoiGianChayMay(string msmay)
+        {
+            ViewBag.MS_MAY = msmay;
+            var res = _homeService.GetThoiGianChayMay(SessionManager.CurrentUser.UserName, DateTime.Now.AddMonths(-1), DateTime.Now, msmay, SessionManager.CurrentUser.TypeLangue);
+            return PartialView("~/Views/Moningtoring/_listThoigianchaymay.cshtml", res);
+        }
+
         [HttpPost]
         public IActionResult SaveNguoiThucHien(int stt, string json)
         {
@@ -597,7 +618,7 @@ namespace VietSoft.HRM.Web.Controllers
         [HttpPost]
         public ActionResult ViewImageModal(string image)
         {
-            ViewBag.Image = image.Replace("data:image/png;base64,", "");
+            ViewBag.Image = image;
             return PartialView("~/Views/Home/_viewImageModal.cshtml");
         }
 
@@ -650,9 +671,9 @@ namespace VietSoft.HRM.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Completed(int stt)
+        public IActionResult Completed(int stt,string msmay)
         {
-            var res = _homeService.Completed(stt, SessionManager.CurrentUser.UserName);
+            var res = _homeService.Completed(stt, msmay, SessionManager.CurrentUser.UserName);
             if (res.MA == 1)
             {
                 return Json(new JsonResponseViewModel { ResponseCode = 1, ResponseMessage = Message.CAPNHAT_THANHCONG });
@@ -676,6 +697,15 @@ namespace VietSoft.HRM.Web.Controllers
                 return Json(new JsonResponseViewModel { ResponseCode = -1, ResponseMessage = res.NAME });
             }
         }
+
+
+        public IActionResult ShowThongSoKhongDat(string sophieu)
+        {
+            List<ThongSoKhongDat>? result = null;
+            result = _homeService.GetThongsokhongdat(sophieu);
+            return PartialView("~/Views/Home/_listThongsokhongdat.cshtml",result);
+        }
+
 
     }
 }

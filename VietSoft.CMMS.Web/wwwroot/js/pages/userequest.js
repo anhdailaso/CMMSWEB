@@ -47,6 +47,21 @@
             }
         })
 
+        $('#btnShowView').on('click', function () {
+            $.ajax({
+                type: "GET",
+                url: config.SHOW_THONG_SO_KD,
+                data: {
+                    sophieu: $('#MO_TA_TINH_TRANG').val(),
+                },
+                success: function (response) {
+                    $('#modalLarge .modal-content').html(response);
+                    $('#modalLarge').modal('show');
+                }
+            });
+        });
+    
+
         $('#btnsave').on('click', function () {
             var input = document.getElementById('files');
             var files = input.files;
