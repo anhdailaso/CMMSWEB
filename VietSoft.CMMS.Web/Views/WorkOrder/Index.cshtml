@@ -161,10 +161,7 @@
                 <a id="logWork" class="btn btn-outline-dark m-1" data-toggle="tooltip" title="@ViewText.LBL_GHINHAN_THOIGIAN_LAMVIEC">
                     <i class="fa fa-clock-o fs-7"></i>
                 </a>
-                <!-- Google -->
-                <a id="btnCompletePBT" class="btn btn-outline-success m-1" data-toggle="tooltip" title="@ViewText.BTN_HOAN_THANH_PBT">
-                    <i class="fa fa-check-circle fs-7"></i>
-                </a>
+           
 
                 @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() && Model.QUYEN_CN > 0)
                 {
@@ -178,6 +175,10 @@
                     <i class="fa-regular fa-message"></i>
                 </a>
 
+                     <!-- Google -->
+                <a id="btnCompletePBT" class="btn btn-outline-success m-1" data-toggle="tooltip" title="@ViewText.BTN_HOAN_THANH_PBT">
+                    <i class="fa fa-check-circle fs-7"></i>
+                </a>
                 <!-- kiểm tra nếu là hư hỏng thì mở chọn công việc -->
                 @if (Model.USERNAME.ToLower() == SessionManager.CurrentUser.UserName.ToLower() && Model.QUYEN_CN > 0 || Model.HU_HONG == 1)
                 {
