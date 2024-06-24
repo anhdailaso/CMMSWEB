@@ -19,6 +19,7 @@ Serilog.Core.Logger? logger = new LoggerConfiguration()
 
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddDistributedMemoryCache();
 //builder.WebHost.UseUrls("http://192.168.2.6:5000");
@@ -61,6 +62,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
-    //pattern: "{controller=Account}/{action=Login}/{id?}");
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}");
+    //pattern: "{controller=Home}/{action=Index}/{id?}");
     app.Run();

@@ -106,11 +106,8 @@ namespace VietSoft.CMMS.Web.Controllers
                 else
                 {
                     MessageUtil.ShowError(Message.LOGIN_FAILED, false);
-
                     List<SelectListItem>? databases = _accountService.GetDatabaseList();
                     ViewBag.Databases = new SelectList(databases, "Value", "Text");
-
-
                     return View(userViewModel);
                 }
                 if(userViewModel.ReturnUrl == null)

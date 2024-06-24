@@ -18,9 +18,8 @@
                 <div class="col-12">
                     @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginForm", name = "loginForm", autocomplete = "off" }))
                     {
-                        @Html.AntiForgeryToken()
-                        @Html.HiddenFor(x=>x.ReturnUrl)
-                        ;
+                        @Html.AntiForgeryToken();
+                        @Html.HiddenFor(x=>x.ReturnUrl);
 
                         <div class="d-flex gap-1 align-items-center mb-4">
                             <select asp-for="@Model.Database" asp-items="@(new SelectList(ViewBag.Databases, "Value", "Text"))" class="form-select"></select>

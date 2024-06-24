@@ -4,45 +4,6 @@
     var bquyen = false;
     var tableCHonPT;
 
-    $("#myFormNhap").validate({
-        ignore: '',
-        rules: {
-            "MS_DANG_NHAP": {
-                notEqualTo: '-1'
-            },
-
-            "MS_DDH": {
-                notEqualTo: '-1'
-            },
-
-            "NGUOI_NHAP": {
-                notEqualTo: '-1'
-            },
-        },
-        messages: {
-            "MS_DANG_NHAP": {
-                notEqualTo: "Không được để trống."
-            },
-            "MS_DDH": {
-                notEqualTo: "Không được để trống."
-            },
-            "NGUOI_NHAP": {
-                notEqualTo: "Không được để trống."
-            },
-        },
-        errorPlacement: function (error) {
-            let id = error[0].id;
-            $("#" + id).replaceWith(error);
-        },
-        success: function (error) {
-            let id = error[0].id;
-            $("#" + id).empty();
-        }
-    });
-    $.validator.addMethod("notEqualTo", function (value, element, param) {
-        return this.optional(element) || value !== param;
-    }, "Please enter a different value");
-
 
     function init() {
         bload = false;

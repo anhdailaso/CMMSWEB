@@ -367,9 +367,10 @@
 
 
     @await RenderSectionAsync("Scripts", required: false)
-    <script type="text/javascript">
+@*     <script type="text/javascript">
         var msg = @Html.Raw(Json.Serialize(@SessionManager.Message));
         $(function () {
+            alert("1");
             showRelevantPopUp(msg);
             $.post("/Base/ClearMessage", function (data) { });
 
@@ -385,7 +386,6 @@
 
 
         $(function () {
-
             var msg = @Html.Raw(Json.Serialize(@SessionManager.Message));
             $(function () {
                 showRelevantPopUp(msg);
@@ -472,6 +472,6 @@
 
 
     </script>
-
+ *@
 </body>
 </html>

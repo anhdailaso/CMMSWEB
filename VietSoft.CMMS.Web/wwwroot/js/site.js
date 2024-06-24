@@ -4,8 +4,6 @@ var _formatDate = 'DD/MM/YYYY';
 var _notifyTimeout = 3000;
 
 $(function () {
-
-
     var file;
     var importfile = $('#fileToUploadavt');
     $('#btnXoaHinhavt').click(function () {
@@ -182,8 +180,6 @@ function initBootstrapDialog() {
     });
 
     $(".modal").on("shown.bs.modal", function () {
-        // Enable modal validation
-        //$.validator.unobtrusive.parse($(".modal"));
     });
     $(".modal").on("hide.bs.modal", function () {
     });
